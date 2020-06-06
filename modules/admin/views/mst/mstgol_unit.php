@@ -19,7 +19,13 @@
                 <div class="col-sm-10">
                     <div class="form-group">
                         <label>Keterangan</label>
-                        <input type="text" name="cKeterangan" id="cKeterangan" class="form-control" maxlength="225" placeholder="Jenis Surat" required>
+                        <input type="text" name="cKeterangan" id="cKeterangan" class="form-control" maxlength="225" placeholder="eg : Kantor Perwakilan Bank Indonesia Malang" required>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Kode Rubrik</label>
+                        <input type="text" name="cRubrik" id="cRubrik" class="form-control" maxlength="225" placeholder="eg : MI" required>
                     </div>
                 </div>
             </div>
@@ -55,6 +61,7 @@
             columns: [
                 { field: 'Kode', caption: 'Kode', size: '50px', sortable: false},
                 { field: 'Keterangan', caption: 'Keterangan', size: '150px', sortable: false},
+                { field: 'KodeRubrik', caption: 'Kode Rubrik', size: '100px', sortable: false},
                 { field: 'cmdedit', caption: ' ', size: '80px', sortable: false },
                 { field: 'cmddelete', caption: ' ', size: '80px', sortable: false }
             ]
@@ -96,6 +103,7 @@
     bos.mstgol_unit.init         = function(){
         this.obj.find("#cKode").val("").prop("readonly", false); 
         this.obj.find("#cKeterangan").val("") ;
+        this.obj.find("#cRubrik").val("") ;
         bjs.ajax(this.url + '/init') ;
 
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
@@ -121,7 +129,7 @@
             if($(e.target).parent().index() == 0){//load grid
                 bos.mstgol_unit.grid1_reloaddata() ;
             }else{//focus
-                bos.mstgol_unit.obj.find("#nik").focus() ;
+                bos.mstgol_unit.obj.find("#cKode").focus() ;
             }
         });
 

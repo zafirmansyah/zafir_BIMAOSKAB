@@ -40,12 +40,12 @@ class Mstgol_unit extends Bismillah_Controller
     }
 
     public function init(){
-        savesession($this, "ss_statuspekerja_kode", "") ;
+        savesession($this, "ss_golonganunit_kode", "") ;
     }
 
     public function saving(){
         $va 	    = $this->input->post() ;
-        $cKode 	    = getsession($this, "ss_statuspekerja_kode") ;
+        $cKode 	    = getsession($this, "ss_golonganunit_kode") ;
         if(empty($cKode)) $cKode = $va['cKode'];
         $this->mstgol_unit_m->saving($cKode, $va) ;
         echo(' bos.mstgol_unit.init() ; ') ;
@@ -56,12 +56,13 @@ class Mstgol_unit extends Bismillah_Controller
         $cKode 	    = $va['cKode'] ;
         $data       = $this->mstgol_unit_m->getdata($cKode) ;
         if(!empty($data)){
-            savesession($this, "ss_statuspekerja_kode", $cKode) ;
+            savesession($this, "ss_golonganunit_kode", $cKode) ;
             echo('
                 with(bos.mstgol_unit.obj){
                 find(".nav-tabs li:eq(1) a").tab("show") ;
                 find("#cKode").val("'.$data['Kode'].'").prop("readonly", true); 
                 find("#cKeterangan").val("'.$data['Keterangan'].'").focus() ;
+                find("#cRubrik").val("'.$data['KodeRubrik'].'") ;
                 }
             ') ;
         }

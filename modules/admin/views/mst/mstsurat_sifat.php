@@ -30,7 +30,7 @@
                 </div>
             </div>
             <button class="btn btn-primary" id="cmdsave">Simpan</button>
-            <button class="btn btn-warning" id="cmdCancel" onClick="bos.mstsurat_jenis.init()">Cancel</button>
+            <button class="btn btn-warning" id="cmdCancel" onClick="bos.mstsurat_sifat.init()">Cancel</button>
         </form>
         </div>
     </div>
@@ -38,16 +38,16 @@
 <script type="text/javascript">
 <?=cekbosjs();?>
 
-    bos.mstsurat_jenis.grid1_data    = null ;
-    bos.mstsurat_jenis.grid1_loaddata= function(){
+    bos.mstsurat_sifat.grid1_data    = null ;
+    bos.mstsurat_sifat.grid1_loaddata= function(){
         this.grid1_data      = {} ;
     }
 
-    bos.mstsurat_jenis.grid1_load    = function(){
+    bos.mstsurat_sifat.grid1_load    = function(){
         this.obj.find("#grid1").w2grid({
             name     : this.id + '_grid1',
             limit    : 100 ,
-            url      : bos.mstsurat_jenis.base_url + "/loadgrid",
+            url      : bos.mstsurat_sifat.base_url + "/loadgrid",
             postData : this.grid1_data ,
             header   : 'Daftar Jenis-Jenis Surat',
             show: {
@@ -68,39 +68,39 @@
         });
     }
 
-    bos.mstsurat_jenis.grid1_setdata   = function(){
+    bos.mstsurat_sifat.grid1_setdata   = function(){
         w2ui[this.id + '_grid1'].postData   = this.grid1_data ;
     }
-    bos.mstsurat_jenis.grid1_reload    = function(){
+    bos.mstsurat_sifat.grid1_reload    = function(){
         w2ui[this.id + '_grid1'].reload() ;
     }
-    bos.mstsurat_jenis.grid1_destroy   = function(){
+    bos.mstsurat_sifat.grid1_destroy   = function(){
         if(w2ui[this.id + '_grid1'] !== undefined){
             w2ui[this.id + '_grid1'].destroy() ;
         }
     }
 
-    bos.mstsurat_jenis.grid1_render    = function(){
+    bos.mstsurat_sifat.grid1_render    = function(){
         this.obj.find("#grid1").w2render(this.id + '_grid1') ;
     }
 
-    bos.mstsurat_jenis.grid1_reloaddata   = function(){
+    bos.mstsurat_sifat.grid1_reloaddata   = function(){
         this.grid1_loaddata() ;
         this.grid1_setdata() ;
         this.grid1_reload() ;
     }
 
-    bos.mstsurat_jenis.cmdedit      = function(id){
+    bos.mstsurat_sifat.cmdedit      = function(id){
         bjs.ajax(this.url + '/editing', 'cKode=' + id);
     }
 
-    bos.mstsurat_jenis.cmddelete    = function(id){
+    bos.mstsurat_sifat.cmddelete    = function(id){
         if(confirm("Delete Data?")){
             bjs.ajax(this.url + '/deleting', 'cKode=' + id);
         }
     }
 
-    bos.mstsurat_jenis.init         = function(){
+    bos.mstsurat_sifat.init         = function(){
         this.obj.find("#cKode").val("").prop("readonly", false); 
         this.obj.find("#cKeterangan").val("") ;
         this.obj.find("#cRubrik").val("") ;
@@ -109,7 +109,7 @@
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
     }
 
-    bos.mstsurat_jenis.initcomp     = function(){
+    bos.mstsurat_sifat.initcomp     = function(){
         this.grid1_loaddata() ;
         this.grid1_load() ;
         bjs.initenter(this.obj.find("form")) ;
@@ -117,34 +117,34 @@
         bjs.ajax(this.url + '/init') ;
     }
 
-    bos.mstsurat_jenis.initcallback = function(){
+    bos.mstsurat_sifat.initcallback = function(){
         this.obj.on('remove', function(){
-            bos.mstsurat_jenis.grid1_destroy() ;
+            bos.mstsurat_sifat.grid1_destroy() ;
         }) ;
     }
 
-    bos.mstsurat_jenis.cmdsave       = bos.mstsurat_jenis.obj.find("#cmdsave") ;
-    bos.mstsurat_jenis.initfunc     = function(){
+    bos.mstsurat_sifat.cmdsave       = bos.mstsurat_sifat.obj.find("#cmdsave") ;
+    bos.mstsurat_sifat.initfunc     = function(){
         this.obj.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if($(e.target).parent().index() == 0){//load grid
-                bos.mstsurat_jenis.grid1_reloaddata() ;
+                bos.mstsurat_sifat.grid1_reloaddata() ;
             }else{//focus
-                bos.mstsurat_jenis.obj.find("#cKode").focus() ;
+                bos.mstsurat_sifat.obj.find("#cKode").focus() ;
             }
         });
 
         this.obj.find('form').on("submit", function(e){
             e.preventDefault() ;
             if( bjs.isvalidform(this) ){
-                bjs.ajax( bos.mstsurat_jenis.base_url + '/saving', bjs.getdataform(this) , bos.mstsurat_jenis.cmdsave) ;
+                bjs.ajax( bos.mstsurat_sifat.base_url + '/saving', bjs.getdataform(this) , bos.mstsurat_sifat.cmdsave) ;
             }
         }) ;
     }
 
     $(function(){
-        bos.mstsurat_jenis.initcomp() ;
-        bos.mstsurat_jenis.initcallback() ;
-        bos.mstsurat_jenis.initfunc() ;
+        bos.mstsurat_sifat.initcomp() ;
+        bos.mstsurat_sifat.initcallback() ;
+        bos.mstsurat_sifat.initfunc() ;
     })
 
 </script>

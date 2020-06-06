@@ -95,6 +95,19 @@ class Tcsurat_keluar extends Bismillah_Controller
         echo($Result) ;
     }
 
+    
+    public function SeekSifatSurat()
+    {
+        $search     = $this->input->get('q');
+        $vdb        = $this->bdb->SeekSifatSurat($search) ;
+        $dbd        = $vdb['db'] ;
+        $vare       = array();
+        while($dbr = $this->bdb->getrow($dbd)){
+            $vare[]     = array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
+        }
+        $Result = json_encode($vare);
+        echo($Result) ;
+    }
 
 }
 

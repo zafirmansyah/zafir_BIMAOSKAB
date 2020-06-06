@@ -205,6 +205,9 @@ class Bismillah_Model extends CI_Model{
 		$this->AddField("surat_masuk_disposisi","Pendisposisi","varchar(255)","","");
 		$this->AddField("surat_masuk_disposisi","Terdisposisi","varchar(255)","","");
 		
+		$this->AddField("golongan_unit","KodeRubrik","varchar(255)","","");
+		$this->AddField("jenis_surat","KodeRubrik","varchar(255)","","");
+		
 
     }
 }

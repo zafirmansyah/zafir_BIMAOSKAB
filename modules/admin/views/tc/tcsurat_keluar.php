@@ -49,8 +49,14 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <label>Jenis Surat</label>
-                        <select class="form-control optJenisSurat select2" data-sf="load_Kota" name="optJenisSurat" id="optJenisSurat" data-placeholder=" - Jenis Surat - "></select>
+                        <label>Jenis Golongan Dokumen</label>
+                        <select class="form-control optJenisSurat select2" data-sf="load_Kota" name="optJenisSurat" id="optJenisSurat" data-placeholder=" - Jenis Golongan Dokumen - "></select>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Sifat Dokumen</label>
+                        <select class="form-control optSifatSurat select2" data-sf="load_Kota" name="optSifatSurat" id="optSifatSurat" data-placeholder=" - Sifat Dokumen - "></select>
                     </div>
                 </div>
             </div>
@@ -175,6 +181,21 @@
         allowClear: true,
         ajax: {
             url: bos.tcsurat_keluar.base_url + '/SeekJenisSurat',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+
+    $('.optSifatSurat').select2({
+        allowClear: true,
+        ajax: {
+            url: bos.tcsurat_keluar.base_url + '/SeekSifatSurat',
             dataType: 'json',
             delay: 250,
             processResults: function (data) {

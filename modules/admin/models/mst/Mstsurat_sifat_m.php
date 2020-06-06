@@ -4,7 +4,7 @@
 /**
  * 
  */
-class Mstgol_unit_m extends Bismillah_Model
+class Mstsurat_sifat_m extends Bismillah_Model
 {
 	
   public function loadgrid($va){
@@ -14,8 +14,8 @@ class Mstgol_unit_m extends Bismillah_Model
     $where 	 = array() ; 
     if($search !== "") $where[]	= "(kode LIKE '{$search}%' OR keterangan LIKE '%{$search}%')" ;
     $where 	 = implode(" AND ", $where) ;
-    $dbd      = $this->select("golongan_unit", "*", $where, "", "", "kode ASC", $limit) ;
-    $dba      = $this->select("golongan_unit", "id", $where) ;
+    $dbd      = $this->select("jenis_sifat_surat", "*", $where, "", "", "kode ASC", $limit) ;
+    $dba      = $this->select("jenis_sifat_surat", "id", $where) ;
 
     return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
   }
@@ -25,24 +25,24 @@ class Mstgol_unit_m extends Bismillah_Model
                       "Keterangan"=>$va['cKeterangan'],
                       "KodeRubrik"=>$va['cRubrik']) ;
     $where    = "Kode = " . $this->escape($id) ;
-    $this->update("golongan_unit", $vaData, $where, "") ;
+    $this->update("jenis_sifat_surat", $vaData, $where, "") ;
   }
 
   public function getdata($id){
     $data = array() ;
-    if($d = $this->getval("*", "Kode = " . $this->escape($id), "golongan_unit")){
+    if($d = $this->getval("*", "Kode = " . $this->escape($id), "jenis_sifat_surat")){
       $data = $d;
     }
     return $data ;
   }
 
   public function deleting($id){
-    $this->delete("golongan_unit", "Kode = " . $this->escape($id)) ;
+    $this->delete("jenis_sifat_surat", "Kode = " . $this->escape($id)) ;
   }
 
   public function getIncreamentKode()
   {
-    $cKey  		= "mstgolongan_unit_" ;
+    $cKey  		= "mstjenis_sifat_surat_" ;
     $n    		= $this->getincrement($cKey,true,3);
     $cKode    = $n ;
     return $cKode ;

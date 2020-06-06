@@ -22,7 +22,8 @@ class Mstsurat_jenis_m extends Bismillah_Model
 
   public function saving($id, $va){
     $vaData   = array("Kode"=>$id, 
-                      "Keterangan"=>$va['cKeterangan']) ;
+                      "Keterangan"=>$va['cKeterangan'],
+                      "KodeRubrik"=>$va['cRubrik']) ;
     $where    = "Kode = " . $this->escape($id) ;
     $this->update("jenis_surat", $vaData, $where, "") ;
   }
