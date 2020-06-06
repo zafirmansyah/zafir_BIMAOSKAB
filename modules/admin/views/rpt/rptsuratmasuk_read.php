@@ -7,11 +7,12 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                 <?php
-                    $cIDSurat       = getsession($this,"ss_ID_SuratMasuk_") ;
-                    $cPERIHALSurat  = getsession($this,"ss_PERIHAL_SuratMasuk_") ;
-                    $cDARISurat     = getsession($this,"ss_DARI_SuratMasuk_") ;
-                    $cDATETIMESurat = getsession($this,"ss_DATETIME_SuratMasuk_") ;
-                    $cNOSURATSurat  = getsession($this,"ss_NOSURAT_SuratMasuk_") ;
+                    $cIDSurat        = getsession($this,"ss_ID_SuratMasuk_") ;
+                    $cPERIHALSurat   = getsession($this,"ss_PERIHAL_SuratMasuk_") ;
+                    $cDARISurat      = getsession($this,"ss_DARI_SuratMasuk_") ;
+                    $cDATETIMESurat  = getsession($this,"ss_DATETIME_SuratMasuk_") ;
+                    $cNOSURATSurat   = getsession($this,"ss_NOSURAT_SuratMasuk_") ;
+                    $vaFileListSurat = getsession($this,"ss_FILEITEM_SuratMasuk_");
                 ?>
                 <h3 class="box-title">Read Mail : ID. <?=$cIDSurat?></h3>
                 </div>
@@ -27,17 +28,32 @@
                 </div>
                 <div class="box-footer">
                 <ul class="mailbox-attachments clearfix">
-                    <li>
-                        <span class="mailbox-attachment-icon"><i class="fa fa-cubes"></i></span>
+                    <?php
+                        foreach($vaFileListSurat as $key => $value){
+                            $cPATHSurat     = $value['FilePath'];
+                            $cFileSize      = "0.00";
+                            $cNAMAFILESurat = "File Not Found";
+                            if(file_exists($cPATHSurat)){
+                                $nFileSize      = filesize($cPATHSurat);
+                                $vaPATHSurat    = explode("/",$cPATHSurat);
+                                $cNAMAFILESurat = end($vaPATHSurat); 
+                                $cFileSize      = formatSizeUnits($nFileSize);
+                            }
+                    ?>
+                        <li>
+                            <span class="mailbox-attachment-icon"><i class="fa fa-cubes"></i></span>
 
-                        <div class="mailbox-attachment-info">
-                            <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Sep2014-report.pdf</a>
+                            <div class="mailbox-attachment-info">
+                                <a href="<?=$cPATHSurat?>" class="mailbox-attachment-name" title="<?=$cNAMAFILESurat?>" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;<?=substr($cNAMAFILESurat,0,22).".."?></a>
                                 <span class="mailbox-attachment-size">
-                                1,245 KB
-                                <a href="#" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
+                                <?=$cFileSize?>
+                                <a href="<?=$cPATHSurat?>" class="btn btn-default btn-xs pull-right" download><i class="fa fa-cloud-download"></i></a>
                                 </span>
-                        </div>
-                    </li>
+                            </div>
+                        </li>
+                    <?php
+                        }
+                    ?>
                 </ul>
                 </div>
                 <div class="box-footer">

@@ -61,17 +61,26 @@ class Tcsurat_masuk extends Bismillah_Controller
 
     public function init(){
         savesession($this, "ss_suratmasuk_", "") ;
-        savesession($this, "ssmstsurat_cUplFile", "") ;
+        savesession($this, "sstcmsurat_masuk_cUplFile", "") ;
     }
 
     public function saving(){
         $va 	    = $this->input->post() ;
+        
+        $vaKode         = $va['cKode'];
+        if($vaKode == "" || trim(empty($vaKode))){
+            $cKode = $this->bdb->getKodeSurat() ;
+        }else{
+            $cKode = $vaKode ;
+        }
+
+        $va['cKode'] = $cKode ;
+
         $nYear      = date('Y');
         $cKategori  = "/SuratMasuk";
-        $adir       = $this->config->item('bcore_uploads_suratbima') ; // . $nYear . $cKategori ;
-        // echo('alert("'.$adir.'");');
+        $adir       = $this->config->item('bcore_uploads_suratbima') . $nYear . $cKategori ;
         if(!is_dir($adir)){
-            mkdir($adir,0777);
+             mkdir($adir,0777,true);
             echo('
                 bos.tcsurat_masuk.init() ; 
                 Swal.fire({
@@ -81,28 +90,33 @@ class Tcsurat_masuk extends Bismillah_Controller
             ');
         }
 
-        $upload = array("cUplFile"=>getsession($this, "ssmstsurat_cUplFile")) ;
+        $upload         = array("cUplFile"=>getsession($this, "sstcmsurat_masuk_cUplFile")) ;
         $va['FilePath'] = ""; 
-        $dir = "" ;
+        $dir            = "" ;
+        $fileUploaded   = $upload['cUplFile'];
+        $this->bdb->deleteFile($va) ;
         foreach ($upload as $key => $value) {
-            if($value !== ""){
-                $value  = json_decode($value, true) ;
-                foreach ($value as $tkey => $file) {
-                    $vi     = pathinfo($file) ;
-                    $dir    = $adir.'/' ;
-                    $dir   .=  $vi['filename'] . "." . $vi['extension'] ;
-                    if(is_file($dir)) @unlink($dir) ;
-                    if(@copy($file,$dir)){
-                        // @unlink($file) ;
-                        // @unlink($this->bdb->getconfig($key)) ;
-                        $this->bdb->saveconfig($key, $dir) ;
+            if(!empty($value)){
+                foreach ($value as $tkey => $tval) {
+                    if(!empty($tval)){
+                        foreach($tval as $fkey=>$file){
+                            $vi     = pathinfo($file) ;
+                            $dir    = $adir.'/' ;
+                            $dir   .=  $vi['filename'] . "." . $vi['extension'] ;
+                            if(is_file($dir)) @unlink($dir) ;
+                            if(@copy($file,$dir)){
+                                @unlink($file) ;
+                                $this->bdb->saveconfig($key, $dir) ;
+                            }
+                            $va['FilePath'] = $dir ;
+                            $this->bdb->saveFile($va) ;
+                        }
                     }
                 }
             }
         }
-        $va['FilePath'] = $dir ;
+        $saving = $this->bdb->saving($va) ;
 
-        $saving     = $this->bdb->saving($va) ;
         echo(' 
             Swal.fire({
                 icon: "success",
@@ -197,34 +211,38 @@ class Tcsurat_masuk extends Bismillah_Controller
         }
     }
 
-    public function savingFile($cfg)
+    public function savingFile()
     {
-        savesession($this, "ssmstsurat_" . $cfg, "") ;
-        // echo('alert("'.$cfg.'");');
-        $cFileName = $cfg ."_". date("Ymd_His");
-        $fcfg   = array("upload_path"=>"./tmp/","allowed_types"=>"pdf","overwrite"=>true,
-                        "file_name"=> $cFileName ) ;
+        savesession($this, "sstcmsurat_masuk_cUplFile" , "") ;
+        $cFileName = "SuratMasuk_". date("Ymd_His");
+        $fcfg   = array("upload_path"=>"./tmp/","allowed_types"=>"*","overwrite"=>true) ;
+                
         $this->load->library('upload', $fcfg) ;
-
-        if ( ! $this->upload->do_upload(0) ){
-            echo('
-                alert("'. $this->upload->display_errors('','') .'") ;
-                bos.mstsurat.obj.find("#idl'.$cfg.'").html("") ;
-            ') ;
-        }else{
-            $data   = $this->upload->data() ;
-            $fname  = $cfg . $data['file_ext'] ;
-            $tname  = str_replace($data['file_ext'], "", $data['client_name']) ;
-            $vFile  = array( $tname => $data['full_path']) ;
-            savesession($this, "ssmstsurat_" . $cfg, json_encode($vFile) ) ;
-            echo('
-                bos.mstsurat.obj.find("#idl'.$cfg.'").html("") ;
-                bos.config.obj.find("#idcUplFile").html("<p>Data Uploaded<p>") ;
-            ') ;
+        $nTotalFile = count($_FILES['cUplFile']['name']);
+        for($i = 0; $i < $nTotalFile; $i++){
+            $_FILES["file"]["name"]     = $cFileName.$_FILES["cUplFile"]["name"][$i];
+            $_FILES["file"]["type"]     = $_FILES["cUplFile"]["type"][$i];
+            $_FILES["file"]["tmp_name"] = $_FILES["cUplFile"]["tmp_name"][$i];
+            $_FILES["file"]["error"]    = $_FILES["cUplFile"]["error"][$i];
+            $_FILES["file"]["size"]     = $_FILES["cUplFile"]["size"][$i];
+            if ( ! $this->upload->do_upload("file") ){
+                echo('
+                    alert("'. $this->upload->display_errors('','') .'") ;
+                    bos.tcmsurat_masuk.obj.find("#idcUplFile").html("") ;
+                ') ;
+            }else{
+                $data       = $this->upload->data() ;
+                $fname      = "cUplFile" . $data['file_ext'] ;
+                $tname      = str_replace($data['file_ext'], "", $data['client_name']) ;
+                $vFile[$i]  = array( $tname => $data['full_path']) ;
+                savesession($this, "sstcmsurat_masuk_cUplFile", $vFile ) ;
+                echo('
+                    bos.tcmsurat_masuk.obj.find("#idcUplFile").html("") ;
+                    bos.config.obj.find("#idcUplFile").html("<p>Data Uploaded<p>") ;
+                ') ;
+            }
         }
     }
-
-
 }
 
 ?>

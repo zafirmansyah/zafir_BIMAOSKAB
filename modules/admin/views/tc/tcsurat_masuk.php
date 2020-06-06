@@ -8,109 +8,111 @@
             <div id="grid1" style="height:500px"></div>
         </div>
         <div class="tab-pane" id="tab_2">
-            <form>
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <label>Surat Dari</label>
-                            <input type="text" name="cSuratDari" id="cSuratDari" class="form-control" maxlength="225" placeholder="Surat Dari..." required>
-                        </div>
+        <form>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Surat Dari</label>
+                        <input type="text" name="cSuratDari" id="cSuratDari" class="form-control" maxlength="225" placeholder="Surat Dari..." required>
                     </div>
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <label>Perihal Surat</label>
-                            <input type="text" name="cPerihal" id="cPerihal" class="form-control" maxlength="225" placeholder="Perihal" required>
-                        </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Perihal Surat</label>
+                        <input type="text" name="cPerihal" id="cPerihal" class="form-control" maxlength="225" placeholder="Perihal" required>
                     </div>
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <label>Nomor Surat</label>
-                            <input type="text" name="cNomorSurat" id="cNomorSurat" class="form-control" maxlength="225" placeholder="Nomor Surat Masuk" required>
-                        </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Nomor Surat</label>
+                        <input type="text" name="cNomorSurat" id="cNomorSurat" class="form-control" maxlength="225" placeholder="Nomor Surat Masuk" required>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Tanggal Surat Masuk</label>
-                            <div class="col-xs-8 input-group">
-                                <input
-                                    type="text" 
-                                    class=" form-control date" 
-                                    id="dTgl" 
-                                    name="dTgl" 
-                                    placeholder="dd-mm-yyyy"
-                                    required
-                                    value=<?=date("d-m-Y")?> <?=date_set()?> 
-                                >
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Tanggal Surat Masuk</label>
+                        <div class="col-xs-8 input-group">
+                            <input
+                                type="text" 
+                                class=" form-control date" 
+                                id="dTgl" 
+                                name="dTgl" 
+                                placeholder="dd-mm-yyyy"
+                                required
+                                value=<?=date("d-m-Y")?> <?=date_set()?> 
+                            >
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Tanggal Penulisan Surat</label>
-                            <div class="col-xs-8 input-group">
-                                <input
-                                    type="text" 
-                                    class=" form-control date" 
-                                    id="dTglSurat" 
-                                    name="dTglSurat" 
-                                    placeholder="dd-mm-yyyy"
-                                    required
-                                    value=<?=date("d-m-Y")?> <?=date_set()?> 
-                                >
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <label>Jenis Surat</label>
-                            <select class="form-control optJenisSurat select2" data-sf="load_Kota" name="optJenisSurat" id="optJenisSurat" data-placeholder=" - Jenis Surat - "></select>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>Disposisi</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <input type="text" id="cDisposisi" name="cDisposisi" class="form-control" placeholder="Klik tombol pencarian untuk memasukkan data disposisi..." readonly>
-                            <span class="input-group-btn">
-                                <button class="form-control btn btn-info" type="button" id="cmdDisposisi"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <button type="button" class="btn btn-primary" id="cmdOK">OK</button>
-                    </div>
-                    <div class="col-md-12">
-                        &nbsp;
-                    </div>
-                    <div class="col-md-12">
-                        <div id="gridDisposisi" class="full-height" style="height: 200px;"></div>
-                    </div>
-                    <div class="col-md-12">
-                        &nbsp;
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Upload File</label>
-                            <div id="idcUplFile"><input style="width:100%" type="file" class="form-control" name="cUplFile" id="cUplFile" required></div>
                         </div>
                     </div>
                 </div>
-                <input type="hidden" name="nNo" id="nNo" value="0">
-                <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
-                <input type="hidden" name="cKode" id="cKode">
-                <input type="hidden" name="cLastPath" id="cLastPath">
-                <button class="btn btn-primary" id="cmdSave">Simpan</button>
-                <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcsurat_masuk.init()">Cancel</button>
-            </form>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Tanggal Penulisan Surat</label>
+                        <div class="col-xs-8 input-group">
+                            <input
+                                type="text" 
+                                class=" form-control date" 
+                                id="dTglSurat" 
+                                name="dTglSurat" 
+                                placeholder="dd-mm-yyyy"
+                                required
+                                value=<?=date("d-m-Y")?> <?=date_set()?> 
+                            >
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Jenis Surat</label>
+                        <select class="form-control optJenisSurat select2" data-sf="load_Kota" name="optJenisSurat" id="optJenisSurat" data-placeholder=" - Jenis Surat - "></select>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>Disposisi</label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" id="cDisposisi" name="cDisposisi" class="form-control" placeholder="Klik tombol pencarian untuk memasukkan data disposisi..." readonly>
+                        <span class="input-group-btn">
+                            <button class="form-control btn btn-info" type="button" id="cmdDisposisi"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary" id="cmdOK">OK</button>
+                </div>
+                <div class="col-md-12">
+                    &nbsp;
+                </div>
+                <div class="col-md-12">
+                    <div id="gridDisposisi" class="full-height" style="height: 200px;"></div>
+                </div>
+                <div class="col-md-12">
+                    &nbsp;
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Upload File</label>
+                        <div id="idcUplFile">
+                            <input style="width:100%" type="file" class="form-control cUplFile" id="cUplFile" name="cUplFile[]" multiple required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="nNo" id="nNo" value="0">
+            <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
+            <input type="hidden" name="cKode" id="cKode">
+            <input type="hidden" name="cLastPath" id="cLastPath">
+            <button class="btn btn-primary" id="cmdSave">Simpan</button>
+            <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcsurat_masuk.init()">Cancel</button>
+        </form>
         </div>
     </div>
 </div>
@@ -169,7 +171,7 @@
     }
 
     bos.tcsurat_masuk.grid1_setdata   = function(){
-        w2ui[this.id + '_grid1'].postData 	= this.grid1_data ;
+        w2ui[this.id + '_grid1'].postData   = this.grid1_data ;
     }
 
     bos.tcsurat_masuk.grid1_reload    = function(){
@@ -193,10 +195,10 @@
 
     bos.tcsurat_masuk.gridDisposisi_load    = function(){
         this.obj.find("#gridDisposisi").w2grid({
-            name	: this.id + '_gridDisposisi',
+            name    : this.id + '_gridDisposisi',
             show: {
-                footer 		: true,
-                toolbar		: false,
+                footer      : true,
+                toolbar     : false,
                 toolbarColumns  : false,
                 lineNumbers: true
             },
@@ -209,13 +211,13 @@
         });
     }
 
-    bos.tcsurat_masuk.gridDisposisi_destroy 	= function(){
+    bos.tcsurat_masuk.gridDisposisi_destroy     = function(){
         if(w2ui[this.id + '_gridDisposisi'] !== undefined){
             w2ui[this.id + '_gridDisposisi'].destroy() ;
         }
     }
 
-    bos.tcsurat_masuk.gridDisposisi_reload		= function(){
+    bos.tcsurat_masuk.gridDisposisi_reload      = function(){
         w2ui[this.id + '_gridDisposisi'].reload() ;
     }
 
@@ -252,11 +254,11 @@
         }
     }
 
-    bos.tcsurat_masuk.gridDisposisi_render 	= function(){
+    bos.tcsurat_masuk.gridDisposisi_render  = function(){
         this.obj.find("#gridDisposisi").w2render(this.id + '_gridDisposisi') ;
     }
 
-    bos.tcsurat_masuk.gridDisposisi_clear 	= function(){
+    bos.tcsurat_masuk.gridDisposisi_clear   = function(){
         w2ui[this.id + '_gridDisposisi'].clear();
     }
 
@@ -281,21 +283,21 @@
     //grid3 Disposisi
     bos.tcsurat_masuk.grid3_data    = null ;
     bos.tcsurat_masuk.grid3_loaddata= function(){
-        this.grid3_data 		= {} ;
+        this.grid3_data         = {} ;
     }
 
     bos.tcsurat_masuk.grid3_load    = function(){
         this.obj.find("#grid3").w2grid({
-            name	: this.id + '_grid3',
-            limit 	: 100 ,
-            url 	: bos.tcsurat_masuk.base_url + "/loadGridDataUserDisposisi",
+            name    : this.id + '_grid3',
+            limit   : 100 ,
+            url     : bos.tcsurat_masuk.base_url + "/loadGridDataUserDisposisi",
             postData: this.grid3_data ,
             show: {
-                footer 		: true,
-                toolbar		: true,
+                footer      : true,
+                toolbar     : true,
                 toolbarColumns  : false
             },
-            multiSearch		: false,
+            multiSearch     : false,
             columns: [
                 { field: 'fullname', caption: 'Nama', size: '200px', sortable: false },
                 { field: 'unit', caption: 'Satuan Unit', size: '100px', sortable: false },
@@ -304,23 +306,23 @@
         });
     }
 
-    bos.tcsurat_masuk.grid3_setdata	= function(){
-        w2ui[this.id + '_grid3'].postData 	= this.grid3_data ;
+    bos.tcsurat_masuk.grid3_setdata = function(){
+        w2ui[this.id + '_grid3'].postData   = this.grid3_data ;
     }
-    bos.tcsurat_masuk.grid3_reload		= function(){
+    bos.tcsurat_masuk.grid3_reload      = function(){
         w2ui[this.id + '_grid3'].reload() ;
     }
-    bos.tcsurat_masuk.grid3_destroy 	= function(){
+    bos.tcsurat_masuk.grid3_destroy     = function(){
         if(w2ui[this.id + '_grid3'] !== undefined){
             w2ui[this.id + '_grid3'].destroy() ;
         }
     }
 
-    bos.tcsurat_masuk.grid3_render 	= function(){
+    bos.tcsurat_masuk.grid3_render  = function(){
         this.obj.find("#grid3").w2render(this.id + '_grid3') ;
     }
 
-    bos.tcsurat_masuk.grid3_reloaddata	= function(){
+    bos.tcsurat_masuk.grid3_reloaddata  = function(){
         this.grid3_loaddata() ;
         this.grid3_setdata() ;
         this.grid3_reload() ;
@@ -340,7 +342,7 @@
         }
     }
 
-    bos.tcsurat_masuk.cmdPilih 		= function(kode){
+    bos.tcsurat_masuk.cmdPilih      = function(kode){
         bjs.ajax(this.url + '/selectTargetDisposisi', 'kode=' + kode);
     }
 
@@ -374,7 +376,7 @@
         bjs.ajax(this.url + '/init') ;
     }
 
-    bos.tcsurat_masuk.initDetail 			= function(){
+    bos.tcsurat_masuk.initDetail            = function(){
         var datagrid = w2ui[this.id + '_gridDisposisi'].records;
 
         this.obj.find("#nNo").val(datagrid.length+1) ;
@@ -382,7 +384,7 @@
         this.obj.find("#cKodeKaryawan").val("") ;;
     }
 
-    bos.tcsurat_masuk.tabsaction	= function(n){
+    bos.tcsurat_masuk.tabsaction    = function(n){
         if(n == 0){
             bos.tcsurat_masuk.grid1_render() ;
             bos.tcsurat_masuk.init() ;
@@ -442,15 +444,19 @@
         this.obj.find("#cUplFile").on("change", function(e){
             e.preventDefault() ;
             bos.tcsurat_masuk.uname       = $(this).attr("id") ;
-            bos.tcsurat_masuk.fal         = e.target.files ;
+            bos.tcsurat_masuk.fal         = $("#cUplFile")[0].files;//e.target.files;
             bos.tcsurat_masuk.gfal        = new FormData() ;
-            $.each(bos.tcsurat_masuk.fal, function(key,val){
-              bos.tcsurat_masuk.gfal.append(key,val) ;
-            }) ;
+            for(var i = 0; i < bos.tcsurat_masuk.fal.length; i++){
+                bos.tcsurat_masuk.gfal.append("cUplFile[]",bos.tcsurat_masuk.fal[i]);
+            }
+            /*$.each(bos.tcsurat_masuk.fal, function(key,val){
+              bos.tcsurat_masuk.gfal.append("files[]",key) ;
+            }) ;*/
             bos.tcsurat_masuk.obj.find("#idl" + bos.tcsurat_masuk.uname).html("<i class='fa fa-spinner fa-pulse'></i>");
-
-            bjs.ajaxfile(bos.tcsurat_masuk.base_url + "/savingFile/" + bos.tcsurat_masuk.uname , bos.tcsurat_masuk.gfal, this) ;
+            bjs.ajaxfile(bos.tcsurat_masuk.base_url + "/savingFile" , bos.tcsurat_masuk.gfal, this) ;
+            
         }) ;
+        
 
         this.obj.find('form').on("submit", function(e){
             e.preventDefault() ;

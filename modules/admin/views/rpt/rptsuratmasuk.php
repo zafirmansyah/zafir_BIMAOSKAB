@@ -76,7 +76,6 @@
     }
 
     bos.rptsuratmasuk.cmdDetail = function(id){
-        alert(id);
         objForm    = "rptsuratmasuk_read" ;
         locForm    = "admin/rpt/rptsuratmasuk_read" ;
         this.setSessionIDSurat(id);

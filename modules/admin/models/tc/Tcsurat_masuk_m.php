@@ -12,9 +12,9 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
         $search   = $this->escape_like_str($search) ;
         $where 	 = array() ; 
-        if($search !== "") $where[]	= "(kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
+        if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
         $where 	 = implode(" AND ", $where) ;
-        $dbd      = $this->select("surat_masuk", "*", $where, "", "", "kode ASC", $limit) ;
+        $dbd      = $this->select("surat_masuk", "*", $where, "", "", "Kode DESC", $limit) ;
         $dba      = $this->select("surat_masuk", "ID", $where) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
@@ -58,13 +58,9 @@ class Tcsurat_masuk_m extends Bismillah_Model
     }
 
     public function saving($va){
-        $vaKode         = $va['cKode'];
-        if($vaKode == "" || trim(empty($vaKode))){
-            $cKode = $this->getKodeSurat() ;
-        }else{
-            $cKode = $vaKode ;
-        }
-        
+
+        $cKode = $va['cKode'] ;
+
         $cUserName                 = getsession($this,'username') ;
         $cKodeKaryawanPendisposisi = $this->getval("KodeKaryawan", "username = '$cUserName'","sys_username") ;
 
@@ -90,7 +86,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
             $vadetail = array("Kode"=>$cKode,
                               "Tgl"=>date_2s($va['dTgl']),
                               "Pendisposisi"=>$cKodeKaryawanPendisposisi,
-                              "Terdisposisi"=>$val->kode,
+                              "Terdisposisi"=>$val->Kode,
                               "Level"=>$val->level,
                               "Status"=>"1",
                               "UserName"=>$cUserName,
@@ -118,6 +114,27 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $pusher->trigger('my-channel', 'my-event', $data);
 
         return $vaData ;
+    }
+
+    public function saveFile($va)
+    {
+        $cKode          = $va['cKode'] ;
+        $cUserName      = getsession($this,'username') ;
+        $vaData = array("Kode"=>$cKode, 
+                        "Tgl"=>date_2s($va['dTgl']),
+                        "FilePath"=>$va['FilePath'],
+                        "UserName"=>$cUserName ,
+                        "DateTime"=>date('Y-m-d H:i:s')
+        ) ;
+        $where      = "Kode = " . $this->escape($cKode) ;
+        $this->insert("surat_masuk_file", $vaData, $where, "") ;
+    }
+
+    public function deleteFile($va)
+    {
+        $cKode  = $va['cKode'] ;
+        $cWhere = "Kode = '$cKode'" ;
+        $this->delete('surat_masuk_file',$cWhere);
     }
 
     public function getdata($id){
