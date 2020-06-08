@@ -65,6 +65,13 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Jabatan</label>
+                                            <select name="optJabatan" id="optJabatan" class="form-control" placeholder="Jabatan" required>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="level">Hak Akses Menu</label>
@@ -163,6 +170,8 @@
 		this.obj.find("#fullname").val("") ;
         this.obj.find("#password").val("") ;
 		this.obj.find("#level").sval({}) ;
+		this.obj.find("#optUnit").sval({}) ;
+		this.obj.find("#optJabatan").sval({}) ;
 		this.obj.find("#idlimage").html("") ;
 		this.obj.find("#idimage").html("") ;
         this.obj.find("#cabang").sval({}) ;
@@ -189,9 +198,6 @@
 
    bos.con_user.cmdsave       = bos.con_user.obj.find("#cmdsave") ;
 	bos.con_user.initfunc		= function(){
-		// setTimeout(function(){
-		// 	bos.con_user.obj.find('#optNIK').focus() ;
-		// },1) ;
 
 		this.obj.find("#username").on("blur", function(){
 			bjs.ajax( bos.con_user.base_url + '/seekusername', 'username=' + $(this).val() ) ;
@@ -256,6 +262,20 @@
     $('#optUnit').select2({
         ajax: {
             url: bos.con_user.base_url + '/seekUnit',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+
+    $('#optJabatan').select2({
+        ajax: {
+            url: bos.con_user.base_url + '/seekJabatan',
             dataType: 'json',
             delay: 250,
             processResults: function (data) {

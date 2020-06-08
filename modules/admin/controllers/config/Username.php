@@ -66,7 +66,8 @@ class Username extends Bismillah_Controller{
 									"fullname"=>$va['fullname'], 
 									"Unit"=>$va['optUnit'],
 									"Email"=>$va['cEmail'],
-									"KodeKaryawan"=>$cKodeKaryawan) ;
+									"KodeKaryawan"=>$cKodeKaryawan,
+									"Jabatan"=>$va['optJabatan']) ;
 		$data['data_var']	= array("ava"=>$dblast['data_var']['ava']) ;
 
 		if($va['password'] !== ""){
@@ -125,6 +126,7 @@ class Username extends Bismillah_Controller{
 		$data 	= $this->bdb->getval("*", $w, "sys_username") ;
 		if(!empty($data)){
             $jsonUnit[] 	= array("id"=>$data['Unit'],"text"=>$data['Unit'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['Unit']}'", "golongan_unit"));
+            $jsonJabatan[] 	= array("id"=>$data['Jabatan'],"text"=>$data['Jabatan'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['Jabatan']}'", "golongan_jabatan"));
 			$image 			= "" ;
 			$slevel 		= array() ;
 			$data_var		= ($data['data_var'] !== "") ? json_decode($data['data_var'], true) : array() ;
@@ -140,6 +142,7 @@ class Username extends Bismillah_Controller{
 					find("#fullname").val("'.$data['fullname'].'").focus() ;
 					find("#level").sval('.json_encode($slevel).') ;
 					find("#optUnit").sval('.json_encode($jsonUnit).') ;
+					find("#optJabatan").sval('.json_encode($jsonJabatan).') ;
 					find("#chKodeKaryawan").val("'.$data['KodeKaryawan'].'") ;
 					find("#cEmail").val("'.$data['Email'].'") ;
 					find("#idimage").html("'.$image.'") ;
@@ -204,6 +207,19 @@ class Username extends Bismillah_Controller{
 	{
 		$search     = $this->input->get('q');
 		$vdb        = $this->bdb->SeekUnit($search) ;
+		$dbd        = $vdb['db'] ;
+		$vare       = array();
+		while($dbr = $this->bdb->getrow($dbd)){
+			$vare[]     = array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
+		}
+		$Result = json_encode($vare);
+		echo($Result) ;
+	}
+
+	public function SeekJabatan()
+	{
+		$search     = $this->input->get('q');
+		$vdb        = $this->bdb->SeekJabatan($search) ;
 		$dbd        = $vdb['db'] ;
 		$vare       = array();
 		while($dbr = $this->bdb->getrow($dbd)){

@@ -216,6 +216,20 @@ class Bismillah_Model extends CI_Model{
 				) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("golongan_jabatan",$cSQL);
 		
+		$this->AddField("sys_username","Jabatan","varchar(255)","","");
+
+		$cSQL = "CREATE TABLE `jenis_sifat_surat`  (
+					`ID` int(3) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`KodeRubrik` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;" ;
+		$this->AddTable("jenis_sifat_surat",$cSQL);
+
+		
+
+
 
     }
 }
