@@ -10,6 +10,25 @@
         <div class="tab-pane" id="tab_2">
             <form>
                 <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Tanggal</label>
+                            <div class="col-xs-8 input-group">
+                                <input
+                                    type="text" 
+                                    class=" form-control date" 
+                                    id="dTgl" 
+                                    name="dTgl" 
+                                    placeholder="dd-mm-yyyy"
+                                    required
+                                    value=<?=date("d-m-Y")?> <?=date_set()?> 
+                                >
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-sm-10">
                         <div class="form-group">
                             <label>Ditujukan Kepada</label>
@@ -93,6 +112,12 @@
                     <div class="col-md-12">
                         &nbsp;
                     </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label>Sifat Dokumen</label>
+                            <select class="form-control optSifatSurat select2" data-sf="load_Kota" name="optSifatSurat" id="optSifatSurat" data-placeholder=" - Sifat Dokumen - "></select>
+                        </div>
+                    </div>
                     <!-- <div class="col-md-12">
                         <div class="form-group">
                             <label>Upload File</label>
@@ -102,7 +127,8 @@
                 </div>
                 <input type="hidden" name="nNo" id="nNo" value="0">
                 <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
-                <input type="hidden" name="cKode" id="cKode">
+                <input type="hidden" name="cFaktur" id="cFaktur">
+                <input type="hidden" name="cNoSurat" id="cNoSurat">
                 <input type="hidden" name="cLastPath" id="cLastPath">
                 <button class="btn btn-primary" id="cmdSave">Simpan</button>
                 <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcm_anggaran.init()">Cancel</button>
@@ -135,14 +161,14 @@
             },
             multiSearch     : false,
             columns: [
-                { field: 'Faktur', caption: 'Kode', size: '100px', sortable: false},
+                { field: 'NoSurat', caption: 'Nomor Surat', size: '120px', sortable: false},
                 { field: 'Perihal', caption: 'Perihal Anggaran', size: '250px', sortable: false},
-                { field: 'Kepada', caption: 'Ditujukan Kepada', size: '250px', sortable: false},
+                { field: 'Kepada', caption: 'Ditujukan Kepada', size: '200px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
                 { field: 'Metode', caption: 'Metode', size: '80px', sortable: false},
-                { field: 'Nominal', caption: 'Nominal Anggaran', size: '80px', sortable: false, render:'int'},
+                { field: 'Nominal', caption: 'Nominal Anggaran', size: '120px', sortable: false, render:'int'},
                 { field: 'UserName', caption: 'Petugas Entry', size: '100px', sortable: false},
-                { field: 'Unit', caption: 'Unit Petugas', size: '100px', sortable: false},
+                { field: 'Unit', caption: 'Unit Petugas', size: '120px', sortable: false},
                 { field: 'cmdEdit', caption: ' ', size: '80px', sortable: false },
                 { field: 'cmdDelete', caption: ' ', size: '80px', sortable: false }
             ]
@@ -306,7 +332,20 @@
         }) ;
     }
 
+    bos.tcm_anggaran.initTab1 = function(){
+        this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
+    }
+
     bos.tcm_anggaran.initFunc     = function(){
+        this.obj.find('form').on("submit", function(e){
+            e.preventDefault() ;
+            if( bjs.isvalidform(this) ){
+                var dataDetailAnggaran   = w2ui['bos-form-tcm_anggaran_gridAnggaran'].records;
+                dataDetailAnggaran       = JSON.stringify(dataDetailAnggaran);
+                bjs.ajax( bos.tcm_anggaran.base_url + '/validSaving', bjs.getdataform(this)+"&dataDetailAnggaran="+dataDetailAnggaran , bos.tcm_anggaran.cmdSave) ;
+            }
+        }) ;
+
         this.obj.find("#cmdOK").on("click", function(e){
             var no                  = bos.tcm_anggaran.obj.find("#nNo").val();
             var cKeterangan         = bos.tcm_anggaran.obj.find("#cKeteranganAnggaran").val();
@@ -336,6 +375,21 @@
     bos.tcm_anggaran.setGridAnggaran = function(){
         bos.tcm_anggaran.gridAnggaran_reload() ;
     }
+
+    $('.optSifatSurat').select2({
+        allowClear: true,
+        ajax: {
+            url: bos.tcm_anggaran.base_url + '/SeekSifatSurat',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
 
     $(function(){
         bos.tcm_anggaran.initComp() ;
