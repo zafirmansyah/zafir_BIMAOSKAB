@@ -88,7 +88,7 @@
             });
         }, 1);
     }
-
+    
     bos.rptsuratmasuk.setSessionIDSurat = function(id){
         bjs.ajax(this.url + '/setSessionIDSurat', 'cKode=' + id);
     }
@@ -104,10 +104,13 @@
         }) ;
     }
 
+   
+
     $(function(){
         bos.rptsuratmasuk.initComp() ;
         bos.rptsuratmasuk.initCallBack() ;
         // bos.rptsuratmasuk.initFunc() ;
     })
 
+    
 </script>
