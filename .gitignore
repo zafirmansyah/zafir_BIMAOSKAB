@@ -134,6 +134,7 @@ tmprpt/**/*
 /bismillah/
 /mdtprint/
 /uploads/
+/application/config/database.php
 
 
 
