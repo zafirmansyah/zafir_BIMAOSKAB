@@ -24,9 +24,9 @@ class Tcm_anggaran extends Bismillah_Controller
             $cKodeUnit              = $this->bdb->getval("Unit","username = '{$dbr['UserName']}'","sys_username") ;
             $vaset['Unit']          = $this->bdb->getval("KodeRubrik","Kode = '{$cKodeUnit}'","golongan_unit") ;
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
-            $vaset['cmdEdit']       = '<button type="button" onClick="bos.tcsurat_masuk.cmdEdit(\''.$dbr['Faktur'].'\')"
+            $vaset['cmdEdit']       = '<button type="button" onClick="bos.tcm_anggaran.cmdEdit(\''.$dbr['Faktur'].'\')"
                                         class="btn btn-success btn-grid">Edit</button>' ;
-            $vaset['cmdDelete']     = '<button type="button" onClick="bos.tcsurat_masuk.cmdDelete(\''.$dbr['Faktur'].'\')"
+            $vaset['cmdDelete']     = '<button type="button" onClick="bos.tcm_anggaran.cmdDelete(\''.$dbr['Faktur'].'\')"
                                         class="btn btn-danger btn-grid">Delete</button>' ;
             $vaset['cmdEdit']	   = html_entity_decode($vaset['cmdEdit']) ;
             $vaset['cmdDelete']	= html_entity_decode($vaset['cmdDelete']) ;

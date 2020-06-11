@@ -158,10 +158,9 @@
             },
             multiSearch     : false,
             columns: [
-                { field: 'Kode', caption: 'Kode', size: '100px', sortable: false},
+                { field: 'NoSurat', caption: 'Nomor Surat', size: '150px', sortable: false},
                 { field: 'Dari', caption: 'Surat Dari', size: '250px', sortable: false},
                 { field: 'Perihal', caption: 'Perihal Surat', size: '250px', sortable: false},
-                { field: 'NoSurat', caption: 'Nomor Surat', size: '150px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
                 { field: 'UserName', caption: 'Petugas Entry', size: '100px', sortable: false},
                 { field: 'cmdEdit', caption: ' ', size: '80px', sortable: false },

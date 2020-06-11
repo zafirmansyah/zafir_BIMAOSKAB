@@ -376,6 +376,10 @@
         bos.tcm_anggaran.gridAnggaran_reload() ;
     }
 
+    bos.tcm_anggaran.cmdEdit = function(id){
+        
+    }
+
     $('.optSifatSurat').select2({
         allowClear: true,
         ajax: {

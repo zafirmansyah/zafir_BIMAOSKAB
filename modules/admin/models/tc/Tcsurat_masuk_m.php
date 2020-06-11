@@ -78,7 +78,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $where      = "Kode = " . $this->escape($cKode) ;
         $this->update("surat_masuk", $vaData, $where, "") ;
         
-        //insert detail po
+        //insert detail dispo
         $vaGrid = json_decode($va['dataDisposisi']);
         $this->delete("surat_masuk_disposisi", "Kode = '{$cKode}'" ) ;
         foreach($vaGrid as $key => $val){
