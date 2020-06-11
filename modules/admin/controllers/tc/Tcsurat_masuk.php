@@ -237,8 +237,8 @@ class Tcsurat_masuk extends Bismillah_Controller
                 $vFile[$i]  = array( $tname => $data['full_path']) ;
                 savesession($this, "sstcmsurat_masuk_cUplFile", $vFile ) ;
                 echo('
-                    bos.tcmsurat_masuk.obj.find("#idcUplFile").html("") ;
-                    bos.config.obj.find("#idcUplFile").html("<p>Data Uploaded<p>") ;
+                    //bos.tcmsurat_masuk.obj.find("#idcUplFile").html("") ;
+                    //bos.config.obj.find("#idcUplFile").html("<p>Data Uploaded<p>") ;
                 ') ;
             }
         }

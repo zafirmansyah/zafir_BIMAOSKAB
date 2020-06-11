@@ -22,6 +22,7 @@ class Rptsuratmasuk extends Bismillah_Controller
         savesession($this, "ss_DARI_SuratMasuk_","") ;
         savesession($this, "ss_DATETIME_SuratMasuk_","") ;
         savesession($this, "ss_NOSURAT_SuratMasuk_","") ;
+        savesession($this, "ss_TANGGAL_SuratMasuk_","");
         
     }
 
@@ -56,6 +57,7 @@ class Rptsuratmasuk extends Bismillah_Controller
             $vaSess['ss_DARI_SuratMasuk_']          = $dbRow['Dari'] ;
             $vaSess['ss_DATETIME_SuratMasuk_']      = $dbRow['DateTime'] ;
             $vaSess['ss_NOSURAT_SuratMasuk_']       = $dbRow['NoSurat'] ;
+            $vaSess['ss_TANGGAL_SuratMasuk_']       = $dbRow['Tgl'];
             $vaSess['ss_FILEITEM_SuratMasuk_']      = $vaFileList;
             foreach ($vaSess as $key => $value) {
 				savesession($this, $key, $value) ;
@@ -74,7 +76,5 @@ class Rptsuratmasuk extends Bismillah_Controller
         return $vaData;
     }
 }
-
-
 
 ?>

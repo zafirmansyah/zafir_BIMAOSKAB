@@ -69,6 +69,8 @@
 
 <script type="text/javascript">
 
+<?=cekbosjs();?>
+
     bos.utlconf.initFunc    = function(){
         
         this.obj.find("#linkUserLevel").on('click',function(e){

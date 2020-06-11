@@ -15,10 +15,81 @@ class Rptsuratmasuk_read extends Bismillah_Controller
         $this->load->view('rpt/rptsuratmasuk_read') ;
     }
 
+    public function init(){
+        savesession($this, "ss_suratmasuk_", "") ;
+        savesession($this, "sstcmsurat_masuk_cUplFile", "") ;
+    }
     
+    public function loadGridDataUserDisposisi(){
+        $va     = json_decode($this->input->post('request'), true) ;
+        $vare   = array() ;
+        $vdb    = $this->bdb->loadGridDataUserDisposisi($va) ;
+        $dbd    = $vdb['db'] ;
+        while( $dbr = $this->bdb->getrow($dbd) ){
+            $vaset   = $dbr ;
+            $vaset['Unit']          = $this->bdb->getval("Keterangan", "Kode = '{$dbr['Unit']}'","golongan_unit") ;
+            $vaset['cmdPilih']      = '<button type="button" onClick="bos.rptsuratmasuk_read.cmdPilih(\''.$dbr['KodeKaryawan'].'\')"
+                                        class="btn btn-success btn-grid">Pilih</button>' ;
+            $vaset['cmdPilih']	    = html_entity_decode($vaset['cmdPilih']) ;
 
+            $vare[]		= $vaset ;
+        }
 
+        $vare 	= array("total"=>$vdb['rows'], "records"=>$vare ) ;
+        echo(json_encode($vare)) ;
+    }
 
+    public function getData(){
+        $va 	    = $this->input->post() ;
+        $cKode 	    = $va['cKode'] ;
+        $data       = $this->bdb->getdata($cKode) ;
+        if(!empty($data)){
+            savesession($this, "ss_suratmasuk_", $cKode) ;
+            echo('
+                with(bos.rptsuratmasuk_read.obj){
+                    $("#cKode").val("'.$data['Kode'].'") ;
+                    $("#cSuratDari").val("'.$data['Dari'].'") ;
+                    $("#cPerihal").val("'.$data['Perihal'].'") ;
+                    $("#cNomorSurat").val("'.$data['NoSurat'].'") ;
+                    $("#dTgl").val("'.date_2d($data['Tgl']).'") ;
+                    $("#dTglSurat").val("'.date_2d($data['TglSurat']).'") ;
+                    $("#cLastPath").val("'.$data['Path'].'") ;
+                    find(".nav-tabs li:eq(1) a").tab("show") ;
+                    bos.rptsuratmasuk_read.gridDisposisi_reload() ;
+                }
+            ') ;
+        }
+    }
+
+    public function selectTargetDisposisi()
+    {
+        $va 	= $this->input->post() ;
+        $cKode 	= $va['kode'] ;
+        $data   = $this->bdb->getDataTargetDisposisi($cKode) ;
+        if(!empty($data)){
+            echo('
+            with(bos.rptsuratmasuk_read.obj){
+               find("#cKodeKaryawan").val("'.$data['KodeKaryawan'].'") ;
+               find("#cDisposisi").val("'.$data['fullname'].'");
+               bos.rptsuratmasuk_read.loadModalDisposisi("hide");
+            }
+
+         ') ;
+        }
+    }
+
+    public function saving(){
+        $va 	    = $this->input->post() ;
+        $saving = $this->bdb->saving($va) ;
+
+        echo(' 
+            Swal.fire({
+                icon: "success",
+                title: "Data Saved!",
+            });
+            bos.rptsuratmasuk_read.init() ;     
+        ') ;
+    }
 }
 
 

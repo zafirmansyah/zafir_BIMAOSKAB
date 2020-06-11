@@ -26,6 +26,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $search     = $this->escape_like_str($search) ;
         $where 	    = array() ; 
         if($search !== "") $where[]	= "(KodeKaryawan LIKE '{$search}%' OR fullname LIKE '%{$search}%')" ;
+        $where[]    = "Jabatan <= '002'";
         $where 	    = implode(" AND ", $where) ;
         $dbd        = $this->select("sys_username", "*", $where, "", "", "KodeKaryawan ASC", $limit) ;
         $dba        = $this->select("sys_username", "KodeKaryawan", $where) ;
@@ -42,7 +43,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
         return $cCIF ;
     }
 
-    public function getNomorSuratmasuk($cJenisSurat)
+    public function getNomorSurat()
     {
         $nReturn = 1 ;
         $cTable  = "surat_masuk" ;
@@ -86,7 +87,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
             $vadetail = array("Kode"=>$cKode,
                               "Tgl"=>date_2s($va['dTgl']),
                               "Pendisposisi"=>$cKodeKaryawanPendisposisi,
-                              "Terdisposisi"=>$val->Kode,
+                              "Terdisposisi"=>$val->kode,
                               "Level"=>$val->level,
                               "Status"=>"1",
                               "UserName"=>$cUserName,
@@ -163,6 +164,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $cKode    = $n ;
         return $cKode ;
     }
+
 
     public function SeekJenisSurat($search)
     {   

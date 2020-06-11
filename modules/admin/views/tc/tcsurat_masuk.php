@@ -448,9 +448,6 @@
             for(var i = 0; i < bos.tcsurat_masuk.fal.length; i++){
                 bos.tcsurat_masuk.gfal.append("cUplFile[]",bos.tcsurat_masuk.fal[i]);
             }
-            /*$.each(bos.tcsurat_masuk.fal, function(key,val){
-              bos.tcsurat_masuk.gfal.append("files[]",key) ;
-            }) ;*/
             bos.tcsurat_masuk.obj.find("#idl" + bos.tcsurat_masuk.uname).html("<i class='fa fa-spinner fa-pulse'></i>");
             bjs.ajaxfile(bos.tcsurat_masuk.base_url + "/savingFile" , bos.tcsurat_masuk.gfal, this) ;
             
