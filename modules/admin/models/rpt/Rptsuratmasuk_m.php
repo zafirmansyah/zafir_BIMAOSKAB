@@ -17,7 +17,7 @@ class Rptsuratmasuk_m extends Bismillah_Model
         if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
         $where 	 = implode(" AND ", $where) ;
         $join    = "left join surat_masuk_disposisi d on d.Kode=s.Kode";
-        $dbd      = $this->select("surat_masuk s", "s.*,d.*", $where, $join, "", "s.Kode DESC", $limit) ;
+        $dbd      = $this->select("surat_masuk s", "s.*,d.*", $where, $join, "s.Kode", "s.Kode DESC", $limit) ;
         $dba      = $this->select("surat_masuk s", "s.ID", $where, $join) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
