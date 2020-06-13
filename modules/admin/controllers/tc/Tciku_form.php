@@ -43,23 +43,16 @@ class Tciku_form extends Bismillah_Controller
 
     public function init(){
         savesession($this, "ss_ikumaster_", "") ;
-        savesession($this, "sstcmiku_master_cUplFileIKU", "") ;
+        savesession($this, "sstcmiku_master_cUplFileFormIKU", "") ;
     }
 
     public function saving(){
         $va 	    = $this->input->post() ;
         
-        $vaKode         = $va['cKode'];
-        if($vaKode == "" || trim(empty($vaKode))){
-            $cKode = $this->bdb->getKodeIKU() ;
-        }else{
-            $cKode = $vaKode ;
-        }
-
-        $va['cKode'] = $cKode ;
-
+        $cKode         = $va['optKodeIKU'];
+        
         $nYear      = date('Y');
-        $cKategori  = "/IKU";
+        $cKategori  = "/IKU-FORM";
         $adir       = $this->config->item('bcore_uploads_ikubima') . $nYear . $cKategori ;
         if(!is_dir($adir)){
              mkdir($adir,0777,true);
@@ -72,10 +65,10 @@ class Tciku_form extends Bismillah_Controller
             ');
         }
 
-        $upload         = array("cUplFileIKU"=>getsession($this, "sstciku_form_cUplFileIKU")) ;
+        $upload         = array("cUplFileFormIKU"=>getsession($this, "sstciku_form_cUplFileFormIKU")) ;
         $va['FilePath'] = ""; 
         $dir            = "" ;
-        $fileUploaded   = $upload['cUplFileIKU'];
+        $fileUploaded   = $upload['cUplFileFormIKU'];
         $this->bdb->deleteFile($va) ;
         foreach ($upload as $key => $value) {
             if(!empty($value)){
@@ -137,14 +130,14 @@ class Tciku_form extends Bismillah_Controller
     }
 
 
-    public function seekGolonganUnit()
+    public function seekKodeIKU()
     {
         $search     = $this->input->get('q');
-        $vdb        = $this->bdb->seekGolonganUnit($search) ;
+        $vdb        = $this->bdb->seekKodeIKU($search) ;
         $dbd        = $vdb['db'];
         $vare       = array();
         while($dbr  = $this->bdb->getrow($dbd)){
-            $vare[] = array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] . " - ". $dbr['Keterangan']) ;
+            $vare[] = array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] . " - ". $dbr['Subject']) ;
         }
         $Result = json_encode($vare);
         echo($Result);
@@ -153,33 +146,33 @@ class Tciku_form extends Bismillah_Controller
 
     public function savingFile()
     {
-        savesession($this, "sstciku_form_cUplFileIKU" , "") ;
+        savesession($this, "sstciku_form_cUplFileFormIKU" , "") ;
         $cFileName = "IKU_". date("Ymd_His");
         $fcfg   = array("upload_path"=>"./tmp/","allowed_types"=>"*","overwrite"=>true) ;
                 
         $this->load->library('upload', $fcfg) ;
-        $nTotalFile = count($_FILES['cUplFileIKU']['name']);
+        $nTotalFile = count($_FILES['cUplFileFormIKU']['name']);
         if($nTotalFile > 0){
             for($i = 0; $i < $nTotalFile; $i++){
-                $_FILES["file"]["name"]     = $cFileName.$_FILES["cUplFileIKU"]["name"][$i];
-                $_FILES["file"]["type"]     = $_FILES["cUplFileIKU"]["type"][$i];
-                $_FILES["file"]["tmp_name"] = $_FILES["cUplFileIKU"]["tmp_name"][$i];
-                $_FILES["file"]["error"]    = $_FILES["cUplFileIKU"]["error"][$i];
-                $_FILES["file"]["size"]     = $_FILES["cUplFileIKU"]["size"][$i];
+                $_FILES["file"]["name"]     = $cFileName.$_FILES["cUplFileFormIKU"]["name"][$i];
+                $_FILES["file"]["type"]     = $_FILES["cUplFileFormIKU"]["type"][$i];
+                $_FILES["file"]["tmp_name"] = $_FILES["cUplFileFormIKU"]["tmp_name"][$i];
+                $_FILES["file"]["error"]    = $_FILES["cUplFileFormIKU"]["error"][$i];
+                $_FILES["file"]["size"]     = $_FILES["cUplFileFormIKU"]["size"][$i];
                 if ( ! $this->upload->do_upload("file") ){
                     echo('
                         alert("'. $this->upload->display_errors('','') .'") ;
-                        bos.tciku_form.obj.find("#idcUplFileIKU").html("") ;
+                        bos.tciku_form.obj.find("#idcUplFileFormIKU").html("") ;
                     ') ;
                 }else{
                     $data       = $this->upload->data() ;
-                    $fname      = "cUplFileIKU" . $data['file_ext'] ;
+                    $fname      = "cUplFileFormIKU" . $data['file_ext'] ;
                     $tname      = str_replace($data['file_ext'], "", $data['client_name']) ;
                     $vFile[$i]  = array( $tname => $data['full_path']) ;
-                    savesession($this, "sstciku_form_cUplFileIKU", $vFile ) ;
+                    savesession($this, "sstciku_form_cUplFileFormIKU", $vFile ) ;
                     echo('
-                        //bos.tciku_form.obj.find("#idcUplFileIKU").html("") ;
-                        //bos.tciku_form.obj.find("#idcUplFileIKU").html("<p>Data Uploaded<p>") ;
+                        //bos.tciku_form.obj.find("#idcUplFileFormIKU").html("") ;
+                        //bos.tciku_form.obj.find("#idcUplFileFormIKU").html("<p>Data Uploaded<p>") ;
                     ') ;
                 }
             }
