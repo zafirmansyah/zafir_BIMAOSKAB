@@ -21,9 +21,9 @@ class Tcsurat_keluar extends Bismillah_Controller
     public function loadgrid(){
         $va     = json_decode($this->input->post('request'), true) ;
         $vare   = array() ;
-        $vdb    = $this->tcsurat_keluar_m->loadgrid($va) ;
+        $vdb    = $this->bdb->loadgrid($va) ;
         $dbd    = $vdb['db'] ;
-        while( $dbr = $this->tcsurat_keluar_m->getrow($dbd) ){
+        while( $dbr = $this->bdb->getrow($dbd) ){
             $vaset   = $dbr ;
             $vaset['JenisSurat']    = $this->bdb->getval("Keterangan", "Kode = '{$dbr['JenisSurat']}'","jenis_surat") ;
             $vaset['Unit']          = $this->bdb->getval("Keterangan", "Kode = '{$dbr['Unit']}'","golongan_unit") ;
@@ -48,7 +48,7 @@ class Tcsurat_keluar extends Bismillah_Controller
 
     public function saving(){
         $va 	    = $this->input->post() ;
-        $saving     = $this->tcsurat_keluar_m->saving($va) ;
+        $saving     = $this->bdb->saving($va) ;
         $cJenisSurat = $this->bdb->getval("Keterangan","Kode = '{$saving['JenisSurat']}'","jenis_surat");
         echo(' 
             bos.tcsurat_keluar.init() ; 
@@ -63,7 +63,7 @@ class Tcsurat_keluar extends Bismillah_Controller
     public function editing(){
         $va 	    = $this->input->post() ;
         $cKode 	    = $va['cKode'] ;
-        $data       = $this->tcsurat_keluar_m->getdata($cKode) ;
+        $data       = $this->bdb->getdata($cKode) ;
         if(!empty($data)){
             savesession($this, "ss_suratkeluar_", $cKode) ;
             echo('
@@ -78,7 +78,7 @@ class Tcsurat_keluar extends Bismillah_Controller
 
     public function deleting(){
         $va 	= $this->input->post() ;
-        $this->tcsurat_keluar_m->deleting($va['cKode']) ;
+        $this->bdb->deleting($va['cKode']) ;
         echo(' bos.tcsurat_keluar.grid1_reloaddata() ; ') ;
     }
 
@@ -107,6 +107,20 @@ class Tcsurat_keluar extends Bismillah_Controller
         }
         $Result = json_encode($vare);
         echo($Result) ;
+    }
+
+    public function checkNomorSurat()
+    {
+        $va          = $this->input->post();
+        $cJenisSurat = $va['optJenisSurat'] ;
+        $cSifatSurat = $va['optSifatSurat'];
+        $checkKode   = $this->bdb->getNomorSuratKeluar($cJenisSurat,$cSifatSurat,false) ;
+        echo(' 
+            Swal.fire({
+                icon: "info",
+                title: "'.$checkKode.'"
+            });    
+        ') ;
     }
 
 }

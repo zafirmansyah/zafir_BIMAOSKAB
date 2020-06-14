@@ -105,6 +105,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Nomor Surat</label>
+                        <div id="idcUplFile">
+                            <input type="text" name="cNomorSurat" id="cNomorSurat">
+                        </div>
+                    </div>
+                </div>
             </div>
             <input type="hidden" name="nNo" id="nNo" value="0">
             <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
@@ -122,13 +130,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="wm-title">Daftar Stock</h4>
+                <h4 class="modal-title" id="wm-title">Daftar Nama Pegawai</h4>
             </div>
             <div class="modal-body">
                 <div id="grid3" style="height:250px"></div>
             </div>
             <div class="modal-footer">
-                *Pilih Stock
+                *Pilih Nama Pegawai
             </div>
         </div>
     </div>
@@ -407,7 +415,7 @@
         this.obj.find("#modalDisposisi").modal(l) ;
     }
 
-    bos.tcsurat_masuk.cmdSave       = bos.tcsurat_masuk.obj.find("#cmdSave") ;
+    bos.tcsurat_masuk.cmdSave           = bos.tcsurat_masuk.obj.find("#cmdSave") ;
     bos.tcsurat_masuk.initFunc     = function(){
         this.obj.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if($(e.target).parent().index() == 0){//load grid
@@ -422,6 +430,8 @@
             bos.tcsurat_masuk.loadModalDisposisi("show");
             bos.tcsurat_masuk.grid3_reloaddata() ;
         }) ;
+
+        
 
         this.obj.find("#cmdOK").on("click", function(e){
             var no                  = bos.tcsurat_masuk.obj.find("#nNo").val();
@@ -462,6 +472,7 @@
                 bjs.ajax( bos.tcsurat_masuk.base_url + '/saving', bjs.getdataform(this)+"&dataDisposisi="+dataGridDisposisi , bos.tcsurat_masuk.cmdSave) ;
             }
         }) ;
+        
     }
 
     $('.optJenisSurat').select2({
