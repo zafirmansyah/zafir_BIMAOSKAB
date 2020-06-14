@@ -5,9 +5,11 @@ class Tcm_prinsip extends Bismillah_Controller
     public function __construct(){
         parent::__construct() ;
         $this->load->model('tc/tcm_prinsip_m') ;
-        $this->load->helper('bdate') ;
+        $this->load->helper('bdate') ;		
+        $this->load->model('func/func_m') ;
 
-        $this->bdb = $this->tcm_prinsip_m ;
+        $this->bdb  = $this->tcm_prinsip_m ;
+        $this->func = $this->func_m ;
     }
 
     public function index(){
@@ -38,6 +40,25 @@ class Tcm_prinsip extends Bismillah_Controller
         echo(json_encode($vare)) ;
     }
 
+    public function loadGridDataUserDisposisi(){
+        $va     = json_decode($this->input->post('request'), true) ;
+        $vare   = array() ;
+        $vdb    = $this->bdb->loadGridDataUserDisposisi($va) ;
+        $dbd    = $vdb['db'] ;
+        while( $dbr = $this->bdb->getrow($dbd) ){
+            $vaset   = $dbr ;
+            $vaset['Unit']          = $this->bdb->getval("Keterangan", "Kode = '{$dbr['Unit']}'","golongan_unit") ;
+            $vaset['cmdPilih']      = '<button type="button" onClick="bos.tcm_prinsip.cmdPilih(\''.$dbr['KodeKaryawan'].'\')"
+                                        class="btn btn-success btn-grid">Pilih</button>' ;
+            $vaset['cmdPilih']	    = html_entity_decode($vaset['cmdPilih']) ;
+
+            $vare[]		= $vaset ;
+        }
+
+        $vare 	= array("total"=>$vdb['rows'], "records"=>$vare ) ;
+        echo(json_encode($vare)) ;
+    }
+
     public function SeekSifatSurat()
     {
         $search     = $this->input->get('q');
@@ -53,20 +74,26 @@ class Tcm_prinsip extends Bismillah_Controller
 
     public function validSaving()
     {
-        $va     = $this->input->post();
-        $vaGrid = json_decode($va['dataDetailAnggaran']);
-        $lValid = true ;
-        if(empty($vaGrid)){
-            $lValid = false ;
-            echo('
-                Swal.fire({
-                    icon: "error",
-                    title: "Data Tidak Valid" ,
-                    text : "Data Detail Anggaran Kosong"
-                });   
-            ');
+        $va         = $this->input->post();
+        $lValid     = true ;
+        $optMetode  = $va['optMetode'];
+        $vaGrid     = json_decode($va['dataDisposisi']);
+
+        if($optMetode == "S"){
+            if(empty($vaGrid)){
+                $lValid = false ;
+                echo('
+                    Swal.fire({
+                        icon: "error",
+                        title: "Data Tidak Valid" ,
+                        text : "Data Detail Anggaran Kosong"
+                    });   
+                ');
+            }    
         }
 
+
+        
         if($lValid){
             $this->saveData($va) ;
         }   
@@ -75,6 +102,8 @@ class Tcm_prinsip extends Bismillah_Controller
     public function saveData($va)
     {
         $cSifatSurat = $va['optSifatSurat'];
+        $nYear       = date('Y') ;
+        $nKodeUnit   = getsession($this,'unit') ;
 
         $cFaktur  = $va['cFaktur'] ;
         if($cFaktur == "" || empty(trim($cFaktur))){
@@ -83,12 +112,47 @@ class Tcm_prinsip extends Bismillah_Controller
         
         $cNoSurat  = $va['cNoSurat'] ;
         if($cNoSurat == "" || empty(trim($cNoSurat))){
-            $cNoSurat = $this->bdb->getNomorSurat($cSifatSurat);
+            $cNoSurat   = $this->func->getNomorRubrikSurat($nYear,$nKodeUnit,'M.02',$cSifatSurat,'M02P') ;
+            // $cNoSurat = $this->bdb->getNomorSurat($cSifatSurat);
         }
 
         $va['cFaktur']  = $cFaktur ;
         $va['cNoSurat'] = $cNoSurat ;
-        $save           = $this->bdb->saveData($va) ;
+
+        $nYear      = date('Y');
+        $cKategori  = "/SuratMemorandumM02";
+        $adir       = $this->config->item('bcore_uploads_suratbima') . $nYear . $cKategori ;
+        if(!is_dir($adir)){
+            mkdir($adir,0777,true);
+        }
+
+        $upload         = array("cUplFile"=>getsession($this, "sstcm_prinsip_cUplFile")) ;
+        $va['FilePath'] = ""; 
+        $dir            = "" ;
+        $fileUploaded   = $upload['cUplFile'];
+        $this->bdb->deleteFile($va) ;
+        foreach ($upload as $key => $value) {
+            if(!empty($value)){
+                foreach ($value as $tkey => $tval) {
+                    if(!empty($tval)){
+                        foreach($tval as $fkey=>$file){
+                            $vi     = pathinfo($file) ;
+                            $dir    = $adir.'/' ;
+                            $dir   .=  $vi['filename'] . "." . $vi['extension'] ;
+                            if(is_file($dir)) @unlink($dir) ;
+                            if(@copy($file,$dir)){
+                                @unlink($file) ;
+                                $this->bdb->saveconfig($key, $dir) ;
+                            }
+                            $va['FilePath'] = $dir ;
+                            $this->bdb->saveFile($va) ;
+                        }
+                    }
+                }
+            }
+        }
+
+        $save   = $this->bdb->saveData($va) ;
         if($save){
             echo('
                 bos.tcm_prinsip.initForm() ;
@@ -96,9 +160,42 @@ class Tcm_prinsip extends Bismillah_Controller
                 Swal.fire({
                     icon: "success",
                     title: "'.$va['cNoSurat'].'",
-                    html: "Nomor Surat <b> M.02 Penarikan Anggaran </b> Sebagai Berikut"
+                    html: "Nomor Surat <b> M.02 Persetujuan Prinsip </b> Sebagai Berikut"
                 });   
             ');
+        }
+    }
+
+    public function savingFile()
+    {
+        savesession($this, "sstcm_prinsip_cUplFile" , "") ;
+        $cFileName = "SuratMasuk_". date("Ymd_His");
+        $fcfg   = array("upload_path"=>"./tmp/","allowed_types"=>"*","overwrite"=>true) ;
+                
+        $this->load->library('upload', $fcfg) ;
+        $nTotalFile = count($_FILES['cUplFile']['name']);
+        for($i = 0; $i < $nTotalFile; $i++){
+            $_FILES["file"]["name"]     = $cFileName.$_FILES["cUplFile"]["name"][$i];
+            $_FILES["file"]["type"]     = $_FILES["cUplFile"]["type"][$i];
+            $_FILES["file"]["tmp_name"] = $_FILES["cUplFile"]["tmp_name"][$i];
+            $_FILES["file"]["error"]    = $_FILES["cUplFile"]["error"][$i];
+            $_FILES["file"]["size"]     = $_FILES["cUplFile"]["size"][$i];
+            if ( ! $this->upload->do_upload("file") ){
+                echo('
+                    alert("'. $this->upload->display_errors('','') .'") ;
+                    bos.tcm_prinsip.obj.find("#idcUplFile").html("") ;
+                ') ;
+            }else{
+                $data       = $this->upload->data() ;
+                $fname      = "cUplFile" . $data['file_ext'] ;
+                $tname      = str_replace($data['file_ext'], "", $data['client_name']) ;
+                $vFile[$i]  = array( $tname => $data['full_path']) ;
+                savesession($this, "sstcm_prinsip_cUplFile", $vFile ) ;
+                echo('
+                    //bos.tcm_prinsip.obj.find("#idcUplFile").html("") ;
+                    //bos.config.obj.find("#idcUplFile").html("<p>Data Uploaded<p>") ;
+                ') ;
+            }
         }
     }
 }

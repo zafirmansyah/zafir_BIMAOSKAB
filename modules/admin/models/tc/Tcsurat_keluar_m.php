@@ -29,7 +29,7 @@ class Tcsurat_keluar_m extends Bismillah_Model
         return $cCIF ;
     }
 
-    public function getNomorSuratKeluar($cJenisSurat,$cSifatSurat)
+    public function getNomorSuratKeluar($cJenisSurat,$cSifatSurat,$lUpdate=true)
     {
 
         /**
@@ -50,7 +50,7 @@ class Tcsurat_keluar_m extends Bismillah_Model
         $cRubrikSifatDok    = $this->getval("KodeRubrik","Kode = '$cSifatSurat'","jenis_sifat_surat") ;
         $cUnique            = $nKodeTahunBuku . "/" . $cRubrikUnit ."/".  $cRubrikJenisDok ."/". $cRubrikSifatDok ;
         $cKey  		        = "SK" . $cUnique;
-        $n    		        = $this->getincrement($cKey,true,3);
+        $n    		        = $this->getincrement($cKey,$lUpdate,1);
         $nReturn   	        = $nKodeTahunBuku . "/" . $n . "/" . $cRubrikUnit . "/" . $cRubrikJenisDok . "/" . $cRubrikSifatDok;
         return $nReturn ;
     }
@@ -74,6 +74,14 @@ class Tcsurat_keluar_m extends Bismillah_Model
         $this->update("surat_keluar", $vaData, $where, "") ;
         return $vaData ;
     }
+
+    public function checkNomorSurat($va)
+    {
+        $cJenisSurat = $va['optJenisSurat'] ;
+        $cSifatSurat = $va['optSifatSurat'];
+        $nNomorSurat = $this->getNomorSuratKeluar($cJenisSurat,$cSifatSurat,false) ;
+        return $nNomorSurat ;
+    } 
 
     public function getdata($id){
         $data = array() ;

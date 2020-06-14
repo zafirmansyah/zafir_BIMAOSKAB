@@ -60,38 +60,74 @@ class Tcm_prinsip_m extends Bismillah_Model
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
     }
 
+    public function loadGridDataUserDisposisi($va){
+        $limit      = $va['offset'].",".$va['limit'] ;
+        $search	    = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        $search     = $this->escape_like_str($search) ;
+        $where 	    = array() ; 
+        if($search !== "") $where[]	= "(KodeKaryawan LIKE '{$search}%' OR fullname LIKE '%{$search}%')" ;
+        $where[]    = "Jabatan <= '002'";
+        $where 	    = implode(" AND ", $where) ;
+        $dbd        = $this->select("sys_username", "*", $where, "", "", "KodeKaryawan ASC", $limit) ;
+        $dba        = $this->select("sys_username", "KodeKaryawan", $where) ;
+
+        return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
+    }
+
     public function saveData($va)
     {
         $cUserName  = getsession($this,'username') ;
+
+        /**
+         * 
+            Faktur
+            Kepada
+            Perihal
+            Deskripsi
+            NoSurat
+            Sifat
+            Tgl
+            KodeDisposisi
+            MetodeDisposisi
+         * 
+         */
+
         $vaData     = array("Faktur"=>$va['cFaktur'],
-                            "Kepada"=>$va['cKepada'],
                             "Perihal"=>$va['cSubject'],
-                            "Keterangan"=>$va['cDeskripsi'],
-                            "Metode"=>$va['optMetode'],
+                            "Deskripsi"=>$va['cDeskripsi'],
+                            "MetodeDisposisi"=>$va['optMetode'],
                             "Tgl"=>date_2s($va['dTgl']),
                             "NoSurat"=>$va['cNoSurat'],
                             "StatusPersetujuan"=>"0",
                             "Sifat"=>$va['optSifatSurat'],
                             "Status"=>"1",
+                            "MetodeDisposisi"=>$va['optMetode'],
                             "UserName"=>$cUserName,
                             "DateTime"=>date("Y-m-d H:i:s"));
         $where      = "Faktur = " . $this->escape($va['cFaktur']) ;
         $this->update("m02_prinsip", $vaData, $where, "") ;
-
-        $vaGrid = json_decode($va['dataDetailprinsip']);
-        $this->delete("m02_prinsip_detail", "Faktur = '{$va['cFaktur']}'" ) ;
-        foreach($vaGrid as $key => $val){
-            $where      = "Faktur = " . $this->escape($va['cFaktur']) ;
-            $vadetail   = array("Faktur"=>$va['cFaktur'],
-                                "Tgl"=>date_2s($va['dTgl']),
-                                "Keterangan"=>$val->Keterangan,
-                                "Nominal"=>$val->Nominal,
-                                "UserName"=>$cUserName,
-                                "DateTime"=>date('Y-m-d H:i:s'));
-            $this->insert("m02_prinsip_detail",$vadetail);
-        }
         return "OK" ;
 
+    }
+
+    public function saveFile($va)
+    {
+        $cKode          = $va['cFaktur'] ;
+        $cUserName      = getsession($this,'username') ;
+        $vaData         = array("Kode"=>$cKode, 
+                                "Tgl"=>date_2s($va['dTgl']),
+                                "FilePath"=>$va['FilePath'],
+                                "UserName"=>$cUserName ,
+                                "DateTime"=>date('Y-m-d H:i:s')) ;
+        $where      = "Kode = " . $this->escape($cKode) ;
+        $this->insert("m02_prinsip_file", $vaData, $where, "") ;
+    }
+
+    public function deleteFile($va)
+    {
+        $cKode  = $va['cFaktur'] ;
+        $cWhere = "Kode = '$cKode'" ;
+        $this->delete('m02_prinsip_file',$cWhere);
     }
 }
 

@@ -60,6 +60,7 @@
                     </div>
                 </div>
             </div>
+            <button class="btn btn-success" id="cmdCheck">Check Nomor</button>
             <button class="btn btn-primary" id="cmdsave">Simpan</button>
             <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcsurat_keluar.init()">Cancel</button>
         </form>
@@ -159,6 +160,7 @@
     }
 
     bos.tcsurat_keluar.cmdsave       = bos.tcsurat_keluar.obj.find("#cmdsave") ;
+
     bos.tcsurat_keluar.initfunc     = function(){
         this.obj.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if($(e.target).parent().index() == 0){//load grid
@@ -175,6 +177,12 @@
             }
         }) ;
     }
+
+    $("#cmdCheck").on("click", function(e){
+        var optJenisSurat = $('#optJenisSurat').val();
+        var optSifatSurat = $('#optSifatSurat').val();
+        bjs.ajax( bos.tcsurat_keluar.base_url + '/checkNomorSurat', 'optJenisSurat='+optJenisSurat+'&optSifatSurat='+optSifatSurat) ;
+    });
 
     $('.optJenisSurat').select2({
         allowClear: true,

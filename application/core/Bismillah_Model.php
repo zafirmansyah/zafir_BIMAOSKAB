@@ -132,7 +132,7 @@ class Bismillah_Model extends CI_Model{
 			$n = Length (pad)
 		*/
 		$inc 	= 1 ;
-		$k 	= "inc_" . $k ;
+		$k 		= "inc_" . $k ;
 		$val 	= intval($this->getconfig($k)) ;
 		$inc 	= ($val > 0) ? $val+1 : $inc ;
 		if($l){
@@ -275,7 +275,11 @@ class Bismillah_Model extends CI_Model{
 				) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("m02_prinsip",$cSQL);
 		$this->AddField("m02_prinsip","Tgl","date","0000-00-00","");
-
+		$this->AddField("m02_prinsip","KodeDisposisi","varchar(255)","","");
+		$this->AddField("m02_prinsip","MetodeDisposisi","varchar(255)","M","");
+		$this->AddField("m02_prinsip","StatusPersetujuan","varchar(255)","0","");
+		$this->AddField("m02_prinsip","Status","varchar(255)","1","");
+		
 
 		$cSQL = "CREATE TABLE `m02_prinsip_status`  (
 					`ID` int(9) NOT NULL AUTO_INCREMENT,
@@ -288,6 +292,23 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("m02_prinsip_status",$cSQL);
+
+		$cSQL = "CREATE TABLE `m02_prinsip_disposisi` (
+			`ID` int(9) NOT NULL AUTO_INCREMENT,
+			`Kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+			`Tgl` date NULL DEFAULT NULL,
+			`Disposisi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+			`Level` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+			`Status` varchar(1) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+			`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+			`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+			`Pendisposisi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT '',
+			`Terdisposisi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT '',
+			PRIMARY KEY (`ID`) USING BTREE
+		  ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;" ;
+		$this->AddTable("m02_prinsip_disposisi",$cSQL) ;
+		$this->AddField("m02_prinsip_disposisi","FakturDokumen","varchar(255)","","ID");
+
 
     }
 }

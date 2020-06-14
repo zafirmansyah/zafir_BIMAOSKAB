@@ -80,14 +80,7 @@ class Tcsurat_masuk extends Bismillah_Controller
         $cKategori  = "/SuratMasuk";
         $adir       = $this->config->item('bcore_uploads_suratbima') . $nYear . $cKategori ;
         if(!is_dir($adir)){
-             mkdir($adir,0777,true);
-            echo('
-                bos.tcsurat_masuk.init() ; 
-                Swal.fire({
-                    icon: "warning",
-                    title: "Hallo, bisa mkdir gak ya?"
-                });   
-            ');
+            mkdir($adir,0777,true);
         }
 
         $upload         = array("cUplFile"=>getsession($this, "sstcmsurat_masuk_cUplFile")) ;
@@ -243,6 +236,8 @@ class Tcsurat_masuk extends Bismillah_Controller
             }
         }
     }
+
+    
 }
 
 ?>
