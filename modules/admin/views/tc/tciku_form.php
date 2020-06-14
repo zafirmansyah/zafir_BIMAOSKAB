@@ -51,7 +51,6 @@
                 </div>
             </div>
             <input type="hidden" name="nNo" id="nNo" value="0">
-            <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
             <input type="hidden" name="cKode" id="cKode">
             <input type="hidden" name="cLastPath" id="cLastPath">
             <button class="btn btn-primary" id="cmdSave">Simpan</button>
@@ -67,8 +66,8 @@
     bos.tciku_form.grid1_data    = null ;
     bos.tciku_form.grid1_loaddata= function(){
         this.grid1_data      = {} ;
-    }
-
+    }  
+  
     bos.tciku_form.grid1_load    = function(){
         this.obj.find("#grid1").w2grid({
             name     : this.id + '_grid1',
@@ -86,9 +85,9 @@
             multiSearch     : false,
             columns: [
                 { field: 'Kode', caption: 'Kode', size: '100px', sortable: false},
-                { field: 'Periode', caption: 'Periode', size: '250px', sortable: false},
-                { field: 'TujuanUnit', caption: 'TujuanUnit', size: '250px', sortable: false},
                 { field: 'Subject', caption: 'Judul', size: '150px', sortable: false},
+                { field: 'Deskripsi', caption: 'Deskripsi', size: '250px', sortable: false},
+                { field: 'Periode', caption: 'Periode', size: '250px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
                 { field: 'UserName', caption: 'Petugas Entry', size: '100px', sortable: false},
                 { field: 'cmdEdit', caption: ' ', size: '80px', sortable: false },
@@ -136,10 +135,10 @@
 
     bos.tciku_form.init         = function(){
         this.obj.find("#cDeskripsi").val("") ;
-        this.obj.find("#cPeriode").val("") ;
         this.obj.find("#cKode").val("") ;
-        this.obj.find("#optGolonganUnit").val("") ;
+        this.obj.find("#optKodeIKU").val("") ;
         this.obj.find("#nNo").val("0") ;
+        this.obj.find("#cUplFileFormIKU").val("");
         bjs.ajax(this.url + '/init') ;
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
         bos.tciku_form.grid1_loaddata() ;
@@ -201,10 +200,10 @@
         }) ;
     }
 
-    $('.optGolonganUnit').select2({
+    $('.optKodeIKU').select2({
         allowClear: true,
         ajax: {
-            url: bos.tciku_form.base_url + '/seekGolonganUnit',
+            url: bos.tciku_form.base_url + '/seekKodeIKU',
             dataType: 'json',
             delay: 250,
             processResults: function (data) {

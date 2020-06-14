@@ -18,7 +18,7 @@
         ["Penarikan Anggaran", "tcm_anggaran","admin/tc/tcm_anggaran","fa fa-circle-o"]
     ["IKU", "tciku", "", "fa fa-circle-o"]
         ["Master IKU", "tciku_master","admin/tc/tciku_master","fa fa-circle-o"]    
-        ["Form IKU", "tciku_form","admin/tc/tciku_form","fa fa-circle-o"]    
+        ["Form Pengisian IKU", "tciku_form","admin/tc/tciku_form","fa fa-circle-o"]    
 ["Laporan", "rpt", "", "fa fa-folder-open"]
     ["Daftar Surat Masuk", "rptsuratmasuk","admin/rpt/rptsuratmasuk","fa fa-circle-o"]
 ["Utilities", "utlconf", "admin/config/utlconf","fa fa-flask"]
