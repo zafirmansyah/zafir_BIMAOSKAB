@@ -30,24 +30,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-10">
+                        <!-- <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Ditujukan Kepada</label>
                                 <input type="text" name="cKepada" id="cKepada" class="form-control" maxlength="225" placeholder="Kepada" required>
                             </div>
-                        </div>
-                        <div class="col-sm-10">
+                        </div> -->
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Perihal</label>
                                 <input type="text" name="cSubject" id="cSubject" class="form-control" maxlength="225" placeholder="Subject" required>
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>&nbsp;</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-5">
                             <div class="form-group">
                                 <label>Sifat Dokumen</label>
                                 <select class="form-control optSifatSurat select2" data-sf="load_Kota" name="optSifatSurat" id="optSifatSurat" data-placeholder=" - Sifat Dokumen - "></select>
@@ -56,14 +51,41 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Upload File</label>
-                                <div id="idcUplFile"><input style="width:100%" type="file" class="form-control" name="cUplFile" id="cUplFile" required></div>
+                                <div id="idcUplFile">
+                                    <input style="width:100%" type="file" class="form-control cUplFile" id="cUplFile" name="cUplFile[]" multiple required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Metode Tanda Tangan</label>
+                                <div class="col-md-12">
+                                    <div class="col-sm-3">
+                                        <label>
+                                            <input type="radio" name="optMetode" id="optMetode1" onclick="bos.tcm_prinsip.selectMetode('M')" value="M" checked>
+                                            Manual
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label>
+                                            <input type="radio" name="optMetode" id="optMetode2" onclick="bos.tcm_prinsip.selectMetode('S')" value="S">
+                                            By System
+                                        </label>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="formDisposisi">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>Disposisi</label>
+                                <label>
+                                    Disposisi
+                                </label>
+                                <span class="pull-right-container">
+                                    <span class="label label-primary" onclick="bos.tcm_prinsip.helpDisposisi()">?</span>
+                                </span>
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -80,7 +102,12 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <div id="gridDisposisi" class="full-height" style="height: 200px; border: 1px solid;"></div>
+                            <div id="gridDisposisi" class="full-height" style="height: 200px;"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -105,9 +132,27 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalDisposisi" role="dialog" data-backdrop="false" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="wm-title">Daftar Nama Pegawai</h4>
+            </div>
+            <div class="modal-body">
+                <div id="grid3" style="height:250px"></div>
+            </div>
+            <div class="modal-footer">
+                *Pilih Nama Pegawai
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     <?=cekbosjs();?>
 
+    /************************************************************* */
     bos.tcm_prinsip.grid1_data    = null ;
     bos.tcm_prinsip.grid1_loaddata= function(){
         this.grid1_data      = {} ;
@@ -119,7 +164,7 @@
             limit    : 100 ,
             url      : bos.tcm_prinsip.base_url + "/loadgrid",
             postData : this.grid1_data ,
-            header   : 'Data Penarikan Anggaran',
+            header   : 'Data Persetujuan Prinsip',
             show: {
                 header      : true,
                 footer      : true,
@@ -129,12 +174,11 @@
             },
             multiSearch     : false,
             columns: [
-                { field: 'NoSurat', caption: 'Nomor Surat', size: '120px', sortable: false},
-                { field: 'Perihal', caption: 'Perihal Anggaran', size: '250px', sortable: false},
-                { field: 'Kepada', caption: 'Ditujukan Kepada', size: '200px', sortable: false},
+                { field: 'NoSurat', caption: 'Nomor Surat', size: '150px', sortable: false},
+                { field: 'Perihal', caption: 'Perihal', size: '250px', sortable: false},
+                { field: 'Kepada', caption: 'Ditujukan Kepada', size: '100px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
-                { field: 'Metode', caption: 'Metode', size: '80px', sortable: false},
-                { field: 'Nominal', caption: 'Nominal Anggaran', size: '120px', sortable: false, render:'int'},
+                { field: 'MetodeDisposisi', caption: 'Metode Disposisi', size: '80px', sortable: false},
                 { field: 'UserName', caption: 'Petugas Entry', size: '100px', sortable: false},
                 { field: 'Unit', caption: 'Unit Petugas', size: '120px', sortable: false},
                 { field: 'cmdEdit', caption: ' ', size: '80px', sortable: false },
@@ -164,6 +208,148 @@
         this.grid1_setdata() ;
     }
 
+    /**************************************************************** */
+
+    /******************************************** */
+
+    bos.tcm_prinsip.gridDisposisi_load    = function(){
+        this.obj.find("#gridDisposisi").w2grid({
+            name    : this.id + '_gridDisposisi',
+            show: {
+                footer      : true,
+                toolbar     : false,
+                toolbarColumns  : false,
+                lineNumbers: true
+            },
+            columns: [
+                { field: 'level', caption: 'Urutan Tujuan', size: '100px', sortable: false },
+                { field: 'kode', caption: 'Kode Karyawan', size: '150px', sortable: false },
+                { field: 'disposisi', caption: 'Nama Karyawan', size: '200px', sortable: false },
+                { field: 'cmdDeleteGr', caption: ' ', size: '80px', sortable: false }
+            ]
+        });
+    }
+
+    bos.tcm_prinsip.gridDisposisi_destroy     = function(){
+        if(w2ui[this.id + '_gridDisposisi'] !== undefined){
+            w2ui[this.id + '_gridDisposisi'].destroy() ;
+        }
+    }
+
+    bos.tcm_prinsip.gridDisposisi_reload      = function(){
+        w2ui[this.id + '_gridDisposisi'].reload() ;
+    }
+
+    bos.tcm_prinsip.gridDisposisi_append    = function(no,kodekaryawan,disposisi){
+        var datagrid  = w2ui[this.id + '_gridDisposisi'].records;
+        var recid     = "";
+        if(no <= datagrid.length){
+            recid = no;
+            w2ui[this.id + '_gridDisposisi'].set(recid,{level: no, 
+                                                        kode:kodekaryawan, 
+                                                        disposisi: disposisi});
+        }else{
+            recid = no;
+            var Hapus = "<button type='button' onclick = 'bos.tcm_prinsip.gridDisposisi_deleterow("+recid+")' class='btn btn-danger btn-grid'>Delete</button>";
+            w2ui[this.id + '_gridDisposisi'].add([
+                {   recid:recid,
+                    level: no,
+                    kode:kodekaryawan,
+                    disposisi:disposisi,
+                    cmdDeleteGr:Hapus}
+            ]) ;
+        }
+        bos.tcm_prinsip.initDetail();
+        bos.tcm_prinsip.obj.find("#cmdDisposisi").focus() ;
+    }
+
+    bos.tcm_prinsip.gridDisposisi_deleterow = function(recid){
+        if(confirm("Anda yakin untuk menghilangkan data pada nomor "+ recid +" ini ???")){
+            w2ui[this.id + '_gridDisposisi'].select(recid);
+            w2ui[this.id + '_gridDisposisi'].delete(true);
+            bos.tcm_prinsip.gridDisposisi_urutkan();
+            bos.tcm_prinsip.initDetail();
+
+        }
+    }
+
+    bos.tcm_prinsip.gridDisposisi_render  = function(){
+        this.obj.find("#gridDisposisi").w2render(this.id + '_gridDisposisi') ;
+    }
+
+    bos.tcm_prinsip.gridDisposisi_clear   = function(){
+        w2ui[this.id + '_gridDisposisi'].clear();
+    }
+
+    bos.tcm_prinsip.gridDisposisi_urutkan = function(){
+        var datagrid = w2ui[this.id + '_gridDisposisi'].records;
+        w2ui[this.id + '_gridDisposisi'].clear();
+        for(i=0;i<datagrid.length;i++){
+            var no = i+1;
+            datagrid[i]["recid"] = no;
+            var recid = no;
+            var Hapus = "<button type='button' onclick = 'bos.tcm_prinsip.gridDisposisi_deleterow("+recid+")' class='btn btn-danger btn-grid'>Delete</button>";
+            w2ui[this.id + '_gridDisposisi'].add({recid:recid,level: recid, 
+                                                              kode: datagrid[i]["kode"],
+                                                              disposisi: datagrid[i]["disposisi"],
+                                                              cmdDeleteGr:Hapus});
+        }
+    }
+
+    /******************************************** */
+
+    /******************************************** */
+
+    //grid3 Disposisi
+    bos.tcm_prinsip.grid3_data    = null ;
+    bos.tcm_prinsip.grid3_loaddata= function(){
+        this.grid3_data         = {} ;
+    }
+
+    bos.tcm_prinsip.grid3_load    = function(){
+        this.obj.find("#grid3").w2grid({
+            name    : this.id + '_grid3',
+            limit   : 100 ,
+            url     : bos.tcm_prinsip.base_url + "/loadGridDataUserDisposisi",
+            postData: this.grid3_data ,
+            show: {
+                footer      : true,
+                toolbar     : true,
+                toolbarColumns  : false
+            },
+            multiSearch     : false,
+            columns: [
+                { field: 'fullname', caption: 'Nama', size: '200px', sortable: false },
+                { field: 'unit', caption: 'Satuan Unit', size: '100px', sortable: false },
+                { field: 'cmdPilih', caption: ' ', size: '80px', sortable: false }
+            ]
+        });
+    }
+
+    bos.tcm_prinsip.grid3_setdata = function(){
+        w2ui[this.id + '_grid3'].postData   = this.grid3_data ;
+    }
+    bos.tcm_prinsip.grid3_reload      = function(){
+        w2ui[this.id + '_grid3'].reload() ;
+    }
+    bos.tcm_prinsip.grid3_destroy     = function(){
+        if(w2ui[this.id + '_grid3'] !== undefined){
+            w2ui[this.id + '_grid3'].destroy() ;
+        }
+    }
+
+    bos.tcm_prinsip.grid3_render  = function(){
+        this.obj.find("#grid3").w2render(this.id + '_grid3') ;
+    }
+
+    bos.tcm_prinsip.grid3_reloaddata  = function(){
+        this.grid3_loaddata() ;
+        this.grid3_setdata() ;
+        this.grid3_reload() ;
+    }
+
+    /********************************************** */
+
 
     bos.tcm_prinsip.initForm   = function(){
         $('#cKepada').val("");
@@ -189,10 +375,13 @@
 
     bos.tcm_prinsip.initComp	= function(){
         bos.tcm_prinsip.grid1_load() ;
+        bos.tcm_prinsip.gridDisposisi_load() ;
+        bos.tcm_prinsip.grid3_load() ;
         bos.tcm_prinsip.initTinyMCE() ;
 
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
+        $("#formDisposisi").css("display","none") ;
 	}
 
     bos.tcm_prinsip.initCallBack	= function(){
@@ -202,6 +391,8 @@
         });
         this.obj.on('remove', function(){
             bos.tcm_prinsip.grid1_destroy() ;
+            bos.tcm_prinsip.gridDisposisi_destroy() ;
+            bos.tcm_prinsip.grid3_destroy() ;
             tinymce.remove() ;
         }) ;
     }
@@ -214,15 +405,66 @@
         this.obj.find('form').on("submit", function(e){
             e.preventDefault() ;
             if( bjs.isvalidform(this) ){
-                bjs.ajax( bos.tcm_prinsip.base_url + '/validSaving', bjs.getdataform(this) , bos.tcm_prinsip.cmdSave) ;
+                var optMetodeTTD = $("input[name=optMetode]").val();
+                var dataGridDisposisi = "" ;
+                if(optMetodeTTD === "S"){
+                    var dataGridDisposisi   = w2ui['bos-form-tcm_prinsip_gridDisposisi'].records;
+                }
+                dataGridDisposisi       = JSON.stringify(dataGridDisposisi);
+                bjs.ajax( bos.tcm_prinsip.base_url + '/validSaving', bjs.getdataform(this)+"&dataDisposisi="+dataGridDisposisi , bos.tcm_prinsip.cmdSave) ;
             }
         }) ;
 
+        this.obj.find("#cmdDisposisi").on("click", function(e){
+            bos.tcm_prinsip.loadModalDisposisi("show");
+            bos.tcm_prinsip.grid3_reloaddata() ;
+        }) ;
+
+        this.obj.find("#cUplFile").on("change", function(e){
+            e.preventDefault() ;
+            bos.tcm_prinsip.uname       = $(this).attr("id") ;
+            bos.tcm_prinsip.fal         = $("#cUplFile")[0].files;
+            bos.tcm_prinsip.gfal        = new FormData() ;
+            for(var i = 0; i < bos.tcm_prinsip.fal.length; i++){
+                bos.tcm_prinsip.gfal.append("cUplFile[]",bos.tcm_prinsip.fal[i]);
+            }
+            bos.tcm_prinsip.obj.find("#idl" + bos.tcm_prinsip.uname).html("<i class='fa fa-spinner fa-pulse'></i>");
+            bjs.ajaxfile(bos.tcm_prinsip.base_url + "/savingFile" , bos.tcm_prinsip.gfal, this) ;
+            
+        }) ;
+
+    }
+
+    bos.tcm_prinsip.loadModalDisposisi      = function(l){
+        this.obj.find("#modalDisposisi").modal(l) ;
     }
 
 
     bos.tcm_prinsip.cmdEdit = function(id){
         
+    }
+
+    bos.tcm_prinsip.helpDisposisi = function(){
+        Swal.fire({
+            icon: "question",
+            title: "How to?" ,
+            text : "Tentukan level disposisi dari yang paling rendah sampai paling tinggi tingkatannya"
+        });  
+    }
+
+    bos.tcm_prinsip.selectMetode = function(par){
+        
+        if(par === 'S'){
+            $("#formDisposisi").css("display","block") ;
+            bos.tcm_prinsip.setGridDisposisi() ;
+            bos.tcm_prinsip.gridDisposisi_clear() ;
+        }else{
+            $("#formDisposisi").css("display","none") ;
+        }
+    }
+
+    bos.tcm_prinsip.setGridDisposisi = function(){
+        bos.tcm_prinsip.gridDisposisi_reload() ;
     }
 
     $('.optSifatSurat').select2({

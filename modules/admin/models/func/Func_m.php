@@ -23,5 +23,28 @@ class Func_m extends Bismillah_Model{
         $dTglAkhir  = date_2s($dTglAkhir);
         return $dTglAwal ;
     }
+
+    public function getNomorRubrikSurat($nYear,$cKodeUnit,$cRubrikJenisDok,$cSifatSurat,$cUniqueKey='BIMAOSKAB')
+    {
+        /**
+         * 
+         No. (i)/(ii)/(iii)/(iv)/(v)
+            Keterangan : 
+            (i) 	:	merujuk pada Tahun Buku
+            (ii)	:	merujuk pada Nomor Urut Pencatatan Dokumen
+            (iii)	:	merujuk pada Singkatan Satuan Kerja dan/atau Unit Kerja Pencipta Dokumen, yang urutannya dipisahkan dengan tanda strip
+            (iv)	:	merujuk pada Singkatan Jenis Dokumen
+            (v)	    :	merujuk pada Singkatan Sifat Dokumen 
+         * @param   string $cUniqueKey berisi tentang kode inisial yang ingin digunakan `SK = Surat Keluar ; SM = Surat Masuk ; M02 = Memorandum`
+         */
+        $nKodeTahunBuku     = $this->getval("KodeTahunBuku","TahunBuku = '$nYear'","tahun_buku") ;
+        $cRubrikUnit        = $this->getval("KodeRubrik","Kode = '$cKodeUnit'","golongan_unit") ;
+        $cRubrikSifatDok    = $this->getval("KodeRubrik","Kode = '$cSifatSurat'","jenis_sifat_surat") ;
+        $cUnique            = $nKodeTahunBuku . "/" . $cRubrikUnit ."/".  $cRubrikJenisDok ."/". $cRubrikSifatDok ;
+        $cKey  		        = $cUniqueKey . $cUnique;
+        $n    		        = $this->getincrement($cKey,true,1);
+        $nReturn   	        = $nKodeTahunBuku . "/" . $n . "/" . $cRubrikUnit . "/" . $cRubrikJenisDok . "/" . $cRubrikSifatDok;
+        return $nReturn ;
+    }
 }
 ?>
