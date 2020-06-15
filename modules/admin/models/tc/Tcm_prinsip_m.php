@@ -11,30 +11,13 @@ class Tcm_prinsip_m extends Bismillah_Model
         return $cCIF ;
     }
 
-    public function getNomorSurat($cSifatSurat)
+    public function getKodeDispoSurat()
     {
-
-        /**
-         * 
-         No. (i)/(ii)/(iii)/(iv)/(v)
-            Keterangan : 
-            (i) 	:	merujuk pada Tahun Buku
-            (ii)	:	merujuk pada Nomor Urut Pencatatan Dokumen
-            (iii)	:	merujuk pada Singkatan Satuan Kerja dan/atau Unit Kerja Pencipta Dokumen, yang urutannya dipisahkan dengan tanda strip
-            (iv)	:	merujuk pada Singkatan Jenis Dokumen
-            (v)	    :	merujuk pada Singkatan Sifat Dokumen 
-         */
-        $nYear              = date('Y') ;
-        $nKodeUnit          = getsession($this,'unit') ;
-        $nKodeTahunBuku     = $this->getval("KodeTahunBuku","TahunBuku = '$nYear'","tahun_buku") ;
-        $cRubrikUnit        = $this->getval("KodeRubrik","Kode = '$nKodeUnit'","golongan_unit") ;
-        $cRubrikJenisDok    = "M.02" ;
-        $cRubrikSifatDok    = $this->getval("KodeRubrik","Kode = '$cSifatSurat'","jenis_sifat_surat") ;
-        $cUnique            = $nKodeTahunBuku . "/" . $cRubrikUnit ."/".  $cRubrikJenisDok ."/". $cRubrikSifatDok ;
-        $cKey  		        = "M02P" . $cUnique;
-        $n    		        = $this->getincrement($cKey,true,3);
-        $nReturn   	        = $nKodeTahunBuku . "/" . $n . "/" . $cRubrikUnit . "/" . $cRubrikJenisDok . "/" . $cRubrikSifatDok;
-        return $nReturn ;
+        $dYM        = date('Ym') ;
+        $cKey  		= "M02P_DISPO" . $dYM;
+        $n    		= $this->getincrement($cKey,true,3);
+        $cCIF    	= $cKey . "." . $n ;
+        return $cCIF ;
     }
 
     public function SeekSifatSurat($search)
@@ -54,7 +37,7 @@ class Tcm_prinsip_m extends Bismillah_Model
         $where 	    = array() ; 
         if($search !== "") $where[]	= "(Faktur LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
         $where 	    = implode(" AND ", $where) ;
-        $dbd        = $this->select("m02_prinsip", "*", $where, "", "", "Tgl DESC,Faktur ASC", $limit) ;
+        $dbd        = $this->select("m02_prinsip", "*", $where, "", "", "Tgl DESC,Faktur DESC", $limit) ;
         $dba        = $this->select("m02_prinsip", "ID", $where) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
@@ -77,21 +60,6 @@ class Tcm_prinsip_m extends Bismillah_Model
     public function saveData($va)
     {
         $cUserName  = getsession($this,'username') ;
-
-        /**
-         * 
-            Faktur
-            Kepada
-            Perihal
-            Deskripsi
-            NoSurat
-            Sifat
-            Tgl
-            KodeDisposisi
-            MetodeDisposisi
-         * 
-         */
-
         $vaData     = array("Faktur"=>$va['cFaktur'],
                             "Perihal"=>$va['cSubject'],
                             "Deskripsi"=>$va['cDeskripsi'],
@@ -107,7 +75,6 @@ class Tcm_prinsip_m extends Bismillah_Model
         $where      = "Faktur = " . $this->escape($va['cFaktur']) ;
         $this->update("m02_prinsip", $vaData, $where, "") ;
         return "OK" ;
-
     }
 
     public function saveFile($va)
@@ -123,11 +90,61 @@ class Tcm_prinsip_m extends Bismillah_Model
         $this->insert("m02_prinsip_file", $vaData, $where, "") ;
     }
 
+    public function saveDataDisposisi($va)
+    {
+        //insert detail dispo
+        $cKode                     = $va['cFaktur'] ;
+        $cKodeDispo                = $va['cKodeDispo'] ;
+        $vaGrid                    = json_decode($va['dataDisposisi']);
+        $cUserName                 = getsession($this,'username') ;
+        $cKodeKaryawanPendisposisi = $this->getval("KodeKaryawan", "username = '$cUserName'","sys_username") ;
+        $this->delete("m02_prinsip_disposisi", "Kode = '{$cKode}'" ) ;
+        foreach($vaGrid as $key => $val){
+            $nLevel = $val->level ;
+            $cStatus = '0' ;
+            if($nLevel == "1"){
+                $cStatus = '1' ;
+            }
+            $where      = "Kode = " . $this->escape($cKode) ;
+            $vadetail = array("Kode"=>$cKodeDispo,
+                              "FakturDokumen"=>$cKode,
+                              "Tgl"=>date_2s($va['dTgl']),
+                              "Pendisposisi"=>$cKodeKaryawanPendisposisi,
+                              "Terdisposisi"=>$val->kode,
+                              "Level"=>$nLevel,
+                              "Status"=>$cStatus,
+                              "UserName"=>$cUserName,
+                              "DateTime"=>date('Y-m-d H:i:s')
+                            );
+            $this->insert("m02_prinsip_disposisi",$vadetail);
+        }     
+        $vaUpd = array("KodeDisposisi"=>$cKodeDispo) ;
+        $this->update("m02_prinsip",$vaUpd,"Faktur = '{$cKode}'","");   
+    }
+
     public function deleteFile($va)
     {
         $cKode  = $va['cFaktur'] ;
         $cWhere = "Kode = '$cKode'" ;
         $this->delete('m02_prinsip_file',$cWhere);
+    }
+
+    public function getDataDetail($cFaktur)
+    {
+        $data = array() ;
+        if($d = $this->getval("*", "Faktur = " . $this->escape($cFaktur), "m02_prinsip")){
+            $data = $d;
+        }
+        return $data ;
+    }
+
+    public function getDataTargetDisposisi($cKode)
+    {
+        $data = array() ;
+		if($d = $this->getval("*", "KodeKaryawan = " . $this->escape($cKode), "sys_username")){
+            $data = $d;
+		}
+		return $data ;
     }
 }
 

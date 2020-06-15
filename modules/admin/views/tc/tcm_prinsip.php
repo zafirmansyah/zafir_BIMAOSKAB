@@ -30,12 +30,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Ditujukan Kepada</label>
-                                <input type="text" name="cKepada" id="cKepada" class="form-control" maxlength="225" placeholder="Kepada" required>
-                            </div>
-                        </div> -->
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Perihal</label>
@@ -52,7 +46,7 @@
                             <div class="form-group">
                                 <label>Upload File</label>
                                 <div id="idcUplFile">
-                                    <input style="width:100%" type="file" class="form-control cUplFile" id="cUplFile" name="cUplFile[]" multiple required>
+                                    <input style="width:100%" type="file" class="form-control cUplFile" id="cUplFile" name="cUplFile[]" multiple>
                                 </div>
                             </div>
                         </div>
@@ -90,9 +84,12 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="input-group">
+                                <span class="input-group-btn" style="margin-right: 5px;">
+                                    <button class="form-control btn btn-info" type="button" id="cmdDisposisi"><i class="fa fa-search"></i></button>
+                                </span>
                                 <input type="text" id="cDisposisi" name="cDisposisi" class="form-control" placeholder="Klik tombol pencarian untuk memasukkan data disposisi..." readonly>
                                 <span class="input-group-btn">
-                                    <button class="form-control btn btn-info" type="button" id="cmdDisposisi"><i class="fa fa-search"></i></button>
+                                    <button class="form-control btn btn-primary" type="button" id="cmdOK">OK</button>
                                 </span>
                             </div>
                         </div>
@@ -120,11 +117,14 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" name="nNo" id="nNo" value="0">
-                <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
-                <input type="hidden" name="cFaktur" id="cFaktur">
-                <input type="hidden" name="cNoSurat" id="cNoSurat">
-                <input type="hidden" name="cLastPath" id="cLastPath">
+                <input type="hidden" placeholder="nNo" name="nNo" id="nNo" value="0">
+                <input type="hidden" placeholder="cKodeKaryawan" name="cKodeKaryawan" id="cKodeKaryawan">
+                <input type="hidden" placeholder="cFaktur" name="cFaktur" id="cFaktur">
+                <input type="hidden" placeholder="cNoSurat" name="cNoSurat" id="cNoSurat">
+                <input type="hidden" placeholder="cLastPath" name="cLastPath" id="cLastPath">
+                <input type="hidden" placeholder="cKodeDispo" name="cKodeDispo" id="cKodeDispo">
+                <input type="hidden" placeholder="cMetodeSM" name="cMetodeSM" id="cMetodeSM">
+                
                 <button class="btn btn-primary" id="cmdSave">Simpan</button>
                 <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcm_prinsip.init()">Cancel</button>
             </form>
@@ -359,6 +359,11 @@
         $('#cKeteranganAnggaran').val("");
         $('#nNilaiAnggaran').val("");
         $('#nTotalAnggaran').val("");
+        $('#cUplFile').val("");
+        $('#optSifatSurat').sval("");
+        this.initDetail() ;
+        bos.tcm_prinsip.gridDisposisi_clear() ;
+        bjs.ajax(this.url + '/initForm');
     }
     
     bos.tcm_prinsip.initTinyMCE = function(){
@@ -401,15 +406,29 @@
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
     }
 
+    bos.tcm_prinsip.init = function(){
+        this.initTab1() ;
+        this.initForm() ;
+    }
+
+    bos.tcm_prinsip.initDetail            = function(){
+        var datagrid = w2ui[this.id + '_gridDisposisi'].records;
+
+        this.obj.find("#nNo").val(datagrid.length+1) ;
+        this.obj.find("#cDisposisi").val("") ;
+        this.obj.find("#cKodeKaryawan").val("") ;;
+    }
+
     bos.tcm_prinsip.initFunc     = function(){
         this.obj.find('form').on("submit", function(e){
             e.preventDefault() ;
             if( bjs.isvalidform(this) ){
-                var optMetodeTTD = $("input[name=optMetode]").val();
+                var optMetodeTTD = $("#cMetodeSM").val();
                 var dataGridDisposisi = "" ;
                 if(optMetodeTTD === "S"){
                     var dataGridDisposisi   = w2ui['bos-form-tcm_prinsip_gridDisposisi'].records;
                 }
+                // alert(optMetodeTTD) ;
                 dataGridDisposisi       = JSON.stringify(dataGridDisposisi);
                 bjs.ajax( bos.tcm_prinsip.base_url + '/validSaving', bjs.getdataform(this)+"&dataDisposisi="+dataGridDisposisi , bos.tcm_prinsip.cmdSave) ;
             }
@@ -433,6 +452,23 @@
             
         }) ;
 
+        this.obj.find("#cmdOK").on("click", function(e){
+            var no                  = bos.tcm_prinsip.obj.find("#nNo").val();
+            var kodekaryawan        = bos.tcm_prinsip.obj.find("#cKodeKaryawan").val();
+            var disposisi           = bos.tcm_prinsip.obj.find("#cDisposisi").val();
+
+            if(disposisi !== ""){
+                bos.tcm_prinsip.gridDisposisi_reload() ;
+                bos.tcm_prinsip.gridDisposisi_append(no,kodekaryawan,disposisi);
+            }else{
+                Swal.fire({
+                    icon    : "error",
+                    title   : "Error",
+                    html    : "Data Disposisi Harus Dipilih terlebih dahulu"
+                });    
+            }
+        }) ;
+
     }
 
     bos.tcm_prinsip.loadModalDisposisi      = function(l){
@@ -441,7 +477,7 @@
 
 
     bos.tcm_prinsip.cmdEdit = function(id){
-        
+        bjs.ajax(this.url + '/editing', 'cFaktur=' + id);
     }
 
     bos.tcm_prinsip.helpDisposisi = function(){
@@ -453,7 +489,7 @@
     }
 
     bos.tcm_prinsip.selectMetode = function(par){
-        
+        $("#cMetodeSM").val(par);
         if(par === 'S'){
             $("#formDisposisi").css("display","block") ;
             bos.tcm_prinsip.setGridDisposisi() ;
@@ -465,6 +501,18 @@
 
     bos.tcm_prinsip.setGridDisposisi = function(){
         bos.tcm_prinsip.gridDisposisi_reload() ;
+    }
+
+    bos.tcm_prinsip.setContentJS = function(par){
+        tinymce.activeEditor.setContent(par , {format: 'raw'});
+    }
+
+    bos.tcm_prinsip.setopt = function(nama,isi){
+        this.obj.find('input:radio[name='+nama+'][value='+isi+']').prop('checked',true);
+    }
+
+    bos.tcm_prinsip.cmdPilih      = function(kode){
+        bjs.ajax(this.url + '/selectTargetDisposisi', 'kode=' + kode);
     }
 
     $('.optSifatSurat').select2({
