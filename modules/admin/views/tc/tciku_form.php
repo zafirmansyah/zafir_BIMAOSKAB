@@ -70,7 +70,7 @@
             limit    : 100 ,
             url      : bos.tciku_form.base_url + "/loadgrid",
             postData : this.grid1_data ,
-            header   : 'Daftar Surat Keluar',
+            header   : 'Daftar Form IKU',
             show: {
                 header      : true,
                 footer      : true,
@@ -80,12 +80,13 @@
             },
             multiSearch     : false,
             columns: [
-                { field: 'cmdDetail', caption: 'Kode', size: '100px', sortable: false},
+                { field: 'Kode', caption: 'Kode', size: '100px', sortable: false},
                 { field: 'Periode', caption: 'Periode', size: '250px', sortable: false},
                 { field: 'TujuanUnit', caption: 'TujuanUnit', size: '250px', sortable: false},
                 { field: 'Subject', caption: 'Judul', size: '150px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
                 { field: 'UserName', caption: 'Petugas Entry', size: '100px', sortable: false},
+                { field: 'cmdDetail', caption: 'Aksi', size: '100px', sortable: false, style:'text-align:center'},
             ]
         });
     }
@@ -121,12 +122,8 @@
         bjs.ajax(this.url + '/editing', 'cKode=' + id);
     }
 
-    bos.tciku_form.cmdEdit      = function(id){
-        bjs.ajax(this.url + '/editing', 'cKode=' + id);
-    }
-
     bos.tciku_form.cmdDelete    = function(id){
-        if(confirm("Delete Data?")){
+        if(confirm("Anda akan menghapus form yang telah anda isi.\nLanjutkan?")){
             bjs.ajax(this.url + '/deleting', 'cKode=' + id);
         }
     }
@@ -140,6 +137,7 @@
         bjs.ajax(this.url + '/init') ;
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
         bos.tciku_form.grid1_loaddata() ;
+        bos.tciku_form.grid1_reload() ;
     }
 
     bos.tciku_form.initTinyMCE = function(){
