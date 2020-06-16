@@ -16,6 +16,11 @@ class Tcm_prinsip extends Bismillah_Controller
         $this->load->view('tc/tcm_prinsip') ;
     }
 
+    public function initForm()
+    {
+        savesession($this, "sstcm_prinsip_cUplFile" , "") ;
+    }
+
     public function loadgrid(){
         $va     = json_decode($this->input->post('request'), true) ;
         $vare   = array() ;
@@ -30,8 +35,8 @@ class Tcm_prinsip extends Bismillah_Controller
                                         class="btn btn-success btn-grid">Edit</button>' ;
             $vaset['cmdDelete']     = '<button type="button" onClick="bos.tcm_prinsip.cmdDelete(\''.$dbr['Faktur'].'\')"
                                         class="btn btn-danger btn-grid">Delete</button>' ;
-            $vaset['cmdEdit']	   = html_entity_decode($vaset['cmdEdit']) ;
-            $vaset['cmdDelete']	= html_entity_decode($vaset['cmdDelete']) ;
+            $vaset['cmdEdit']	    = html_entity_decode($vaset['cmdEdit']) ;
+            $vaset['cmdDelete']	    = html_entity_decode($vaset['cmdDelete']) ;
 
             $vare[]		= $vaset ;
         }
@@ -72,21 +77,38 @@ class Tcm_prinsip extends Bismillah_Controller
         echo($Result) ;
     }
 
+    public function selectTargetDisposisi()
+    {
+        $va 	= $this->input->post() ;
+        $cKode 	= $va['kode'] ;
+        $data   = $this->bdb->getDataTargetDisposisi($cKode) ;
+        if(!empty($data)){
+            echo('
+            with(bos.tcm_prinsip.obj){
+               find("#cKodeKaryawan").val("'.$data['KodeKaryawan'].'") ;
+               find("#cDisposisi").val("'.$data['fullname'].'");
+               bos.tcm_prinsip.loadModalDisposisi("hide");
+            }
+
+         ') ;
+        }
+    }
+
     public function validSaving()
     {
         $va         = $this->input->post();
         $lValid     = true ;
         $optMetode  = $va['optMetode'];
         $vaGrid     = json_decode($va['dataDisposisi']);
-
+        // echo print_r($va['dataDisposisi']) ;
         if($optMetode == "S"){
-            if(empty($vaGrid)){
+            if(!$vaGrid){
                 $lValid = false ;
                 echo('
                     Swal.fire({
                         icon: "error",
                         title: "Data Tidak Valid" ,
-                        text : "Data Detail Anggaran Kosong"
+                        text : "Data Pendisposisian Kosong"
                     });   
                 ');
             }    
@@ -113,7 +135,6 @@ class Tcm_prinsip extends Bismillah_Controller
         $cNoSurat  = $va['cNoSurat'] ;
         if($cNoSurat == "" || empty(trim($cNoSurat))){
             $cNoSurat   = $this->func->getNomorRubrikSurat($nYear,$nKodeUnit,'M.02',$cSifatSurat,'M02P') ;
-            // $cNoSurat = $this->bdb->getNomorSurat($cSifatSurat);
         }
 
         $va['cFaktur']  = $cFaktur ;
@@ -130,7 +151,7 @@ class Tcm_prinsip extends Bismillah_Controller
         $va['FilePath'] = ""; 
         $dir            = "" ;
         $fileUploaded   = $upload['cUplFile'];
-        $this->bdb->deleteFile($va) ;
+        if(!empty($fileUploaded)) $this->bdb->deleteFile($va) ;
         foreach ($upload as $key => $value) {
             if(!empty($value)){
                 foreach ($value as $tkey => $tval) {
@@ -153,10 +174,17 @@ class Tcm_prinsip extends Bismillah_Controller
         }
 
         $save   = $this->bdb->saveData($va) ;
+
+        $optMetode = $va['optMetode'] ;
+        if($optMetode == "S"){
+            $va['cKodeDispo'] = $this->bdb->getKodeDispoSurat() ;
+            $this->bdb->saveDataDisposisi($va) ;
+        }
         if($save){
             echo('
                 bos.tcm_prinsip.initForm() ;
                 bos.tcm_prinsip.initTab1() ;
+                bos.tcm_prinsip.grid1_reloaddata() ;
                 Swal.fire({
                     icon: "success",
                     title: "'.$va['cNoSurat'].'",
@@ -196,6 +224,30 @@ class Tcm_prinsip extends Bismillah_Controller
                     //bos.config.obj.find("#idcUplFile").html("<p>Data Uploaded<p>") ;
                 ') ;
             }
+        }
+    }
+
+    public function editing()
+    {
+        $va         = $this->input->post() ;
+        $cFaktur 	= $va['cFaktur'] ;
+        $data       = $this->bdb->getDataDetail($cFaktur) ;
+        if(!empty($data)){
+            $cMetodeDisposisi           = $data['MetodeDisposisi'] ;
+            $jsonSifatSurat[]           = array("id"=>$data['Sifat'],"text"=>$data['Sifat']." - " . $this->bdb->getval("Keterangan","Kode = '{$data['Sifat']}'","jenis_sifat_surat")) ;
+            echo('
+                with(bos.tcm_prinsip.obj){
+                    find(".nav-tabs li:eq(1) a").tab("show") ;
+                    $("#cFaktur").val("'.$data['Faktur'].'") ;
+                    $("#cNoSurat").val("'.$data['NoSurat'].'") ;
+                    $("#dTgl").val("'.date_2d($data['Tgl']).'") ;
+                    $("#cSubject").val("'.$data['Perihal'].'") ;
+                    $("#optSifatSurat").sval('.json_encode($jsonSifatSurat).');
+
+                }
+                bos.tcm_prinsip.setContentJS(\''.$data['Deskripsi'].'\') ;
+                bos.tcm_prinsip.setopt("optMetode","'.$cMetodeDisposisi.'");
+            ') ;
         }
     }
 }

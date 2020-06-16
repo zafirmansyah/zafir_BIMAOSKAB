@@ -201,7 +201,22 @@ class Bismillah_Model extends CI_Model{
 		$this->AddTable("surat_masuk",$cSQL);
 		$this->AddField("surat_masuk","Perihal","varchar(255)","","");
 		$this->AddField("surat_masuk","Path","text");
+		
 
+		$cSQL = "CREATE TABLE `surat_masuk_disposisi`  (
+					`ID` int(9) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Tgl` date NULL DEFAULT NULL,
+					`Disposisi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Level` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Status` varchar(1) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+					`Pendisposisi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT '',
+					`Terdisposisi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT '',
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 84 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("surat_masuk_disposisi",$cSQL);
 		$this->AddField("surat_masuk_disposisi","Pendisposisi","varchar(255)","","");
 		$this->AddField("surat_masuk_disposisi","Terdisposisi","varchar(255)","","");
 		
@@ -308,7 +323,18 @@ class Bismillah_Model extends CI_Model{
 		  ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;" ;
 		$this->AddTable("m02_prinsip_disposisi",$cSQL) ;
 		$this->AddField("m02_prinsip_disposisi","FakturDokumen","varchar(255)","","ID");
-
+		
+		/**
+		 * 
+			surat_masuk
+			golongan_jabatan
+			jenis_sifat_surat
+			m02_anggaran
+			m02_anggaran_detail
+			m02_prinsip
+			m02_prinsip_status
+			m02_prinsip_disposisi
+		 */
 
     }
 }
