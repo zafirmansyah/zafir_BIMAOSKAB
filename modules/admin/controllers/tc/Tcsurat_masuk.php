@@ -86,23 +86,24 @@ class Tcsurat_masuk extends Bismillah_Controller
         $upload         = array("cUplFile"=>getsession($this, "sstcmsurat_masuk_cUplFile")) ;
         $va['FilePath'] = ""; 
         $dir            = "" ;
-        $fileUploaded   = $upload['cUplFile'];
-        $this->bdb->deleteFile($va) ;
-        foreach ($upload as $key => $value) {
-            if(!empty($value)){
-                foreach ($value as $tkey => $tval) {
-                    if(!empty($tval)){
-                        foreach($tval as $fkey=>$file){
-                            $vi     = pathinfo($file) ;
-                            $dir    = $adir.'/' ;
-                            $dir   .=  $vi['filename'] . "." . $vi['extension'] ;
-                            if(is_file($dir)) @unlink($dir) ;
-                            if(@copy($file,$dir)){
-                                @unlink($file) ;
-                                $this->bdb->saveconfig($key, $dir) ;
+        if(!empty($upload)){
+            $this->bdb->deleteFile($va) ;
+            foreach ($upload as $key => $value) {
+                if(!empty($value)){
+                    foreach ($value as $tkey => $tval) {
+                        if(!empty($tval)){
+                            foreach($tval as $fkey=>$file){
+                                $vi     = pathinfo($file) ;
+                                $dir    = $adir.'/' ;
+                                $dir   .=  $vi['filename'] . "." . $vi['extension'] ;
+                                if(is_file($dir)) @unlink($dir) ;
+                                if(@copy($file,$dir)){
+                                    @unlink($file) ;
+                                    $this->bdb->saveconfig($key, $dir) ;
+                                }
+                                $va['FilePath'] = $dir ;
+                                $this->bdb->saveFile($va) ;
                             }
-                            $va['FilePath'] = $dir ;
-                            $this->bdb->saveFile($va) ;
                         }
                     }
                 }

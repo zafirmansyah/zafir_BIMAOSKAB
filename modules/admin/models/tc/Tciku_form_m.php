@@ -6,17 +6,14 @@ class Tciku_form_m extends Bismillah_Model
 {
 	
     public function loadgrid($va){
-        $cUserName  = getsession($this,'username') ;
-        $limit      = $va['offset'].",".$va['limit'] ;
-        $search	    = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
-        $search     = $this->escape_like_str($search) ;
-        $where 	    = array() ; 
-        if($search !== "") $where[]	= "(f.Kode LIKE '{$search}%' OR m.Subject LIKE '%{$search}%')" ;
-        if(getsession($this,"Jabatan") > "002") $where[] = "f.UserName='{$cUserName}'";
-        $where 	    = implode(" AND ", $where) ;
-        $join       = "left join iku_master m on m.Kode=f.Kode";
-        $dbd        = $this->select("iku_form f", "f.*,m.*", $where, $join, "", "f.Kode DESC", $limit) ;
-        $dba        = $this->select("iku_form f", "f.ID", $where) ;
+        $limit    = $va['offset'].",".$va['limit'] ;
+        $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        $search   = $this->escape_like_str($search) ;
+        $where 	 = array() ; 
+        if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
+        $where 	 = implode(" AND ", $where) ;
+        $dbd      = $this->select("iku_master", "*", $where, "", "", "Kode DESC", $limit) ;
+        $dba      = $this->select("iku_master", "ID", $where) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
     }
@@ -33,8 +30,7 @@ class Tciku_form_m extends Bismillah_Model
     public function saving($va){
 
         //var_dump($va);    
-        $cKode = $va['optKodeIKU'] ;
-
+        $cKode = $va['cKode'] ;
         $cUserName                 = getsession($this,'username') ;
         
         $this->delete("iku_form", "Kode = '{$cKode}' and UserName = '{$cUserName}'" ) ;
@@ -51,7 +47,7 @@ class Tciku_form_m extends Bismillah_Model
 
     public function saveFile($va)
     {
-        $cKode          = $va['optKodeIKU'] ;
+        $cKode          = $va['cKode'] ;
         $cUserName      = getsession($this,'username') ;
         $vaData = array("Kode"=>$cKode, 
                         "Tgl"=>date_2s($va['dTgl']),
@@ -71,8 +67,9 @@ class Tciku_form_m extends Bismillah_Model
     }
 
     public function getdata($id){
+        $cUserName = getsession($this,'username');
         $data = array() ;
-        if($d = $this->getval("*", "Kode = " . $this->escape($id), "iku_form")){
+        if($d = $this->getval("*", "Kode = " . $this->escape($id) . "AND UserName='$cUserName'", "iku_form")){
         $data = $d;
         }
         return $data ;

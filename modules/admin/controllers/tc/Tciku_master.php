@@ -75,23 +75,24 @@ class Tciku_master extends Bismillah_Controller
         $upload         = array("cUplFileIKU"=>getsession($this, "sstciku_master_cUplFileIKU")) ;
         $va['FilePath'] = ""; 
         $dir            = "" ;
-        $fileUploaded   = $upload['cUplFileIKU'];
-        $this->bdb->deleteFile($va) ;
-        foreach ($upload as $key => $value) {
-            if(!empty($value)){
-                foreach ($value as $tkey => $tval) {
-                    if(!empty($tval)){
-                        foreach($tval as $fkey=>$file){
-                            $vi     = pathinfo($file) ;
-                            $dir    = $adir.'/' ;
-                            $dir   .=  $vi['filename'] . "." . $vi['extension'] ;
-                            if(is_file($dir)) @unlink($dir) ;
-                            if(@copy($file,$dir)){
-                                @unlink($file) ;
-                                $this->bdb->saveconfig($key, $dir) ;
+        if(!empty($upload)){
+            $this->bdb->deleteFile($va) ;
+            foreach ($upload as $key => $value) {
+                if(!empty($value)){
+                    foreach ($value as $tkey => $tval) {
+                        if(!empty($tval)){
+                            foreach($tval as $fkey=>$file){
+                                $vi     = pathinfo($file) ;
+                                $dir    = $adir.'/' ;
+                                $dir   .=  $vi['filename'] . "." . $vi['extension'] ;
+                                if(is_file($dir)) @unlink($dir) ;
+                                if(@copy($file,$dir)){
+                                    @unlink($file) ;
+                                    $this->bdb->saveconfig($key, $dir) ;
+                                }
+                                $va['FilePath'] = $dir ;
+                                $this->bdb->saveFile($va) ;
                             }
-                            $va['FilePath'] = $dir ;
-                            $this->bdb->saveFile($va) ;
                         }
                     }
                 }
@@ -113,14 +114,16 @@ class Tciku_master extends Bismillah_Controller
         $cKode 	    = $va['cKode'] ;
         $data       = $this->bdb->getdata($cKode) ;
         if(!empty($data)){
+            $jsonUnit[] 	= array("id"=>$data['TujuanUnit'],"text"=>$data['TujuanUnit'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['TujuanUnit']}'", "golongan_unit"));
             savesession($this, "ss_tciku_master_", $cKode) ;
             echo('
                 with(bos.tciku_master.obj){
-                    $("#cKode").val("'.$data['Kode'].'") ;
-                    $("#cSubject").val("'.$data['Subject'].'") ;
-                    $("#cDeskripsi").val("'.$data['Deskripsi'].'") ;
-                    $("#cPeriode").val("'.$data['Periode'].'") ;
-                    $("#dTgl").val("'.date_2d($data['Tgl']).'") ;
+                    find("#cKode").val("'.$data['Kode'].'") ;
+                    find("#cSubject").val("'.$data['Subject'].'") ;
+                    tinymce.activeEditor.setContent("'.$data['Deskripsi'].'");
+                    find("#cPeriode").val("'.$data['Periode'].'") ;
+                    find("#optGolonganUnit").sval('.json_encode($jsonUnit).') ;
+                    find("#dTgl").val("'.date_2d($data['Tgl']).'") ;
                     find(".nav-tabs li:eq(1) a").tab("show") ;
                 }
             ') ;

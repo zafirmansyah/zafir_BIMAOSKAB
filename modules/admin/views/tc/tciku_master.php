@@ -10,30 +10,6 @@
         <div class="tab-pane" id="tab_2">
         <form>
             <div class="row">
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Judul</label>
-                        <input type="text" name="cSubject" id="cSubject" class="form-control" maxlength="225" placeholder="Juduk IKU" required>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Deskripsi</label>
-                        <textarea name="cDeskripsi" id="cDeskripsi" class="form-control" placeholder="Deskripsi" row="20" required></textarea>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Tujuan Unit</label>
-                        <select class="form-control optGolonganUnit select2" data-sf="load_Kota" name="optGolonganUnit" id="optGolonganUnit" data-placeholder=" - Tujuan Unit - " required></select>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Periode</label>
-                        <input type="text" name="cPeriode" id="cPeriode" class="form-control" maxlength="225" placeholder="Periode IKU" required>
-                    </div>
-                </div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>Tanggal Penulisan IKU</label>
@@ -51,6 +27,34 @@
                                 <i class="fa fa-calendar"></i>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Judul</label>
+                        <input type="text" name="cSubject" id="cSubject" class="form-control" maxlength="225" placeholder="Judul IKU" required>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>Deskripsi</label>
+                            <div class="col-sm-12">
+                                <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master IKU..."></textarea>                   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Tujuan Unit</label>
+                        <select class="form-control optGolonganUnit select2" data-sf="load_Kota" name="optGolonganUnit" id="optGolonganUnit" data-placeholder=" - Tujuan Unit - " required></select>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Periode</label>
+                        <input type="text" name="cPeriode" id="cPeriode" class="form-control" maxlength="225" placeholder="Periode IKU" required>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -149,19 +153,35 @@
     bos.tciku_master.init         = function(){
         this.obj.find("#cSubject").val("") ;
         this.obj.find("#cDeskripsi").val("") ;
+        tinymce.activeEditor.setContent("");
         this.obj.find("#cPeriode").val("") ;
         this.obj.find("#cKode").val("") ;
         this.obj.find("#optGolonganUnit").val("") ;
+        this.obj.find("#cUplFileIKU").val("") ;
         this.obj.find("#nNo").val("0") ;
         bjs.ajax(this.url + '/init') ;
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
         bos.tciku_master.grid1_loaddata() ;
     }
 
+
+    bos.tciku_master.initTinyMCE = function(){
+        tinymce.init({
+            selector: '#cDeskripsi',
+            height: 450,
+            file_browser_callback_types: 'file image media',
+            file_picker_types: 'file image media',   
+            forced_root_block : "",
+            force_br_newlines : true,
+            force_p_newlines : false,
+        });
+    }
+
     bos.tciku_master.initComp     = function(){
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
 
+        this.initTinyMCE() ;
         this.grid1_loaddata() ;
         this.grid1_load() ;
 
@@ -180,6 +200,7 @@
         });
         this.obj.on('remove', function(){
             bos.tciku_master.grid1_destroy() ;
+            tinymce.remove() ;
         }) ;
     }
 

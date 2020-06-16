@@ -26,12 +26,8 @@ class Tciku_form extends Bismillah_Controller
         while( $dbr = $this->bdb->getrow($dbd) ){
             $vaset   = $dbr ;
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
-            $vaset['cmdEdit']       = '<button type="button" onClick="bos.tciku_form.cmdEdit(\''.$dbr['Kode'].'\')"
-                                        class="btn btn-success btn-grid">Edit</button>' ;
-            $vaset['cmdDelete']     = '<button type="button" onClick="bos.tciku_form.cmdDelete(\''.$dbr['Kode'].'\')"
-                                        class="btn btn-danger btn-grid">Delete</button>' ;
-            $vaset['cmdEdit']	   = html_entity_decode($vaset['cmdEdit']) ;
-            $vaset['cmdDelete']	= html_entity_decode($vaset['cmdDelete']) ;
+            $vaset['cmdDetail']       = '<a onClick="bos.tciku_form.cmdDetail(\''.$dbr['Kode'].'\')">'.strtoupper($dbr['Subject']).'</a>' ;
+            $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
 
             $vare[]		= $vaset ;
         }
@@ -49,7 +45,7 @@ class Tciku_form extends Bismillah_Controller
     public function saving(){
         $va 	    = $this->input->post() ;
         
-        $cKode         = $va['optKodeIKU'];
+        $cKode         = $va['cKode'];
         
         $nYear      = date('Y');
         $cKategori  = "/IKU-FORM";
@@ -68,28 +64,30 @@ class Tciku_form extends Bismillah_Controller
         $upload         = array("cUplFileFormIKU"=>getsession($this, "sstciku_form_cUplFileFormIKU")) ;
         $va['FilePath'] = ""; 
         $dir            = "" ;
-        $fileUploaded   = $upload['cUplFileFormIKU'];
-        $this->bdb->deleteFile($va) ;
-        foreach ($upload as $key => $value) {
-            if(!empty($value)){
-                foreach ($value as $tkey => $tval) {
-                    if(!empty($tval)){
-                        foreach($tval as $fkey=>$file){
-                            $vi     = pathinfo($file) ;
-                            $dir    = $adir.'/' ;
-                            $dir   .=  $vi['filename'] . "." . $vi['extension'] ;
-                            if(is_file($dir)) @unlink($dir) ;
-                            if(@copy($file,$dir)){
-                                @unlink($file) ;
-                                $this->bdb->saveconfig($key, $dir) ;
+        if(!empty($upload)){
+            $this->bdb->deleteFile($va) ;
+            foreach ($upload as $key => $value) {
+                if(!empty($value)){
+                    foreach ($value as $tkey => $tval) {
+                        if(!empty($tval)){
+                            foreach($tval as $fkey=>$file){
+                                $vi     = pathinfo($file) ;
+                                $dir    = $adir.'/' ;
+                                $dir   .=  $vi['filename'] . "." . $vi['extension'] ;
+                                if(is_file($dir)) @unlink($dir) ;
+                                if(@copy($file,$dir)){
+                                    @unlink($file) ;
+                                    $this->bdb->saveconfig($key, $dir) ;
+                                }
+                                $va['FilePath'] = $dir ;
+                                $this->bdb->saveFile($va) ;
                             }
-                            $va['FilePath'] = $dir ;
-                            $this->bdb->saveFile($va) ;
                         }
                     }
                 }
             }
         }
+        savesession($this, "sstciku_form_cUplFileFormIKU" , "") ;
         $saving = $this->bdb->saving($va) ;
 
         echo(' 
@@ -109,14 +107,19 @@ class Tciku_form extends Bismillah_Controller
             savesession($this, "ss_tciku_form_", $cKode) ;
             echo('
                 with(bos.tciku_form.obj){
-                    $("#cKode").val("'.$data['Kode'].'") ;
-                    $("#cSubject").val("'.$data['Subject'].'") ;
-                    $("#cDeskripsi").val("'.$data['Deskripsi'].'") ;
-                    $("#cPeriode").val("'.$data['Periode'].'") ;
-                    $("#dTgl").val("'.date_2d($data['Tgl']).'") ;
+                    find("#cKode").val("'.$data['Kode'].'") ;
+                    find("#dTgl").val("'.date_2d($data['Tgl']).'") ;
+                    tinymce.activeEditor.setContent("'.$data['Deskripsi'].'");
                     find(".nav-tabs li:eq(1) a").tab("show") ;
                 }
             ') ;
+        }else{
+            echo('
+                with(bos.tciku_form.obj){
+                    $("#cKode").val("'.$cKode.'") ;
+                    find(".nav-tabs li:eq(1) a").tab("show") ;
+                }
+            ');
         }
     }
 

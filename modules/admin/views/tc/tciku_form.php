@@ -1,7 +1,7 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Daftar Data</a></li>
-        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Data Form</a></li>
+        <li class="disabled"><a href="#tab_2" data-toggle="tab" aria-expanded="true" style="cursor: not-allowed;">Data Form</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active full-height" id="tab_1">
@@ -10,18 +10,6 @@
         <div class="tab-pane" id="tab_2">
         <form>
             <div class="row">
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Pilih Kode IKU</label>
-                        <select class="form-control optKodeIKU select2" data-sf="load_Kota" name="optKodeIKU" id="optKodeIKU" data-placeholder=" - Kode IKU - " required></select>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Deskripsi</label>
-                        <textarea name="cDeskripsi" id="cDeskripsi" class="form-control" placeholder="Deskripsi" row="20" required></textarea>
-                    </div>
-                </div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>Tanggal Pengisian Form IKU</label>
@@ -41,11 +29,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Deskripsi</label>
+                        <div class="col-sm-12">
+                            <textarea name="cDeskripsi" id="cDeskripsi" class="form-control" placeholder="Deskripsi" row="20"></textarea>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Upload File</label>
                         <div id="idcUplFileFormIKU">
-                            <input style="width:100%" type="file" class="form-control cUplFileFormIKU" id="cUplFileFormIKU" name="cUplFileFormIKU[]" multiple required>
+                            <input style="width:100%" type="file" class="form-control cUplFileFormIKU" id="cUplFileFormIKU" name="cUplFileFormIKU[]" multiple>
                         </div>
                     </div>
                 </div>
@@ -54,7 +50,7 @@
             <input type="hidden" name="cKode" id="cKode">
             <input type="hidden" name="cLastPath" id="cLastPath">
             <button class="btn btn-primary" id="cmdSave">Simpan</button>
-            <button class="btn btn-warning" id="cmdCancel" onClick="bos.tciku_form.init()">Cancel</button>
+            <a class="btn btn-warning" id="cmdCancel" onClick="bos.tciku_form.init()">Cancel</a>
         </form>
         </div>
     </div>
@@ -84,14 +80,12 @@
             },
             multiSearch     : false,
             columns: [
-                { field: 'Kode', caption: 'Kode', size: '100px', sortable: false},
-                { field: 'Subject', caption: 'Judul', size: '150px', sortable: false},
-                { field: 'Deskripsi', caption: 'Deskripsi', size: '250px', sortable: false},
+                { field: 'cmdDetail', caption: 'Kode', size: '100px', sortable: false},
                 { field: 'Periode', caption: 'Periode', size: '250px', sortable: false},
+                { field: 'TujuanUnit', caption: 'TujuanUnit', size: '250px', sortable: false},
+                { field: 'Subject', caption: 'Judul', size: '150px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
                 { field: 'UserName', caption: 'Petugas Entry', size: '100px', sortable: false},
-                { field: 'cmdEdit', caption: ' ', size: '80px', sortable: false },
-                { field: 'cmdDelete', caption: ' ', size: '80px', sortable: false }
             ]
         });
     }
@@ -122,6 +116,11 @@
 
     /********************************************** */
 
+    bos.tciku_form.cmdDetail      = function(id){
+        this.obj.find(".nav-tabs li:eq(1)").removeClass("disabled");
+        bjs.ajax(this.url + '/editing', 'cKode=' + id);
+    }
+
     bos.tciku_form.cmdEdit      = function(id){
         bjs.ajax(this.url + '/editing', 'cKode=' + id);
     }
@@ -132,11 +131,10 @@
         }
     }
 
-
     bos.tciku_form.init         = function(){
-        this.obj.find("#cDeskripsi").val("") ;
+        this.obj.find('#cDeskripsi').val("");
+        tinymce.activeEditor.setContent("");
         this.obj.find("#cKode").val("") ;
-        this.obj.find("#optKodeIKU").val("") ;
         this.obj.find("#nNo").val("0") ;
         this.obj.find("#cUplFileFormIKU").val("");
         bjs.ajax(this.url + '/init') ;
@@ -144,10 +142,23 @@
         bos.tciku_form.grid1_loaddata() ;
     }
 
+    bos.tciku_form.initTinyMCE = function(){
+        tinymce.init({
+            selector: '#cDeskripsi',
+            height: 450,
+            file_browser_callback_types: 'file image media',
+            file_picker_types: 'file image media',   
+            forced_root_block : "",
+            force_br_newlines : true,
+            force_p_newlines : false,
+        });
+    }
+
     bos.tciku_form.initComp     = function(){
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
 
+        this.initTinyMCE() ;
         this.grid1_loaddata() ;
         this.grid1_load() ;
 
@@ -166,6 +177,7 @@
         });
         this.obj.on('remove', function(){
             bos.tciku_form.grid1_destroy() ;
+            tinymce.remove() ;
         }) ;
     }
 
@@ -190,7 +202,10 @@
             bjs.ajaxfile(bos.tciku_form.base_url + "/savingFile" , bos.tciku_form.gfal, this) ;
             
         }) ;
-        
+
+        this.obj.find(".nav li.disabled a").click(function() {
+            return false;
+        });
 
         this.obj.find('form').on("submit", function(e){
             e.preventDefault() ;
@@ -199,21 +214,6 @@
             }
         }) ;
     }
-
-    $('.optKodeIKU').select2({
-        allowClear: true,
-        ajax: {
-            url: bos.tciku_form.base_url + '/seekKodeIKU',
-            dataType: 'json',
-            delay: 250,
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
 
     $(function(){
         bos.tciku_form.initComp() ;
