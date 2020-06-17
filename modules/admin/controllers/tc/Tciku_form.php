@@ -24,9 +24,14 @@ class Tciku_form extends Bismillah_Controller
         $vdb    = $this->bdb->loadgrid($va) ;
         $dbd    = $vdb['db'] ;
         while( $dbr = $this->bdb->getrow($dbd) ){
-            $vaset   = $dbr ;
+            $lStatus                = $this->bdb->CheckFormStatus($dbr['Kode']);
+            $btnClass               = ($lStatus == "1") ? "btn-success" : "btn-warning";
+            $btnTitle               = ($lStatus == "1") ? "Edit" : "Isi"; 
+            $vaset                  = $dbr ;
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
-            $vaset['cmdDetail']       = '<a onClick="bos.tciku_form.cmdDetail(\''.$dbr['Kode'].'\')">'.strtoupper($dbr['Subject']).'</a>' ;
+            $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tciku_form.cmdDetail(\''.$dbr['Kode'].'\')" title="'.$btnTitle.'"><i class="fa fa-pencil"></i></button>' ;
+            $vaset['cmdDetail']     .= '&nbsp;&nbsp;';
+            $vaset['cmdDetail']     .= '<button class="btn btn-danger btn-lg btn-icon" onClick="bos.tciku_form.cmdDelete(\''.$dbr['Kode'].'\')" title="Hapus"><i class="fa fa-trash"></i></button>' ;
             $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
 
             $vare[]		= $vaset ;
@@ -109,7 +114,7 @@ class Tciku_form extends Bismillah_Controller
                 with(bos.tciku_form.obj){
                     find("#cKode").val("'.$data['Kode'].'") ;
                     find("#dTgl").val("'.date_2d($data['Tgl']).'") ;
-                    tinymce.activeEditor.setContent("'.$data['Deskripsi'].'");
+                    tinymce.activeEditor.setContent(`'.html_entity_decode($data['Deskripsi']).'`);
                     find(".nav-tabs li:eq(1) a").tab("show") ;
                 }
             ') ;
