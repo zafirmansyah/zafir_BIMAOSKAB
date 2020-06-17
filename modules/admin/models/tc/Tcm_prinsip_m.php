@@ -36,6 +36,7 @@ class Tcm_prinsip_m extends Bismillah_Model
         $search     = $this->escape_like_str($search) ;
         $where 	    = array() ; 
         if($search !== "") $where[]	= "(Faktur LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
+        $where[]    = "Status = '1'";
         $where 	    = implode(" AND ", $where) ;
         $dbd        = $this->select("m02_prinsip", "*", $where, "", "", "Tgl DESC,Faktur DESC", $limit) ;
         $dba        = $this->select("m02_prinsip", "ID", $where) ;
@@ -127,6 +128,12 @@ class Tcm_prinsip_m extends Bismillah_Model
         $cKode  = $va['cFaktur'] ;
         $cWhere = "Kode = '$cKode'" ;
         $this->delete('m02_prinsip_file',$cWhere);
+    }
+
+    public function deletePrinsip($id)
+    {
+        $vaDel = array("status"=>'0');
+        $this->update("m02_prinsip",$vaDel,"Faktur = '{$id}'","") ;
     }
 
     public function getDataDetail($cFaktur)

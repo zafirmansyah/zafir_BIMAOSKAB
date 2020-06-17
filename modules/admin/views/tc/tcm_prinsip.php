@@ -205,7 +205,9 @@
     }
 
     bos.tcm_prinsip.grid1_reloaddata   = function(){
+        this.grid1_loaddata() ;
         this.grid1_setdata() ;
+        this.grid1_reload() ;
     }
 
     /**************************************************************** */
@@ -478,6 +480,16 @@
 
     bos.tcm_prinsip.cmdEdit = function(id){
         bjs.ajax(this.url + '/editing', 'cFaktur=' + id);
+    }
+
+    bos.tcm_prinsip.cmdDelete = function(id){
+        if(confirm("Yakin untuk hapus data ini?")){
+            bjs.ajax(this.url + '/deletePrinsip', 'cFaktur=' + id);
+            this.grid1_reloaddata() ;
+        }else{
+            this.grid1_reloaddata() ;
+
+        }
     }
 
     bos.tcm_prinsip.helpDisposisi = function(){
