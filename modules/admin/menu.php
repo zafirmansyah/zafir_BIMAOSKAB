@@ -24,6 +24,7 @@
         ["Form WO", "tcwo_form","admin/tc/tcwo_form","fa fa-file-text-o"]    
 ["Laporan", "rpt", "", "fa fa-folder-open"]
     ["Daftar Surat Masuk", "rptsuratmasuk","admin/rpt/rptsuratmasuk","fa fa-circle-o"]
+    ["Daftar Dokumen Keluar", "rptsurat_keluar","admin/rpt/rptsurat_keluar","fa fa-circle-o"]
 ["Utilities", "utlconf", "admin/config/utlconf","fa fa-flask"]
 	#["Config", "config", "admin/config/config","fa fa-cogs"]
 	#["Username", "con_user", "admin/config/username"]
