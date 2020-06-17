@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label>Upload File</label>
                         <div id="idcUplFileIKU">
-                            <input style="width:100%" type="file" class="form-control cUplFileIKU" id="cUplFileIKU" name="cUplFileIKU[]" multiple required>
+                            <input style="width:100%" type="file" class="form-control cUplFileIKU" id="cUplFileIKU" name="cUplFileIKU[]" multiple>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
             limit    : 100 ,
             url      : bos.tciku_master.base_url + "/loadgrid",
             postData : this.grid1_data ,
-            header   : 'Daftar Surat Keluar',
+            header   : 'Daftar Master IKU',
             show: {
                 header      : true,
                 footer      : true,
@@ -162,6 +162,7 @@
         bjs.ajax(this.url + '/init') ;
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
         bos.tciku_master.grid1_loaddata() ;
+        bos.tciku_master.grid1_reload() ;
     }
 
 
