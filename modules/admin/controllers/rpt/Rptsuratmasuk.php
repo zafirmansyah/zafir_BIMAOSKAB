@@ -36,12 +36,9 @@ class Rptsuratmasuk extends Bismillah_Controller
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
             $vaset['cmdDetail']       = '<a onClick="bos.rptsuratmasuk.cmdDetail(\''.$dbr['Kode'].'\')">'.strtoupper($dbr['Perihal']).'</a>' ;
             $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
-            
-
             $vare[]		= $vaset ;
         }
-
-        $vare 	= array("total"=>$vdb['rows'], "records"=>$vare ) ;
+        $vare 	= array("records"=>$vare ) ;
         echo(json_encode($vare)) ;
     }
 
