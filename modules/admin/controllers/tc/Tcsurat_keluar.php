@@ -9,9 +9,11 @@ class Tcsurat_keluar extends Bismillah_Controller
     public function __construct(){
         parent::__construct() ;
         $this->load->model('tc/tcsurat_keluar_m') ;
+        $this->load->model('func/func_m') ;
         $this->load->helper('bdate') ;
 
-        $this->bdb = $this->tcsurat_keluar_m ;
+        $this->bdb  = $this->tcsurat_keluar_m ;
+        $this->func = $this->func_m ;
     }
 
     public function index(){
@@ -109,16 +111,33 @@ class Tcsurat_keluar extends Bismillah_Controller
         echo($Result) ;
     }
 
+    public function seekUnit()
+    {
+        $search     = $this->input->get('q');
+        $vdb        = $this->bdb->seekUnit($search) ;
+        $dbd        = $vdb['db'] ;
+        $vare       = array();
+        while($dbr = $this->bdb->getrow($dbd)){
+            $vare[]     = array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
+        }
+        $Result = json_encode($vare);
+        echo($Result) ;
+    }
+
     public function checkNomorSurat()
     {
-        $va          = $this->input->post();
-        $cJenisSurat = $va['optJenisSurat'] ;
-        $cSifatSurat = $va['optSifatSurat'];
-        $checkKode   = $this->bdb->getNomorSuratKeluar($cJenisSurat,$cSifatSurat,false) ;
+        $va                 = $this->input->post();
+        $cJenisSurat        = $va['optJenisSurat'] ;
+        $cSifatSurat        = $va['optSifatSurat'];
+        $cKodeUnit          = $va['optUnit'] ;
+        $cSifatSurat        = $va['optSifatSurat'];
+        $dTgl               = date_2s($va['dTgl']) ;
+        $nYear              = substr($dTgl,0,4) ;
+        $checkNomorSurat    = $this->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'SK',false) ;
         echo(' 
             Swal.fire({
                 icon: "info",
-                title: "'.$checkKode.'"
+                title: "'.$checkNomorSurat.'"
             });    
         ') ;
     }

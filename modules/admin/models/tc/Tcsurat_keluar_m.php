@@ -56,10 +56,14 @@ class Tcsurat_keluar_m extends Bismillah_Model
     }
 
     public function saving($va){
-        $cJenisSurat = $va['optJenisSurat'] ;
-        $cSifatSurat = $va['optSifatSurat'];
-        $cFaktur     = $this->getKodeSurat($cJenisSurat) ;
-        $nNomorSurat = $this->getNomorSuratKeluar($cJenisSurat,$cSifatSurat) ;
+        $cJenisSurat        = $va['optJenisSurat'] ;
+        $cSifatSurat        = $va['optSifatSurat'];
+        $cKodeUnit          = $va['optUnit'] ;
+        $cSifatSurat        = $va['optSifatSurat'];
+        $dTgl               = date_2s($va['dTgl']) ;
+        $nYear              = substr($dTgl,0,4) ;
+        $cFaktur            = $this->getKodeSurat($cJenisSurat) ;
+        $nNomorSurat        = $this->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'SK',true) ;
         $vaData     = array("Kode"=>$cFaktur, 
                             "Kepada"=>$va['cKepada'],
                             "Perihal"=>$va['cPerihal'],
@@ -120,6 +124,16 @@ class Tcsurat_keluar_m extends Bismillah_Model
         if($search !== "") $cWhere[]   = "(Kode LIKE '%{$search}%' OR Keterangan LIKE '%{$search}%')" ;
         $cWhere     = implode(" AND ", $cWhere) ;
         $dbd        = $this->select("jenis_sifat_surat", "Kode,Keterangan", $cWhere, "", "", "Kode ASC") ;
+        return array("db"=>$dbd) ;
+    }
+
+    public function seekUnit($search)
+    {   
+        $cWhere     = array() ; 
+        $cWhere[]   = "Kode <> ''" ;
+        if($search !== "") $cWhere[]   = "(Kode LIKE '%{$search}%' OR Keterangan LIKE '%{$search}%')" ;
+        $cWhere     = implode(" AND ", $cWhere) ;
+        $dbd        = $this->select("golongan_unit", "Kode,Keterangan", $cWhere, "", "", "Kode ASC") ;
         return array("db"=>$dbd) ;
     }
 

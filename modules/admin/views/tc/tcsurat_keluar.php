@@ -28,9 +28,9 @@
                         <input type="text" name="cPerihal" id="cPerihal" class="form-control" maxlength="225" placeholder="Perihal" required>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Tanggal</label>
+                        <label>Tanggal Pengisian Form IKU</label>
                         <div class="col-xs-8 input-group">
                             <input
                                 type="text" 
@@ -59,9 +59,15 @@
                         <select class="form-control optSifatSurat select2" data-sf="load_Kota" name="optSifatSurat" id="optSifatSurat" data-placeholder=" - Sifat Dokumen - "></select>
                     </div>
                 </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Unit Kerja Petugas</label>
+                        <select class="form-control optUnit select2" data-sf="load_Kota" name="optUnit" id="optUnit" data-placeholder=" - Unit Petugas - "></select>
+                    </div>
+                </div>
             </div>
-            <button class="btn btn-success" id="cmdCheck">Check Nomor</button>
-            <button class="btn btn-primary" id="cmdsave">Simpan</button>
+            <button class="btn btn-success" id="cmdCheckNomor">Check Nomor</button>
+            <button class="btn btn-primary" id="cmdsave" onClick="bos.tcsurat_keluar.cmdSave()">Simpan</button>
             <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcsurat_keluar.init()">Cancel</button>
         </form>
         </div>
@@ -160,7 +166,6 @@
     }
 
     bos.tcsurat_keluar.cmdsave       = bos.tcsurat_keluar.obj.find("#cmdsave") ;
-
     bos.tcsurat_keluar.initfunc     = function(){
         this.obj.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if($(e.target).parent().index() == 0){//load grid
@@ -169,20 +174,26 @@
                 bos.tcsurat_keluar.obj.find("#nik").focus() ;
             }
         });
-
+        
         this.obj.find('form').on("submit", function(e){
             e.preventDefault() ;
             if( bjs.isvalidform(this) ){
                 bjs.ajax( bos.tcsurat_keluar.base_url + '/saving', bjs.getdataform(this) , bos.tcsurat_keluar.cmdsave) ;
             }
         }) ;
-    }
 
-    $("#cmdCheck").on("click", function(e){
-        var optJenisSurat = $('#optJenisSurat').val();
-        var optSifatSurat = $('#optSifatSurat').val();
-        bjs.ajax( bos.tcsurat_keluar.base_url + '/checkNomorSurat', 'optJenisSurat='+optJenisSurat+'&optSifatSurat='+optSifatSurat) ;
-    });
+        this.obj.find('#cmdCheckNomor').on('click',function(e){
+            e.preventDefault() ;
+            var optJenisSurat = $('#optJenisSurat').val();
+            var optSifatSurat = $('#optSifatSurat').val();            
+            var dTgl          = $('#dTgl').val();
+            var optUnit       = $('#optUnit').val();
+            bjs.ajax(bos.tcsurat_keluar.base_url + '/checkNomorSurat', 'optJenisSurat='+optJenisSurat+
+                                                                        '&optSifatSurat='+optSifatSurat+
+                                                                        '&dTgl='+dTgl+
+                                                                        '&optUnit='+optUnit) ;
+        });
+    }
 
     $('.optJenisSurat').select2({
         allowClear: true,
@@ -203,6 +214,21 @@
         allowClear: true,
         ajax: {
             url: bos.tcsurat_keluar.base_url + '/SeekSifatSurat',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+
+    $('.optUnit').select2({
+        allowClear: true,
+        ajax: {
+            url: bos.tcsurat_keluar.base_url + '/SeekUnit',
             dataType: 'json',
             delay: 250,
             processResults: function (data) {
