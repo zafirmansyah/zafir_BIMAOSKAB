@@ -101,15 +101,7 @@
                     <div class="form-group">
                         <label>Upload File</label>
                         <div id="idcUplFile">
-                            <input style="width:100%" type="file" class="form-control cUplFile" id="cUplFile" name="cUplFile[]" multiple required>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Nomor Surat</label>
-                        <div id="idcUplFile">
-                            <input type="text" name="cNomorSurat" id="cNomorSurat">
+                            <input style="width:100%" type="file" class="form-control cUplFile" id="cUplFile" name="cUplFile[]" multiple>
                         </div>
                     </div>
                 </div>

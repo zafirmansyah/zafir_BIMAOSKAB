@@ -100,7 +100,6 @@ class Tcm_prinsip extends Bismillah_Controller
         $lValid     = true ;
         $optMetode  = $va['optMetode'];
         $vaGrid     = json_decode($va['dataDisposisi']);
-        // echo print_r($va['dataDisposisi']) ;
         if($optMetode == "S"){
             if(!$vaGrid){
                 $lValid = false ;
@@ -113,8 +112,6 @@ class Tcm_prinsip extends Bismillah_Controller
                 ');
             }    
         }
-
-
         
         if($lValid){
             $this->saveData($va) ;
@@ -183,8 +180,8 @@ class Tcm_prinsip extends Bismillah_Controller
         if($save){
             echo('
                 bos.tcm_prinsip.initForm() ;
-                bos.tcm_prinsip.initTab1() ;
                 bos.tcm_prinsip.grid1_reloaddata() ;
+                bos.tcm_prinsip.initTab1() ;
                 Swal.fire({
                     icon: "success",
                     title: "'.$va['cNoSurat'].'",
@@ -249,6 +246,12 @@ class Tcm_prinsip extends Bismillah_Controller
                 bos.tcm_prinsip.setopt("optMetode","'.$cMetodeDisposisi.'");
             ') ;
         }
+    }
+
+    public function deletePrinsip()
+    {
+        $id = $this->input->post('cFaktur') ;
+        $this->bdb->deletePrinsip($id) ;
     }
 }
 
