@@ -134,6 +134,10 @@ class Tciku_master extends Bismillah_Controller
         $va 	= $this->input->post() ;
         $this->bdb->deleting($va['cKode']) ;
         echo(' 
+            Swal.fire({
+                icon: "success",
+                title: "Data Deleted!",
+            });
             bos.tciku_master.grid1_reloaddata() ; 
             bos.tciku_master.grid1_reload() ; 
         ') ;

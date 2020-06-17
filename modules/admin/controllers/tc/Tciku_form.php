@@ -31,7 +31,6 @@ class Tciku_form extends Bismillah_Controller
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
             $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tciku_form.cmdDetail(\''.$dbr['Kode'].'\')" title="'.$btnTitle.'"><i class="fa fa-pencil"></i></button>' ;
             $vaset['cmdDetail']     .= '&nbsp;&nbsp;';
-            $vaset['cmdDetail']     .= '<button class="btn btn-danger btn-lg btn-icon" onClick="bos.tciku_form.cmdDelete(\''.$dbr['Kode'].'\')" title="Hapus"><i class="fa fa-trash"></i></button>' ;
             $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
 
             $vare[]		= $vaset ;
@@ -127,16 +126,6 @@ class Tciku_form extends Bismillah_Controller
             ');
         }
     }
-
-    public function deleting(){
-        $va 	= $this->input->post() ;
-        $this->bdb->deleting($va['cKode']) ;
-        echo(' 
-            bos.tciku_form.grid1_reloaddata() ; 
-            bos.tciku_form.grid1_reload() ; 
-        ') ;
-    }
-
 
     public function seekKodeIKU()
     {

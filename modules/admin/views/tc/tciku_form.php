@@ -122,12 +122,6 @@
         bjs.ajax(this.url + '/editing', 'cKode=' + id);
     }
 
-    bos.tciku_form.cmdDelete    = function(id){
-        if(confirm("Anda akan menghapus form yang telah anda isi.\nLanjutkan?")){
-            bjs.ajax(this.url + '/deleting', 'cKode=' + id);
-        }
-    }
-
     bos.tciku_form.init         = function(){
         this.obj.find('#cDeskripsi').val("");
         tinymce.activeEditor.setContent("");

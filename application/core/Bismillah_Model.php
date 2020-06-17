@@ -185,7 +185,7 @@ class Bismillah_Model extends CI_Model{
 		
 		$this->AddField("sys_username","Unit","varchar(5)","","");
 		$this->AddField("sys_username","Email","text");
-		$this->AddField("iku_form","Status","varchar(1)","0","");
+		$this->AddField("iku_master","Status","varchar(1)","0","");
 
 		$cSQL = "CREATE TABLE `surat_masuk`(
 					`ID` int(9) NOT NULL AUTO_INCREMENT,
