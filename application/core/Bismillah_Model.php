@@ -325,6 +325,21 @@ class Bismillah_Model extends CI_Model{
 		$this->AddTable("m02_prinsip_disposisi",$cSQL) ;
 		$this->AddField("m02_prinsip_disposisi","FakturDokumen","varchar(255)","","ID");
 		
+		$cSQL = "CREATE TABLE `surat_keluar`  (
+					`ID` int(9) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Kepada` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Perihal` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Tgl` date NULL DEFAULT NULL,
+					`NoSurat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT '0',
+					`JenisSurat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Unit` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;" ;
+		$this->AddTable("surat_keluar",$cSQL) ;
+		
 		/**
 		 * 
 			surat_masuk
