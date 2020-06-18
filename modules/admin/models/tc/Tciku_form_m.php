@@ -6,16 +6,17 @@ class Tciku_form_m extends Bismillah_Model
 {
 	
     public function loadgrid($va){
-        $cUnitUser = getsession($this,"unit");
-        $limit    = $va['offset'].",".$va['limit'] ;
-        $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
-        $search   = $this->escape_like_str($search) ;
-        $where 	 = array() ; 
+        $cUnitUser  = getsession($this,"unit");
+        $limit      = $va['offset'].",".$va['limit'] ;
+        $search	    = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        $search     = $this->escape_like_str($search) ;
+        $where 	    = array() ; 
+        $where[]    = "Status <> 0";
         if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
         if(getsession($this,"Jabatan") > "002") $where[] = "TujuanUnit = '$cUnitUser'";
-        $where 	 = implode(" AND ", $where) ;
-        $dbd      = $this->select("iku_master", "*", $where, "", "", "Kode DESC", $limit) ;
-        $dba      = $this->select("iku_master", "ID", $where) ;
+        $where 	    = implode(" AND ", $where) ;
+        $dbd        = $this->select("iku_master", "*", $where, "", "", "Kode DESC", $limit) ;
+        $dba        = $this->select("iku_master", "ID", $where) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
     }
@@ -40,8 +41,7 @@ class Tciku_form_m extends Bismillah_Model
                                 "Tgl"=>date_2s($va['dTgl']),
                                 "Deskripsi"=>$va['cDeskripsi'],
                                 "UserName"=>$cUserName ,
-                                "DateTime"=>date('Y-m-d H:i:s'),
-                                "Status"=>"1"
+                                "DateTime"=>date('Y-m-d H:i:s')
                                 ) ;
         $this->insert("iku_form",$vaData);
         
@@ -74,21 +74,11 @@ class Tciku_form_m extends Bismillah_Model
         $data      = array() ;
         $where[]   = "Kode = " . $this->escape($id);
         $where[]   = "UserName = '$cUserName'";
-        $where[]   = "Status = '1'";
         $where 	   = implode(" AND ", $where) ;
         if($d = $this->getval("*", $where, "iku_form")){
             $data = $d;
         }
         return $data ;
-    }
-
-    public function deleting($id){
-        $cUserName = getsession($this,'username');
-        $where[]  = "Kode = " . $this->escape($id);
-        $where[]  = "UserName = '$cUserName'";
-        $where 	  = implode(" AND ", $where) ;
-        $vaData   = array('Status'=>'0');
-        $this->update("iku_form", $vaData, $where, "") ;
     }
 
     public function seekKodeIKU($search)
@@ -115,7 +105,6 @@ class Tciku_form_m extends Bismillah_Model
         $cUserName = getsession($this,'username');
         $where[]   = "Kode     = " . $this->escape($cKode);
         $where[]   = "UserName = '$cUserName'";
-        $where[]   = "Status   = '1'";
         $where     = implode(" AND ", $where);
         if($d = $this->getval("Kode", $where, "iku_form")){
             $lStatus = true;
