@@ -58,14 +58,14 @@ class Tciku_form_m extends Bismillah_Model
                         "UserName"=>$cUserName ,
                         "DateTime"=>date('Y-m-d H:i:s')
         ) ;
-        $where      = "Kode = " . $this->escape($cKode) ;
-        $this->insert("iku_form_file", $vaData, $where, "") ;
+        $this->insert("iku_form_file", $vaData) ;
     }
 
     public function deleteFile($va)
     {
+        $cUserName = getsession($this,"username");
         $cKode  = $va['cKode'] ;
-        $where = "Kode = '$cKode'" ;
+        $where = "Kode = '$cKode' AND UserName='$cUserName'" ;
         $this->delete('iku_form_file',$where);
     }
 
