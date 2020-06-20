@@ -339,7 +339,57 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;" ;
 		$this->AddTable("surat_keluar",$cSQL) ;
+
+		$cSQL = "CREATE TABLE `work_order_master` ( 
+					`ID` INT(11) NOT NULL AUTO_INCREMENT , 
+					`Kode` VARCHAR(255) DEFAULT NULL , 
+					`TujuanUserName` VARCHAR(255) DEFAULT NULL ,
+					`Subject` VARCHAR(255) DEFAULT NULL , 
+					`Deskripsi` TEXT DEFAULT NULL , 
+					`Tgl` DATE DEFAULT NULL , 
+					`UserName` VARCHAR(255) DEFAULT NULL , 
+					`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0), 
+					`StartDateTime` datetime(0) NULL DEFAULT NULL , 
+					`FinishDateTime` datetime(0) NULL DEFAULT NULL , 
+					`Status` VARCHAR(1) DEFAULT NULL , 
+					PRIMARY KEY (`ID`)  USING BTREE
+				) ENGINE = InnoDB;";
+		$this->AddTable("work_order_master",$cSQL) ;
+
+		$cSQL = "CREATE TABLE `work_order_master_file` ( 
+					`ID` INT(11) NOT NULL AUTO_INCREMENT , 
+					`Kode` VARCHAR(255) DEFAULT NULL , 
+					`Tgl` DATE DEFAULT NULL , 
+					`FilePath` TEXT DEFAULT NULL , 
+					`UserName` VARCHAR(255) DEFAULT NULL , 
+					`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0), 
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB;";
+		$this->AddTable("work_order_master_file",$cSQL);
 		
+		$cSQL = "CREATE TABLE `work_order_form` ( 
+					`ID` INT(11) NOT NULL AUTO_INCREMENT , 
+					`Kode` VARCHAR(255) NULL DEFAULT NULL , 
+					`Deskripsi` TEXT NULL DEFAULT NULL , 
+					`Tgl` DATE NULL DEFAULT NULL , 
+					`StartDateTime` DATETIME NULL DEFAULT NULL , 
+					`EndDateTime` DATETIME NULL DEFAULT NULL , 
+					`UserName` VARCHAR(255) NULL DEFAULT NULL ,
+					`Status` VARCHAR(1) DEFAULT NULL 
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB;";
+		$this->AddTable("work_order_form",$cSQL);
+
+		$cSQL = "CREATE TABLE `work_order_form_file` (
+			 		`ID` INT(11) NOT NULL AUTO_INCREMENT , 
+					`Kode` VARCHAR(255) NULL DEFAULT NULL , 
+					`Tgl` DATE NULL DEFAULT NULL , 
+					`FilePath` TEXT NULL DEFAULT NULL , 
+					`UserName` VARCHAR(255) NULL DEFAULT NULL , 
+					`DateTime` DATETIME NULL DEFAULT CURRENT_TIMESTAMP , 
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB;" ;
+		$this->AddTable("work_order_form_file",$cSQL);
 		/**
 		 * 
 			surat_masuk
@@ -350,6 +400,10 @@ class Bismillah_Model extends CI_Model{
 			m02_prinsip
 			m02_prinsip_status
 			m02_prinsip_disposisi
+			work_order_master
+			work_order_master_file
+			work_order_form
+			work_order_form_file
 		 */
 
     }
