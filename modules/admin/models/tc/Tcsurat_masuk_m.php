@@ -128,7 +128,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
                         "DateTime"=>date('Y-m-d H:i:s')
         ) ;
         $where      = "Kode = " . $this->escape($cKode) ;
-        $this->insert("surat_masuk_file", $vaData, $where, "") ;
+        $this->insert("surat_masuk_file", $vaData) ;
     }
 
     public function deleteFile($va)
