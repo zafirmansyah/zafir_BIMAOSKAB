@@ -19,7 +19,7 @@
                             <a href="#" id="linkGeneralSetting" class="small-box-footer">Go &nbsp;<i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-xs-6">
+                    <div class="col-lg-6">
                         <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
@@ -33,7 +33,7 @@
                             <a href="#" id="linkUsers" class="small-box-footer">Go &nbsp;<i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-xs-6">
+                    <div class="col-lg-6">
                         <!-- small box -->
                         <div class="small-box bg-purple">
                             <div class="inner">
@@ -44,10 +44,10 @@
                             <div class="icon">
                                 <i class="fa fa-database"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Go &nbsp;<i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" id="linkBackUpDatabase" class="small-box-footer">Go &nbsp;<i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-xs-6">
+                    <div class="col-lg-6">
                         <!-- small box -->
                         <div class="small-box bg-green">
                             <div class="inner">
@@ -98,6 +98,20 @@
                 });
             }, 1);
         });
+
+        this.obj.find("#linkBackUpDatabase").on('click',function(e){
+            objForm    = "utlbackup_database" ;
+            locForm    = "admin/config/utlbackup_database" ;
+            setTimeout(function(){
+                bjs.form({
+                    "module" : "Administrator",
+                    "name"   : "",
+                    "obj"    : objForm, 
+                    "loc"    : locForm
+                });
+            }, 1);
+        });
+
 
     }
 

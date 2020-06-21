@@ -13,7 +13,7 @@
         <div class="box-body no-padding">
           <ul class="nav nav-pills nav-stacked">
             <li><a id="linkGeneralSystem" href="#"><i class="fa fa-power-off"></i> General System</a></li>
-            <li><a id="linkDatabase" href="#"><i class="fa fa-database"></i> Database</a></li>
+            <li><a id="linkBackUpDatabase" href="#"><i class="fa fa-database"></i> Database</a></li>
             <li><a id="linkUsers" href="#"><i class="fa fa-lock"></i> User</a></li>
             <li class="active"><a id="linkUserLevel" href="#"><i class="fa fa-random"></i> User Level</a></li>
             
@@ -231,6 +231,19 @@
         this.obj.find("#linkUsers").on('click',function(e){
             objForm    = "con_user" ;
             locForm    = "admin/config/username" ;
+            setTimeout(function(){
+                bjs.form({
+                    "module" : "Administrator",
+                    "name"   : "",
+                    "obj"    : objForm, 
+                    "loc"    : locForm
+                });
+            }, 1);
+        });
+
+		this.obj.find("#linkBackUpDatabase").on('click',function(e){
+            objForm    = "utlbackup_database" ;
+            locForm    = "admin/config/utlbackup_database" ;
             setTimeout(function(){
                 bjs.form({
                     "module" : "Administrator",

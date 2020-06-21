@@ -49,8 +49,16 @@ class Bismillah_Model extends CI_Model{
 		return (array) $o->unbuffered_row() ;
 	}
 
+	public function getrow_for($o){
+        return $o->result_array() ; 
+    }
+
 	public function rows($o){
 		return $o->num_rows() ;
+	}
+
+	public function fields($o){
+		return $o->num_fields() ;
 	}
 
 	public function insert($table, $data, $save_log=TRUE){
@@ -179,7 +187,9 @@ class Bismillah_Model extends CI_Model{
             }
            $this->db->query("ALTER TABLE $cTableName ADD $cFieldName $cFieldType DEFAULT '$cDefault' $cFieldAfter") ;
         }
-    }
+	}
+	
+	
 
     public function CheckDatabase(){
 		
@@ -375,7 +385,7 @@ class Bismillah_Model extends CI_Model{
 					`StartDateTime` DATETIME NULL DEFAULT NULL , 
 					`EndDateTime` DATETIME NULL DEFAULT NULL , 
 					`UserName` VARCHAR(255) NULL DEFAULT NULL ,
-					`Status` VARCHAR(1) DEFAULT NULL 
+					`Status` VARCHAR(1) DEFAULT NULL ,
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB;";
 		$this->AddTable("work_order_form",$cSQL);
