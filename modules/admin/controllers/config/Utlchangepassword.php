@@ -49,7 +49,7 @@ class Utlchangepassword extends Bismillah_Controller
 
     public function changePassword($va)
     { 
-        $this->bdb->changePassword($va) ;
+        $cc = $this->bdb->changePassword($va) ;
         echo('
             bos.utlchangepassword.finalAct();    
         ');

@@ -11,9 +11,10 @@ class Utlchangepassword_m extends Bismillah_Model{
     public function changePassword($va)
     {
         $cUsername 	= $va['cUsername'] ;
-        $cOldPass   = $va['cOldPassword'] ;
+        $cOldPass   = pass_crypt($va['cOldPassword']) ;
         $cNewPass   = $va['cNewPassword'] ;
         $w    		= "username = '$cUsername' AND password LIKE '$cOldPass%'" ;
+         
         $dbData     = $this->select("sys_username","*",$w) ;
         if($dbRow = $this->getrow($dbData)){
             
@@ -23,7 +24,7 @@ class Utlchangepassword_m extends Bismillah_Model{
             
             $cPassUpdate    = pass_crypt($cNewPass) . $cRecentLevel ;
             $vaUpdate       = array("password" => $cPassUpdate);
-            $this->update("sys_username", $vaUpdate, "username = '$cUsername'") ;   
+            return $this->update("sys_username", $vaUpdate, "username = '$cUsername'","username") ;   
         }
     }
     
