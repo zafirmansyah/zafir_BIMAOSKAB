@@ -114,6 +114,8 @@ class Tcwo_master extends Bismillah_Controller
                 }
             }
         }
+
+        savesession($this, "sstcwo_master_cUplFileWO" , "") ;
         $saving = $this->bdb->saving($va) ;
 
         echo(' 
