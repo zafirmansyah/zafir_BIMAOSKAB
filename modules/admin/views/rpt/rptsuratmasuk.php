@@ -1,12 +1,12 @@
 <section class="content">
     <div class="row">
-        <div class="col-md-3">
+        <!--div class="col-md-3">
             <?php $this->load->view('rptlistfolder_suratmasuk');?>
-        </div>
-        <div class="col-md-9">
+        </div-->
+        <div class="col-md-12">
         <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Inbox</h3>
+            <div class="box-header with-border" style="text-align:center;">
+                <h3 class="box-title">Daftar Surat Masuk</h3>
             </div>
             <div class="box-body no-padding">
                 <div class="table-responsive mailbox-messages">

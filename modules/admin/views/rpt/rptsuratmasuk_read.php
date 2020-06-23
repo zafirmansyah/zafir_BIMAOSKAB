@@ -1,9 +1,9 @@
 <section class="content">
     <div class="row">
-        <div class="col-md-3">
+        <!--div class="col-md-3">
             <?php $this->load->view('rptlistfolder_suratmasuk');?>
-        </div>
-        <div class="col-md-9">
+        </div-->
+        <div class="col-md-10 col-md-offset-1">
             <div class="box box-primary">
                 <div class="box-header with-border">
                 <?php
@@ -15,7 +15,7 @@
                     $dTANGGALSurat   = getsession($this,"ss_TANGGAL_SuratMasuk_") ;
                     $vaFileListSurat = getsession($this,"ss_FILEITEM_SuratMasuk_") ;
                 ?>
-                <h3 class="box-title">Read Mail : ID. <?=$cIDSurat?></h3>
+                <h3 class="box-title">Kode Surat : <?=$cIDSurat?></h3>
                 </div>
                 <div class="box-body no-padding">
                 <div class="mailbox-read-info">
@@ -48,7 +48,7 @@
                                 <a href="<?=$cPATHSurat?>" class="mailbox-attachment-name" title="<?=$cNAMAFILESurat?>" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;<?=substr($cNAMAFILESurat,0,22).".."?></a>
                                 <span class="mailbox-attachment-size">
                                 <?=$cFileSize?>
-                                <a href="<?=$cPATHSurat?>" class="btn btn-default btn-xs pull-right" download><i class="fa fa-cloud-download"></i></a>
+                                <a href="<?=$cPATHSurat?>" class="btn btn-default btn-xs pull-right" title="Download" download><i class="fa fa-cloud-download"></i></a>
                                 </span>
                             </div>
                         </li>
@@ -59,11 +59,8 @@
                 </div>
                 <div class="box-footer">
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default"><i class="fa fa-reply"></i> Reply</button>
                         <button type="button" class="btn btn-default" onclick="bos.rptsuratmasuk_read.cmdForward('<?=$cIDSurat?>')"><i class="fa fa-share"></i> Forward</button>
                     </div>
-                    <button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i> Delete</button>
-                    <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                 </div>
             </div>
         </div>

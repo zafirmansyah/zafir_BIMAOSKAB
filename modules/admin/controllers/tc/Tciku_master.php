@@ -98,6 +98,8 @@ class Tciku_master extends Bismillah_Controller
                 }
             }
         }
+
+        savesession($this, "sstciku_master_cUplFileIKU" , "") ;
         $saving = $this->bdb->saving($va) ;
 
         echo(' 
