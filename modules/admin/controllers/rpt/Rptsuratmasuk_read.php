@@ -87,7 +87,8 @@ class Rptsuratmasuk_read extends Bismillah_Controller
                 icon: "success",
                 title: "Data Saved!",
             });
-            bos.rptsuratmasuk_read.init() ;     
+            bos.rptsuratmasuk_read.loadModalForward("hide");
+            bos.rptsuratmasuk_read.initDetail() ;     
         ') ;
     }
 }
