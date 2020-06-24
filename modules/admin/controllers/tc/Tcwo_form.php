@@ -56,7 +56,7 @@ class Tcwo_form extends Bismillah_Controller
             }
             
             if($lStatus == "1"){    // cek jika on proses
-                $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tcwo_form.cmdContinueWO(\''.$cFaktur.'\')" title="Lanjutkan WO?"><i class="fa fa-pencil"></i></button>' ; //parameter diisi faktur supaya memudahkan filter untuk melanjutkan WO
+                $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tcwo_form.cmdContinueWO(\''.$cFaktur.'\')" title="Lanjutkan WO?"><i class="fa fa-play-circle"></i></button>' ; //parameter diisi faktur supaya memudahkan filter untuk melanjutkan WO
                 if($dbr['TujuanUserName'] <> $cUserName){ //filter ini untuk tombol yg tampil di admin jika on proses
                     $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="alert(\'Pekerjaan sudah diambil oleh '.$cUserYgAmbilWO.'!\');"><i class="fa fa-pencil"></i></button>' ;
                 }
@@ -76,6 +76,13 @@ class Tcwo_form extends Bismillah_Controller
     public function init(){
         savesession($this, "ss_womaster_", "") ;
         savesession($this, "sstcmwo_master_cUplFileFormWO", "") ;
+        savesession($this, "ss_KODE_WO_","");
+        savesession($this, "ss_SUBJECT_WO_","");
+        savesession($this, "ss_DESKRIPSI_WO_","");
+        savesession($this, "ss_DATETIME_WO_","");
+        savesession($this, "ss_TANGGAL_WO_","");
+        savesession($this, "ss_DARI_WO_","");
+        savesession($this, "ss_FILEITEM_WO_",array());
     }
 
     public function saving(){
@@ -124,7 +131,8 @@ class Tcwo_form extends Bismillah_Controller
                 }
             }
         }
-        savesession($this, "sstcwo_form_cUplFileFormWO" , "") ;
+
+        savesession($this, "sstcwo_form_cUplFileFormWO" , array()) ;
         $saving = $this->bdb->saving($va) ;
 
         echo(' 
@@ -138,7 +146,8 @@ class Tcwo_form extends Bismillah_Controller
 
     public function startWO(){
         $va 	    = $this->input->post() ;
-        //var_dump($va);
+        //jika isset cFaktur maka melanjutkan WO yang sudah on proses
+        //jika !isset cFaktur maka start WO
         if(!isset($va['cFaktur'])){
             $cKode 	    = $va['cKode'] ;
             $cFaktur    = $this->bdb->getFakturFormWO() ;
@@ -146,10 +155,20 @@ class Tcwo_form extends Bismillah_Controller
             $cFaktur    = $va['cFaktur'];
             $cKode      = $this->bdb->getKodeWObyFaktur($cFaktur);
         }
-        //var_dump($cKode);
         $data       = $this->bdb->getdataWO($cKode) ;    
+        
         if(!empty($data)){
-            savesession($this, "ss_tcwo_form_", $cKode) ;
+            $cKode = $data['Kode'];
+            $vaSess['ss_KODE_WO_']      = $cKode;
+            $vaSess['ss_SUBJECT_WO_']   = $data['Subject'];
+            $vaSess['ss_DESKRIPSI_WO_'] = $data['Deskripsi'];
+            $vaSess['ss_DATETIME_WO_']  = $data['DateTime'];
+            $vaSess['ss_TANGGAL_WO_']   = $data['Tgl'];
+            $vaSess['ss_DARI_WO_']      = $data['UserName'];
+            $vaSess['ss_FILEITEM_WO_']  = $this->getFileWO($cKode);
+            foreach($vaSess as $key=>$value){
+                savesession($this,$key,$value);
+            }
             if(!isset($va['cFaktur'])){
                 $this->bdb->startWO($cKode,$cFaktur);
             }
@@ -210,6 +229,16 @@ class Tcwo_form extends Bismillah_Controller
                 }
             }
         }
+    }
+
+    public function getFileWO($cKode)
+    {
+        $dbData = $this->bdb->getFileWO($cKode);
+        $vaData = array();
+        while($dbr  = $this->bdb->getrow($dbData)){
+            $vaData[] = $dbr;
+        }        
+        return $vaData;
     }
 }
 

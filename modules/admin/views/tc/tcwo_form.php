@@ -8,24 +8,94 @@
             <div id="grid1" style="height:500px"></div>
         </div>
         <div class="tab-pane" id="tab_2">
-        <form>
-            <div class="row">
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Deskripsi</label>
-                        <div class="col-sm-12">
-                            <textarea name="cDeskripsi" id="cDeskripsi" class="form-control" placeholder="Deskripsi" row="20">
-                            Permasalahan  :<br>
-                            Detail Solusi : 
-                            </textarea>
-                        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-secondary">
+                    <div class="box-header with-border">
+                    <?php
+                        $cKODEWO         = getsession($this,"ss_KODE_WO_") ;
+                        $cSUBJECTWO      = getsession($this,"ss_SUBJECT_WO_") ;
+                        $cDESKRIPSIWO    = getsession($this,"ss_DESKRIPSI_WO_") ;
+                        $cDATETIMEWO     = getsession($this,"ss_DATETIME_WO_") ;
+                        $dTANGGALWO      = getsession($this,"ss_TANGGAL_WO_") ;
+                        $cDARIWO         = getsession($this,"ss_DARI_WO_") ;
+                        $vaFILEWO        = getsession($this,"ss_FILEITEM_WO_") ;
+                    ?>
+                    <h3 class="box-title">Kode Work Order : <?=$cKODEWO?></h3>
+                    </div>
+                    <div class="box-body no-padding">
+                    <div class="mailbox-read-info">
+                        <h3><?=$cSUBJECTWO?></h3>
+                        <h5>From: <?=$cDARIWO?>
+                        <span class="mailbox-read-time pull-right"><?=$cDATETIMEWO?></span></h5>
+                    </div>
+                    <div class="mailbox-read-message">
+                        <!-- Detail WO -->
+                        <?=$cDESKRIPSIWO?>
+                    </div>
+                    </div>
+                    <div class="box-footer">
+                    <?php if(count($vaFILEWO) > 0){?>
+                        <ul class="mailbox-attachments clearfix">
+                            <?php
+                                foreach($vaFILEWO as $key => $value){
+                                    $cPATHWO     = $value['FilePath'];
+                                    $cFileSize   = "0.00";
+                                    $cNAMAFILEWO = "File Not Found";
+                                    if(file_exists($cPATHWO)){
+                                        $nFileSize      = filesize($cPATHWO);
+                                        $vaPATHWO       = explode("/",$cPATHWO);
+                                        $cNAMAFILEWO    = end($vaPATHWO); 
+                                        $cFileSize      = formatSizeUnits($nFileSize);
+                                    }
+                            ?>
+                                <li>
+                                    <span class="mailbox-attachment-icon"><i class="fa fa-cubes"></i></span>
+
+                                    <div class="mailbox-attachment-info">
+                                        <a href="<?=$cPATHWO?>" class="mailbox-attachment-name" title="<?=$cNAMAFILEWO?>" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;<?=substr($cNAMAFILEWO,0,22).".."?></a>
+                                        <span class="mailbox-attachment-size">
+                                        <?=$cFileSize?>
+                                        <a href="<?=$cPATHWO?>" class="btn btn-default btn-xs pull-right" title="Download" download><i class="fa fa-cloud-download"></i></a>
+                                        </span>
+                                    </div>
+                                </li>
+                            <?php
+                                }
+                            ?>
+                        </ul>
+                    <?php } ?>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Upload File</label>
-                        <div id="idcUplFileFormWO">
-                            <input style="width:100%" type="file" class="form-control cUplFileFormWO" id="cUplFileFormWO" name="cUplFileFormWO[]" multiple>
+            </div>
+        </div>
+        <form>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Form Work Order</h3>                    
+                        </div>
+                        <div class="box-body no-padding">
+                            <div class="mailbox-read-message">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Deskripsi</label>
+                                        <textarea name="cDeskripsi" id="cDeskripsi" class="form-control" placeholder="Deskripsi" row="20">
+                                        Permasalahan  :<br>
+                                        Detail Solusi : 
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Upload File</label>
+                                        <div id="idcUplFileFormWO">
+                                            <input style="width:100%" type="file" class="form-control cUplFileFormWO" id="cUplFileFormWO" name="cUplFileFormWO[]" multiple>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -131,7 +201,7 @@
     bos.tcwo_form.initTinyMCE = function(){
         tinymce.init({
             selector: '#cDeskripsi',
-            height: 450,
+            height: 250,
             file_browser_callback_types: 'file image media',
             file_picker_types: 'file image media',   
             forced_root_block : "",
