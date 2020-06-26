@@ -160,7 +160,7 @@
 			<footer class="main-footer">
 				<!-- To the right -->
 				<div class="pull-right hidden-xs"><strong>Version</strong> <?=BISMILLAH_APP_VERSION?></div>
-				Copyright &copy; <?=date("Y")?> BIMA Solution.
+				Copyright &copy; <?=date("Y")?> BIMA OSKAB.
 			</footer>
 
 		</div>

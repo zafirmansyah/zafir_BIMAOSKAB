@@ -32,7 +32,7 @@
                 <div class="col-sm-10">
                     <div class="form-group">
                         <label>Deskripsi</label>
-                        <div class="col-sm-12">
+                        <div>
                             <textarea name="cDeskripsi" id="cDeskripsi" class="form-control" placeholder="Deskripsi" row="20"></textarea>
                         </div>
                     </div>

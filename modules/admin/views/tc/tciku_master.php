@@ -37,11 +37,9 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <div class="form-group">
-                            <label>Deskripsi</label>
-                            <div class="col-sm-12">
-                                <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master IKU..."></textarea>                   
-                            </div>
+                        <label>Deskripsi</label>
+                        <div>
+                            <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master IKU..."></textarea>                   
                         </div>
                     </div>
                 </div>

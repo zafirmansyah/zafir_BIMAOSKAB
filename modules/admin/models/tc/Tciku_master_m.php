@@ -58,7 +58,8 @@ class Tciku_master_m extends Bismillah_Model
                                 "TujuanUnit"=>$va['optGolonganUnit'],
                                 "Periode"=>$va['cPeriode'],
                                 "UserName"=>$cUserName ,
-                                "DateTime"=>date('Y-m-d H:i:s')
+                                "DateTime"=>date('Y-m-d H:i:s'),
+                                "Status"=>'1'
                                 ) ;
         $this->insert("iku_master",$vaData);
         

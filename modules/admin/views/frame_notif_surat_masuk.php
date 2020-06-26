@@ -12,7 +12,6 @@
                     ?>
                         <ul class="menu">
                             <?php
-
                                 foreach(listNotifSuratMasuk() as $key=>$val){
                                     ?>
                                         <li><!-- start message -->
@@ -24,6 +23,7 @@
                                                         </h5>
                                                     </p>
                                                 </div>
+                                                <i class="fa fa-users text-aqua"></i>
                                                 <p><small><i class="fa fa-clock-o"></i> <?=$val['DTDisposisi']?></small></p>
                                                 <p>From : <?=$val['Dari']?></p>
                                             </a>
