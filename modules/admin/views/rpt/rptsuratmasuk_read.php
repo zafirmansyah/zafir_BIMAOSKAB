@@ -135,12 +135,11 @@
 <script>
     <?=cekbosjs();?>
     var id = "<?=$cIDSurat?>";
+
     bos.rptsuratmasuk_read.cmdForward = function(cKode){
         $("#kode-surat-modal").text(cKode);
         $("#cKode").val(cKode);
-        $("#modal-forward").modal({
-            show:true
-        });
+        bos.rptsuratmasuk_read.loadModalForward("show");
         bos.rptsuratmasuk_read.gridDisposisi_reload() ;
     }
 
@@ -288,6 +287,10 @@
         this.obj.find("#modalDisposisi").modal(l) ;
     }
     
+    bos.rptsuratmasuk_read.loadModalForward       = function(l){
+        this.obj.find("#modal-forward").modal(l) ;
+    }
+
     bos.rptsuratmasuk_read.initDetail            = function(){
         var datagrid = w2ui[this.id + '_gridDisposisi'].records;
 
@@ -341,7 +344,7 @@
     bos.rptsuratmasuk_read.initComp     = function(){
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
-
+        
         this.gridDisposisi_load() ;
         this.gridDisposisi_reload() ;
 

@@ -127,14 +127,14 @@ class Tcsurat_masuk_m extends Bismillah_Model
                         "UserName"=>$cUserName ,
                         "DateTime"=>date('Y-m-d H:i:s')
         ) ;
-        $where      = "Kode = " . $this->escape($cKode) ;
         $this->insert("surat_masuk_file", $vaData) ;
     }
 
     public function deleteFile($va)
     {
         $cKode  = $va['cKode'] ;
-        $cWhere = "Kode = '$cKode'" ;
+        $cUserName  = getsession($this,"username");
+        $cWhere = "Kode = '$cKode' AND UserName='$cUserName'" ;
         $this->delete('surat_masuk_file',$cWhere);
     }
 

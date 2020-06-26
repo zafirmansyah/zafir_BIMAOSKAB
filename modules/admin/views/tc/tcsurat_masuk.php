@@ -148,7 +148,7 @@
             limit    : 100 ,
             url      : bos.tcsurat_masuk.base_url + "/loadgrid",
             postData : this.grid1_data ,
-            header   : 'Daftar Surat Keluar',
+            header   : 'Daftar Surat Masuk',
             show: {
                 header      : true,
                 footer      : true,
@@ -353,10 +353,13 @@
         this.obj.find("#cKode").val("") ;
         this.obj.find("#cKodeKaryawan").val("") ;
         this.obj.find("#nNo").val("0") ;
+        this.obj.find("#cUplFile").val("");
         bjs.ajax(this.url + '/init') ;
         w2ui[this.id + '_gridDisposisi'].clear(); 
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
-        bos.tcsurat_keluar.grid1_loaddata() ;
+        bos.tcsurat_masuk.grid1_reload();
+        bos.tcsurat_masuk.grid1_loaddata() ;
+        
     }
 
     bos.tcsurat_masuk.initComp     = function(){

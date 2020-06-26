@@ -101,7 +101,7 @@ class Tcwo_form_m extends Bismillah_Model
                         "DateTime"=>date('Y-m-d H:i:s')
         ) ;
         $where      = "Faktur = " . $this->escape($cFaktur) ;
-        $this->update("work_order_form_file", $vaData, $where, "") ;
+        $this->insert("work_order_form_file", $vaData) ;
     }
 
     public function deleteFile($va)
@@ -164,17 +164,13 @@ class Tcwo_form_m extends Bismillah_Model
         return $cKode ;
     }
 
-    public function CheckFormStatus($cKode)
+   
+    public function getFileWO($cKode)
     {
-        $lStatus   = false;
-        $cUserName = getsession($this,'username');
-        $where[]   = "Kode     = " . $this->escape($cKode);
-        $where[]   = "UserName = '$cUserName'";
-        $where     = implode(" AND ", $where);
-        if($d = $this->getval("Kode", $where, "work_order_form")){
-            $lStatus = true;
-        }        
-        return $lStatus;
+        $field = "*";
+        $where = "Kode = '$cKode'";
+        $dbd   = $this->select("work_order_master_file", $field, $where) ;
+        return $dbd;
     }
 }
 
