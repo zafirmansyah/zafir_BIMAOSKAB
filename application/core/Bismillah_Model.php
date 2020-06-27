@@ -379,6 +379,7 @@ class Bismillah_Model extends CI_Model{
 		
 		$cSQL = "CREATE TABLE `work_order_form` ( 
 					`ID` INT(11) NOT NULL AUTO_INCREMENT , 
+					`Faktur` VARCHAR(255) NOT NULL,
 					`Kode` VARCHAR(255) NULL DEFAULT NULL , 
 					`Deskripsi` TEXT NULL DEFAULT NULL , 
 					`Tgl` DATE NULL DEFAULT NULL , 
@@ -392,6 +393,7 @@ class Bismillah_Model extends CI_Model{
 
 		$cSQL = "CREATE TABLE `work_order_form_file` (
 			 		`ID` INT(11) NOT NULL AUTO_INCREMENT , 
+					`Faktur` VARCHAR(255) NOT NULL,
 					`Kode` VARCHAR(255) NULL DEFAULT NULL , 
 					`Tgl` DATE NULL DEFAULT NULL , 
 					`FilePath` TEXT NULL DEFAULT NULL , 
