@@ -25,6 +25,8 @@
 ["Laporan", "rpt", "", "fa fa-folder-open"]
     ["Daftar Surat Masuk", "rptsuratmasuk","admin/rpt/rptsuratmasuk","fa fa-circle-o"]
     ["Daftar Dokumen Keluar", "rptsurat_keluar","admin/rpt/rptsurat_keluar","fa fa-circle-o"]
+    ["Work Order", "tcwo", "", "fa fa-circle-o"]
+        ["Daftar Work Order", "rptwo","admin/rpt/rptwo","fa fa-book"]    
 ["Utilities", "utlconf", "admin/config/utlconf","fa fa-flask"]
 ["___________________________", "-", "",""]
 ["Ganti Password", "utlchangepassword", "admin/config/utlchangepassword","fa fa-unlock-alt"]
