@@ -379,7 +379,6 @@ class Bismillah_Model extends CI_Model{
 		
 		$cSQL = "CREATE TABLE `work_order_form` ( 
 					`ID` INT(11) NOT NULL AUTO_INCREMENT , 
-					`Faktur` VARCHAR(255) NOT NULL,
 					`Kode` VARCHAR(255) NULL DEFAULT NULL , 
 					`Deskripsi` TEXT NULL DEFAULT NULL , 
 					`Tgl` DATE NULL DEFAULT NULL , 
@@ -390,10 +389,10 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB;";
 		$this->AddTable("work_order_form",$cSQL);
+		$this->AddField("work_order_form","Faktur","varchar(255)","","ID");
 
 		$cSQL = "CREATE TABLE `work_order_form_file` (
 			 		`ID` INT(11) NOT NULL AUTO_INCREMENT , 
-					`Faktur` VARCHAR(255) NOT NULL,
 					`Kode` VARCHAR(255) NULL DEFAULT NULL , 
 					`Tgl` DATE NULL DEFAULT NULL , 
 					`FilePath` TEXT NULL DEFAULT NULL , 
@@ -402,6 +401,8 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB;" ;
 		$this->AddTable("work_order_form_file",$cSQL);
+		$this->AddField("work_order_form_file","Faktur","varchar(255)","","ID");
+		
 		/**
 		 * 
 			surat_masuk
