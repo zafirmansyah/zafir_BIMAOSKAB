@@ -27,7 +27,7 @@ class Rptwo_m extends Bismillah_Model
     {
         $field = "*";
         $where = "Kode = '$cKode'";
-        $dbd   = $this->select("work_order_form", $field, $where, "Faktur","Faktur ASC") ;
+        $dbd   = $this->select("work_order_form", $field, $where, "Faktur","EndDateTime ASC,Faktur ASC") ;
         return $dbd ;
     }
     public function getFileFormWO($cFaktur){
@@ -35,6 +35,15 @@ class Rptwo_m extends Bismillah_Model
         $where = "Faktur = '$cFaktur'";
         $dbd   = $this->select("work_order_form_file", $field, $where) ;
         return $dbd;
+    }
+    public function getStatusCaseClosed($cKode)
+    {
+        $cStatus = "" ;
+        $dbd = $this->select("work_order_master","CaseClosed", "Kode = " . $this->escape($cKode));
+        if($dbr = $this->getrow($dbd)){
+            $cStatus = $dbr['CaseClosed'];
+        } 
+		return $cStatus ;
     }
 
 }
