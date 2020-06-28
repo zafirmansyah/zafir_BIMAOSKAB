@@ -47,10 +47,9 @@ class Tcwo_master_m extends Bismillah_Model
 
         //var_dump($va);    
         $cKode = $va['cKode'] ;
-
-        $cUserName                 = getsession($this,'username') ;
+        $cUserName      = getsession($this,'username') ;
         
-        $this->delete("work_order_master", "Kode = '{$cKode}' and UserName = '{$cUserName}'" ) ;
+        $this->delete("work_order_master", "Kode = '{$cKode}'" ) ;
         $vaData         = array("Kode"=>$cKode, 
                                 "Tgl"=>date_2s($va['dTgl']),
                                 "Subject"=>$va['cSubject'],

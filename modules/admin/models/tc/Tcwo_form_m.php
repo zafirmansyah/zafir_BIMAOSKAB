@@ -11,9 +11,9 @@ class Tcwo_form_m extends Bismillah_Model
         $search	    = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
         $search     = $this->escape_like_str($search) ;
         $where 	    = array() ; 
-        $where[]    = "Status <> 'F'";
+        $where[]    = "Status <> 'F' AND Status <> 'D'";
         if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
-        if(getsession($this,"Jabatan") > "002") $where[] = "TujuanUserName = '$cUserName'";
+        //if(getsession($this,"Jabatan") > "002") $where[] = "TujuanUserName = '$cUserName'";
         $where 	    = implode(" AND ", $where) ;
         $dbd        = $this->select("work_order_master", "*", $where, "", "", "Kode DESC", $limit) ;
         $dba        = $this->select("work_order_master", "ID", $where) ;
@@ -124,8 +124,8 @@ class Tcwo_form_m extends Bismillah_Model
     }
 
     public function getdataWO($id){
-        $cUserName = getsession($this,'username');
-        $data      = array() ;
+        //$cUserName = getsession($this,'username');
+        //$data      = array() ;
         $where[]   = "Kode = " . $this->escape($id);
         $where 	   = implode(" AND ", $where) ;
         if($d = $this->getval("*", $where, "work_order_master")){
@@ -170,6 +170,14 @@ class Tcwo_form_m extends Bismillah_Model
         $field = "*";
         $where = "Kode = '$cKode'";
         $dbd   = $this->select("work_order_master_file", $field, $where) ;
+        return $dbd;
+    }
+
+    public function geDataUser($cUserName)
+    {
+        $field = "*";
+        $where = "UserName = '$cUserName'";
+        $dbd   = $this->select("sys_username", $field, $where) ;
         return $dbd;
     }
 }

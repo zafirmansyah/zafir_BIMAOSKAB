@@ -10,7 +10,7 @@
         <div class="tab-pane" id="tab_2">
         <div class="row">
             <div class="col-sm-12">
-                <div class="box box-secondary">
+                <div class="box box-primary">
                     <div class="box-header with-border">
                     <?php
                         $cKODEWO         = getsession($this,"ss_KODE_WO_") ;
@@ -21,24 +21,27 @@
                         $cDARIWO         = getsession($this,"ss_DARI_WO_") ;
                         $vaFILEWO        = getsession($this,"ss_FILEITEM_WO_") ;
                     ?>
-                    <h3 class="box-title">Kode Work Order : <?=$cKODEWO?></h3>
+                    <h3 class="box-title">Kode Work Order : <span id="textKode_WO"></span></h3>
                     </div>
                     <div class="box-body no-padding">
                     <div class="mailbox-read-info">
-                        <h3><?=$cSUBJECTWO?></h3>
-                        <h5>From: <?=$cDARIWO?>
-                        <span class="mailbox-read-time pull-right"><?=$cDATETIMEWO?></span></h5>
+                        <h3 id="textSubject_WO"></h3>
+                        <h5>From: <span id="textDari_WO"></span>
+                        <span class="mailbox-read-time pull-right" id="textDateTime_WO"></span></h5>
                     </div>
-                    <div class="mailbox-read-message">
+                    <div class="mailbox-read-message" id="textDeskripsi_WO">
                         <!-- Detail WO -->
-                        <?=$cDESKRIPSIWO?>
                     </div>
                     </div>
                     <div class="box-footer">
-                    <?php if(count($vaFILEWO) > 0){?>
-                        <ul class="mailbox-attachments clearfix">
+                    <?php 
+                        //print_r($vaFILEWO);
+                        //if(!empty($vaFILEWO)){
+                        
+                        //?>
+                        <ul class="mailbox-attachments clearfix" id="areaFileWO">
                             <?php
-                                foreach($vaFILEWO as $key => $value){
+                                /*foreach($vaFILEWO as $key => $value){
                                     $cPATHWO     = $value['FilePath'];
                                     $cFileSize   = "0.00";
                                     $cNAMAFILEWO = "File Not Found";
@@ -47,9 +50,9 @@
                                         $vaPATHWO       = explode("/",$cPATHWO);
                                         $cNAMAFILEWO    = end($vaPATHWO); 
                                         $cFileSize      = formatSizeUnits($nFileSize);
-                                    }
+                                    }*/
                             ?>
-                                <li>
+                                <!--li>
                                     <span class="mailbox-attachment-icon"><i class="fa fa-cubes"></i></span>
 
                                     <div class="mailbox-attachment-info">
@@ -59,12 +62,12 @@
                                         <a href="<?=$cPATHWO?>" class="btn btn-default btn-xs pull-right" title="Download" download><i class="fa fa-cloud-download"></i></a>
                                         </span>
                                     </div>
-                                </li>
+                                </li-->
                             <?php
-                                }
+                                //}
                             ?>
                         </ul>
-                    <?php } ?>
+                    <?php //} ?>
                     </div>
                 </div>
             </div>
@@ -78,21 +81,17 @@
                         </div>
                         <div class="box-body no-padding">
                             <div class="mailbox-read-message">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label>Deskripsi</label>
-                                        <textarea name="cDeskripsi" id="cDeskripsi" class="form-control" placeholder="Deskripsi" row="20">
-                                        Permasalahan  :<br>
-                                        Detail Solusi : 
-                                        </textarea>
-                                    </div>
+                                <div class="form-group">
+                                    <label>Deskripsi</label>
+                                    <textarea name="cDeskripsi" id="cDeskripsi" class="form-control" placeholder="Deskripsi" row="20">
+                                    Permasalahan  :<br>
+                                    Detail Solusi : 
+                                    </textarea>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Upload File</label>
-                                        <div id="idcUplFileFormWO">
-                                            <input style="width:100%" type="file" class="form-control cUplFileFormWO" id="cUplFileFormWO" name="cUplFileFormWO[]" multiple>
-                                        </div>
+                                <div class="form-group">
+                                    <label>Upload File</label>
+                                    <div id="idcUplFileFormWO">
+                                        <input style="width:100%" type="file" class="form-control cUplFileFormWO" id="cUplFileFormWO" name="cUplFileFormWO[]" multiple>
                                     </div>
                                 </div>
                             </div>
@@ -173,26 +172,86 @@
     /********************************************** */
 
     bos.tcwo_form.cmdStartWO      = function(id){
-        if(confirm("Apakah anda yakin ingin mengambil WO ini?")){
-            this.obj.find(".nav-tabs li:eq(1)").removeClass("disabled");
-            bjs.ajax(this.url + '/startWO', 'cKode=' + id);
-        }
+        this.obj.find(".nav-tabs li:eq(1)").removeClass("disabled");    
+        bos.tcwo_form.showSwalConfirm("Apakah Anda Yakin?","Anda akan mengambil WO ini","warning","/startWO","cKode="+id);
     }
     
     bos.tcwo_form.cmdContinueWO   = function(id){
-        if(confirm("Apakah anda yakin ingin mengambil WO ini?")){
-            this.obj.find(".nav-tabs li:eq(1)").removeClass("disabled");
-            bjs.ajax(this.url + '/startWO', 'cFaktur=' + id);
-        }
+        this.obj.find(".nav-tabs li:eq(1)").removeClass("disabled");    
+        bos.tcwo_form.showSwalConfirm("Apakah Anda Yakin?","Anda akan melanjutkan WO ini","warning","/startWO","cFaktur="+id);
     }
+
+    bos.tcwo_form.showSwalConfirm = function(title,msg,icon,func='',params=''){
+        Swal.fire({
+            title: title,
+            text: msg,
+            icon: icon,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Saya yakin!',
+            cancelButtonText: 'Batal!'
+        }).then((result) => {
+            if (result.value) {
+                if(func !== "" && params !== ""){
+                    bjs.ajax(this.url + func, params);
+                }else{
+                    bos.tcwo_form.showSwalInfo("Data Saved!","","success");
+                }
+            }
+        });
+    }
+
+    bos.tcwo_form.showSwalInfo = function(title,msg='',icon){
+        Swal.fire({
+            title: title,
+            text: msg,
+            icon: icon,
+        });
+    }
+
+    bos.tcwo_form.loadDataFormWO = function(data){
+        //console.log("data:",data);
+        $("#textKode_WO").html(data.ss_KODE_WO_);
+        $("#textDateTime_WO").html(data.ss_DATETIME_WO_);
+        $("#textDari_WO").html(data.ss_DARI_WO_);
+        $("#textSubject_WO").html(data.ss_SUBJECT_WO_);
+        $("#textDeskripsi_WO").html(data.ss_DESKRIPSI_WO_);
+        bos.tcwo_form.loadFileFormWO(data.ss_FILE_WO_);
+    }
+
+    bos.tcwo_form.loadFileFormWO = function(file){
+        //console.log("file:",file);        
+        $("#areaFileWO").html("");
+        for(var i=0; i<file.length;i++){
+            var cFileName    = file[i].FileName;
+            var cFileNameCut = cFileName.substring(0,22);
+            
+            var $liFileWO         = $('<li class="itemFileWO"></li>');
+            var $spanIconWO       = $('<span class="mailbox-attachment-icon"><i class="fa fa-file-text"></i></span>');
+            var $divFileInfo      = $('<div class="mailbox-attachment-info"></div>');
+            var $aLinkFile        = $('<a href="'+file[i].FilePath+'" class="mailbox-attachment-name" title="'+cFileName+'" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;'+cFileNameCut+'</a>');
+            var $spanDownloadFile = $('<span class="mailbox-attachment-size">'+file[i].FileSize+'</span>');
+            var $aLinkDownload    = $('<a href="'+file[i].FilePath+'" class="btn btn-default btn-xs pull-right" title="Download" download><i class="fa fa-cloud-download"></i></a>');
+            
+            $spanDownloadFile.append($aLinkDownload);
+            $divFileInfo.append($aLinkFile);
+            $divFileInfo.append($spanDownloadFile);
+            $liFileWO.append($spanIconWO);
+            $liFileWO.append($divFileInfo);
+
+            $("#areaFileWO").append($liFileWO);
+        } 
+    }
+
     bos.tcwo_form.init         = function(){
+        bjs.ajax(this.url + '/init') ;
         this.obj.find('#cDeskripsi').val("");
         tinymce.activeEditor.setContent("");
         this.obj.find("#cKode").val("") ;
         this.obj.find("#cFaktur").val("") ;
         this.obj.find("#nNo").val("0") ;
         this.obj.find("#cUplFileFormWO").val("");
-        bjs.ajax(this.url + '/init') ;
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
         bos.tcwo_form.grid1_loaddata() ;
         bos.tcwo_form.grid1_reload() ;
@@ -283,21 +342,6 @@
             return false;
         });
 
-        /*this.obj.find("#cmdFinish").on("click", function(e){
-            e.preventDefault()
-            bos.tcwo_form.submitForm(bos.tcwo_form.cmdFinish,"finish");
-        });
-
-        this.obj.find("#cmdPending").on("click", function(e){
-            e.preventDefault()
-            bos.tcwo_form.submitForm(bos.tcwo_form.cmdPending,"pending");
-        });
-        bos.tcwo_form.submitForm = function(cmdBtn,opsi){
-            var form = bos.tcwo_form.obj.find('form').submit();
-            if( bjs.isvalidform(form) ){
-                bjs.ajax( bos.tcwo_form.base_url + '/saving', bjs.getdataform(form) +"&cOpsi="+ opsi, cmdBtn) ;
-            }
-        }*/
     }
     
     $(function(){
