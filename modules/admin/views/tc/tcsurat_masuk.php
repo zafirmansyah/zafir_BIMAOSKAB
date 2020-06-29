@@ -12,25 +12,25 @@
             <div class="row">
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <label>Surat Dari</label>
+                        <label>Dokumen Masuk Dari</label>
                         <input type="text" name="cSuratDari" id="cSuratDari" class="form-control" maxlength="225" placeholder="Surat Dari..." required>
                     </div>
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <label>Perihal Surat</label>
+                        <label>Perihal Dokumen</label>
                         <input type="text" name="cPerihal" id="cPerihal" class="form-control" maxlength="225" placeholder="Perihal" required>
                     </div>
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <label>Nomor Surat</label>
+                        <label>Nomor Dokumen</label>
                         <input type="text" name="cNomorSurat" id="cNomorSurat" class="form-control" maxlength="225" placeholder="Nomor Surat Masuk" required>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Tanggal Surat Masuk</label>
+                        <label>Tanggal Dokumen Masuk</label>
                         <div class="col-xs-8 input-group">
                             <input
                                 type="text" 
@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Tanggal Penulisan Surat</label>
+                        <label>Tanggal Penulisan Dokumen</label>
                         <div class="col-xs-8 input-group">
                             <input
                                 type="text" 
@@ -68,8 +68,8 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <label>Jenis Surat</label>
-                        <select class="form-control optJenisSurat select2" data-sf="load_Kota" name="optJenisSurat" id="optJenisSurat" data-placeholder=" - Jenis Surat - "></select>
+                        <label>Jenis Dokumen</label>
+                        <select class="form-control optJenisSurat select2" data-sf="load_Kota" name="optJenisSurat" id="optJenisSurat" data-placeholder=" - Jenis Dokumen - "></select>
                     </div>
                 </div>
                 <div class="col-sm-12">

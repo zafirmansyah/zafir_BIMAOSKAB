@@ -117,7 +117,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" placeholder="nNo" name="nNo" id="nNo" value="0">
+                <input type="hidden" placeholder="nNo" name="nNo" id="nNo" value="1">
                 <input type="hidden" placeholder="cKodeKaryawan" name="cKodeKaryawan" id="cKodeKaryawan">
                 <input type="hidden" placeholder="cFaktur" name="cFaktur" id="cFaktur">
                 <input type="hidden" placeholder="cNoSurat" name="cNoSurat" id="cNoSurat">

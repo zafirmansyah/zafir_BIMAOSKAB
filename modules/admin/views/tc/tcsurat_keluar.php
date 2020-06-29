@@ -18,19 +18,19 @@
                 </div> -->
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <label>Surat Ditujukan Kepada</label>
+                        <label>Dokumen Ditujukan Kepada</label>
                         <input type="text" name="cKepada" id="cKepada" class="form-control" maxlength="225" placeholder="Surat ditujukan kepada..." required>
                     </div>
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <label>Perihal Surat</label>
+                        <label>Perihal Dokumen</label>
                         <input type="text" name="cPerihal" id="cPerihal" class="form-control" maxlength="225" placeholder="Perihal" required>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Tanggal Pengisian Form IKU</label>
+                        <label>Tanggal</label>
                         <div class="col-xs-8 input-group">
                             <input
                                 type="text" 

@@ -86,7 +86,7 @@ class Bismillah_Model extends CI_Model{
 		$this->sql_exec($query, $save_log) ;
 	}
 
-	public function update($table, $data, $where='', $field_id, $save_log=TRUE){
+	public function update($table, $data, $where='', $field_id='', $save_log=TRUE){
 		if($field_id == '') $field_id = 'id';
 		$dbdata = $this->select($table, $field_id, $where) ;
 		if($this->rows($dbdata) > 0){
@@ -318,6 +318,10 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("m02_prinsip_status",$cSQL);
+		$this->AddField("m02_prinsip_status","Terdisposisi","varchar(255)","","Tgl");
+		$this->AddField("m02_prinsip_status","FakturDisposisi","varchar(255)","","Faktur");
+		$this->AddField("m02_prinsip_status","Alasan","varchar(255)","","Status");
+
 
 		$cSQL = "CREATE TABLE `m02_prinsip_disposisi` (
 			`ID` int(9) NOT NULL AUTO_INCREMENT,
@@ -349,6 +353,8 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;" ;
 		$this->AddTable("surat_keluar",$cSQL) ;
+		$this->AddField("surat_keluar","Status","varchar(1)","1","Unit");
+
 
 		$cSQL = "CREATE TABLE `work_order_master` ( 
 					`ID` INT(11) NOT NULL AUTO_INCREMENT , 
@@ -404,21 +410,25 @@ class Bismillah_Model extends CI_Model{
 		$this->AddTable("work_order_form_file",$cSQL);
 		$this->AddField("work_order_form_file","Faktur","varchar(255)","","ID");
 		
-		/**
-		 * 
-			surat_masuk
-			golongan_jabatan
-			jenis_sifat_surat
-			m02_anggaran
-			m02_anggaran_detail
-			m02_prinsip
-			m02_prinsip_status
-			m02_prinsip_disposisi
-			work_order_master
-			work_order_master_file
-			work_order_form
-			work_order_form_file
-		 */
+		
+		$cSQL = "CREATE TABLE `tahun_buku`  (
+					`ID` int(3) NOT NULL AUTO_INCREMENT,
+					`TahunBuku` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`KodeTahunBuku` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("tahun_buku",$cSQL);
+
+		$cSQL = "CREATE TABLE `m02_prinsip_file`  (
+					`ID` int(9) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Tgl` date NULL DEFAULT NULL,
+					`FilePath` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+					`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("m02_prinsip_file",$cSQL);
 
     }
 }

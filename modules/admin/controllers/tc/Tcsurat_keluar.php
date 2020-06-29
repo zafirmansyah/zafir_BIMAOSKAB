@@ -130,10 +130,9 @@ class Tcsurat_keluar extends Bismillah_Controller
         $cJenisSurat        = $va['optJenisSurat'] ;
         $cSifatSurat        = $va['optSifatSurat'];
         $cKodeUnit          = $va['optUnit'] ;
-        $cSifatSurat        = $va['optSifatSurat'];
         $dTgl               = date_2s($va['dTgl']) ;
         $nYear              = substr($dTgl,0,4) ;
-        $checkNomorSurat    = $this->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'SK',false) ;
+        $checkNomorSurat    = $this->bdb->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'SK',false) ;
         echo(' 
             Swal.fire({
                 icon: "info",

@@ -12,6 +12,7 @@ class Tcsurat_keluar_m extends Bismillah_Model
         $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
         $search   = $this->escape_like_str($search) ;
         $where 	 = array() ; 
+        $where[]    = "Status = '1'" ;
         if($search !== "") $where[]	= "(kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
         $where 	 = implode(" AND ", $where) ;
         $dbd      = $this->select("surat_keluar", "*", $where, "", "", "DateTime DESC, Kode DESC", $limit) ;
@@ -81,9 +82,14 @@ class Tcsurat_keluar_m extends Bismillah_Model
 
     public function checkNomorSurat($va)
     {
-        $cJenisSurat = $va['optJenisSurat'] ;
-        $cSifatSurat = $va['optSifatSurat'];
-        $nNomorSurat = $this->getNomorSuratKeluar($cJenisSurat,$cSifatSurat,false) ;
+        $cJenisSurat        = $va['optJenisSurat'] ;
+        $cSifatSurat        = $va['optSifatSurat'];
+        $cKodeUnit          = $va['optUnit'] ;
+        $cSifatSurat        = $va['optSifatSurat'];
+        $dTgl               = date_2s($va['dTgl']) ;
+        $nYear              = substr($dTgl,0,4) ;
+        $nNomorSurat = $this->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'SK',false) ;
+        // $nNomorSurat = $this->getNomorSuratKeluar($cJenisSurat,$cSifatSurat,false) ;
         return $nNomorSurat ;
     } 
 
@@ -96,7 +102,11 @@ class Tcsurat_keluar_m extends Bismillah_Model
     }
 
     public function deleting($id){
-        $this->delete("surat_keluar", "Kode = " . $this->escape($id)) ;
+        $cWhere = "Kode = " . $this->escape($id);
+        $cTable = "surat_keluar";
+        $vaUpdate = array("Status"=>'0');
+        $this->Update($cTable,$vaUpdate,$cWhere,"") ;
+        // $this->delete("surat_keluar", "Kode = " . $this->escape($id)) ;
     }
 
     public function getIncreamentKode()
