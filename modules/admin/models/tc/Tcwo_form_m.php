@@ -40,11 +40,17 @@ class Tcwo_form_m extends Bismillah_Model
                             'UserName'=>$cUserName,
                             "Status"=>"1"
                     );
-        $vaUpd     = array("StartDateTime"=>$dDateTime);
-        $where     = "Kode = ".$this->escape($cKode);
-
         $this->insert("work_order_form",$vaData);                   // insert data mutasi WO ke work_order_form
-        $this->update("work_order_master",$vaUpd,$where,"");        // update StartDate master WO
+        
+        $vaWO = $this->getdataWO($cKode);                           // ambil data StartDateTime WO
+        $dStartDate = $vaWO['StartDateTime']; 
+        
+        if($dStartDate == NULL){                                    // cek jika StartDateTime NULL, maka :
+            $vaUpd     = array("StartDateTime"=>$dDateTime);        // set StartDateTime master WO
+            $where     = "Kode = ".$this->escape($cKode);
+            $this->update("work_order_master",$vaUpd,$where,"");    
+        }
+        
         $this->updateStatusWO($cKode,"1");                          // update status master WO
 
         return $vaData;
