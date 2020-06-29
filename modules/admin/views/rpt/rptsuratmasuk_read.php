@@ -3,7 +3,7 @@
         <!--div class="col-md-3">
             <?php $this->load->view('rptlistfolder_suratmasuk');?>
         </div-->
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
                 <?php
