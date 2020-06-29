@@ -10,6 +10,7 @@ class Tcwo_form extends Bismillah_Controller
         parent::__construct() ;
         $this->load->model('tc/tcwo_form_m') ;
         $this->load->helper('bdate') ;
+        
 
         $this->bdb = $this->tcwo_form_m ;
     }
@@ -20,55 +21,65 @@ class Tcwo_form extends Bismillah_Controller
 
     public function loadgrid(){
         $cUserName  = getsession($this,"username");
+        $cUnit      = getsession($this,"unit");
         $va         = json_decode($this->input->post('request'), true) ;
         $vare       = array() ;
         $vdb        = $this->bdb->loadgrid($va) ;
         $dbd        = $vdb['db'] ;
         while( $dbr = $this->bdb->getrow($dbd) ){
-            $lStatus                = $dbr['Status'];
-            $cStatus                = "<span class='text-default'>New<span>";
-            $btnClass               = "btn-default";
-            if($lStatus == "1"){ //proses
-                $btnClass = "btn-success";
-                $cStatus  = "<span class='text-success'>Proses<span>";
-            }else if($lStatus == "2"){ //pending
-                $btnClass = "btn-info";
-                $cStatus  = "<span class='text-info'>Pending<span>";
-            }else if($lStatus == "3"){ // reject
-                $btnClass = "btn-danger";                
-                $cStatus  = "<span class='text-danger'>Reject<span>";
-            }
-            $vaset                  = $dbr ;
-            $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
-            $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tcwo_form.cmdStartWO(\''.$dbr['Kode'].'\')" title="Ambil"><i class="fa fa-pencil"></i></button>' ;
-            
-            if($dbr['TujuanUserName'] <> $cUserName){ //filter ini untuk tombol yg tampil di admin
-                $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="alert(\'Anda tidak bisa mengambil pekerjaan ini!\');"><i class="fa fa-pencil"></i></button>' ;
-            }
-
-            $vdb2     = $this->bdb->getDataOnProsesWO($dbr['Kode']); // ambil data WO jika WO ini yang sudah dikerjakan
-            $dbd2     = $vdb2['db'];
-            $cFaktur  = "";
-            $cUserYgAmbilWO = "";
-            if($dbr2  = $this->bdb->getrow($dbd2)){
-                $cFaktur = $dbr2['Faktur'];
-                $cUserYgAmbilWO = $dbr2['UserName'];
-            }
-            
-            if($lStatus == "1"){    // cek jika on proses
-                $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tcwo_form.cmdContinueWO(\''.$cFaktur.'\')" title="Lanjutkan WO?"><i class="fa fa-play-circle"></i></button>' ; //parameter diisi faktur supaya memudahkan filter untuk melanjutkan WO
-                if($dbr['TujuanUserName'] <> $cUserName){ //filter ini untuk tombol yg tampil di admin jika on proses
-                    $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="alert(\'Pekerjaan sudah diambil oleh '.$cUserYgAmbilWO.'!\');"><i class="fa fa-pencil"></i></button>' ;
+            $cUserTujuan            = $dbr['TujuanUserName'];
+            $vaDataUserTujuan       = $this->geDataUser($cUserTujuan);
+            $cUnitUserTujuan        = $vaDataUserTujuan['Unit'];
+            if($cUnitUserTujuan == $cUnit){
+                $lStatus                = $dbr['Status'];
+                $cStatus                = "<span class='text-default'>New</span>";
+                $btnClass               = "btn-default";
+                $btnIcon                = "fa-pencil";
+                if($lStatus == "1"){ //proses
+                    $btnClass = "btn-success";
+                    $btnIcon  = "fa-play-circle";
+                    $cStatus  = "<span class='text-success'>Proses</span>";
+                }else if($lStatus == "2"){ //pending
+                    $btnClass = "btn-info";
+                    $btnIcon  = "fa-pause-circle-o";
+                    $cStatus  = "<span class='text-info'>Pending</pan>";
+                }else if($lStatus == "3"){ // reject
+                    $btnClass = "btn-danger";     
+                    $btnIcon  = "fa-times";
+                    $cStatus  = "<span class='text-danger'>Reject</span>";
                 }
+                $vaset                  = $dbr ;
+                $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
+                $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tcwo_form.cmdStartWO(\''.$dbr['Kode'].'\')" title="Ambil"><i class="fa '.$btnIcon.'"></i></button>' ;
+                
+                if($cUserTujuan <> $cUserName){ //filter ini untuk tombol yg tampil di admin
+                    $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tcwo_form.showSwalInfo(\'Maaf\',\'Anda tidak bisa mengambil pekerjaan ini!\',\'warning\');"><i class="fa '.$btnIcon.'"></i></button>' ;
+                }
+
+                $vdb2     = $this->bdb->getDataOnProsesWO($dbr['Kode']); // ambil data WO jika WO ini yang sudah dikerjakan
+                $dbd2     = $vdb2['db'];
+                $cFaktur  = "";
+                $cUserYgAmbilWO = "";
+                if($dbr2  = $this->bdb->getrow($dbd2)){
+                    $cFaktur = $dbr2['Faktur'];
+                    $cUserYgAmbilWO = $dbr2['UserName'];
+                }
+                
+                if($lStatus == "1"){    // cek jika on proses
+                    $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tcwo_form.cmdContinueWO(\''.$cFaktur.'\')" title="Lanjutkan WO?"><i class="fa '.$btnIcon.'"></i></button>' ; //parameter diisi faktur supaya memudahkan filter untuk melanjutkan WO
+                    if($cUserTujuan <> $cUserName){ //filter ini untuk tombol yg tampil di admin jika on proses
+                        $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="alert(\'Pekerjaan sudah diambil oleh '.$cUserYgAmbilWO.'!\');"><i class="fa '.$btnIcon.'"></i></button>' ;
+                    }
+                }
+                $vaset['cmdDetail']     .= '&nbsp;&nbsp;';
+                $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
+                $vaset['Status']        = html_entity_decode($cStatus);
+
+                $vare[]		= $vaset ;
+                
             }
-            $vaset['cmdDetail']     .= '&nbsp;&nbsp;';
-            $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
-            $vaset['Status']        = html_entity_decode($cStatus);
-
-            $vare[]		= $vaset ;
         }
-
-        $vare 	= array("total"=>$vdb['rows'], "records"=>$vare ) ;
+        $vare 	= array("total"=>count($vare), "records"=>$vare ) ;
         echo(json_encode($vare)) ;
     }
 
@@ -82,7 +93,7 @@ class Tcwo_form extends Bismillah_Controller
         savesession($this, "ss_DATETIME_WO_","");
         savesession($this, "ss_TANGGAL_WO_","");
         savesession($this, "ss_DARI_WO_","");
-        savesession($this, "ss_FILEITEM_WO_",array());
+        savesession($this, "ss_FILEITEM_WO_","");
     }
 
     public function saving(){
@@ -132,7 +143,7 @@ class Tcwo_form extends Bismillah_Controller
             }
         }
 
-        savesession($this, "sstcwo_form_cUplFileFormWO" , array()) ;
+        savesession($this, "sstcwo_form_cUplFileFormWO" , "") ;
         $saving = $this->bdb->saving($va) ;
 
         echo(' 
@@ -145,6 +156,7 @@ class Tcwo_form extends Bismillah_Controller
     }
 
     public function startWO(){
+        //$this->init();
         $va 	    = $this->input->post() ;
         //jika isset cFaktur maka melanjutkan WO yang sudah on proses
         //jika !isset cFaktur maka start WO
@@ -155,27 +167,27 @@ class Tcwo_form extends Bismillah_Controller
             $cFaktur    = $va['cFaktur'];
             $cKode      = $this->bdb->getKodeWObyFaktur($cFaktur);
         }
-        $data       = $this->bdb->getdataWO($cKode) ;    
+        //echo($cKode."-".$cFaktur);
         
+        $data       = $this->bdb->getdataWO($cKode) ;    
         if(!empty($data)){
-            $cKode = $data['Kode'];
-            $vaSess['ss_KODE_WO_']      = $cKode;
-            $vaSess['ss_SUBJECT_WO_']   = $data['Subject'];
-            $vaSess['ss_DESKRIPSI_WO_'] = $data['Deskripsi'];
-            $vaSess['ss_DATETIME_WO_']  = $data['DateTime'];
-            $vaSess['ss_TANGGAL_WO_']   = $data['Tgl'];
-            $vaSess['ss_DARI_WO_']      = $data['UserName'];
-            $vaSess['ss_FILEITEM_WO_']  = $this->getFileWO($cKode);
-            foreach($vaSess as $key=>$value){
-                savesession($this,$key,$value);
-            }
+            $vaData['ss_KODE_WO_']      = $cKode;
+            $vaData['ss_SUBJECT_WO_']   = $data['Subject'];
+            $vaData['ss_DESKRIPSI_WO_'] = $data['Deskripsi'];
+            $vaData['ss_DATETIME_WO_']  = $data['DateTime'];
+            $vaData['ss_TANGGAL_WO_']   = $data['Tgl'];
+            $vaData['ss_DARI_WO_']      = $data['UserName'];
+            $vaData['ss_FILE_WO_']      = $this->getFileWO($cKode);
+
             if(!isset($va['cFaktur'])){
                 $this->bdb->startWO($cKode,$cFaktur);
             }
+            
             echo('
+                bos.tcwo_form.loadDataFormWO('.json_encode($vaData).');
                 with(bos.tcwo_form.obj){
-                    $("#cKode").val("'.$cKode.'") ;
-                    $("#cFaktur").val("'.$cFaktur.'") ;
+                    find("#cKode").val("'.$cKode.'") ;
+                    find("#cFaktur").val("'.$cFaktur.'") ;
                     find(".nav-tabs li:eq(1) a").tab("show") ;
                 }
             ');
@@ -236,8 +248,28 @@ class Tcwo_form extends Bismillah_Controller
         $dbData = $this->bdb->getFileWO($cKode);
         $vaData = array();
         while($dbr  = $this->bdb->getrow($dbData)){
+            $cPathWO     = $dbr['FilePath'];
+            $cFileSize   = "0.00";
+            $cNamaFileWO = "File Not Found";
+            if(file_exists($cPathWO)){
+                $nFileSize      = filesize($cPathWO);
+                $vaPathWO       = explode("/",$cPathWO);
+                $cNamaFileWO    = end($vaPathWO); 
+                $cFileSize      = formatSizeUnits($nFileSize);
+            }
+            $dbr['FileSize'] = $cFileSize;
+            $dbr['FileName'] = $cNamaFileWO;
             $vaData[] = $dbr;
         }        
+        return $vaData;
+    }
+    public function geDataUser($cUserName)
+    {
+        $dbData = $this->bdb->geDataUser($cUserName);
+        $vaData = array();
+        if($dbr = $this->bdb->getrow($dbData)){
+            $vaData = $dbr;
+        }
         return $vaData;
     }
 }

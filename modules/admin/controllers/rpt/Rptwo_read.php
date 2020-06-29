@@ -21,26 +21,18 @@ class Rptwo_read extends Bismillah_Controller
     }
     
 
-    public function getData(){
+    public function saving(){
         $va 	    = $this->input->post() ;
-        $cKode 	    = $va['cKode'] ;
-        $data       = $this->bdb->getdata($cKode) ;
-        if(!empty($data)){
-            savesession($this, "ss_rptwo_", $cKode) ;
-            echo('
-                with(bos.rptwo_read.obj){
-                    $("#cKode").val("'.$data['Kode'].'") ;
-                    $("#cSuratDari").val("'.$data['Dari'].'") ;
-                    $("#cPerihal").val("'.$data['Perihal'].'") ;
-                    $("#cNomorSurat").val("'.$data['NoSurat'].'") ;
-                    $("#dTgl").val("'.date_2d($data['Tgl']).'") ;
-                    $("#dTglSurat").val("'.date_2d($data['TglSurat']).'") ;
-                    $("#cLastPath").val("'.$data['Path'].'") ;
-                    find(".nav-tabs li:eq(1) a").tab("show") ;
-                    bos.rptwo_read.gridDisposisi_reload() ;
-                }
-            ') ;
-        }
+        
+        if($va['cOpsi'] == "reject") $va['cFakturReject'] = $this->bdb->getFakturRejectWO();
+        //print_r($va);
+        $cTitle = ($va['cOpsi'] == "reject") ? "Work Order Rejected" : "Work Order Finished"; 
+        $saving = $this->bdb->saving($va) ;
+        echo(' 
+            bos.rptwo_read.loadModalReject("hide");
+            bos.rptwo_read.showSwalInfo("'.$cTitle.'","","success");
+            bos.rptwo_read.backToMasterWO() ;     
+        ') ;
     }
 
 }

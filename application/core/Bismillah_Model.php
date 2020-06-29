@@ -390,6 +390,7 @@ class Bismillah_Model extends CI_Model{
 				) ENGINE = InnoDB;";
 		$this->AddTable("work_order_form",$cSQL);
 		$this->AddField("work_order_form","Faktur","varchar(255)","","ID");
+		$this->AddField("work_order_master","CaseClosed","varchar(1)","0","Status");
 
 		$cSQL = "CREATE TABLE `work_order_form_file` (
 			 		`ID` INT(11) NOT NULL AUTO_INCREMENT , 

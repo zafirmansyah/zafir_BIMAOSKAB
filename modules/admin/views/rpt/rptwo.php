@@ -1,8 +1,6 @@
 <section class="content">
     <div class="row">
-        <!--div class="col-md-3">
-            <?php $this->load->view('rptlistfolder_suratmasuk');?>
-        </div-->
+       
         <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-header with-border" style="text-align:center;">
@@ -10,7 +8,7 @@
             </div>
             <div class="box-body no-padding">
                 <div class="table-responsive mailbox-messages">
-                    <div id="gridSuratMasuk" style="height:500px"></div>
+                    <div id="gridWorkOrder" style="height:500px"></div>
                 </div>
             </div>
             <div class="box-footer no-padding">
@@ -25,17 +23,17 @@
 
     <?=cekbosjs();?>
 
-    bos.rptwo.gridSuratMasuk_data    = null ;
-    bos.rptwo.gridSuratMasuk_loaddata= function(){
-        this.gridSuratMasuk_data      = {} ;
+    bos.rptwo.gridWorkOrder_data    = null ;
+    bos.rptwo.gridWorkOrder_loaddata= function(){
+        this.gridWorkOrder_data      = {} ;
     }
 
-    bos.rptwo.gridSuratMasuk_load    = function(){
-        this.obj.find("#gridSuratMasuk").w2grid({
-            name     : this.id + '_gridSuratMasuk',
+    bos.rptwo.gridWorkOrder_load    = function(){
+        this.obj.find("#gridWorkOrder").w2grid({
+            name     : this.id + '_gridWorkOrder',
             limit    : 100 ,
             url      : bos.rptwo.base_url + "/loadgrid",
-            postData : this.gridSuratMasuk_data ,
+            postData : this.gridWorkOrder_data ,
             header   : 'Daftar Work Order',
             show: {
                 // header      : true,
@@ -50,37 +48,36 @@
                 { field: 'UserName', caption: 'User Input WO', size: '100px', sortable: false},
                 { field: 'Tgl', caption: 'Tgl Input Master', size: '100px', sortable: false},
                 { field: 'TujuanUserName', caption: 'User Tujuan WO', size: '100px', sortable: false},
-                { field: 'Status', caption: 'Status', size: '80px', sortable: false, style:'font-weight:bold'},
+                { field: 'Status', caption: 'Status', size: '100px', sortable: false, style:'font-weight:bold'},
                 { field: 'TglProses', caption: 'Tgl Awal Proses', size: '130px', sortable: false, style:'text-align:center'},
                 { field: 'TglStatusAkhir', caption: 'Tgl Status Akhir', size: '130px', sortable: false, style:'text-align:center'},
             ]
         });
     }
 
-    bos.rptwo.gridSuratMasuk_setdata   = function(){
-        w2ui[this.id + '_gridSuratMasuk'].postData   = this.gridSuratMasuk_data ;
+    bos.rptwo.gridWorkOrder_setdata   = function(){
+        w2ui[this.id + '_gridWorkOrder'].postData   = this.gridWorkOrder_data ;
     }
-    bos.rptwo.gridSuratMasuk_reload    = function(){
-        w2ui[this.id + '_gridSuratMasuk'].reload() ;
+    bos.rptwo.gridWorkOrder_reload    = function(){
+        w2ui[this.id + '_gridWorkOrder'].reload() ;
     }
-    bos.rptwo.gridSuratMasuk_destroy   = function(){
-        if(w2ui[this.id + '_gridSuratMasuk'] !== undefined){
-            w2ui[this.id + '_gridSuratMasuk'].destroy() ;
+    bos.rptwo.gridWorkOrder_destroy   = function(){
+        if(w2ui[this.id + '_gridWorkOrder'] !== undefined){
+            w2ui[this.id + '_gridWorkOrder'].destroy() ;
         }
     }
 
-    bos.rptwo.gridSuratMasuk_render    = function(){
-        this.obj.find("#gridSuratMasuk").w2render(this.id + '_gridSuratMasuk') ;
+    bos.rptwo.gridWorkOrder_render    = function(){
+        this.obj.find("#gridWorkOrder").w2render(this.id + '_gridWorkOrder') ;
     }
 
-    bos.rptwo.gridSuratMasuk_reloaddata   = function(){
-        this.gridSuratMasuk_loaddata() ;
-        this.gridSuratMasuk_setdata() ;
-        this.gridSuratMasuk_reload() ;
+    bos.rptwo.gridWorkOrder_reloaddata   = function(){
+        this.gridWorkOrder_loaddata() ;
+        this.gridWorkOrder_setdata() ;
+        this.gridWorkOrder_reload() ;
     }
 
     bos.rptwo.cmdDetail = function(id){
-        alert(id);
         objForm    = "rptwo_read" ;
         locForm    = "admin/rpt/rptwo_read" ;
         this.setSessionIDWO(id);
@@ -99,13 +96,14 @@
     }
 
     bos.rptwo.initComp     = function(){
-        this.gridSuratMasuk_loaddata() ;
-        this.gridSuratMasuk_load() ;
+        this.gridWorkOrder_loaddata() ;
+        this.gridWorkOrder_load() ;
+        //$(".modal-backdrop").css("display","none");
     }
 
     bos.rptwo.initCallBack = function(){
         this.obj.on('remove', function(){
-            bos.rptwo.gridSuratMasuk_destroy() ;
+            bos.rptwo.gridWorkOrder_destroy() ;
         }) ;
     }
 

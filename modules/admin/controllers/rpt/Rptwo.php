@@ -37,17 +37,21 @@ class Rptwo extends Bismillah_Controller
         while( $dbr = $this->bdb->getrow($dbd) ){
             $cTglProses             = $dbr['TglProses'];
             $cTglAkhir              = $dbr['TglStatusAkhir'];
-            $lStatus                = $dbr['Status'];
-            $cStatus                = "<span class='text-default'>New<span>";
+            $cStatus                = $dbr['Status'];
+            $cCaseClosed            = $this->bdb->getStatusCaseClosed($dbr['Kode']);
+            $cTextStatus                = "<span class='text-default'>New<span>";
             $btnClass               = "btn-default";
-            if($lStatus == "1"){ //proses
-                $cStatus  = "<span class='text-info'>Proses<span>";
-            }else if($lStatus == "2"){ //pending
-                $cStatus  = "<span class='text-warning'>Pending<span>";
-            }else if($lStatus == "3"){ // reject
-                $cStatus  = "<span class='text-danger'>Reject<span>";
-            }else if($lStatus == "F"){ // finish
-                $cStatus  = "<span class='text-success'>Finish<span>";
+            if($cStatus == "1"){ //proses
+                $cTextStatus  = "<span class='text-info'>Proses<span>";
+            }else if($cStatus == "2"){ //pending
+                $cTextStatus  = "<span class='text-warning'>Pending<span>";
+            }else if($cStatus == "3"){ // reject
+                $cTextStatus  = "<span class='text-danger'>Reject<span>";
+            }else if($cStatus == "F"){ // finish
+                $cTextStatus  = "<span class='text-success'>Finish<span>";
+                if($cCaseClosed == "1"){
+                    $cTextStatus  = "<span class='text-success'><i class='fa fa-check'></i>&nbsp;Case Closed<span>";
+                }
             }
             if($dbr['TglProses'] !== "-"){
                 $dTglProses = date_create($dbr['TglProses']);
@@ -61,8 +65,11 @@ class Rptwo extends Bismillah_Controller
             $vaset['Tgl']            = date_2d($dbr['Tgl']) ;
             $vaset['TglProses']      = $cTglProses;
             $vaset['TglStatusAkhir'] = $cTglAkhir;
-            $vaset['Status']         = html_entity_decode($cStatus);
-            $vaset['cmdDetail']       = '<a onClick="bos.rptwo.cmdDetail(\''.$dbr['Kode'].'\')">'.strtoupper($dbr['Subject']).'</a>' ;
+            $vaset['Status']         = html_entity_decode($cTextStatus);
+            $vaset['cmdDetail']      = '<span>'.strtoupper($dbr['Subject']).'</span>' ;
+            if($dbr['TglProses'] !== "-" || $dbr['TglStatusAkhir'] !== "-"){
+                $vaset['cmdDetail']      = '<a onClick="bos.rptwo.cmdDetail(\''.$dbr['Kode'].'\')">'.strtoupper($dbr['Subject']).'</a>' ;
+            }
             $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
             $vare[]		= $vaset ;
         }
@@ -93,6 +100,7 @@ class Rptwo extends Bismillah_Controller
                 $cEndDateTime       = date_create($dbRow['EndDateTime']);
                 $dEndDateTime       = date_format($cEndDateTime,"d-m-Y H:i");
             } 
+            $cCaseClosed    = $this->bdb->getStatusCaseClosed($cKode);
             $cUserName      = $dbRow['UserName'];
             $vaFileList     = $this->getFileFormWO($cFaktur);
             $vaData[$dTgl][$cFaktur] = array("Faktur"       =>$cFaktur,
@@ -102,9 +110,10 @@ class Rptwo extends Bismillah_Controller
                                              "StartDateTime"=>$dStartDateTime,
                                              "EndDateTime"  =>$dEndDateTime,
                                              "UserName"     =>$cUserName,
+                                             "CaseClosed"   =>$cCaseClosed,
                                              "File"         =>$vaFileList);
         }
-        print_r($vaData);
+        //print_r($vaData);
         savesession($this,"ss_Data_FormWO",$vaData);
     }
 
