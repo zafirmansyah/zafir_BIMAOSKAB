@@ -9,7 +9,7 @@
         </div>
         <div class="tab-pane" id="tab_2">
         <form>
-            <div class="row">
+            <div class="row" style="padding:5px;">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>Tanggal Penulisan IKU</label>
@@ -37,12 +37,8 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <div class="form-group">
-                            <label>Deskripsi</label>
-                            <div class="col-sm-12">
-                                <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master IKU..."></textarea>                   
-                            </div>
-                        </div>
+                        <label>Deskripsi</label>
+                        <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master IKU..."></textarea>                   
                     </div>
                 </div>
                 <div class="col-sm-10">
