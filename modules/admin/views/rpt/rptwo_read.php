@@ -1,118 +1,176 @@
 <section class="content">
     <?php
-        $cKode  = getsession($this,"ss_Kode_WO");
-        $vaData = getsession($this,"ss_Data_FormWO");
-        //print_r($vaData);
+        $cKode            = getsession($this,"ss_Kode_WO");
+        $vaDataWO         = getsession($this,"ss_Data_WO"); 
+        $vaDataForm       = getsession($this,"ss_Data_FormWO");
+        //print_r($vaDataWO);
+        //print_r($vaDataForm);
+        $dTgl             = date_create($vaDataWO['DateTime']);
+        $cTgl             = date_format($dTgl,"d M Y");
+        $cDeskripsi       = $vaDataWO['Deskripsi'];
+        $dStartDateTimeWO = $vaDataWO['StartDateTime'];
+        $cUserNameWO      = $vaDataWO['UserName'];
+        $vaFileWO         = $vaDataWO['File'];
+        $lUserAcc         = ($vaDataWO['UserName'] == getsession($this,"username")) ? true : false; // filter supaya hanya user yg input WO yg bisa ACC 
     ?>
     <div class="row">
        <div class="col-md-12">
            <ul class="timeline">
-                <?php
-                    foreach($vaData as $ckey=>$val){
-                ?>
-                        <!-- timeline time label -->
-                        <li class="time-label">
-                            <span class="bg-blue">
-                                <?= $ckey?>
-                            </span>
-                        </li>
-                        <!-- /.timeline-label -->
-                        <?php
-                            foreach($val as $key=>$value){
-                                $cFaktur = $value['Faktur']; 
-                                $cStatus = $value['Status'];
-                                $cCaseClosed = $value['CaseClosed'];
-                                if($cStatus == "1"){
-                                    $iconWO  = "fa-play bg-blue";
-                                    $titleWO = "Proses"; 
-                                }else if($cStatus == "2"){
-                                    $iconWO  = "fa-pause bg-yellow";
-                                    $titleWO = "Pending";
-                                }else if($cStatus == "F"){
-                                    $iconWO  = "fa-check bg-green";
-                                    $titleWO = "Finish";
-                                }else if($cStatus == "3"){
-                                    $iconWO  = "fa-times bg-red";
-                                    $titleWO = "Reject";
+                <li class="time-label">
+                    <span class="bg-blue">
+                        <?=$cTgl ?>
+                    </span>
+                </li>
+                <!-- timeline item -->
+                <li>
+                    <!-- timeline icon -->
+                    <i class="fa fa-pencil" title="New"></i>
+                    <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i> <?=$dStartDateTimeWO?></span>
+
+                        <h3 class="timeline-header bg-default"><a href="#"><?=$cUserNameWO?></a> </h3>
+
+                        <div class="timeline-body">
+                            <?=$cDeskripsi?>
+                        </div>
+                        <div class="timeline-footer">
+                            <?php if(!empty($vaFileWO)){?>
+                                <ul class="mailbox-attachments clearfix">
+                                    <?php
+                                        foreach($vaFileWO as $key => $value){
+                                            $cPATH     = $value['FilePath'];
+                                            $cFileSize = $value['FileSize'];
+                                            $cNAMAFILE = $value['FileName'];
+                                    ?>
+                                        <li>
+                                            <span class="mailbox-attachment-icon" style="padding:0;"><i class="fa fa-file-text-o"></i></span>
+
+                                            <div class="mailbox-attachment-info">
+                                                <a href="<?=$cPATH?>" class="mailbox-attachment-name" title="<?=$cNAMAFILE?>" target="_blank">
+                                                    <i class="fa fa-paperclip"></i>&nbsp;<?=substr($cNAMAFILE,0,20).".."?>
+                                                </a>
+                                                <span class="mailbox-attachment-size">
+                                                    <?=$cFileSize?>
+                                                    <a href="<?=$cPATH?>" class="btn btn-default btn-xs pull-right" title="Download" download>
+                                                        <i class="fa fa-cloud-download"></i
+                                                    ></a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    <?php
+                                        }
+                                    ?>
+                                </ul>
+                            <?php
                                 }
-                                $cDeskripsi     = ($cStatus == "1") ? "On Proccess" : $value['Deskripsi'];
-                                $dStartDateTime = $value['StartDateTime'];
-                                $dEndDateTime   = ($cStatus == "1") ? "On Proccess" : $value['EndDateTime'];
-                                $cUserName      = $value['UserName'];
-                                $vaFileFormWO   = $value['File'];
+                            ?>
+                        </div>
+                        
+                    </div>
+                </li>
+                <!-- END timeline item -->
 
-                        ?>
-                                <!-- timeline item -->
-                                <li>
-                                    <!-- timeline icon -->
-                                    <i class="fa <?=$iconWO?>" title="<?= $titleWO?>"></i>
-                                    <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> <?=$dStartDateTime?> - <?=$dEndDateTime?></span>
+                <?php
+                foreach($vaDataForm as $ckey=>$val){
+                    $dTglForm = date_create($ckey);
+                    $cTglForm = date_format($dTglForm,"d M Y");
+                ?>
+                    <!-- timeline time label -->
+                    <li class="time-label">
+                        <span class="bg-blue">
+                            <?=$cTglForm ?>
+                        </span>
+                    </li>
+                    <!-- /.timeline-label -->
+                    <?php
+                    foreach($val as $key=>$value){
+                        $cFaktur = $value['Faktur']; 
+                        $cStatus = $value['Status'];
+                        $cCaseClosed = $value['CaseClosed'];
+                        if($cStatus == "1"){
+                            $iconFormWO  = "fa-play bg-blue";
+                            $titleFormWO = "Proses"; 
+                        }else if($cStatus == "2"){
+                            $iconFormWO  = "fa-pause bg-yellow";
+                            $titleFormWO = "Pending";
+                        }else if($cStatus == "F"){
+                            $iconFormWO  = "fa-check bg-green";
+                            $titleFormWO = "Finish";
+                        }else if($cStatus == "3"){
+                            $iconFormWO  = "fa-times bg-red";
+                            $titleFormWO = "Reject";
+                        }
+                        $cDeskripsi     = ($cStatus == "1") ? "On Proccess" : $value['Deskripsi'];
+                        $dStartDateTime = $value['StartDateTime'];
+                        $dEndDateTime   = ($cStatus == "1") ? "On Proccess" : $value['EndDateTime'];
+                        $cUserName      = $value['UserName'];
+                        $vaFileFormWO   = $value['File'];
 
-                                        <h3 class="timeline-header bg-default"><a href="#"><?=$cUserName?></a> </h3>
+                    ?>
+                        <!-- timeline item -->
+                        <li>
+                            <!-- timeline icon -->
+                            <i class="fa <?=$iconFormWO?>" title="<?= $titleFormWO?>"></i>
+                            <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> <?=$dStartDateTime?> - <?=$dEndDateTime?></span>
 
-                                        <div class="timeline-body">
-                                            <?=$cDeskripsi?>
-                                        </div>
-                                        <div class="timeline-footer">
-                                            <?php if(!empty($vaFileFormWO)){?>
-                                                <ul class="mailbox-attachments clearfix">
-                                                    <?php
-                                                        foreach($vaFileFormWO as $key => $value){
-                                                            $cPATH     = $value['FilePath'];
-                                                            $cFileSize      = "0.00";
-                                                            $cNAMAFILESurat = "File Not Found";
-                                                            if(file_exists($cPATH)){
-                                                                $nFileSize      = filesize($cPATH);
-                                                                $vaPATHSurat    = explode("/",$cPATH);
-                                                                $cNAMAFILESurat = end($vaPATHSurat); 
-                                                                $cFileSize      = formatSizeUnits($nFileSize);
-                                                            }
-                                                    ?>
-                                                        <li>
-                                                            <span class="mailbox-attachment-icon" style="padding:0;"><i class="fa fa-file-text-o"></i></span>
+                                <h3 class="timeline-header bg-default"><a href="#"><?=$cUserName?></a> </h3>
 
-                                                            <div class="mailbox-attachment-info">
-                                                                <a href="<?=$cPATH?>" class="mailbox-attachment-name" title="<?=$cNAMAFILESurat?>" target="_blank">
-                                                                    <i class="fa fa-paperclip"></i>&nbsp;<?=substr($cNAMAFILESurat,0,20).".."?>
-                                                                </a>
-                                                                <span class="mailbox-attachment-size">
-                                                                    <?=$cFileSize?>
-                                                                    <a href="<?=$cPATH?>" class="btn btn-default btn-xs pull-right" title="Download" download>
-                                                                        <i class="fa fa-cloud-download"></i
-                                                                    ></a>
-                                                                </span>
-                                                            </div>
-                                                        </li>
-                                                    <?php
-                                                        }
-                                                    ?>
-                                                </ul>
+                                <div class="timeline-body">
+                                    <?=$cDeskripsi?>
+                                </div>
+                                <div class="timeline-footer">
+                                    <?php if(!empty($vaFileFormWO)){?>
+                                        <ul class="mailbox-attachments clearfix">
+                                            <?php
+                                                foreach($vaFileFormWO as $key => $value){
+                                                    $cPATH     = $value['FilePath'];
+                                                    $cFileSize = $value['FileSize'];
+                                                    $cNAMAFILE = $value['FileName'];
+                                            ?>
+                                                <li>
+                                                    <span class="mailbox-attachment-icon" style="padding:0;"><i class="fa fa-file-text-o"></i></span>
+
+                                                    <div class="mailbox-attachment-info">
+                                                        <a href="<?=$cPATH?>" class="mailbox-attachment-name" title="<?=$cNAMAFILE?>" target="_blank">
+                                                            <i class="fa fa-paperclip"></i>&nbsp;<?=substr($cNAMAFILE,0,20).".."?>
+                                                        </a>
+                                                        <span class="mailbox-attachment-size">
+                                                            <?=$cFileSize?>
+                                                            <a href="<?=$cPATH?>" class="btn btn-default btn-xs pull-right" title="Download" download>
+                                                                <i class="fa fa-cloud-download"></i
+                                                            ></a>
+                                                        </span>
+                                                    </div>
+                                                </li>
                                             <?php
                                                 }
-                                                if($cStatus == "F" && $cCaseClosed == "0"){
-                                                ?>
-                                                    <div class="timeline-footer">
-                                                        <button class="btn btn-danger btn-xs" onclick="bos.rptwo_read.cmdOpenRejectForm('<?=$cFaktur?>');">Reject</button>
-                                                        <button class="btn btn-success btn-xs" onclick="bos.rptwo_read.cmdFinish('<?=$cFaktur?>');"> Finish</button>       
-                                                        
-                                                    </div>
-                                                <?php
-                                                }else if($cStatus == "F" && $cCaseClosed == "1"){
-                                                    echo("<div class='alert alert-success'>Work Order Case Closed!</div>");
-                                                }
-                                                ?>
-                                        </div>
-                                        
-                                    </div>
-                                </li>
-                                <!-- END timeline item -->
-
-                        <?php
-                            }
-                        ?>
-                <?php
+                                            ?>
+                                        </ul>
+                                    <?php
+                                        }
+                                        if($cStatus == "F" && $cCaseClosed == "0" & $lUserAcc){
+                                        ?>
+                                            <div class="timeline-footer">
+                                                <button class="btn btn-danger btn-xs" onclick="bos.rptwo_read.cmdOpenRejectForm('<?=$cFaktur?>');">Reject</button>
+                                                <button class="btn btn-success btn-xs" onclick="bos.rptwo_read.cmdFinish('<?=$cFaktur?>');"> Finish</button>       
+                                                
+                                            </div>
+                                        <?php
+                                        }else if($cStatus == "F" && $cCaseClosed == "1"){
+                                            echo("<div class='alert alert-success'>Work Order Case Closed!</div>");
+                                        }
+                                        ?>
+                                </div>
+                                
+                            </div>
+                        </li>
+                        <!-- END timeline item -->
+                    <?php
                     }
+                    ?>
+                <?php
+                }
                 ?>
                 <li>
                     <!-- timeline icon -->

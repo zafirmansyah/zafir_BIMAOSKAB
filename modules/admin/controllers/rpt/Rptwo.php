@@ -18,14 +18,8 @@ class Rptwo extends Bismillah_Controller
     public function init()
     {
         savesession($this, "ss_Data_FormWO","") ;
+        savesession($this, "ss_Data_WO","");
         savesession($this, "ss_Kode_WO","") ;
-        savesession($this, "ss_ID_FormWO","") ;
-        savesession($this, "ss_UserName_FormWO","") ;
-        savesession($this, "ss_Status_FormWO","") ;
-        savesession($this, "ss_Deskripsi_FormWO","") ;
-        savesession($this, "ss_Tgl_FormWO","") ;
-        savesession($this, "ss_EndDateTime_FormWO","") ;
-        savesession($this, "ss_File_FormWO","");
         
     }
 
@@ -81,10 +75,10 @@ class Rptwo extends Bismillah_Controller
     public function setSessionIDWO()
     {
         $cKode      = $this->input->post('cKode');
-        $dbData     = $this->bdb->getDetailFormWO($cKode);
-        savesession($this,"ss_Kode_WO",$cKode);
-        $vaSess     = array() ;
+        $this->setSessionDataWO($cKode);
+        savesession($this,"ss_Kode_WO",$cKode);        
         $vaData     = array() ;
+        $dbData     = $this->bdb->getDetailFormWO($cKode);
         while($dbRow = $this->bdb->getrow($dbData)){   
             $cFaktur        = $dbRow['Faktur'];
             $cDeskripsi     = $dbRow['Deskripsi'];
@@ -103,7 +97,7 @@ class Rptwo extends Bismillah_Controller
             $cCaseClosed    = $this->bdb->getStatusCaseClosed($cKode);
             $cUserName      = $dbRow['UserName'];
             $vaFileList     = $this->getFileFormWO($cFaktur);
-            $vaData[$dTgl][$cFaktur] = array("Faktur"       =>$cFaktur,
+            $vaDataForm[$dTgl][$cFaktur] = array("Faktur"       =>$cFaktur,
                                              "Deskripsi"    =>$cDeskripsi,
                                              "Status"       =>$cStatus,
                                              "Tgl"          =>$dTgl,
@@ -113,15 +107,59 @@ class Rptwo extends Bismillah_Controller
                                              "CaseClosed"   =>$cCaseClosed,
                                              "File"         =>$vaFileList);
         }
-        //print_r($vaData);
-        savesession($this,"ss_Data_FormWO",$vaData);
+        //print_r($vaDataForm);
+        savesession($this,"ss_Data_FormWO",$vaDataForm);
     }
 
-    public function getFileFormWO($cFaktur){
-        $dbData = $this->bdb->getFileFormWO($cFaktur);
+    public function setSessionDataWO($cKode)
+    {
+        $vaDataWO = array();
+        $data = $this->bdb->getDataWO($cKode);
+        if(!empty($data)){
+            $vaDataWO = $data;
+            $vaDataWO['File'] = $this->getFileWO($cKode);
+        }
+        savesession($this,"ss_Data_WO",$vaDataWO);
+    }
+
+    public function getFileFormWO($cKode)
+    {
+        $dbData = $this->bdb->getFileFormWO($cKode);
         $vaData = array();
-        while($dbRow = $this->bdb->getrow($dbData)){
-            $vaData[]=$dbRow;
+        while($dbr = $this->bdb->getrow($dbData)){
+            $cPathWO     = $dbr['FilePath'];
+            $cFileSize   = "0.00";
+            $cNamaFileWO = "File Not Found";
+            if(file_exists($cPathWO)){
+                $nFileSize      = filesize($cPathWO);
+                $vaPathWO       = explode("/",$cPathWO);
+                $cNamaFileWO    = end($vaPathWO); 
+                $cFileSize      = formatSizeUnits($nFileSize);
+            }
+            $dbr['FileSize'] = $cFileSize;
+            $dbr['FileName'] = $cNamaFileWO;
+            $vaData[] = $dbr;
+        }        
+        return $vaData;
+    }
+
+    public function getFileWO($cFaktur)
+    {
+        $dbData = $this->bdb->getFileWO($cFaktur);
+        $vaData = array();
+        while($dbr = $this->bdb->getrow($dbData)){
+            $cPathWO     = $dbr['FilePath'];
+            $cFileSize   = "0.00";
+            $cNamaFileWO = "File Not Found";
+            if(file_exists($cPathWO)){
+                $nFileSize      = filesize($cPathWO);
+                $vaPathWO       = explode("/",$cPathWO);
+                $cNamaFileWO    = end($vaPathWO); 
+                $cFileSize      = formatSizeUnits($nFileSize);
+            }
+            $dbr['FileSize'] = $cFileSize;
+            $dbr['FileName'] = $cNamaFileWO;
+            $vaData[] = $dbr;
         }        
         return $vaData;
     }
