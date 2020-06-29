@@ -24,7 +24,7 @@ class Func_m extends Bismillah_Model{
         return $dTglAwal ;
     }
 
-    public function getNomorRubrikSurat($nYear,$cKodeUnit,$cRubrikJenisDok,$cSifatSurat,$cUniqueKey='BIMAOSKAB',$lUpdate=true)
+    public function getNomorRubrikSurat($nYear,$cKodeUnit,$cKodeSurat,$cSifatSurat,$cUniqueKey='BIMAOSKAB',$lUpdate=true)
     {
         /**
          * 
@@ -41,11 +41,33 @@ class Func_m extends Bismillah_Model{
         
         $cRubrikUnit        = $this->getval("KodeRubrik","Kode = '$cKodeUnit'","golongan_unit") ;
         $cRubrikSifatDok    = $this->getval("KodeRubrik","Kode = '$cSifatSurat'","jenis_sifat_surat") ;
-        $cUnique            = $nKodeTahunBuku . "/" . $cRubrikUnit ."/".  $cRubrikJenisDok ."/". $cRubrikSifatDok ;
+        $cRubrikJenisSurat  = $this->getval("KodeRubrik","Kode = '$cKodeSurat'","jenis_surat") ;
+        $cUnique            = $nKodeTahunBuku . "/" . $cRubrikUnit ."/".  $cRubrikJenisSurat ."/". $cRubrikSifatDok ;
         $cKey  		        = $cUniqueKey . $cUnique;
         $n    		        = $this->getincrement($cKey,$lUpdate,1);
-        $nReturn   	        = $nKodeTahunBuku . "/" . $n . "/" . $cRubrikUnit . "/" . $cRubrikJenisDok . "/" . $cRubrikSifatDok;
+        $nReturn   	        = $nKodeTahunBuku . "/" . $n . "/" . $cRubrikUnit . "/" . $cRubrikJenisSurat . "/" . $cRubrikSifatDok;
         return $nReturn ;
+    }
+
+    public function getDataDispoM02Prinsip($cFakturDokumen)
+    {
+        $va     = array() ;
+        $cTable = "m02_prinsip";
+        $cField = "*" ;
+        $cWhere = "Faktur = '{$cFakturDokumen}'" ;
+        $dbData = $this->select($cTable,$cField,$cWhere) ;
+        if($dbRow = $this->getrow($dbData)){
+            $cMetodeDisposisi = $dbRow['MetodeDisposisi'] ;
+            if($cMetodeDisposisi == "S"){
+                $cKodeDispo = $dbRow['KodeDisposisi'] ;
+                $dbDTDispo = $this->select("m02_prinsip_disposisi","*","FakturDokumen = '{$cFakturDokumen}' AND Kode = '{$cKodeDispo}'") ;
+                while($dbROWDispo = $this->getrow($dbDTDispo)){
+                    $va = $dbROWDispo ;
+                }
+            }
+        }
+        
+        return $va ;
     }
 
 }
