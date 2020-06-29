@@ -84,13 +84,12 @@ class Tcm_prinsip extends Bismillah_Controller
         $data   = $this->bdb->getDataTargetDisposisi($cKode) ;
         if(!empty($data)){
             echo('
-            with(bos.tcm_prinsip.obj){
-               find("#cKodeKaryawan").val("'.$data['KodeKaryawan'].'") ;
-               find("#cDisposisi").val("'.$data['fullname'].'");
-               bos.tcm_prinsip.loadModalDisposisi("hide");
-            }
-
-         ') ;
+                with(bos.tcm_prinsip.obj){
+                    find("#cKodeKaryawan").val("'.$data['KodeKaryawan'].'") ;
+                    find("#cDisposisi").val("'.$data['fullname'].'");
+                    bos.tcm_prinsip.loadModalDisposisi("hide");
+                }
+            ') ;
         }
     }
 
@@ -131,7 +130,7 @@ class Tcm_prinsip extends Bismillah_Controller
         
         $cNoSurat  = $va['cNoSurat'] ;
         if($cNoSurat == "" || empty(trim($cNoSurat))){
-            $cNoSurat   = $this->func->getNomorRubrikSurat($nYear,$nKodeUnit,'M.02',$cSifatSurat,'M02P') ;
+            $cNoSurat   = $this->func->getNomorRubrikSurat($nYear,$nKodeUnit,'006',$cSifatSurat,'M02P') ;
         }
 
         $va['cFaktur']  = $cFaktur ;
@@ -194,7 +193,7 @@ class Tcm_prinsip extends Bismillah_Controller
     public function savingFile()
     {
         savesession($this, "sstcm_prinsip_cUplFile" , "") ;
-        $cFileName = "SuratMasuk_". date("Ymd_His");
+        $cFileName = "M02Prinsip_". date("Ymd_His")."_";
         $fcfg   = array("upload_path"=>"./tmp/","allowed_types"=>"*","overwrite"=>true) ;
                 
         $this->load->library('upload', $fcfg) ;
