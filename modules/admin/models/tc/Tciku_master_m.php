@@ -59,7 +59,7 @@ class Tciku_master_m extends Bismillah_Model
                                 "Periode"=>$va['cPeriode'],
                                 "UserName"=>$cUserName ,
                                 "DateTime"=>date('Y-m-d H:i:s'),
-                                "Status"=>'1'
+                                "Status"=>"1"
                                 ) ;
         $this->insert("iku_master",$vaData);
         

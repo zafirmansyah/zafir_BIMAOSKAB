@@ -12,15 +12,6 @@
             <div class="col-sm-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                    <?php
-                        $cKODEWO         = getsession($this,"ss_KODE_WO_") ;
-                        $cSUBJECTWO      = getsession($this,"ss_SUBJECT_WO_") ;
-                        $cDESKRIPSIWO    = getsession($this,"ss_DESKRIPSI_WO_") ;
-                        $cDATETIMEWO     = getsession($this,"ss_DATETIME_WO_") ;
-                        $dTANGGALWO      = getsession($this,"ss_TANGGAL_WO_") ;
-                        $cDARIWO         = getsession($this,"ss_DARI_WO_") ;
-                        $vaFILEWO        = getsession($this,"ss_FILEITEM_WO_") ;
-                    ?>
                     <h3 class="box-title">Kode Work Order : <span id="textKode_WO"></span></h3>
                     </div>
                     <div class="box-body no-padding">
@@ -34,40 +25,9 @@
                     </div>
                     </div>
                     <div class="box-footer">
-                    <?php 
-                        //print_r($vaFILEWO);
-                        //if(!empty($vaFILEWO)){
-                        
-                        //?>
                         <ul class="mailbox-attachments clearfix" id="areaFileWO">
-                            <?php
-                                /*foreach($vaFILEWO as $key => $value){
-                                    $cPATHWO     = $value['FilePath'];
-                                    $cFileSize   = "0.00";
-                                    $cNAMAFILEWO = "File Not Found";
-                                    if(file_exists($cPATHWO)){
-                                        $nFileSize      = filesize($cPATHWO);
-                                        $vaPATHWO       = explode("/",$cPATHWO);
-                                        $cNAMAFILEWO    = end($vaPATHWO); 
-                                        $cFileSize      = formatSizeUnits($nFileSize);
-                                    }*/
-                            ?>
-                                <!--li>
-                                    <span class="mailbox-attachment-icon"><i class="fa fa-cubes"></i></span>
-
-                                    <div class="mailbox-attachment-info">
-                                        <a href="<?=$cPATHWO?>" class="mailbox-attachment-name" title="<?=$cNAMAFILEWO?>" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;<?=substr($cNAMAFILEWO,0,22).".."?></a>
-                                        <span class="mailbox-attachment-size">
-                                        <?=$cFileSize?>
-                                        <a href="<?=$cPATHWO?>" class="btn btn-default btn-xs pull-right" title="Download" download><i class="fa fa-cloud-download"></i></a>
-                                        </span>
-                                    </div>
-                                </li-->
-                            <?php
-                                //}
-                            ?>
+                            
                         </ul>
-                    <?php //} ?>
                     </div>
                 </div>
             </div>
@@ -225,7 +185,7 @@
         $("#areaFileWO").html("");
         for(var i=0; i<file.length;i++){
             var cFileName    = file[i].FileName;
-            var cFileNameCut = cFileName.substring(0,22);
+            var cFileNameCut = cFileName.substring(0,20);
             
             var $liFileWO         = $('<li class="itemFileWO"></li>');
             var $spanIconWO       = $('<span class="mailbox-attachment-icon"><i class="fa fa-file-text"></i></span>');

@@ -26,10 +26,11 @@ class Tciku_form extends Bismillah_Controller
         while( $dbr = $this->bdb->getrow($dbd) ){
             $lStatus                = $this->bdb->CheckFormStatus($dbr['Kode']);
             $btnClass               = ($lStatus == "1") ? "btn-success" : "btn-warning";
-            $btnTitle               = ($lStatus == "1") ? "Edit" : "Isi"; 
+            $btnTitle               = ($lStatus == "1") ? "Edit" : "Isi Form"; 
+            $btnIcon                = ($lStatus == "1") ? "fa-pencil" : "fa-file-text" ;
             $vaset                  = $dbr ;
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
-            $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-lg btn-icon" onClick="bos.tciku_form.cmdDetail(\''.$dbr['Kode'].'\')" title="'.$btnTitle.'"><i class="fa fa-pencil"></i></button>' ;
+            $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-grid" onClick="bos.tciku_form.cmdDetail(\''.$dbr['Kode'].'\')" title="'.$btnTitle.'"><i class="fa '.$btnIcon.'"></i>&nbsp;'.$btnTitle.'</button>' ;
             $vaset['cmdDetail']     .= '&nbsp;&nbsp;';
             $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
 
