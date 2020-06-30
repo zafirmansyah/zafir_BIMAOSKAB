@@ -102,7 +102,8 @@
 							<li class="dropdown user user-menu">
 								<!-- Menu Toggle Button -->
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<span class="hidden-xs"><i class="fa fa-user fa-fw"></i> <?=$fullname?></span>
+									<img src="<?=$data_var['ava']."?time=".time()?>" class="user-image" alt="User Image">
+									<span class="hidden-xs"><?=$fullname?></span>
 								</a>
 								<ul class="dropdown-menu">
 									<!-- The user image in the menu -->
@@ -131,7 +132,7 @@
 				<section class="sidebar">
 					<div class="user-panel">
 				        <div class="pull-left image">
-				          <img src="<?=$data_var['ava']."?time=".time()?>" class="img-responsive" alt="<?=$fullname?>">
+				          <img src="<?=$data_var['ava']."?time=".time()?>" alt="<?=$fullname?>">
 				        </div>
 				        <div class="pull-left info">
 				          <p><i class="fa fa-user fa-fw"></i> <?=$username?></p>
@@ -160,7 +161,7 @@
 			<footer class="main-footer">
 				<!-- To the right -->
 				<div class="pull-right hidden-xs"><strong>Version</strong> <?=BISMILLAH_APP_VERSION?></div>
-				Copyright &copy; <?=date("Y")?> BIMA Solution.
+				Copyright &copy; <?=date("Y")?> BIMA OSKAB.
 			</footer>
 
 		</div>

@@ -121,6 +121,9 @@ class Tcm_prinsip_m extends Bismillah_Model
         }     
         $vaUpd = array("KodeDisposisi"=>$cKodeDispo) ;
         $this->update("m02_prinsip",$vaUpd,"Faktur = '{$cKode}'","");   
+
+        // Input Data ke M02_prinsip_status sebagai mutasi persetujuan
+        
     }
 
     public function deleteFile($va)

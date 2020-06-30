@@ -126,8 +126,8 @@
 	        },
 	        columns: [
 	            { field: 'username', caption: 'Username', size: '80px', sortable: false },
-	            { field: 'fullname', caption: 'Fullname', size: '150px', sortable: false },
-                { field: 'cabang', caption: 'Cabang', size: '100px', sortable: false },
+	            { field: 'fullname', caption: 'Nama Lengkap', size: '150px', sortable: false },
+                { field: 'KodeKaryawan', caption: 'Kode Karyawan', size: '100px', sortable: false },
 	            { field: 'cmdedit', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' },
 	            { field: 'cmddelete', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' }
 	        ]
@@ -165,7 +165,6 @@
 	}
 
 	bos.con_user.init 			= function(){
-        this.obj.find("#optNIK").sval("").attr("readonly", false).focus() ;
 		this.obj.find("#username").val("") ;
 		this.obj.find("#fullname").val("") ;
         this.obj.find("#password").val("") ;
@@ -174,7 +173,6 @@
 		this.obj.find("#optJabatan").sval({}) ;
 		this.obj.find("#idlimage").html("") ;
 		this.obj.find("#idimage").html("") ;
-        this.obj.find("#cabang").sval({}) ;
 		this.grid1_reloaddata() ;
 		bjs.ajax(this.base_url + '/init') ;
 	}

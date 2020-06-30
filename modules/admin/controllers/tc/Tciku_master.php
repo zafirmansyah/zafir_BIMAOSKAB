@@ -30,8 +30,8 @@ class Tciku_master extends Bismillah_Controller
                                         class="btn btn-success btn-grid">Edit</button>' ;
             $vaset['cmdDelete']     = '<button type="button" onClick="bos.tciku_master.cmdDelete(\''.$dbr['Kode'].'\')"
                                         class="btn btn-danger btn-grid">Delete</button>' ;
-            $vaset['cmdEdit']	   = html_entity_decode($vaset['cmdEdit']) ;
-            $vaset['cmdDelete']	= html_entity_decode($vaset['cmdDelete']) ;
+            $vaset['cmdEdit']	    = html_entity_decode($vaset['cmdEdit']) ;
+            $vaset['cmdDelete']	    = html_entity_decode($vaset['cmdDelete']) ;
 
             $vare[]		= $vaset ;
         }
