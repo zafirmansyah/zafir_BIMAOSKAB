@@ -11,6 +11,23 @@
                           ->join('sys_username u','u.KodeKaryawan = s.Terdisposisi','left')
                           ->join('surat_masuk i','i.Kode = s.Kode','left')
                           ->where(['s.Terdisposisi' => $cKodeKaryawan, 's.Status' => '1'])
+                          ->order_by('s.DateTime DESC')
+                          ->get()
+                          ->result_array();
+        }
+    }
+
+    if (!function_exists('listNotifWorkOrder')){
+        function listNotifWorkOrder(){
+            $ci             = get_instance();
+            $cKodeKaryawan  = getsession($ci, "KodeKaryawan") ; 
+            $cUserKaryawan  = getsession($ci, "username") ; 
+            return $ci->db->select('w.*,u.*,w.DateTime as DTDisposisi, w.UserName as UNameSender')
+                          ->from('work_order_master w')
+                          ->join('sys_username u','u.KodeKaryawan = w.TujuanUserName','left')
+                          ->where(['w.TujuanUserName' => $cKodeKaryawan, 'w.Status' => '0'])
+                          ->or_where('w.TujuanUserName',$cUserKaryawan)
+                          ->order_by('w.DateTime DESC')
                           ->get()
                           ->result_array();
         }

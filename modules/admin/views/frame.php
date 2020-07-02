@@ -56,7 +56,7 @@
 									<span class="label label-success"><?= sizeof(listNotifSuratMasuk()) ?></span>
 								</a>
 								<ul class="dropdown-menu">
-									<li class="header"></li>
+									<li class="header">Daftar Dokumen Masuk...</li>
 										<li>
 											<!-- inner menu: contains the actual data -->
 											<?php
@@ -69,15 +69,11 @@
 
 																foreach(listNotifSuratMasuk() as $key=>$val){
 																	?>
-																		<li><!-- start message -->
+																		<li onClick="openDetailSurat('<?=$val['Kode']?>')"><!-- start message -->
 																			<a href="#">
-																				<div class="notif-title-perihal">
-																					<p>
-																						<h5>
-																							<?=$val['Perihal']?>
-																						</h5>
-																					</p>
-																				</div>
+																				<h4>
+																					<?=$val['Perihal']?>
+																				</h4>
 																				<p><small><i class="fa fa-clock-o"></i> <?=$val['DTDisposisi']?></small></p>
 																				<p>From : <?=$val['Dari']?></p>
 																			</a>
@@ -94,7 +90,50 @@
 											?>
 											
 										</li>
-									<li class="footer"><a href="#"><?=$cFooterDescription?></a></li>
+									<li onClick="openAllListSuratMasuk()" class="footer"><a href="#">Lihat Semua</a></li>
+								</ul>
+							</li>
+							<li class="dropdown messages-menu list-notif-workorder" alt="Work Order">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" alt="Surat Masuk">
+									<i class="fa fa-google-wallet" alt="Work Order"></i>
+									<span class="label label-warning"><?= sizeof(listNotifWorkOrder()) ?></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li class="header">Daftar Work Order...</li>
+										<li>
+											<!-- inner menu: contains the actual data -->
+											<?php
+												$nJumlahNotif = sizeof(listNotifWorkOrder()) ;
+												$cFooterDescription = "" ;
+												if($nJumlahNotif > 0){
+													?>
+														<ul class="menu">
+															<?php
+
+																foreach(listNotifWorkOrder() as $key=>$val){
+																	?>
+																		<li onClick="openDetailSurat('<?=$val['Kode']?>')"><!-- start message -->
+																			<a href="#">
+																				<h4>
+																					<?=$val['Subject']?>
+																				</h4>
+																				<p><small><i class="fa fa-clock-o"></i> <?=$val['DTDisposisi']?></small></p>
+																				<p>From : <?=$val['UNameSender']?></p>
+																			</a>
+																		</li>
+																	<?php
+																}
+
+															?>
+														</ul>
+													<?php
+												}else{
+													$cFooterDescription = "Tidak Ada Data" ;
+												}
+											?>
+											
+										</li>
+									<li onClick="openAllListSuratMasuk()" class="footer"><a href="#">Lihat Semua</a></li>
 								</ul>
 							</li>
 							
@@ -182,15 +221,15 @@
 
 
 		<script type="text/javascript">
-		<?php
-		echo 'var base_url = "'.base_url().'" ;' ;
-		?>
+			<?php
+			echo 'var base_url = "'.base_url().'" ;' ;
+			?>
 		</script>
 		<script type="text/javascript" src="<?=base_url('bismillah/core.js')?>"></script>
 		<script type="text/javascript">
-		<?php
-		echo 'bjs.form('.json_encode($oinit).') ; ' ;
-		?>
+			<?php
+			echo 'bjs.form('.json_encode($oinit).') ; ' ;
+			?>
 			function form_mobile(par){
 				$(".sidebar-menu").find("li.active").removeClass("active") ;
 				$(".sidebar-menu").find("li#" + par.md5).addClass("active") ;
@@ -202,7 +241,7 @@
 			Pusher.logToConsole = true;
 
 			var pusher = new Pusher('1d87ad16eb0bd12a181f', {
-			cluster: 'ap1'
+				cluster: 'ap1'
 			});
 
 			var channel = pusher.subscribe('my-channel');
@@ -216,6 +255,56 @@
 								  }
 				});
 			});
+
+			var channelWO = pusher.subscribe('my-channel-wo');
+			channelWO.bind('my-event-wo', function(data) {
+				// alert(JSON.stringify(data));
+				xhr = $.ajax({
+					method 		: "POST",
+					url 		: "<?php echo base_url('/admin/frame/notifikasiWorkOrder') ; ?>" ,
+					success 	: function(response){
+									$('.list-notif-workorder').html(response) ;
+								  }
+				});
+			});
+		</script>
+
+		<script type="text/javascript">
+			<?=cekbosjs();?>
+
+			// Open Surat Masuk
+			openDetailSurat = function(id){
+				objForm    = "rptsuratmasuk_read" ;
+				locForm    = "admin/rpt/rptsuratmasuk_read" ;
+				setSessionIDSurat(id);
+				setTimeout(function(){
+					bjs.form({
+						"module" : "Administrator",
+						"name"   : "",
+						"obj"    : objForm, 
+						"loc"    : locForm
+					});
+				}, 1);
+			}
+
+			openAllListSuratMasuk = function(id){
+				objForm    = "rptsuratmasuk" ;
+				locForm    = "admin/rpt/rptsuratmasuk" ;
+				setTimeout(function(){
+					bjs.form({
+						"module" : "Administrator",
+						"name"   : "Daftar Dokumen Masuk",
+						"obj"    : objForm, 
+						"loc"    : locForm
+					});
+				}, 1);
+			}
+
+			setSessionIDSurat = function(id){
+				bjs.ajax('admin/frame/setSessionIDSurat', 'cKode=' + id);
+			}
+			// END Open Surat Masuk
+
 		</script>
 		<?php require_once 'frame.rpt.php' ?>
 	</body>

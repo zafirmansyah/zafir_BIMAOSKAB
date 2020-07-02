@@ -1,26 +1,28 @@
-<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-    <i class="fa fa-envelope-o"></i>
-    <span class="label label-success"><?php echo sizeof(listNotifSuratMasuk()) ; ?></span>
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" alt="Surat Masuk">
+    <i class="fa fa-google-wallet" alt="Work Order"></i>
+    <span class="label label-warning"><?= sizeof(listNotifWorkOrder()) ?></span>
 </a>
 <ul class="dropdown-menu">
-    <li class="header"></li>
+    <li class="header">Daftar Work Order...</li>
         <li>
             <!-- inner menu: contains the actual data -->
             <?php
-                $nJumlahNotif = sizeof(listNotifSuratMasuk()) ;
+                $nJumlahNotif = sizeof(listNotifWorkOrder()) ;
+                $cFooterDescription = "" ;
                 if($nJumlahNotif > 0){
                     ?>
                         <ul class="menu">
                             <?php
-                                foreach(listNotifSuratMasuk() as $key=>$val){
+
+                                foreach(listNotifWorkOrder() as $key=>$val){
                                     ?>
-                                        <li ><!-- start message -->
+                                        <li onClick="openDetailSurat('<?=$val['Kode']?>')"><!-- start message -->
                                             <a href="#">
                                                 <h4>
-                                                    <?=$val['Perihal']?>
+                                                    <?=$val['Subject']?>
                                                 </h4>
                                                 <p><small><i class="fa fa-clock-o"></i> <?=$val['DTDisposisi']?></small></p>
-                                                <p>From : <?=$val['Dari']?></p>
+                                                <p>From : <?=$val['UNameSender']?></p>
                                             </a>
                                         </li>
                                     <?php
@@ -29,9 +31,11 @@
                             ?>
                         </ul>
                     <?php
+                }else{
+                    $cFooterDescription = "Tidak Ada Data" ;
                 }
             ?>
             
         </li>
-    <li class="footer"><a href="#">See All Messages</a></li>
+    <li onClick="openAllListSuratMasuk()" class="footer"><a href="#">Lihat Semua</a></li>
 </ul>

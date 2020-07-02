@@ -4,6 +4,7 @@ class Frame extends Bismillah_Controller{
 		parent::__construct() ;
 		$this->load->helper('bmenu') ;
 		$this->load->model('func/func_m') ;
+		$this->load->model('frame_m');
 	}
 
 	public function index(){
@@ -66,5 +67,44 @@ class Frame extends Bismillah_Controller{
 	{
 		return $this->load->view('frame_notif_surat_masuk');
 	}
+
+	function notifikasiWorkOrder()
+	{
+		return $this->load->view('frame_notif_work_order');
+	}
+
+
+
+	public function setSessionIDSurat()
+	{
+		$cKode      = $this->input->post('cKode');
+        $dbData     = $this->frame_m->getDetailSuratMasuk($cKode);
+        $vaFileList = $this->getfilelist($cKode);
+        $vaSess     = array() ;
+        if($dbRow = $this->frame_m->getrow($dbData)){        
+            $vaSess['ss_ID_SuratMasuk_']            = $cKode ;
+            $vaSess['ss_PERIHAL_SuratMasuk_']       = $dbRow['Perihal'] ;
+            $vaSess['ss_DARI_SuratMasuk_']          = $dbRow['Dari'] ;
+            $vaSess['ss_DATETIME_SuratMasuk_']      = $dbRow['DateTime'] ;
+            $vaSess['ss_NOSURAT_SuratMasuk_']       = $dbRow['NoSurat'] ;
+            $vaSess['ss_TANGGAL_SuratMasuk_']       = $dbRow['Tgl'];
+            $vaSess['ss_FILEITEM_SuratMasuk_']      = $vaFileList;
+            foreach ($vaSess as $key => $value) {
+				savesession($this, $key, $value) ;
+			}
+        }
+		// echo('alert("Hahahaha '. $cKode .' ");');
+	}
+
+	public function getfilelist($cKode){
+        $dbData = $this->frame_m->getFileListSuratMasuk($cKode);
+        $i = 0;
+        $vaData = array();
+        while($dbRow = $this->frame_m->getrow($dbData)){
+            $vaData[$i]=$dbRow;
+            $i++;
+        }        
+        return $vaData;
+    }
 }
 ?>
