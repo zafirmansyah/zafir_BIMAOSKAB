@@ -114,6 +114,29 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $data['message'] = 'hello world';
         $pusher->trigger('my-channel', 'my-event', $data);
 
+        $subjectMail    = "NOTIFIKASI BIMA OSKAB - Surat Masuk Terdisposisi Pada Anda" ;
+        $headers        = "MIME-Version: 1.0" . "\r\n";
+        $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers        .= 'From: <bimaoskab@gmail.com>' . "\r\n";
+        $message = "
+            <html>
+                <body>
+                
+                <p>
+                    <a href='bimaoskab.com'>
+                        <b>Klik Link Ini Untuk Menuju Aplikasi BIMA OSKAB</b>
+                    </a>
+                </p>
+
+                <p>Terima Kasih</p>
+                <p><b>BIMA OSKAB</b></p>
+
+                </body>
+            </html>
+        ";
+        
+        mail("erzethones@gmail.com",$subjectMail,$message,$headers);
+
         return $vaData ;
     }
 

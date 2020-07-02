@@ -61,6 +61,49 @@ class Tcwo_master_m extends Bismillah_Model
                                 ) ;
         $this->insert("work_order_master",$vaData);
         
+        require APPPATH . '../vendor/autoload.php';
+
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+        $pusher = new Pusher\Pusher(
+            '1d87ad16eb0bd12a181f',
+            '059b5835bf2f02c082d3',
+            '1010070',
+            $options
+        );
+
+        $data['message'] = 'hello world';
+        $pusher->trigger('my-channel-wo', 'my-event-wo', $data);
+
+        $subjectMail    = "NOTIFIKASI BIMA OSKAB - Work Order Baru Untuk Anda" ;
+        $headers        = "MIME-Version: 1.0" . "\r\n";
+        $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers        .= 'From: <bimaoskab@gmail.com>' . "\r\n";
+        $message = "
+            <html>
+                <body>
+                <p>
+                    Anda telah mendapat work order <b><i>" . $va['cSubject'] . "</i></b>, 
+                    Silahkan dicek dan lakukan pengerjaan pada aplikasi BIMA OSKAB.
+                </p>
+                
+                <p>
+                    <a href='bimaoskab.com'>
+                        <b>Klik Link Ini Untuk Menuju Aplikasi BIMA OSKAB</b>
+                    </a>
+                </p>
+
+                <p>Terima Kasih</p>
+                <p><b>BIMA OSKAB</b></p>
+
+                </body>
+            </html>
+        ";
+        
+        mail("erzethones@gmail.com",$subjectMail,$message,$headers);
+
         return $vaData ;
     }
 
