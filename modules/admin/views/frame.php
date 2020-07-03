@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="<?=base_url('bismillah/adminlte/css/AdminLTE.min.css')?>">
 		<link rel="stylesheet" href="<?=base_url('bismillah/adminlte/css/skins/skin-black.css')?>">
 		<link rel="stylesheet" href="<?=base_url('bismillah/core.mobile.css')?>">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css">
 		<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 		<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2AgQpLx4g1Xb5MEK7BW_5FG0_f0Kg69Q&libraries=places"></script> -->
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -214,7 +215,9 @@
 		<script type="text/javascript" src="<?=base_url('bismillah/datepicker/bootstrap-datetimepicker.min.js')?>"></script>
 		<script type="text/javascript" src="<?=base_url('bismillah/timepicker/bootstrap-timepicker.min.js')?>"></script>
 		<script type="text/javascript" src="<?=base_url('bismillah/jQuery/jquery.number.js')?>"></script>
-        <script type="text/javascript" src="<?=base_url('bismillah/chart/Chart-2.4.0.min.js')?>"></script>
+		<script type="text/javascript" src="<?=base_url('bismillah/chart/Chart-2.4.0.min.js')?>"></script>
+		<script type="text/javascript" src="<?=base_url('bismillah/datatables/datatables.net/js/jquery.dataTables.min.js')?>"></script>
+		<script type="text/javascript" src="<?=base_url('bismillah/datatables/datatables.net-bs/js/dataTables.bootstrap.min.js')?>"></script>
 		<script type="text/javascript" src="<?=base_url('bismillah/tinymce/js/tinymce/tinymce.min.js')?>"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 		<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>

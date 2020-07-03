@@ -26,7 +26,7 @@
     ["Daftar Dokumen Keluar", "rptsurat_keluar","admin/rpt/rptsurat_keluar","fa fa-circle-o"]
     ["Lap. M.02 Persetujuan Prinsip", "rptm02_prinsip","admin/rpt/rptm02_prinsip","fa fa-circle-o"]
     ["Work Order", "tcwo", "", "fa fa-circle-o"]
-        ["Daftar Work Order", "rptwo","admin/rpt/rptwo","fa fa-book"]    
+        ["Daftar Work Order", "rptwo","admin/rpt/rptwo","fa fa-briefcase"]    
 ["Utilities", "utlconf", "admin/config/utlconf","fa fa-flask"]
 ["___________________________", "-", "",""]
 ["Ganti Password", "utlchangepassword", "admin/config/utlchangepassword","fa fa-unlock-alt"]

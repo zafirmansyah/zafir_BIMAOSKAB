@@ -3,14 +3,55 @@ class Main extends Bismillah_Controller{
     private $bdb;
     public function __construct(){
         parent::__construct() ;
-        // $this->load->model("dash/main_m") ;
+        $this->load->model("dash/main_m") ;
+        $this->load->helper('bdate') ;
+        $this->load->helper('bsite') ;
+        $this->bdb = $this->main_m ;
         // $this->load->model("include/perhitungan_m") ;
     }
 
     public function index(){
-        $this->load->view("dash/main") ;
+        $nJmlSuratMasuk = $this->bdb->getJumlahSuratMasukPerUser();
+        $nJmlM02        = $this->bdb->getJumlahM02();
+        $nJmlIKU        = $this->bdb->getJumlahIKU();
+        $nJmlWO         = $this->bdb->getJumlahWO();
+        $vaDataWO       = $this->getDataWOPerUser();
+        $vaDataIKU      = $this->bdb->getDataIKUPerUnit();
+
+        $var = array();
+        $var['Jumlah'] = array( 'JmlSuratMasuk'=>$nJmlSuratMasuk,
+                                'JmlM02'       =>$nJmlM02,
+                                'JmlIKU'       =>$nJmlIKU,
+                                'JmlWO'        =>$nJmlWO
+                                );
+        $var['DataWO']  = $vaDataWO;
+        $var['DataIKU'] = $vaDataIKU;
+        $this->load->view("dash/main",$var) ;
     }
 
+    public function getDataWOPerUser()
+    {
+        $vaDataWO = $this->bdb->getDataWOPerUser();
+        foreach($vaDataWO as $key=>$value){
+            $cStatus                = $value['Status'];
+            $cCaseClosed            = $this->bdb->getStatusCaseClosed($value['Kode']);
+            $cTextStatus                = "<span class='text-default'>New</span>";
+            if($cStatus == "1"){ //proses
+                $cTextStatus  = "<span class='text-info'>Proses</span>";
+            }else if($cStatus == "2"){ //pending
+                $cTextStatus  = "<span class='text-warning'>Pending</span>";
+            }else if($cStatus == "3"){ // reject
+                $cTextStatus  = "<span class='text-danger'>Reject</span>";
+            }else if($cStatus == "F"){ // finish
+                $cTextStatus  = "<span class='text-success'>Finish</span>";
+                if($cCaseClosed == "1"){
+                    $cTextStatus  = "<span class='text-success'><i class='fa fa-check'></i>&nbsp;Case Closed</span>";
+                }
+            }
+            $vaDataWO[$key]['TextStatus'] = $cTextStatus;
+        }
+        return $vaDataWO;
+    }
         // public function loaddata(){
         //     $stockjml = $this->main_m->getcountstock();
         //     echo(' $("#boxstock").html("'.$stockjml.'");') ;
