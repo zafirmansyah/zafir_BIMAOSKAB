@@ -71,6 +71,7 @@
                 <!-- END timeline item -->
 
                 <?php
+                if(!empty($vaDataForm)){
                 foreach($vaDataForm as $ckey=>$val){
                     $dTglForm = date_create($ckey);
                     $cTglForm = date_format($dTglForm,"d M Y");
@@ -170,6 +171,7 @@
                     }
                     ?>
                 <?php
+                    }
                 }
                 ?>
                 <li>
