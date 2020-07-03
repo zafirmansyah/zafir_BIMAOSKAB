@@ -83,7 +83,10 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $vaGrid = json_decode($va['dataDisposisi']);
         $this->delete("surat_masuk_disposisi", "Kode = '{$cKode}'" ) ;
         foreach($vaGrid as $key => $val){
-            $where      = "Kode = " . $this->escape($cKode) ;
+            $where           = "Kode = " . $this->escape($cKode) ;
+            $cReceiverKode   = $val->kode ;
+            $cReceiverEmail  = $this->getval("Email", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
+            $cReceiverName   = $this->getval("fullname", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
             $vadetail = array("Kode"=>$cKode,
                               "Tgl"=>date_2s($va['dTgl']),
                               "Pendisposisi"=>$cKodeKaryawanPendisposisi,
@@ -94,6 +97,57 @@ class Tcsurat_masuk_m extends Bismillah_Model
                               "DateTime"=>date('Y-m-d H:i:s')
                             );
             $this->insert("surat_masuk_disposisi",$vadetail);
+
+            // Send Email Notification to All Reciever
+            $data['message'] = 'hello world';
+            $pusher->trigger('my-channel', 'my-event', $data);
+
+            $subjectMail    = "NOTIFIKASI BIMA OSKAB - Dokumen Masuk Terdisposisi Pada Anda" ;
+            $headers        = "MIME-Version: 1.0" . "\r\n";
+            $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers        .= 'From: <bimaoskab@gmail.com>' . "\r\n";
+            $message = "
+                <html>
+                    <body>
+                    
+                    <p>
+                        Hallo ".$cReceiverName.", 
+                        Terdapat Dokumen Masuk yang terdisposisi pada anda, silahkan check pada aplikasi BIMA OSKAB.
+                        Berikut data dokumen masuk yang harus anda check :
+                    </p>
+
+                    <table>
+                        <tr>
+                            <td>Nomor Dokumen</td>
+                            <td> : </td>
+                            <td>".$va['cNomorSurat']."</td>
+                        </tr>
+                        <tr>
+                            <td>Dokumen Dari</td>
+                            <td> : </td>
+                            <td>".$va['cSuratDari']."</td>
+                        </tr>
+                        <tr>
+                            <td>Perihal Dokumen</td>
+                            <td> : </td>
+                            <td>".$va['cPerihal']."</td>
+                        </tr>
+                    </table>
+
+                    <p>
+                        <a href='bimaoskab.com'>
+                            <b>Klik Link Ini Untuk Menuju Aplikasi BIMA OSKAB</b>
+                        </a>
+                    </p>
+
+                    <p>Terima Kasih</p>
+                    <p><b>BIMA OSKAB</b></p>
+
+                    </body>
+                </html>
+            ";
+            
+            mail($cReceiverEmail,$subjectMail,$message,$headers);
         }        
 
         // Trigger Notifikasi Ke Masing2 Terdisposisi
@@ -110,32 +164,6 @@ class Tcsurat_masuk_m extends Bismillah_Model
             '1010070',
             $options
         );
-
-        $data['message'] = 'hello world';
-        $pusher->trigger('my-channel', 'my-event', $data);
-
-        $subjectMail    = "NOTIFIKASI BIMA OSKAB - Surat Masuk Terdisposisi Pada Anda" ;
-        $headers        = "MIME-Version: 1.0" . "\r\n";
-        $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers        .= 'From: <bimaoskab@gmail.com>' . "\r\n";
-        $message = "
-            <html>
-                <body>
-                
-                <p>
-                    <a href='bimaoskab.com'>
-                        <b>Klik Link Ini Untuk Menuju Aplikasi BIMA OSKAB</b>
-                    </a>
-                </p>
-
-                <p>Terima Kasih</p>
-                <p><b>BIMA OSKAB</b></p>
-
-                </body>
-            </html>
-        ";
-        
-        mail("erzethones@gmail.com",$subjectMail,$message,$headers);
 
         return $vaData ;
     }
