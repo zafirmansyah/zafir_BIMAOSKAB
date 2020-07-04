@@ -40,6 +40,26 @@ class Rptm02_prinsip_m extends Bismillah_Model
         return $dbd;
     }
 
+    public function getDetailTimeLineM02($cFaktur)
+    {
+        $field = "*";
+        $where = "FakturDisposisi = '$cFaktur'";
+        $dbd   = $this->select("m02_prinsip_status", $field, $where) ;
+        return $dbd ;
+    }
+
+    public function getKodeDisposisi($cFaktur)
+    {
+        $cKodeDisposisi = "";
+        $field = "KodeDisposisi";
+        $where = "Faktur = '$cFaktur'";
+        $dbd   = $this->select("m02_prinsip", $field, $where) ;
+        if($dbr = $this->getrow($dbd)){
+            $cKodeDisposisi = $dbr['KodeDisposisi'];
+        }
+        return $cKodeDisposisi;
+    }
+
 }
 
 ?>
