@@ -104,7 +104,7 @@ class Tcwo_form extends Bismillah_Controller
         
         $nYear      = date('Y');
         $cKategori  = "/WO-FORM";
-        $adir       = $this->config->item('bcore_uploads_wobima') . $nYear . $cKategori ;
+        $adir       = $this->config->item('bcore_uploads_suratbima') . $nYear . $cKategori ;
         if(!is_dir($adir)){
              mkdir($adir,0777,true);
             echo('

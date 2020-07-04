@@ -89,9 +89,9 @@
                 </div>
                 <div class="modal-footer">
                     <div class="pull-right">
-                        <input type="text" name="cFakturDokumen" id="cFakturDokumen">
-                        <input type="text" name="cKodeDispo" id="cKodeDispo">
-                        <input type="text" name="cKodeKaryawan" id="cKodeKaryawan">
+                        <input type="hidden" name="cFakturDokumen" id="cFakturDokumen">
+                        <input type="hidden" name="cKodeDispo" id="cKodeDispo">
+                        <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
                         <button class="btn btn-danger" id="cmdActReject"><i class="fa fa-times"></i> Simpan</button>
                     </div>
                 </div>
