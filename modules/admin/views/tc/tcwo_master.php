@@ -37,14 +37,10 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <div class="form-group">
-                            <label>Deskripsi</label>
-                            <div class="col-sm-12">
-                                <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master Work Order...">
-                                Permasalahan: 
-                                </textarea>                   
-                            </div>
-                        </div>
+                        <label>Deskripsi</label>
+                        <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master Work Order...">
+                        Permasalahan: 
+                        </textarea>                   
                     </div>
                 </div>
                 <div class="col-sm-10">

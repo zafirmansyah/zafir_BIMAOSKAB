@@ -25,6 +25,7 @@ class Rptm02_prinsip extends Bismillah_Controller
         savesession($this, "ss_TANGGAL_M02PRINSIP_","");
         savesession($this, "ss_KODEDISPO_M02PRINSIP_","");
         savesession($this, "ss_DETAIL_M02PRINSIP_","");
+        savesession($this, "ss_TIMELINE_M02PRINSIP");
     }
 
     public function loadgrid(){
@@ -60,9 +61,9 @@ class Rptm02_prinsip extends Bismillah_Controller
         echo(json_encode($vare)) ;
     }
 
-    public function setSessionIDSurat()
+    public function setSessionIDSurat($cFaktur = "")
     {
-        $cFaktur        = $this->input->post('cFaktur');
+        $cFaktur        = ($cFaktur == "") ? $this->input->post('cFaktur') : $cFaktur;
         $dbData         = $this->bdb->getDetailSuratMasuk($cFaktur);
         $vaFileList     = $this->getfilelist($cFaktur);
         $vaSess         = array() ;
@@ -82,6 +83,39 @@ class Rptm02_prinsip extends Bismillah_Controller
         }
     }
 
+    public function setSessionIDTimeline()
+    {
+        $cFaktur        = $this->input->post('cFaktur');
+        $this->setSessionIDSurat($cFaktur);
+        savesession($this,"ss_ID_M02PRINSIP_",$cFaktur);        
+        $vaData     = array() ;
+        $cKodeDisposisi = $this->bdb->getKodeDisposisi($cFaktur);
+        if($cKodeDisposisi !== ""){
+            $dbData     = $this->bdb->getDetailTimeLineM02($cKodeDisposisi);
+            while($dbRow = $this->bdb->getrow($dbData)){   
+                $cFaktur          = $dbRow['Faktur'];
+                $cFakturDisposisi = $dbRow['FakturDisposisi'];
+                $cKeterangan      = $dbRow['Keterangan'];
+                $cStatus          = $dbRow['Status'];
+                $dTgl             = $dbRow['Tgl'];
+                $cDateTime        = date_create($dbRow['DateTime']); 
+                $dDateTime        = date_format($cDateTime,"d-m-Y H:i");
+                $cUserName        = $dbRow['UserName'];
+                //$vaFileList     = $this->getFileFormWO($cFaktur);
+                $vaDataForm[$dTgl][$cFaktur] = array("Faktur"       =>$cFaktur,
+                                                    "FakturDiposisi"=>$cFakturDisposisi,
+                                                    "Keterangan"    =>$cKeterangan,
+                                                    "Status"        =>$cStatus,
+                                                    "Tgl"           =>$dTgl,
+                                                    "DateTime"      =>$dDateTime,
+                                                    "UserName"      =>$cUserName);
+                                                    //"File"         =>$vaFileList);
+            }
+            //print_r($vaDataForm);
+            savesession($this,"ss_TIMELINE_M02PRINSIP",$vaDataForm);
+        }
+    }
+
     public function getfilelist($cKode){
         $dbData = $this->bdb->getFileListSuratMasuk($cKode);
         $i = 0;
@@ -92,6 +126,8 @@ class Rptm02_prinsip extends Bismillah_Controller
         }        
         return $vaData;
     }
+
+    
 }
 
 ?>

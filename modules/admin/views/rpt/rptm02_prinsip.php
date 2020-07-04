@@ -93,6 +93,24 @@
         bjs.ajax(this.url + '/setSessionIDSurat', 'cFaktur=' + id);
     }
 
+    bos.rptm02_prinsip.cmdTimeline = function(id){
+        objForm    = "rptm02_prinsip_timeline" ;
+        locForm    = "admin/rpt/rptm02_prinsip_timeline" ;
+        this.setSessionIDTimeLine(id);
+        setTimeout(function(){
+            bjs.form({
+                "module" : "Administrator",
+                "name"   : "",
+                "obj"    : objForm, 
+                "loc"    : locForm
+            });
+        }, 1);
+    }
+
+    bos.rptm02_prinsip.setSessionIDTimeLine = function(id){
+        bjs.ajax(this.url + '/setSessionIDTimeline', 'cFaktur=' + id);
+    }
+
     bos.rptm02_prinsip.initComp     = function(){
         this.gridPrinsip_loaddata() ;
         this.gridPrinsip_load() ;

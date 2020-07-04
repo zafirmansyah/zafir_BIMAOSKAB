@@ -82,11 +82,12 @@
               <?php
                 if(!empty($DataWO)){
                 foreach($DataWO as $key=>$value){
-              ?>
+                  $dTgl = s_2date($value['Tgl']);
+             ?>
                 <tr>
                   <td><?=$value['Subject']?></td>
                   <td><?=$value['UserName']?></td>
-                  <td><?=$value['Tgl']?></td>
+                  <td><?=$dTgl?></td>
                   <td><?=$value['TextStatus']?></td>
                 </tr>
               <?php
