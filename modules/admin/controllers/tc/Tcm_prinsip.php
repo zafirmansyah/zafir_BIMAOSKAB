@@ -187,6 +187,24 @@ class Tcm_prinsip extends Bismillah_Controller
                     html: "Nomor Surat <b> M.02 Persetujuan Prinsip </b> Sebagai Berikut"
                 });   
             ');
+
+            // Trigger Notifikasi Ke Masing2 Terdisposisi
+
+            require APPPATH . '../vendor/autoload.php';
+            
+            $options = array(
+                'cluster' => 'ap1',
+                'useTLS' => true
+            );
+            $pusher = new Pusher\Pusher(
+                '1d87ad16eb0bd12a181f',
+                '059b5835bf2f02c082d3',
+                '1010070',
+                $options
+            );
+
+            $data['message'] = 'hello world';
+            $pusher->trigger('my-channel-m02p', 'my-event-m02p', $data);
         }
     }
 

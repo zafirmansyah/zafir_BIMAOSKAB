@@ -94,6 +94,7 @@
 									<li onClick="openAllListSuratMasuk()" class="footer"><a href="#">Lihat Semua</a></li>
 								</ul>
 							</li>
+
 							<li class="dropdown messages-menu list-notif-workorder" alt="Work Order">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" alt="Surat Masuk">
 									<i class="fa fa-google-wallet" alt="Work Order"></i>
@@ -113,7 +114,7 @@
 
 																foreach(listNotifWorkOrder() as $key=>$val){
 																	?>
-																		<li onClick="openDetailSurat('<?=$val['Kode']?>')"><!-- start message -->
+																		<li onClick="openDetailWO('<?=$val['Kode']?>')"><!-- start message -->
 																			<a href="#">
 																				<h4>
 																					<?=$val['Subject']?>
@@ -134,9 +135,55 @@
 											?>
 											
 										</li>
-									<li onClick="openAllListSuratMasuk()" class="footer"><a href="#">Lihat Semua</a></li>
+									<li onClick="openAllListWO()" class="footer"><a href="#">Lihat Semua</a></li>
 								</ul>
 							</li>
+
+							<li class="dropdown messages-menu list-notif-m02prinsip" alt="Work Order">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" alt="Surat Masuk">
+									<i class="fa fa-book" alt="Work Order"></i>
+									<span class="label label-primary"><?= sizeof(listNotifM02Prinsip()) ?></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li class="header">Daftar Persetujuan Prinsip...</li>
+										<li>
+											<!-- inner menu: contains the actual data -->
+											<?php
+												$nJumlahNotif = sizeof(listNotifM02Prinsip()) ;
+												$cFooterDescription = "" ;
+												if($nJumlahNotif > 0){
+													?>
+														<ul class="menu">
+															<?php
+
+																foreach(listNotifM02Prinsip() as $key=>$val){
+																	?>
+																		<li onClick="openDetailM02('<?=$val['FakturDokumenM02']?>')"><!-- start message -->
+																			<a href="#">
+																				<h4>
+																					<?=$val['Perihal']?>
+																				</h4>
+																				<p><small><i class="fa fa-clock-o"></i> <?=$val['DTDisposisi']?></small></p>
+																				<p>From : <?=$val['UNameSender']?></p>
+																			</a>
+																		</li>
+																	<?php
+																}
+
+															?>
+														</ul>
+													<?php
+												}else{
+													$cFooterDescription = "Tidak Ada Data" ;
+												}
+											?>
+											
+										</li>
+									<li onClick="openAllListM02()" class="footer"><a href="#">Lihat Semua</a></li>
+								</ul>
+							</li>
+
+							
 							
 							<!-- User Account Menu -->
 							<li class="dropdown user user-menu">
@@ -270,6 +317,18 @@
 								  }
 				});
 			});
+
+			var channelM02P = pusher.subscribe('my-channel-m02p');
+			channelM02P.bind('my-event-m02p', function(data) {
+				// alert(JSON.stringify(data));
+				xhr = $.ajax({
+					method 		: "POST",
+					url 		: "<?php echo base_url('/admin/frame/notifikasiM02Prinsip') ; ?>" ,
+					success 	: function(response){
+									$('.list-notif-m02prinsip').html(response) ;
+								  }
+				});
+			});
 		</script>
 
 		<script type="text/javascript">
@@ -307,6 +366,75 @@
 				bjs.ajax('admin/frame/setSessionIDSurat', 'cKode=' + id);
 			}
 			// END Open Surat Masuk
+
+
+			// Open M02 Prinsip
+			openDetailM02 = function(id){
+				objForm    = "rptm02_prinsip_read" ;
+				locForm    = "admin/rpt/rptm02_prinsip_read" ;
+				setSessionIDM02(id);
+				setTimeout(function(){
+					bjs.form({
+						"module" : "Administrator",
+						"name"   : "",
+						"obj"    : objForm, 
+						"loc"    : locForm
+					});
+				}, 1);
+			}
+
+			openAllListM02 = function(id){
+				objForm    = "rptm02_prinsip" ;
+				locForm    = "admin/rpt/rptm02_prinsip" ;
+				setTimeout(function(){
+					bjs.form({
+						"module" : "Administrator",
+						"name"   : "Lap. M.02 Persetujuan Prinsip",
+						"obj"    : objForm, 
+						"loc"    : locForm
+					});
+				}, 1);
+			}
+
+			setSessionIDM02 = function(id){
+				bjs.ajax('admin/frame/setSessionIDM02', 'cKode=' + id);
+			}
+			// END Open M02 Prinsip
+
+			// Open M02 Prinsip
+			openDetailWO = function(id){
+				objForm    = "rptwo_read" ;
+				locForm    = "admin/rpt/rptwo_read" ;
+				setSessionIDWO(id);
+				setTimeout(function(){
+					bjs.form({
+						"module" : "Administrator",
+						"name"   : "",
+						"obj"    : objForm, 
+						"loc"    : locForm
+					});
+				}, 1);
+			}
+
+			openAllListWO = function(id){
+				objForm    = "rptwo" ;
+				locForm    = "admin/rpt/rptwo" ;
+				setTimeout(function(){
+					bjs.form({
+						"module" : "Administrator",
+						"name"   : "Daftar Work Order",
+						"obj"    : objForm, 
+						"loc"    : locForm
+					});
+				}, 1);
+			}
+
+			setSessionIDWO = function(id){
+				bjs.ajax('admin/frame/setSessionIDWO', 'cKode=' + id);
+			}
+			// END Open M02 Prinsip
+			
+			
 
 		</script>
 		<?php require_once 'frame.rpt.php' ?>
