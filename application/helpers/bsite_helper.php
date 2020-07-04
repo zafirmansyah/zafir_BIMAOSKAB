@@ -33,6 +33,21 @@
         }
     }
 
+    if (!function_exists('listNotifM02Prinsip')){
+        function listNotifM02Prinsip(){
+            $ci             = get_instance();
+            $cKodeKaryawan  = getsession($ci, "KodeKaryawan") ; 
+            $cUserKaryawan  = getsession($ci, "username") ; 
+            return $ci->db->select('p.*,d.DateTime as DTDisposisi, p.UserName as UNameSender, p.Faktur as FakturDokumenM02')
+                          ->from('m02_prinsip p')
+                          ->join('m02_prinsip_disposisi d','d.Kode = p.KodeDisposisi','left')
+                          ->where(['d.Terdisposisi' => $cKodeKaryawan, 'd.Status' => '1'])
+                          ->order_by('p.DateTime DESC')
+                          ->get()
+                          ->result_array();
+        }
+    }
+
     if(!function_exists('formatSizeUnits')){
         function formatSizeUnits($bytes){
             if ($bytes >= 1073741824){

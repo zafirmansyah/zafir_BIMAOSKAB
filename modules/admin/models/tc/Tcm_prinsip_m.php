@@ -106,7 +106,7 @@ class Tcm_prinsip_m extends Bismillah_Model
             if($nLevel == "1"){
                 $cStatus = '1' ;
             }
-            $where      = "Kode = " . $this->escape($cKode) ;
+            $where    = "Kode = " . $this->escape($cKode) ;
             $vadetail = array("Kode"=>$cKodeDispo,
                               "FakturDokumen"=>$cKode,
                               "Tgl"=>date_2s($va['dTgl']),
@@ -118,7 +118,42 @@ class Tcm_prinsip_m extends Bismillah_Model
                               "DateTime"=>date('Y-m-d H:i:s')
                             );
             $this->insert("m02_prinsip_disposisi",$vadetail);
+            
+            // Send Email Notification to All Reciever
+
+            $cReceiverKode   = $val->kode ;
+            $cReceiverEmail  = $this->getval("Email", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
+            $cReceiverName   = $this->getval("fullname", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
+            $cSenderName     = $this->getval("fullname", "KodeKaryawan = '{$cKodeKaryawanPendisposisi}'", "sys_username") ; 
+
+            $subjectMail    = "NOTIFIKASI BIMA OSKAB - Dokumen M.02 Persetujuan Prinsip Terdisposisi Pada Anda" ;
+            $headers        = "MIME-Version: 1.0" . "\r\n";
+            $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers        .= 'From: <bimaoskab@gmail.com>' . "\r\n";
+            $message = "
+                <html>
+                    <body>
+                    
+                    <p>Hallo ".$cReceiverName.",</p>
+                    <p>".$cSenderName." mendisposisi kepada Anda dokumen M.02 Persetujuan Prinsip, perihal ".$va['cSubject']."</p>
+                    
+                    <p>
+                        <a href='bimaoskab.com'>
+                            <b>Klik Link Ini Untuk Menuju Aplikasi BIMA OSKAB</b>
+                        </a>
+                    </p>
+
+                    <p>Terima Kasih</p>
+                    <p><b>BIMA OSKAB</b></p>
+
+                    </body>
+                </html>
+            ";
+            
+            mail($cReceiverEmail,$subjectMail,$message,$headers);
+
         }     
+        
         $vaUpd = array("KodeDisposisi"=>$cKodeDispo) ;
         $this->update("m02_prinsip",$vaUpd,"Faktur = '{$cKode}'","");   
 

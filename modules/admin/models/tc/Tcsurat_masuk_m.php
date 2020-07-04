@@ -64,9 +64,10 @@ class Tcsurat_masuk_m extends Bismillah_Model
 
         $cUserName                 = getsession($this,'username') ;
         $cKodeKaryawanPendisposisi = $this->getval("KodeKaryawan", "username = '$cUserName'","sys_username") ;
+        $cJenisSurat               = $va['optJenisSurat'];
+        $cKetJenisSurat            = $this->getval("Keterangan", "Kode = '$cJenisSurat'","jenis_surat") ;
 
-        $vaData         = array("Kode"=>$cKode, 
-                                "NoSurat"=>"",
+        $vaData         = array("Kode"=>$cKode,
                                 "Dari"=>$va['cSuratDari'],
                                 "Tgl"=>date_2s($va['dTgl']),
                                 "TglSurat"=>date_2s($va['dTglSurat']),
@@ -87,6 +88,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
             $cReceiverKode   = $val->kode ;
             $cReceiverEmail  = $this->getval("Email", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
             $cReceiverName   = $this->getval("fullname", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
+            $cSenderName     = $this->getval("fullname", "KodeKaryawan = '{$cKodeKaryawanPendisposisi}'", "sys_username") ; 
             $vadetail = array("Kode"=>$cKode,
                               "Tgl"=>date_2s($va['dTgl']),
                               "Pendisposisi"=>$cKodeKaryawanPendisposisi,
@@ -99,9 +101,6 @@ class Tcsurat_masuk_m extends Bismillah_Model
             $this->insert("surat_masuk_disposisi",$vadetail);
 
             // Send Email Notification to All Reciever
-            $data['message'] = 'hello world';
-            $pusher->trigger('my-channel', 'my-event', $data);
-
             $subjectMail    = "NOTIFIKASI BIMA OSKAB - Dokumen Masuk Terdisposisi Pada Anda" ;
             $headers        = "MIME-Version: 1.0" . "\r\n";
             $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -110,30 +109,9 @@ class Tcsurat_masuk_m extends Bismillah_Model
                 <html>
                     <body>
                     
-                    <p>
-                        Hallo ".$cReceiverName.", 
-                        Terdapat Dokumen Masuk yang terdisposisi pada anda, silahkan check pada aplikasi BIMA OSKAB.
-                        Berikut data dokumen masuk yang harus anda check :
-                    </p>
-
-                    <table>
-                        <tr>
-                            <td>Nomor Dokumen</td>
-                            <td> : </td>
-                            <td>".$va['cNomorSurat']."</td>
-                        </tr>
-                        <tr>
-                            <td>Dokumen Dari</td>
-                            <td> : </td>
-                            <td>".$va['cSuratDari']."</td>
-                        </tr>
-                        <tr>
-                            <td>Perihal Dokumen</td>
-                            <td> : </td>
-                            <td>".$va['cPerihal']."</td>
-                        </tr>
-                    </table>
-
+                    <p>Hallo ".$cReceiverName.",</p>
+                    <p>".$cSenderName." mendisposisi kepada Anda dokumen ".$cKetJenisSurat." dari ".$va['cSuratDari']." perihal ".$va['cPerihal']."</p>
+                    
                     <p>
                         <a href='bimaoskab.com'>
                             <b>Klik Link Ini Untuk Menuju Aplikasi BIMA OSKAB</b>
@@ -153,7 +131,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
         // Trigger Notifikasi Ke Masing2 Terdisposisi
 
         require APPPATH . '../vendor/autoload.php';
-
+        
         $options = array(
             'cluster' => 'ap1',
             'useTLS' => true
@@ -164,6 +142,9 @@ class Tcsurat_masuk_m extends Bismillah_Model
             '1010070',
             $options
         );
+
+        $data['message'] = 'hello world';
+        $pusher->trigger('my-channel', 'my-event', $data);
 
         return $vaData ;
     }

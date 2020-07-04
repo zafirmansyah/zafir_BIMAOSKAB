@@ -72,6 +72,11 @@ class Frame extends Bismillah_Controller{
 	{
 		return $this->load->view('frame_notif_work_order');
 	}
+	
+	function notifikasiM02Prinsip()
+	{
+		return $this->load->view('frame_notif_m02prinsip');
+	}
 
 
 
@@ -106,5 +111,131 @@ class Frame extends Bismillah_Controller{
         }        
         return $vaData;
     }
+
+	public function setSessionIDM02()
+    {
+		$cFaktur        = $this->input->post('cKode');
+        $dbData         = $this->frame_m->getDetailM02($cFaktur);
+        $vaFileList     = $this->getfilelistM02($cFaktur);
+        $vaSess         = array() ;
+        if($dbRow = $this->frame_m->getrow($dbData)){        
+            $vaSess['ss_ID_M02PRINSIP_']            = $cFaktur ;
+            $vaSess['ss_KODEDISPO_M02PRINSIP_']     = $dbRow['KodeDisposisi'];
+            $vaSess['ss_PERIHAL_M02PRINSIP_']       = $dbRow['Perihal'] ;
+            $vaSess['ss_DARI_M02PRINSIP_']          = $dbRow['UserName'] ;
+            $vaSess['ss_NOSURAT_M02PRINSIP_']       = $dbRow['NoSurat'] ;
+            $vaSess['ss_TANGGAL_M02PRINSIP_']       = $dbRow['Tgl'];
+            $vaSess['ss_DETAIL_M02PRINSIP_']        = $dbRow['Deskripsi'];
+            $vaSess['ss_FILEITEM_M02PRINSIP_']      = $vaFileList;
+            $vaSess['ss_DATETIME_M02PRINSIP_']      = $dbRow['DateTime'] ;
+            foreach ($vaSess as $key => $value) {
+				savesession($this, $key, $value) ;
+			}
+        }
+	}
+	
+	public function getfilelistM02($cKode){
+        $dbData = $this->frame_m->getFileListM02($cKode);
+        $i = 0;
+        $vaData = array();
+        while($dbRow = $this->frame_m->getrow($dbData)){
+            $vaData[$i]=$dbRow;
+            $i++;
+        }        
+        return $vaData;
+	}
+	
+	public function setSessionIDWO()
+    {
+        $cKode      = $this->input->post('cKode');
+        $this->setSessionDataWO($cKode);
+        savesession($this,"ss_Kode_WO",$cKode);        
+        $vaData     = array() ;
+        $dbData     = $this->frame_m->getDetailFormWO($cKode);
+        while($dbRow = $this->frame_m->getrow($dbData)){   
+            $cFaktur        = $dbRow['Faktur'];
+            $cDeskripsi     = $dbRow['Deskripsi'];
+            $cStatus        = $dbRow['Status'];
+            $dTgl           = $dbRow['Tgl'];
+            $dStartDateTime = "";
+            $dEndDateTime   = "";
+            if(!empty($dbRow['StartDateTime'])){
+                $cStartDateTime     = date_create($dbRow['StartDateTime']); 
+                $dStartDateTime     = date_format($cStartDateTime,"d-m-Y H:i");
+            }
+            if(!empty($dbRow['EndDateTime'])){
+                $cEndDateTime       = date_create($dbRow['EndDateTime']);
+                $dEndDateTime       = date_format($cEndDateTime,"d-m-Y H:i");
+            } 
+            $cCaseClosed    = $this->frame_m->getStatusCaseClosed($cKode);
+            $cUserName      = $dbRow['UserName'];
+            $vaFileList     = $this->getFileFormWO($cFaktur);
+            $vaDataForm[$dTgl][$cFaktur] = array("Faktur"       =>$cFaktur,
+                                             "Deskripsi"    =>$cDeskripsi,
+                                             "Status"       =>$cStatus,
+                                             "Tgl"          =>$dTgl,
+                                             "StartDateTime"=>$dStartDateTime,
+                                             "EndDateTime"  =>$dEndDateTime,
+                                             "UserName"     =>$cUserName,
+                                             "CaseClosed"   =>$cCaseClosed,
+                                             "File"         =>$vaFileList);
+        }
+        //print_r($vaDataForm);
+        savesession($this,"ss_Data_FormWO",$vaDataForm);
+    }
+
+    public function setSessionDataWO($cKode)
+    {
+        $vaDataWO = array();
+        $data = $this->frame_m->getDataWO($cKode);
+        if(!empty($data)){
+            $vaDataWO = $data;
+            $vaDataWO['File'] = $this->getFileWO($cKode);
+        }
+        savesession($this,"ss_Data_WO",$vaDataWO);
+    }
+
+    public function getFileFormWO($cKode)
+    {
+        $dbData = $this->frame_m->getFileFormWO($cKode);
+        $vaData = array();
+        while($dbr = $this->frame_m->getrow($dbData)){
+            $cPathWO     = $dbr['FilePath'];
+            $cFileSize   = "0.00";
+            $cNamaFileWO = "File Not Found";
+            if(file_exists($cPathWO)){
+                $nFileSize      = filesize($cPathWO);
+                $vaPathWO       = explode("/",$cPathWO);
+                $cNamaFileWO    = end($vaPathWO); 
+                $cFileSize      = formatSizeUnits($nFileSize);
+            }
+            $dbr['FileSize'] = $cFileSize;
+            $dbr['FileName'] = $cNamaFileWO;
+            $vaData[] = $dbr;
+        }        
+        return $vaData;
+    }
+
+    public function getFileWO($cFaktur)
+    {
+        $dbData = $this->frame_m->getFileWO($cFaktur);
+        $vaData = array();
+        while($dbr = $this->frame_m->getrow($dbData)){
+            $cPathWO     = $dbr['FilePath'];
+            $cFileSize   = "0.00";
+            $cNamaFileWO = "File Not Found";
+            if(file_exists($cPathWO)){
+                $nFileSize      = filesize($cPathWO);
+                $vaPathWO       = explode("/",$cPathWO);
+                $cNamaFileWO    = end($vaPathWO); 
+                $cFileSize      = formatSizeUnits($nFileSize);
+            }
+            $dbr['FileSize'] = $cFileSize;
+            $dbr['FileName'] = $cNamaFileWO;
+            $vaData[] = $dbr;
+        }        
+        return $vaData;
+    }
+
 }
 ?>

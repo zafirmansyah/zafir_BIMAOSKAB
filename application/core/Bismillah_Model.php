@@ -429,6 +429,21 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("m02_prinsip_file",$cSQL);
+		
+		$cSQL = "CREATE TABLE `template_dokumen`  (
+					`ID` int(4) NOT NULL AUTO_INCREMENT,
+					`Subject` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Deskripsi` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+					`FilePath` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+					`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("template_dokumen",$cSQL);
+		$this->AddField("template_dokumen","Kode","varchar(255)","","ID");
+		$this->AddField("template_dokumen","Tgl","date","0000-00-00","");
+		$this->AddField("template_dokumen","Status","char(1)","","");
+
 
     }
 }
