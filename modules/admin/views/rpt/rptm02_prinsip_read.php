@@ -89,9 +89,9 @@
                 </div>
                 <div class="modal-footer">
                     <div class="pull-right">
-                        <input type="text" name="cFakturDokumen" id="cFakturDokumen">
-                        <input type="text" name="cKodeDispo" id="cKodeDispo">
-                        <input type="text" name="cKodeKaryawan" id="cKodeKaryawan">
+                        <input type="hidden" name="cFakturDokumen" id="cFakturDokumen">
+                        <input type="hidden" name="cKodeDispo" id="cKodeDispo">
+                        <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
                         <button class="btn btn-danger" id="cmdActReject"><i class="fa fa-times"></i> Simpan</button>
                     </div>
                 </div>
@@ -120,9 +120,9 @@
                 </div>
                 <div class="modal-footer">
                     <div class="pull-right">
-                        <input type="text" name="cFakturDokumenAcc" id="cFakturDokumenAcc">
-                        <input type="text" name="cKodeDispoAcc" id="cKodeDispoAcc">
-                        <input type="text" name="cKodeKaryawanAcc" id="cKodeKaryawanAcc">
+                        <input type="hidden" name="cFakturDokumenAcc" id="cFakturDokumenAcc">
+                        <input type="hidden" name="cKodeDispoAcc" id="cKodeDispoAcc">
+                        <input type="hidden" name="cKodeKaryawanAcc" id="cKodeKaryawanAcc">
                         <button class="btn btn-danger" id="cmdActAccept"><i class="fa fa-check"></i> Simpan</button>
                     </div>
                 </div>

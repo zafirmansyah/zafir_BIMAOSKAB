@@ -76,7 +76,7 @@ class Tcwo_master extends Bismillah_Controller
         $va['cStatus'] = $cStatusWO;
         $nYear      = date('Y');
         $cKategori  = "/WO";
-        $adir       = $this->config->item('bcore_uploads_wobima') . $nYear . $cKategori ;
+        $adir       = $this->config->item('bcore_uploads_suratbima') . $nYear . $cKategori ;
         if(!is_dir($adir)){
              mkdir($adir,0777,true);
             echo('

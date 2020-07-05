@@ -27,7 +27,7 @@ class Rptwo_m extends Bismillah_Model
     {
         $field = "*";
         $where = "Kode = '$cKode'";
-        $dbd   = $this->select("work_order_form", $field, $where, "Faktur","EndDateTime ASC,Faktur ASC") ;
+        $dbd   = $this->select("work_order_form", $field, $where, "Faktur","Tgl,StartDateTime,EndDateTime,Faktur") ;
         return $dbd ;
     }
     public function getFileFormWO($cFaktur){

@@ -60,7 +60,7 @@ class Tciku_master extends Bismillah_Controller
 
         $nYear      = date('Y');
         $cKategori  = "/IKU";
-        $adir       = $this->config->item('bcore_uploads_ikubima') . $nYear . $cKategori ;
+        $adir       = $this->config->item('bcore_uploads_suratbima') . $nYear . $cKategori ;
         if(!is_dir($adir)){
              mkdir($adir,0777,true);
             echo('
