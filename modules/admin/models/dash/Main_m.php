@@ -23,6 +23,7 @@ class Main_m extends Bismillah_Model{
         $nJumlah   = 0;
         $field     = "COUNT(s.ID) Jml";
         $join      = "left join surat_masuk_disposisi d on d.Kode=s.Kode";
+        
         $dbd       = $this->select("surat_masuk s", "s.*,d.*", "", $join, "s.Kode", "s.Kode DESC", "") ;
         $nJumlah   = $this->rows($dbd);
         return $nJumlah;
@@ -33,10 +34,9 @@ class Main_m extends Bismillah_Model{
     {
         $nJumlah   = 0;
         $cUser     = getsession($this,"KodeKaryawan");
-        $field     = "COUNT(s.ID) Jml";
-        $where     = "d.Terdisposisi = '$cUser'";
-        $join      = "left join surat_masuk_disposisi d on d.Kode=s.Kode";
-        $dbd       = $this->select("surat_masuk s", "s.*,d.*", $where, $join, "s.Kode", "s.Kode DESC", "") ;
+        $where     = "d.Terdisposisi = '$cUser' AND d.Status='1'";
+        $join      = "left join surat_masuk s on s.Kode=d.Kode";
+        $dbd       = $this->select("surat_masuk_disposisi d", "s.*,d.*", $where, $join, "", "s.Kode DESC", "") ;
         $nJumlah   = $this->rows($dbd);
         return $nJumlah;
     }
@@ -44,8 +44,10 @@ class Main_m extends Bismillah_Model{
     public function getJumlahM02()
     {
         $nJumlah   = 0;
-        $where     = "Status = '1'";
-        $dbd       = $this->select("m02_prinsip", "*", $where, "", "", "", "") ;
+        $cKodeKaryawan  = getsession($this, "KodeKaryawan") ; 
+        $where     = "d.Status = '1' AND d.Terdisposisi = '$cKodeKaryawan'";
+        $join      = "left join m02_prinsip_disposisi d on d.Kode=p.KodeDisposisi";
+        $dbd       = $this->select("m02_prinsip p", "p.*,d.*", $where, $join, "", "", "") ;
         $nJumlah   = $this->rows($dbd);
         return $nJumlah;
     }
@@ -75,12 +77,11 @@ class Main_m extends Bismillah_Model{
 
     public function getJumlahWO()
     {
-        $nJumlah    = 0;
-        $where      = "Status <> 'F' AND Status <> 'D'";
-        $dbd        = $this->select("work_order_master", "*", $where, "", "", "","") ;
-        while($dbr  = $this->getrow($dbd)){
-            $nJumlah++;
-        }        
+        $cUserName     = getsession($this,"username");
+        $cKodeKaryawan = getsession($this, "KodeKaryawan") ; 
+        $where         = "TujuanUserName='$cUserName' OR TujuanUserName='$cKodeKaryawan'";
+        $dbd           = $this->select("work_order_master", "*", $where, "", "", "","") ;
+        $nJumlah       = $this->rows($dbd);   
         return $nJumlah;
     }
 
@@ -115,6 +116,23 @@ class Main_m extends Bismillah_Model{
         }
         return $vaData;
     }
+    
+    public function getDataWOPerUnit()
+    {
+        $cUnit      = getsession($this,"unit");
+        $vaData     = array();
+        $where      = "Status <> 'D'";
+        $dbd        = $this->select("work_order_master", "*", $where, "", "", "Kode DESC","") ;
+        while($dbr  = $this->getrow($dbd)){
+            $cUserTujuan            = $dbr['TujuanUserName'];
+            $vaDataUserTujuan       = $this->geDataUser($cUserTujuan);
+            $cUnitUserTujuan        = $vaDataUserTujuan['Unit'];
+            if($cUnitUserTujuan == $cUnit){
+                $vaData[] = $dbr;
+            }
+        }        
+        return $vaData;
+    }
 
     public function getDataIKUPerUnit()
     {
@@ -123,7 +141,7 @@ class Main_m extends Bismillah_Model{
         $vaData     = array() ;
         $limit     = "0,10";
         $where[]    = "Status <> 0";
-        if(getsession($this,"Jabatan") > "002") $where[] = "TujuanUnit = '$cUnitUser'";
+        $where[]    = "TujuanUnit = '$cUnitUser'";
         $where 	    = implode(" AND ", $where) ;
         $dbd        = $this->select("iku_master", "*", $where, "", "", "Kode DESC", $limit) ;
         while($dbr = $this->getrow($dbd)){
@@ -152,6 +170,18 @@ class Main_m extends Bismillah_Model{
             $vaData = $dbr;
         }
         return $vaData;
+    }
+
+    public function getKeteranganUnit($cUnit)
+    {
+        $field = "Keterangan";
+        $where = "Kode = '$cUnit'";
+        $dbd   = $this->select("golongan_unit", $field, $where) ;
+        $cKeterangan = "";
+        if($dbr = $this->getrow($dbd)){
+            $cKeterangan = $dbr['Keterangan'];
+        }
+        return $cKeterangan;
     }
 }
 ?>
