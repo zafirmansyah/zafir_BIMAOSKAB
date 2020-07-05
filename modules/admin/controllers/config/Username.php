@@ -78,11 +78,15 @@ class Username extends Bismillah_Controller{
 
 		$vimage = json_decode(getsession($this, "ssusername_image", "{}"), true) ;
 		if(!empty($vimage)){
-			$adir 	= $this->config->item('bcore_uploads') ;
+			$adir 	= $this->config->item('bcore_uploads') . "users_pict/";
+			if(!is_dir($adir)){
+				mkdir($adir,0777,true);
+			}
+
 			foreach ($vimage as $key => $img) {
-				$vi	= pathinfo($img) ;
+				$vi		= pathinfo($img) ;
 				$dir 	= $adir ;
-				$dir .=  $key . "_".date("dmy_Hi") . "." . $vi['extension'] ;
+				$dir 	.=  $key . "_".date("dmy_Hi") . "." . $vi['extension'] ;
 				if(is_file($dir)) @unlink($dir) ;
 				if(@copy($img,$dir)){
 					@unlink($img) ;
