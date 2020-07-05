@@ -94,7 +94,7 @@
 			<div class="caption">
 				<h1 style="margin-bottom:10px"><?=$app_title?></h1>
 				<p>
-					Copyright &copy; <?=date("Y")?> MDT Solution.
+					Copyright &copy; <?=date("Y")?> Zafir Software Indonesia [ reZA FIRmansyah ].
 				</p>
 			</div>
 		</div>

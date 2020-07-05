@@ -1,7 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed') ; ?>
 #Nama, Obj, Lokasi, Icon, Lebar, Tinggi, lTitlebar, lResize, lModal, lFrame, class
-["Dashboard", "dsh", "", "fa fa-dashboard"]
-    ["Dashboard", "dmain", "admin/dash/main", "fa fa-dashboard"]
+["Dashboard", "dmain", "admin/dash/main", "fa fa-dashboard"]
 ["Master", "mst" , "" , "fa fa-fire"]
     ["Organisasi", "mstorg","","fa fa-bank"]
         ["Golongan Unit", "mstgol_unit","admin/mst/mstgol_unit","fa fa-circle-o"]
