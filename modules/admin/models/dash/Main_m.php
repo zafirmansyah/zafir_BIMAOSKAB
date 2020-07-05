@@ -120,6 +120,7 @@ class Main_m extends Bismillah_Model{
     {
         $cUnitUser  = getsession($this,"unit");
         $where 	    = array() ; 
+        $vaData     = array() ;
         $limit     = "0,10";
         $where[]    = "Status <> 0";
         if(getsession($this,"Jabatan") > "002") $where[] = "TujuanUnit = '$cUnitUser'";
