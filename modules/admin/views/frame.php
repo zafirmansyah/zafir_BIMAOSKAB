@@ -38,8 +38,8 @@
 			<header class="main-header">
 				<!-- Logo -->
 				<a href="<?=site_url()?>" class="logo">
-					<span class="logo-mini"><img src="./uploads/bank_indonesia.png" style="width: 36px; height: 36px;" alt="App Logo"></span>
-					<span class="logo-lg"><img src="./uploads/bank_indonesia.png" style="width: 36px; height: 36px;" alt="App Logo">&nbsp;<?=$app_title?></span>
+					<span class="logo-mini"><img src="./dist/img/bank_indonesia.png" style="width: 36px; height: 36px;" alt="App Logo"></span>
+					<span class="logo-lg"><img src="./dist/img/bank_indonesia.png" style="width: 36px; height: 36px;" alt="App Logo">&nbsp;<?=$app_title?></span>
 				</a>
 				<!-- Header Navbar -->
 				<nav class="navbar navbar-static-top" role="navigation">

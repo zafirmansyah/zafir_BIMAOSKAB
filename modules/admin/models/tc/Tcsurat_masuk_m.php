@@ -101,7 +101,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
             $this->insert("surat_masuk_disposisi",$vadetail);
 
             // Send Email Notification to All Reciever
-            $subjectMail    = "NOTIFIKASI BIMA OSKAB - Dokumen Masuk Terdisposisi Pada Anda" ;
+            $subjectMail    = "NOTIFIKASI BIMA OSKAB - ".$cSenderName." mendisposisi kepada Anda dokumen ".$cKetJenisSurat." dari ".$va['cSuratDari']." perihal ".$va['cPerihal']."" ;
             $headers        = "MIME-Version: 1.0" . "\r\n";
             $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
             $headers        .= 'From: <bimaoskab@gmail.com>' . "\r\n";

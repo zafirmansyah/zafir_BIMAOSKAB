@@ -534,4 +534,6 @@ $config['bcore_uploads']		            = './uploads/' ;
 $config['bcore_tmp']			            = './tmp/'; //sys_get_temp_dir() ;
 $config['bcore_no_image']                   = './uploads/no-image.png' ;
 $config['bcore_uploads_suratbima']		    = './uploads/SuratSurat/' ;
-
+$config['bcore_uploads_ikubima']            = './uploads/IKU/' ;
+$config['bcore_uploads_wobima']             = './uploads/WO/' ;
+$config['bcore_uploads_templatebima']       = './uploads/TemplatesDokumenBIMA/' ;
