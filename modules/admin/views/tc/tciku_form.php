@@ -8,6 +8,30 @@
             <div id="grid1" style="height:500px"></div>
         </div>
         <div class="tab-pane" id="tab_2">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                    <h3 class="box-title">Kode IKU : <span id="textKode_IKU"></span></h3>
+                    </div>
+                    <div class="box-body no-padding">
+                    <div class="mailbox-read-info">
+                        <h3 id="textSubject_IKU"></h3>
+                        <h5>From: <span id="textDari_IKU"></span>
+                        <span class="mailbox-read-time pull-right" id="textDateTime_IKU"></span></h5>
+                    </div>
+                    <div class="mailbox-read-message" id="textDeskripsi_IKU">
+                        <!-- Detail WO -->
+                    </div>
+                    </div>
+                    <div class="box-footer">
+                        <ul class="mailbox-attachments clearfix" id="areaFileIKU">
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <form>
             <div class="row" style="padding:5px;">
                 <div class="col-sm-6">
@@ -56,6 +80,40 @@
 
 <script type="text/javascript">
 <?=cekbosjs();?>
+
+    bos.tciku_form.loadDataFormIKU = function(data){
+        console.log("data:",data);
+        $("#textKode_IKU").html(data.Kode);
+        $("#textDateTime_IKU").html(data.DateTime);
+        $("#textDari_IKU").html(data.UserName);
+        $("#textSubject_IKU").html(data.Subject);
+        $("#textDeskripsi_IKU").html(data.Deskripsi);
+        bos.tciku_form.loadFileFormIKU(data.File);
+    }
+
+    bos.tciku_form.loadFileFormIKU = function(file){
+        //console.log("file:",file);        
+        $("#areaFileIKU").html("");
+        for(var i=0; i<file.length;i++){
+            var cFileName    = file[i].FileName;
+            var cFileNameCut = cFileName.substring(0,20);
+            
+            var $liFileWO         = $('<li class="itemFileWO"></li>');
+            var $spanIconWO       = $('<span class="mailbox-attachment-icon"><i class="fa fa-file-text"></i></span>');
+            var $divFileInfo      = $('<div class="mailbox-attachment-info"></div>');
+            var $aLinkFile        = $('<a href="'+file[i].FilePath+'" class="mailbox-attachment-name" title="'+cFileName+'" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;'+cFileNameCut+'</a>');
+            var $spanDownloadFile = $('<span class="mailbox-attachment-size">'+file[i].FileSize+'</span>');
+            var $aLinkDownload    = $('<a href="'+file[i].FilePath+'" class="btn btn-default btn-xs pull-right" title="Download" download><i class="fa fa-cloud-download"></i></a>');
+            
+            $spanDownloadFile.append($aLinkDownload);
+            $divFileInfo.append($aLinkFile);
+            $divFileInfo.append($spanDownloadFile);
+            $liFileWO.append($spanIconWO);
+            $liFileWO.append($divFileInfo);
+
+            $("#areaFileIKU").append($liFileWO);
+        } 
+    }
 
     bos.tciku_form.grid1_data    = null ;
     bos.tciku_form.grid1_loaddata= function(){

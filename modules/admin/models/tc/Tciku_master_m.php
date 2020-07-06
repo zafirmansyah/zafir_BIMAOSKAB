@@ -80,10 +80,17 @@ class Tciku_master_m extends Bismillah_Model
         $this->insert("iku_master_file", $vaData, $where, "") ;
     }
 
-    public function deleteFile($va)
+    public function deleteFile_Old($va)
     {
         $cKode  = $va['cKode'] ;
         $cWhere = "Kode = '$cKode'" ;
+        $this->delete('iku_master_file',$cWhere);
+    }
+
+    public function deleteFile($cID)
+    {
+        
+        $cWhere = "ID = '$cID'" ;
         $this->delete('iku_master_file',$cWhere);
     }
 
@@ -130,6 +137,14 @@ class Tciku_master_m extends Bismillah_Model
             $data = $d;
 		}
 		return $data ;
+    }
+
+    public function getFileIKU($cKode)
+    {
+        $field = "*";
+        $where = "Kode = '$cKode'";
+        $dbd   = $this->select("iku_master_file", $field, $where) ;
+        return $dbd;
     }
 }
 

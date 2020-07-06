@@ -30,6 +30,26 @@ class Tciku_form_m extends Bismillah_Model
         return $cCIF ;
     }
 
+    public function getDataIKU($cKode)
+    {
+        $vaData = array();
+        $field  = "*";
+        $where  = "Kode = '$cKode'";
+        $dbd    = $this->select("iku_master", $field, $where) ;
+        if($dbr  = $this->bdb->getrow($dbd)){
+            $vaData = $dbr ;
+        }
+        return $vaData;
+    }
+
+    public function getFileIKU($cKode)
+    {
+        $field = "*";
+        $where = "Kode = '$cKode'";
+        $dbd   = $this->select("iku_master_file", $field, $where) ;
+        return $dbd;
+    }
+
     public function saving($va){
 
         //var_dump($va);    
@@ -69,7 +89,7 @@ class Tciku_form_m extends Bismillah_Model
         $this->delete('iku_form_file',$where);
     }
 
-    public function getdata($id){
+    public function getDataFormIKU($id){
         $cUserName = getsession($this,'username');
         $data      = array() ;
         $where[]   = "Kode = " . $this->escape($id);
@@ -81,15 +101,6 @@ class Tciku_form_m extends Bismillah_Model
         return $data ;
     }
 
-    public function seekKodeIKU($search)
-    {
-        $where     = array() ; 
-        $where[]   = "Kode <> ''" ;
-        if($search !== "") $where[]   = "(Kode LIKE '%{$search}%' OR Subject LIKE '%{$search}%')" ;
-        $where     = implode(" AND ", $where) ;
-        $dbd        = $this->select("iku_master", "Kode,Subject", $where, "", "", "Kode ASC") ;
-        return array("db"=>$dbd) ;
-    }
 
     public function getDataTargetDisposisi($cKode)
     {
