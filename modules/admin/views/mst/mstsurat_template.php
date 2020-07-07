@@ -105,6 +105,7 @@
     };
 
     bos.mstsurat_template.init         = function(){ 
+        this.obj.find("#cKode").val("") ;
         this.obj.find("#cKeterangan").val("") ;
         this.obj.find("#cUplFileTEMPLATE").val("") ;
         bjs.ajax(this.url + '/init') ;

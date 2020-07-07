@@ -76,7 +76,7 @@ class Tciku_master extends Bismillah_Controller
         $va['FilePath'] = ""; 
         $dir            = "" ;
         if(!empty($upload)){
-            $this->bdb->deleteFile($va) ;
+            //$this->bdb->deleteFile($va) ;
             foreach ($upload as $key => $value) {
                 if(!empty($value)){
                     foreach ($value as $tkey => $tval) {
@@ -116,8 +116,10 @@ class Tciku_master extends Bismillah_Controller
         $cKode 	    = $va['cKode'] ;
         $data       = $this->bdb->getdata($cKode) ;
         if(!empty($data)){
+            $vaFile         = $this->getFileIKU($cKode);
             $jsonUnit[] 	= array("id"=>$data['TujuanUnit'],"text"=>$data['TujuanUnit'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['TujuanUnit']}'", "golongan_unit"));
             savesession($this, "ss_tciku_master_", $cKode) ;
+            //print_r($vaFile);
             echo('
                 with(bos.tciku_master.obj){
                     find("#cKode").val("'.$data['Kode'].'") ;
@@ -128,8 +130,27 @@ class Tciku_master extends Bismillah_Controller
                     find("#dTgl").val("'.date_2d($data['Tgl']).'") ;
                     find(".nav-tabs li:eq(1) a").tab("show") ;
                 }
+                bos.tciku_master.loadFileMasterIKU('.json_encode($vaFile).');
             ') ;
+            
         }
+    }
+
+    public function deleteFile()
+    {
+        $va 	= $this->input->post() ;
+        $cID    = $va['cID'];
+        //echo($cID);
+        $this->bdb->deleteFile($cID);
+
+        echo(' 
+            Swal.fire({
+                icon: "success",
+                title: "File Deleted!",
+            });
+
+            bos.tciku_master.init() ;    
+        ') ;
     }
 
     public function deleting(){
@@ -193,6 +214,27 @@ class Tciku_master extends Bismillah_Controller
                 }
             }
         }
+    }
+
+    public function getFileIKU($cKode)
+    {
+        $dbData = $this->bdb->getFileIKU($cKode);
+        $vaData = array();
+        while($dbr  = $this->bdb->getrow($dbData)){
+            $cPathWO     = $dbr['FilePath'];
+            $cFileSize   = "0.00";
+            $cNamaFileWO = "File Not Found";
+            if(file_exists($cPathWO)){
+                $nFileSize      = filesize($cPathWO);
+                $vaPathWO       = explode("/",$cPathWO);
+                $cNamaFileWO    = end($vaPathWO); 
+                $cFileSize      = formatSizeUnits($nFileSize);
+            }
+            $dbr['FileSize'] = $cFileSize;
+            $dbr['FileName'] = $cNamaFileWO;
+            $vaData[] = $dbr;
+        }        
+        return $vaData;
     }
 }
 

@@ -24,6 +24,14 @@ class Mstsurat_template_m extends Bismillah_Model
         return $cCIF ;
     }
 
+    public function getdata($id){
+        $data = array() ;
+        if($d = $this->getval("*", "Kode = " . $this->escape($id), "template_dokumen")){
+          $data = $d;
+        }
+        return $data ;
+    }
+
     public function saving($va){
 
         //var_dump($va);    
@@ -31,7 +39,8 @@ class Mstsurat_template_m extends Bismillah_Model
 
         $cUserName                 = getsession($this,'username') ;
         
-        $this->delete("template_dokumen", "Kode = '{$cKode}' and UserName = '{$cUserName}'" ) ;
+        $this->delete("template_dokumen", "Kode = '{$cKode}'" ) ;
+        $where          = "Kode='{$cKode}'";
         $vaData         = array("Kode"=>$cKode, 
                                 "Tgl"=>date('Y-m-d'),
                                 "Subject"=>$va['cKeterangan'],
@@ -39,7 +48,7 @@ class Mstsurat_template_m extends Bismillah_Model
                                 "DateTime"=>date('Y-m-d H:i:s'),
                                 "Status"=>"1"
                                 ) ;
-        $this->insert("template_dokumen",$vaData);
+        $this->update("template_dokumen",$vaData,$where,"");
         
         return $vaData ;
     }
@@ -64,6 +73,9 @@ class Mstsurat_template_m extends Bismillah_Model
         $cWhere = "Kode = '$cKode'" ;
         $this->delete('template_dokumen_file',$cWhere);
     }
+    public function deleting($id){
+        $this->delete("template_dokumen", "Kode = " . $this->escape($id)) ;
+      }
 }
 
 
