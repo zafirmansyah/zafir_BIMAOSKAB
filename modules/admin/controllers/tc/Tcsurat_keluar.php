@@ -30,12 +30,17 @@ class Tcsurat_keluar extends Bismillah_Controller
             $vaset['JenisSurat']    = $this->bdb->getval("Keterangan", "Kode = '{$dbr['JenisSurat']}'","jenis_surat") ;
             $vaset['Unit']          = $this->bdb->getval("Keterangan", "Kode = '{$dbr['Unit']}'","golongan_unit") ;
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
-            $vaset['cmdedit']       = '<button type="button" onClick="bos.tcsurat_keluar.cmdedit(\''.$dbr['Kode'].'\')"
-                                        class="btn btn-success btn-grid">Edit</button>' ;
-            $vaset['cmddelete']     = '<button type="button" onClick="bos.tcsurat_keluar.cmddelete(\''.$dbr['Kode'].'\')"
-                                        class="btn btn-danger btn-grid">Delete</button>' ;
-            $vaset['cmdedit']	   = html_entity_decode($vaset['cmdedit']) ;
-            $vaset['cmddelete']	= html_entity_decode($vaset['cmddelete']) ;
+            $vaset['cmdedit']       = "" ;
+            $vaset['cmddelete']     = "" ;
+
+            if(getsession($this,'Jabatan') <= "001"){
+                $vaset['cmdedit']       = '<button type="button" onClick="bos.tcsurat_keluar.cmdedit(\''.$dbr['Kode'].'\')"
+                                            class="btn btn-success btn-grid">Edit</button>' ;
+                $vaset['cmddelete']     = '<button type="button" onClick="bos.tcsurat_keluar.cmddelete(\''.$dbr['Kode'].'\')"
+                                            class="btn btn-danger btn-grid">Delete</button>' ;
+            }
+            $vaset['cmdedit']	    = html_entity_decode($vaset['cmdedit']) ;
+            $vaset['cmddelete']	    = html_entity_decode($vaset['cmddelete']) ;
 
             $vare[]		= $vaset ;
         }
