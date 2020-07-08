@@ -31,10 +31,15 @@ class Tcm_prinsip extends Bismillah_Controller
             $cKodeUnit              = $this->bdb->getval("Unit","username = '{$dbr['UserName']}'","sys_username") ;
             $vaset['Unit']          = $this->bdb->getval("KodeRubrik","Kode = '{$cKodeUnit}'","golongan_unit") ;
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
-            $vaset['cmdEdit']       = '<button type="button" onClick="bos.tcm_prinsip.cmdEdit(\''.$dbr['Faktur'].'\')"
-                                        class="btn btn-success btn-grid">Edit</button>' ;
-            $vaset['cmdDelete']     = '<button type="button" onClick="bos.tcm_prinsip.cmdDelete(\''.$dbr['Faktur'].'\')"
-                                        class="btn btn-danger btn-grid">Delete</button>' ;
+            $vaset['cmdEdit']       = "" ;
+            $vaset['cmdDelete']     = "" ;
+
+            if(getsession($this,'Jabatan') <= "001"){
+                $vaset['cmdEdit']       = '<button type="button" onClick="bos.tcm_prinsip.cmdEdit(\''.$dbr['Faktur'].'\')"
+                                            class="btn btn-success btn-grid">Edit</button>' ;
+                $vaset['cmdDelete']     = '<button type="button" onClick="bos.tcm_prinsip.cmdDelete(\''.$dbr['Faktur'].'\')"
+                                            class="btn btn-danger btn-grid">Delete</button>' ;
+            }
             $vaset['cmdEdit']	    = html_entity_decode($vaset['cmdEdit']) ;
             $vaset['cmdDelete']	    = html_entity_decode($vaset['cmdDelete']) ;
 
@@ -261,6 +266,13 @@ class Tcm_prinsip extends Bismillah_Controller
                 }
                 bos.tcm_prinsip.setContentJS(\''.$data['Deskripsi'].'\') ;
                 bos.tcm_prinsip.setopt("optMetode","'.$cMetodeDisposisi.'");
+
+                var varMetodeDispo = "'.$cMetodeDisposisi.'";
+                if(varMetodeDispo === "S"){
+                    $("#formDisposisi").css("display","block") ;
+                    bos.tcm_prinsip.setGridDisposisi() ;
+                }
+
             ') ;
         }
     }
