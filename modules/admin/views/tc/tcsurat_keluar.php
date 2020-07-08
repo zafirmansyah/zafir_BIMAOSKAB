@@ -1,7 +1,7 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Daftar Data</a></li>
-        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Data Form</a></li>
+        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Tambah Nomor Dokumen</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active full-height" id="tab_1">
@@ -19,7 +19,7 @@
                 <div class="col-sm-10">
                     <div class="form-group">
                         <label>Dokumen Ditujukan Kepada</label>
-                        <input type="text" name="cKepada" id="cKepada" class="form-control" maxlength="225" placeholder="Surat ditujukan kepada..." required>
+                        <input type="text" name="cKepada" id="cKepada" class="form-control" maxlength="225" placeholder="Dokumen ditujukan kepada..." required>
                     </div>
                 </div>
                 <div class="col-sm-10">
@@ -87,7 +87,7 @@
             limit    : 100 ,
             url      : bos.tcsurat_keluar.base_url + "/loadgrid",
             postData : this.grid1_data ,
-            header   : 'Daftar Surat Keluar',
+            header   : 'Daftar Dokumen',
             show: {
                 header      : true,
                 footer      : true,
@@ -97,10 +97,10 @@
             },
             multiSearch     : false,
             columns: [
-                { field: 'NoSurat', caption: 'Nomor Surat', size: '150px', sortable: false},
-                { field: 'Perihal', caption: 'Perihal Surat', size: '250px', sortable: false},
+                { field: 'NoSurat', caption: 'Nomor Dokumen', size: '150px', sortable: false},
+                { field: 'Perihal', caption: 'Perihal Dokumen', size: '250px', sortable: false},
                 { field: 'Kepada', caption: 'Ditujukan Kepada', size: '125px', sortable: false},
-                { field: 'JenisSurat', caption: 'Jenis Surat', size: '150px', sortable: false},
+                { field: 'JenisSurat', caption: 'Jenis Dokumen', size: '150px', sortable: false},
                 { field: 'UserName', caption: 'Petugas', size: '100px', sortable: false},
                 { field: 'Unit', caption: 'Unit Petugas', size: '125px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},

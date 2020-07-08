@@ -282,6 +282,23 @@ class Tcm_prinsip extends Bismillah_Controller
         $id = $this->input->post('cFaktur') ;
         $this->bdb->deletePrinsip($id) ;
     }
+
+    public function checkNomorSurat()
+    {
+        $va                 = $this->input->post();
+        $cJenisSurat        = "006" ;
+        $cSifatSurat        = $va['optSifatSurat'];
+        $cKodeUnit          = getsession($this,'unit') ;
+        $dTgl               = date_2s($va['dTgl']) ;
+        $nYear              = substr($dTgl,0,4) ;
+        $checkNomorSurat    = $this->bdb->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'M02P',false) ;
+        echo(' 
+            Swal.fire({
+                icon: "info",
+                title: "'.$checkNomorSurat.'"
+            });    
+        ') ;
+    }
 }
 
 

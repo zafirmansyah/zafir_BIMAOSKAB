@@ -94,7 +94,7 @@
 			<div class="caption">
 				<h1 style="margin-bottom:10px"><?=$app_title?></h1>
 				<p>
-					Copyright &copy; <?=date("Y")?> Zafir Software Indonesia [ reZA FIRmansyah ].
+					Copyright &copy; <?=date("Y")?> BIMA OSKAB
 				</p>
 			</div>
 		</div>
@@ -103,7 +103,7 @@
 			<div class="logo" style="text-align: center;">
 				<img src="<?=$app_logo."?time=".time()?>" class="img-responsive" alt="<?=$app_title?>" title="<?=$app_title?>">
 				<br>
-				<span>Sudah siap bekerja ? <br>Baca Bismillah dahulu ya!</span>
+				<b><h3>Login</h3></b>
 			</div>
 			<form>
 				<div class="error"></div>

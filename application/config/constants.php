@@ -85,5 +85,4 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 
-defined('BISMILLAH_APP_VERSION')      OR define('BISMILLAH_APP_VERSION', "1.1.0-beta"); // highest automatically-assigned error code
-defined('BISMILLAH_API_URL')      OR define('BISMILLAH_API_URL', "http://127.0.0.1:8000/api"); // highest automatically-assigned error code
+defined('BISMILLAH_APP_VERSION')      OR define('BISMILLAH_APP_VERSION', "1.0.0-beta"); // highest automatically-assigned error code
