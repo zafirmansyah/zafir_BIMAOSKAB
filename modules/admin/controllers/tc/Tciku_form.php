@@ -105,12 +105,16 @@ class Tciku_form extends Bismillah_Controller
     }
 
     public function editing(){
-        $va 	    = $this->input->post() ;
-        $cKode 	    = $va['cKode'] ;
-        $data       = $this->bdb->getdata($cKode) ;
+        $va 	       = $this->input->post() ;
+        $cKode 	       = $va['cKode'] ;
+        $vaIKU         = $this->bdb->getDataIKU($cKode);
+        $vaIKU['File'] = $this->getFileIKU($cKode); 
+        $data          = $this->bdb->getDataFormIKU($cKode) ;
+        //print_r($vaIKU);
         if(!empty($data)){
             savesession($this, "ss_tciku_form_", $cKode) ;
             echo('
+                bos.tciku_form.loadDataFormIKU('.json_encode($vaIKU).');
                 with(bos.tciku_form.obj){
                     find("#cKode").val("'.$data['Kode'].'") ;
                     find("#dTgl").val("'.date_2d($data['Tgl']).'") ;
@@ -120,6 +124,7 @@ class Tciku_form extends Bismillah_Controller
             ') ;
         }else{
             echo('
+                bos.tciku_form.loadDataFormIKU('.json_encode($vaIKU).');
                 with(bos.tciku_form.obj){
                     $("#cKode").val("'.$cKode.'") ;
                     find(".nav-tabs li:eq(1) a").tab("show") ;
@@ -175,6 +180,27 @@ class Tciku_form extends Bismillah_Controller
                 }
             }
         }
+    }
+
+    public function getFileIKU($cKode)
+    {
+        $dbData = $this->bdb->getFileIKU($cKode);
+        $vaData = array();
+        while($dbr  = $this->bdb->getrow($dbData)){
+            $cPathWO     = $dbr['FilePath'];
+            $cFileSize   = "0.00";
+            $cNamaFileWO = "File Not Found";
+            if(file_exists($cPathWO)){
+                $nFileSize      = filesize($cPathWO);
+                $vaPathWO       = explode("/",$cPathWO);
+                $cNamaFileWO    = end($vaPathWO); 
+                $cFileSize      = formatSizeUnits($nFileSize);
+            }
+            $dbr['FileSize'] = $cFileSize;
+            $dbr['FileName'] = $cNamaFileWO;
+            $vaData[] = $dbr;
+        }        
+        return $vaData;
     }
 }
 

@@ -16,7 +16,7 @@ class Mstsurat_template extends Bismillah_Controller
     }
 
     public function init(){
-        // savesession($this, "ss_ikumaster_", "") ;
+        savesession($this, "ssmstsurat_template_cKode", "") ;
         savesession($this, "ssmstsurat_template_cUplFileTEMPLATE", "") ;
     }
 
@@ -107,7 +107,22 @@ class Mstsurat_template extends Bismillah_Controller
             bos.mstsurat_template.init() ;     
         ') ;
     }
-
+    public function editing()
+    {
+        $va 	    = $this->input->post() ;
+        $cKode 	    = $va['cKode'] ;
+        $data       = $this->bdb->getdata($cKode) ;
+        if(!empty($data)){
+            savesession($this, "ssmstsurat_template_cKode", $cKode) ;
+            echo('
+                with(bos.mstsurat_template.obj){
+                find(".nav-tabs li:eq(1) a").tab("show") ;
+                find("#cKode").val("'.$data['Kode'].'").prop("readonly", true); 
+                find("#cKeterangan").val("'.$data['Subject'].'").focus() ;
+                }
+            ') ;
+        }
+    }
     public function savingFile()
     {
         savesession($this, "ssmstsurat_template_cUplFileTEMPLATE" , "") ;
@@ -141,6 +156,12 @@ class Mstsurat_template extends Bismillah_Controller
                 }
             }
         }
+    }
+    public function deleting(){
+        $va 	= $this->input->post() ;
+        $this->bdb->deleting($va['cKode']) ;
+        $this->bdb->deleteFile($va) ;
+        echo(' bos.mstsurat_template.grid1_reloaddata() ; ') ;
     }
 }
 
