@@ -194,7 +194,7 @@
 								</a>
 								<ul class="dropdown-menu">
 									<!-- The user image in the menu -->
-									<li class="user-header">
+									<li class="user-header" >
 										<img src="<?=$data_var['ava']."?time=".time()?>" class="img-circle" alt="User Image" />
 										<p><?=$fullname?></p>
 									</li>
@@ -218,7 +218,7 @@
 				<!-- sidebar: style can be found in sidebar.less -->
 				<section class="sidebar">
 					<div class="user-panel">
-				        <div class="pull-left image">
+				        <div class="pull-left image" onClick="clickProfilePicture()">
 				          <img src="<?=$data_var['ava']."?time=".time()?>" alt="<?=$fullname?>">
 				        </div>
 				        <div class="pull-left info">
@@ -434,7 +434,15 @@
 			}
 			// END Open M02 Prinsip
 			
-			
+			clickProfilePicture = function(){
+				swal.fire({
+					imageUrl: '<?=$data_var['ava']."?time=".time()?>',
+					imageWidth: '100%',
+					imageHeight: '100%',
+					imageAlt: 'Profile Picture', 
+					backdrop: 'rgba(0,0,0,0.8)'
+				});
+			}
 
 		</script>
 		<?php require_once 'frame.rpt.php' ?>

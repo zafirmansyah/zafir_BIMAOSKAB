@@ -9,11 +9,12 @@ class Mstsurat_jenis_m extends Bismillah_Model
 	
   public function loadgrid($va){
     $limit    = $va['offset'].",".$va['limit'] ;
-    $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+    $search	  = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
     $search   = $this->escape_like_str($search) ;
-    $where 	 = array() ; 
+    $where 	  = array() ; 
     if($search !== "") $where[]	= "(kode LIKE '{$search}%' OR keterangan LIKE '%{$search}%')" ;
-    $where 	 = implode(" AND ", $where) ;
+    $where[]  = "Status = '1'" ;
+    $where 	  = implode(" AND ", $where) ;
     $dbd      = $this->select("jenis_surat", "*", $where, "", "", "kode ASC", $limit) ;
     $dba      = $this->select("jenis_surat", "id", $where) ;
 
@@ -37,7 +38,8 @@ class Mstsurat_jenis_m extends Bismillah_Model
   }
 
   public function deleting($id){
-    $this->delete("jenis_surat", "Kode = " . $this->escape($id)) ;
+    $vaUpd = array("Status"=>'0') ;
+    $this->update("jenis_surat",$vaUpd,"Kode = " . $this->escape($id)) ;
   }
 
   public function getIncreamentKode()

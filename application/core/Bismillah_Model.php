@@ -233,6 +233,7 @@ class Bismillah_Model extends CI_Model{
 		
 		$this->AddField("golongan_unit","KodeRubrik","varchar(255)","","");
 		$this->AddField("jenis_surat","KodeRubrik","varchar(255)","","");
+		$this->AddField("jenis_surat","Status","varchar(1)","1","");
 
 		$cSQL = "CREATE TABLE `golongan_jabatan`  (
 					`ID` int(3) NOT NULL AUTO_INCREMENT,

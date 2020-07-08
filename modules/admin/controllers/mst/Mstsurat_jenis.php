@@ -25,12 +25,12 @@ class mstsurat_jenis extends Bismillah_Controller
         $dbd    = $vdb['db'] ;
         while( $dbr = $this->mstsurat_jenis_m->getrow($dbd) ){
             $vaset   = $dbr ;
-            $vaset['cmdedit']    = '<button type="button" onClick="bos.mstsurat_jenis.cmdedit(\''.$dbr['Kode'].'\')"
-                            class="btn btn-success btn-grid">Edit</button>' ;
-            $vaset['cmddelete']  = '<button type="button" onClick="bos.mstsurat_jenis.cmddelete(\''.$dbr['Kode'].'\')"
-                            class="btn btn-danger btn-grid">Delete</button>' ;
-            $vaset['cmdedit']	   = html_entity_decode($vaset['cmdedit']) ;
-            $vaset['cmddelete']	= html_entity_decode($vaset['cmddelete']) ;
+            $vaset['cmdedit']       = '<button type="button" onClick="bos.mstsurat_jenis.cmdedit(\''.$dbr['Kode'].'\')"
+                                        class="btn btn-success btn-grid">Edit</button>' ;
+            $vaset['cmddelete']     = '<button type="button" onClick="bos.mstsurat_jenis.cmddelete(\''.$dbr['Kode'].'\')"
+                                        class="btn btn-danger btn-grid">Delete</button>' ;
+            $vaset['cmdedit']	    = html_entity_decode($vaset['cmdedit']) ;
+            $vaset['cmddelete']	    = html_entity_decode($vaset['cmddelete']) ;
 
             $vare[]		= $vaset ;
         }

@@ -1,7 +1,7 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Daftar Data</a></li>
-        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Data Form</a></li>
+        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Data Dokumen</a></li>
+        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Tambah Nomor Dokumen</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active full-height" id="tab_1">
@@ -125,6 +125,7 @@
                 <input type="hidden" placeholder="cKodeDispo" name="cKodeDispo" id="cKodeDispo">
                 <input type="hidden" placeholder="cMetodeSM" name="cMetodeSM" id="cMetodeSM">
                 
+                <button class="btn btn-success" id="cmdCheckNomor">Check Nomor</button>
                 <button class="btn btn-primary" id="cmdSave">Simpan</button>
                 <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcm_prinsip.init()">Cancel</button>
             </form>
@@ -164,7 +165,7 @@
             limit    : 100 ,
             url      : bos.tcm_prinsip.base_url + "/loadgrid",
             postData : this.grid1_data ,
-            header   : 'Data Persetujuan Prinsip',
+            header   : 'Data Memorandum (M.02)',
             show: {
                 header      : true,
                 footer      : true,
@@ -174,7 +175,7 @@
             },
             multiSearch     : false,
             columns: [
-                { field: 'NoSurat', caption: 'Nomor Surat', size: '150px', sortable: false},
+                { field: 'NoSurat', caption: 'Nomor Dokumen', size: '150px', sortable: false},
                 { field: 'Perihal', caption: 'Perihal', size: '250px', sortable: false},
                 { field: 'Kepada', caption: 'Ditujukan Kepada', size: '100px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
@@ -440,6 +441,15 @@
             bos.tcm_prinsip.loadModalDisposisi("show");
             bos.tcm_prinsip.grid3_reloaddata() ;
         }) ;
+
+        this.obj.find('#cmdCheckNomor').on('click',function(e){
+            e.preventDefault() ;
+            var optJenisSurat = $('#optJenisSurat').val();
+            var optSifatSurat = $('#optSifatSurat').val();            
+            var dTgl          = $('#dTgl').val();
+            var optUnit       = $('#optUnit').val();
+            bjs.ajax(bos.tcm_prinsip.base_url + '/checkNomorSurat', 'optSifatSurat='+optSifatSurat+'&dTgl='+dTgl) ;
+        });
 
         this.obj.find("#cUplFile").on("change", function(e){
             e.preventDefault() ;
