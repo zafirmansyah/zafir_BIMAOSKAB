@@ -1,6 +1,6 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Daftar Data</a></li>
+        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false" onclick="bos.tciku_master.init();">Daftar Data</a></li>
         <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Data Form</a></li>
     </ul>
     <div class="tab-content">
@@ -53,7 +53,7 @@
                         <input type="text" name="cPeriode" id="cPeriode" class="form-control" maxlength="225" placeholder="Periode IKU" required>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12" id="listFile" style="display:none;">
                     <label for="">Daftar File</label>
                     <ul class="mailbox-attachments clearfix" id="areaFileMasterIKU">
                             
@@ -109,10 +109,10 @@
 
             $("#areaFileMasterIKU").append($liFileWO);
         } 
+        if(file.length > 0) $("#listFile").css("display","block");
     }
 
     bos.tciku_master.deleteFile = function(id){
-        //alert(id);
         bos.tciku_master.showSwalConfirm("Apakah Anda Yakin?","Anda akan menghapus file ini","warning","/deleteFile","cID="+id);
     }
 
@@ -228,6 +228,8 @@
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
         bos.tciku_master.grid1_loaddata() ;
         bos.tciku_master.grid1_reload() ;
+        $("#areaFileMasterIKU").html("");
+        $("#listFile").css("display","none");
     }
 
 
