@@ -7,20 +7,6 @@
                 <div class="box-body no-padding"> 
                     <div class="col-lg-6">
                         <!-- small box -->
-                        <div class="small-box bg-primary">
-                            <div class="inner">
-                                <h3>General System</h3>
-
-                                <p>Application Setting</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-power-off"></i>
-                            </div>
-                            <a href="#" id="linkGeneralSetting" class="small-box-footer">Go &nbsp;<i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
                                 <h3>User</h3>
@@ -61,6 +47,20 @@
                             <a href="#" id="linkUserLevel" class="small-box-footer">Go &nbsp;<i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <!-- small box -->
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3>Backup Direktori</h3>
+
+                                <p>Download Direktori Dokumen Tahunan</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-download"></i>
+                            </div>
+                            <a href="#" id="linkBackupDirektori" class="small-box-footer">Go &nbsp;<i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,6 +73,19 @@
 
     bos.utlconf.initFunc    = function(){
         
+        this.obj.find("#linkBackupDirektori").on('click',function(e){
+            objForm    = "con_backupdirektori" ;
+            locForm    = "admin/config/con_backupdirektori" ;
+            setTimeout(function(){
+                bjs.form({
+                    "module" : "Administrator",
+                    "name"   : "",
+                    "obj"    : objForm, 
+                    "loc"    : locForm
+                });
+            }, 1);
+        });
+
         this.obj.find("#linkUserLevel").on('click',function(e){
             objForm    = "con_userlevel" ;
             locForm    = "admin/config/username_lv" ;
