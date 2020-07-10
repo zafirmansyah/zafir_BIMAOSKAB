@@ -30,3 +30,4 @@
 ["Utilities", "utlconf", "admin/config/utlconf","fa fa-flask"]
 ["___________________________", "-", "",""]
 ["Ganti Password", "utlchangepassword", "admin/config/utlchangepassword","fa fa-unlock-alt"]
+["Ganti Foto Profile", "utlchangepp", "admin/config/utlchangepp","fa fa-camera"]
