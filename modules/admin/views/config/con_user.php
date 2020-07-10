@@ -12,11 +12,10 @@
         </div>
         <div class="box-body no-padding">
           <ul class="nav nav-pills nav-stacked">
-            <li><a id="linkGeneralSystem" href="#"><i class="fa fa-power-off"></i> General System</a></li>
             <li><a id="linkBackUpDatabase" href="#"><i class="fa fa-database"></i> Database</a></li>
             <li id="linkUsers" class="active"><a href="#"><i class="fa fa-lock"></i> User</a></li>
             <li><a id="linkUserLevel" href="#"><i class="fa fa-random"></i> User Level</a></li>
-            
+            <li><a id="linkBackUpDirektori" href="#"><i class="fa fa-download"></i> Backup Direktori</a></li>
           </ul>
         </div>
         <!-- /.box-body -->
@@ -258,6 +257,19 @@
         this.obj.find("#linkBackUpDatabase").on('click',function(e){
             objForm    = "utlbackup_database" ;
             locForm    = "admin/config/utlbackup_database" ;
+            setTimeout(function(){
+                bjs.form({
+                    "module" : "Administrator",
+                    "name"   : "",
+                    "obj"    : objForm, 
+                    "loc"    : locForm
+                });
+            }, 1);
+        });
+
+        this.obj.find("#linkBackUpDirektori").on('click',function(e){
+            objForm    = "con_backupdirektori" ;
+            locForm    = "admin/config/con_backupdirektori" ;
             setTimeout(function(){
                 bjs.form({
                     "module" : "Administrator",
