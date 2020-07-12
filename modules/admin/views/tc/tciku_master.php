@@ -167,7 +167,7 @@
             multiSearch     : false,
             columns: [
                 { field: 'Kode', caption: 'Kode', size: '100px', sortable: false},
-                { field: 'Periode', caption: 'Periode', size: '250px', sortable: false},
+                { field: 'Periode', caption: 'Periode', size: '60px', sortable: false},
                 { field: 'TujuanUnit', caption: 'TujuanUnit', size: '250px', sortable: false},
                 { field: 'Subject', caption: 'Judul', size: '150px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},

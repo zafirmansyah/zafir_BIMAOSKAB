@@ -51,6 +51,15 @@ class Tcsurat_keluar extends Bismillah_Controller
 
     public function init(){
         savesession($this, "ss_suratkeluar_", "") ;
+        $sessUnitKerja = getsession($this,"unit");
+        $cUnitKerja    = $this->bdb->getval("Keterangan","Kode = '{$sessUnitKerja}'","golongan_unit") ;
+        $jsonUnit[] = array("id"=>$sessUnitKerja,"text"=>$sessUnitKerja . " - " . $cUnitKerja) ;
+        echo('
+        with(bos.tcsurat_keluar.obj){
+            find("#optUnit").sval('.json_encode($jsonUnit).');
+        }
+        ');
+
     }
 
     public function saving(){
