@@ -29,6 +29,7 @@ class Tciku_form extends Bismillah_Controller
             $btnTitle               = ($lStatus == "1") ? "Edit" : "Isi Form"; 
             $btnIcon                = ($lStatus == "1") ? "fa-pencil" : "fa-file-text" ;
             $vaset                  = $dbr ;
+            $vaset['TujuanUnit']    = $this->bdb->getval("Keterangan","Kode = '{$dbr['TujuanUnit']}'","golongan_unit");
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
             $vaset['cmdDetail']     = '<button class="btn '.$btnClass.' btn-grid" onClick="bos.tciku_form.cmdDetail(\''.$dbr['Kode'].'\')" title="'.$btnTitle.'"><i class="fa '.$btnIcon.'"></i>&nbsp;'.$btnTitle.'</button>' ;
             $vaset['cmdDetail']     .= '&nbsp;&nbsp;';

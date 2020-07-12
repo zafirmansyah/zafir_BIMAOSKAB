@@ -26,6 +26,7 @@ class Tciku_master extends Bismillah_Controller
         while( $dbr = $this->bdb->getrow($dbd) ){
             $vaset   = $dbr ;
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
+            $vaset['TujuanUnit']    = $this->bdb->getval("Keterangan","Kode = '{$dbr['TujuanUnit']}'","golongan_unit");
             $vaset['cmdEdit']       = '<button type="button" onClick="bos.tciku_master.cmdEdit(\''.$dbr['Kode'].'\')"
                                         class="btn btn-success btn-grid">Edit</button>' ;
             $vaset['cmdDelete']     = '<button type="button" onClick="bos.tciku_master.cmdDelete(\''.$dbr['Kode'].'\')"

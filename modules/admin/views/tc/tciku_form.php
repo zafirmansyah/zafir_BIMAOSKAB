@@ -91,8 +91,7 @@
         bos.tciku_form.loadFileFormIKU(data.File);
     }
 
-    bos.tciku_form.loadFileFormIKU = function(file){
-        //console.log("file:",file);        
+    bos.tciku_form.loadFileFormIKU = function(file){ 
         $("#areaFileIKU").html("");
         for(var i=0; i<file.length;i++){
             var cFileName    = file[i].FileName;
@@ -137,7 +136,7 @@
             multiSearch     : false,
             columns: [
                 { field: 'Kode', caption: 'Kode', size: '100px', sortable: false},
-                { field: 'Periode', caption: 'Periode', size: '250px', sortable: false},
+                { field: 'Periode', caption: 'Periode', size: '60px', sortable: false,style:'text-align:center'},
                 { field: 'TujuanUnit', caption: 'TujuanUnit', size: '250px', sortable: false},
                 { field: 'Subject', caption: 'Judul', size: '150px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
