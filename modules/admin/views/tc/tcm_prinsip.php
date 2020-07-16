@@ -52,6 +52,12 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label>Unit Kerja Petugas</label>
+                                <select class="form-control optUnit select2" data-sf="load_Kota" name="optUnit" id="optUnit" data-placeholder=" - Unit Petugas - "></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label>Metode Tanda Tangan</label>
                                 <div class="col-md-12">
                                     <div class="col-sm-3">
@@ -390,6 +396,7 @@
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
         $("#formDisposisi").css("display","none") ;
+        bjs.ajax(this.url + '/init') ;
 	}
 
     bos.tcm_prinsip.initCallBack	= function(){
@@ -448,7 +455,7 @@
             var optSifatSurat = $('#optSifatSurat').val();            
             var dTgl          = $('#dTgl').val();
             var optUnit       = $('#optUnit').val();
-            bjs.ajax(bos.tcm_prinsip.base_url + '/checkNomorSurat', 'optSifatSurat='+optSifatSurat+'&dTgl='+dTgl) ;
+            bjs.ajax(bos.tcm_prinsip.base_url + '/checkNomorSurat', 'optSifatSurat='+optSifatSurat+'&dTgl='+dTgl+'&optUnit='+optUnit) ;
         });
 
         this.obj.find("#cUplFile").on("change", function(e){
@@ -541,6 +548,21 @@
         allowClear: true,
         ajax: {
             url: bos.tcm_prinsip.base_url + '/SeekSifatSurat',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+
+    $('.optUnit').select2({
+        allowClear: true,
+        ajax: {
+            url: bos.tcm_prinsip.base_url + '/SeekUnit',
             dataType: 'json',
             delay: 250,
             processResults: function (data) {
