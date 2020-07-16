@@ -191,6 +191,16 @@ class Tcm_prinsip_m extends Bismillah_Model
 		}
 		return $data ;
     }
+
+    public function seekUnit($search)
+    {   
+        $cWhere     = array() ; 
+        $cWhere[]   = "Kode <> ''" ;
+        if($search !== "") $cWhere[]   = "(Kode LIKE '%{$search}%' OR Keterangan LIKE '%{$search}%')" ;
+        $cWhere     = implode(" AND ", $cWhere) ;
+        $dbd        = $this->select("golongan_unit", "Kode,Keterangan", $cWhere, "", "", "Kode ASC") ;
+        return array("db"=>$dbd) ;
+    }
 }
 
 

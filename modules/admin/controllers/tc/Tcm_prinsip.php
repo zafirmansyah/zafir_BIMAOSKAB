@@ -21,6 +21,18 @@ class Tcm_prinsip extends Bismillah_Controller
         savesession($this, "sstcm_prinsip_cUplFile" , "") ;
     }
 
+    public function init(){
+        $sessUnitKerja = getsession($this,"unit");
+        $cUnitKerja    = $this->bdb->getval("Keterangan","Kode = '{$sessUnitKerja}'","golongan_unit") ;
+        $jsonUnit[] = array("id"=>$sessUnitKerja,"text"=>$sessUnitKerja . " - " . $cUnitKerja) ;
+        echo('
+            with(bos.tcm_prinsip.obj){
+                find("#optUnit").sval('.json_encode($jsonUnit).');
+            }
+        ');
+
+    }
+
     public function loadgrid(){
         $va     = json_decode($this->input->post('request'), true) ;
         $vare   = array() ;
@@ -126,7 +138,7 @@ class Tcm_prinsip extends Bismillah_Controller
     {
         $cSifatSurat = $va['optSifatSurat'];
         $nYear       = date('Y') ;
-        $nKodeUnit   = getsession($this,'unit') ;
+        $nKodeUnit   = $va['optUnit']; //getsession($this,'unit') ;
 
         $cFaktur  = $va['cFaktur'] ;
         if($cFaktur == "" || empty(trim($cFaktur))){
@@ -288,7 +300,7 @@ class Tcm_prinsip extends Bismillah_Controller
         $va                 = $this->input->post();
         $cJenisSurat        = "006" ;
         $cSifatSurat        = $va['optSifatSurat'];
-        $cKodeUnit          = getsession($this,'unit') ;
+        $cKodeUnit          = $va['optUnit']; //getsession($this,'unit') ;
         $dTgl               = date_2s($va['dTgl']) ;
         $nYear              = substr($dTgl,0,4) ;
         $checkNomorSurat    = $this->bdb->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'M02P',false) ;
@@ -298,6 +310,19 @@ class Tcm_prinsip extends Bismillah_Controller
                 title: "'.$checkNomorSurat.'"
             });    
         ') ;
+    }
+
+    public function seekUnit()
+    {
+        $search     = $this->input->get('q');
+        $vdb        = $this->bdb->seekUnit($search) ;
+        $dbd        = $vdb['db'] ;
+        $vare       = array();
+        while($dbr = $this->bdb->getrow($dbd)){
+            $vare[]     = array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
+        }
+        $Result = json_encode($vare);
+        echo($Result) ;
     }
 }
 
