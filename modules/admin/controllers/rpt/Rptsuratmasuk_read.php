@@ -80,6 +80,7 @@ class Rptsuratmasuk_read extends Bismillah_Controller
 
     public function saving(){
         $va 	    = $this->input->post() ;
+  //      print_r($va);
         $saving = $this->bdb->saving($va) ;
 
         echo(' 
