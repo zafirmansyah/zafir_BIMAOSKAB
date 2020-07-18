@@ -46,9 +46,9 @@ class Main extends Bismillah_Controller{
             }else if($cStatus == "3"){ // reject
                 $cTextStatus  = "<span class='text-danger'>Reject</span>";
             }else if($cStatus == "F"){ // finish
-                $cTextStatus  = "<span class='text-success'>Finish</span>";
+                $cTextStatus  = "<span class='text-olive'><i class='fa fa-clock-o'></i>&nbsp;Menunggu Persetujuan</span>";
                 if($cCaseClosed == "1"){
-                    $cTextStatus  = "<span class='text-success'><i class='fa fa-check'></i>&nbsp;Case Closed</span>";
+                    $cTextStatus  = "<span class='text-success'><i class='fa fa-check'></i>&nbsp;Finish</span>";
                 }
             }
             $vaDataWO[$key]['TextStatus'] = $cTextStatus;
