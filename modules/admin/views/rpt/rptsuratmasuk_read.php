@@ -13,6 +13,7 @@
                     $cDATETIMESurat  = getsession($this,"ss_DATETIME_SuratMasuk_") ;
                     $cNOSURATSurat   = getsession($this,"ss_NOSURAT_SuratMasuk_") ;
                     $dTANGGALSurat   = getsession($this,"ss_TANGGAL_SuratMasuk_") ;
+                    $cDESKRIPSISURAT = getsession($this,"ss_DESKRIPSI_SuratMasuk_");
                     $vaFileListSurat = getsession($this,"ss_FILEITEM_SuratMasuk_") ;
                 ?>
                 <h3 class="box-title">Kode Surat : <?=$cIDSurat?></h3>
@@ -25,6 +26,7 @@
                 </div>
                 <div class="mailbox-read-message">
                     <!-- Detail Surat -->
+                    <?=$cDESKRIPSISURAT?>
                 </div>
                 </div>
                 <div class="box-footer">
@@ -79,14 +81,6 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Deskripsi</label>
-                                <textarea name="cDeskripsi" id="cDeskripsi" cols="30" rows="10"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
                             <label>Disposisi</label>
                         </div>
                         <div class="col-sm-8">
@@ -111,6 +105,14 @@
                         <input type="hidden" name="dTgl" id="dTgl" value="<?= $dTANGGALSurat;?>">
                         <input type="hidden" name="cKode" id="cKode">
                         <input type="hidden" name="cLastPath" id="cLastPath">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Deskripsi</label>
+                                <textarea name="cDeskripsi" id="cDeskripsi" cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

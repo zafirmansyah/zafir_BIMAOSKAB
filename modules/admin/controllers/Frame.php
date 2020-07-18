@@ -82,7 +82,8 @@ class Frame extends Bismillah_Controller{
 
 	public function setSessionIDSurat()
 	{
-		$cKode      = $this->input->post('cKode');
+        $cKode      = $this->input->post('cKode');
+        $cTerdisposisi = getsession($this,"KodeKaryawan");        
         $dbData     = $this->frame_m->getDetailSuratMasuk($cKode);
         $vaFileList = $this->getfilelist($cKode);
         $vaSess     = array() ;
@@ -94,6 +95,7 @@ class Frame extends Bismillah_Controller{
             $vaSess['ss_NOSURAT_SuratMasuk_']       = $dbRow['NoSurat'] ;
             $vaSess['ss_TANGGAL_SuratMasuk_']       = $dbRow['Tgl'];
             $vaSess['ss_FILEITEM_SuratMasuk_']      = $vaFileList;
+            $vaSess['ss_DESKRIPSI_SuratMasuk_']     = $this->frame_m->getDeskripsiDisposisiSurat($cKode,$cTerdisposisi);
             foreach ($vaSess as $key => $value) {
 				savesession($this, $key, $value) ;
 			}

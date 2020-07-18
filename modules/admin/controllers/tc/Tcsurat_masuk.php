@@ -134,6 +134,7 @@ class Tcsurat_masuk extends Bismillah_Controller
                     $("#cNomorSurat").val("'.$data['NoSurat'].'") ;
                     $("#dTgl").val("'.date_2d($data['Tgl']).'") ;
                     $("#dTglSurat").val("'.date_2d($data['TglSurat']).'") ;
+                    tinymce.activeEditor.setContent("'.$data['Deskripsi'].'");
                     $("#cLastPath").val("'.$data['Path'].'") ;
                     find(".nav-tabs li:eq(1) a").tab("show") ;
                     bos.tcsurat_masuk.gridDisposisi_reload() ;

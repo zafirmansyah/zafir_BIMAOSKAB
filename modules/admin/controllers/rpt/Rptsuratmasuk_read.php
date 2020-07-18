@@ -86,7 +86,7 @@ class Rptsuratmasuk_read extends Bismillah_Controller
         echo(' 
             Swal.fire({
                 icon: "success",
-                title: "Data Saved!",
+                title: "Data Forwarded!",
             });
             bos.rptsuratmasuk_read.loadModalForward("hide");
             bos.rptsuratmasuk_read.initDetail() ;     

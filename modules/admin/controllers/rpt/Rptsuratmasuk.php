@@ -45,6 +45,7 @@ class Rptsuratmasuk extends Bismillah_Controller
     public function setSessionIDSurat()
     {
         $cKode      = $this->input->post('cKode');
+        $cTerdisposisi = getsession($this,"KodeKaryawan");
         $dbData     = $this->bdb->getDetailSuratMasuk($cKode);
         $vaFileList = $this->getfilelist($cKode);
         $vaSess     = array() ;
@@ -55,6 +56,7 @@ class Rptsuratmasuk extends Bismillah_Controller
             $vaSess['ss_DATETIME_SuratMasuk_']      = $dbRow['DateTime'] ;
             $vaSess['ss_NOSURAT_SuratMasuk_']       = $dbRow['NoSurat'] ;
             $vaSess['ss_TANGGAL_SuratMasuk_']       = $dbRow['Tgl'];
+            $vaSess['ss_DESKRIPSI_SuratMasuk_']     = $this->bdb->getDeskripsiDisposisiSurat($cKode,$cTerdisposisi);
             $vaSess['ss_FILEITEM_SuratMasuk_']      = $vaFileList;
             foreach ($vaSess as $key => $value) {
 				savesession($this, $key, $value) ;
