@@ -159,7 +159,7 @@
                                             </div>
                                         <?php
                                         }else if($cStatus == "F" && $cCaseClosed == "1"){
-                                            echo("<div class='alert alert-success'>Work Order Case Closed!</div>");
+                                            echo("<div class='alert alert-success'>Work Order Finished!</div>");
                                         }
                                         ?>
                                 </div>

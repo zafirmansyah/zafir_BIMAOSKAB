@@ -74,6 +74,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
                                 "Perihal"=>$va['cPerihal'],
                                 "NoSurat"=>$va['cNomorSurat'],
                                 "UserName"=>$cUserName ,
+                                "Deskripsi"=>$va['cDeskripsi'],
                                 "DateTime"=>date('Y-m-d H:i:s'),
                                 "Path"=>$va['FilePath']
                                 ) ;
@@ -94,6 +95,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
                               "Pendisposisi"=>$cKodeKaryawanPendisposisi,
                               "Terdisposisi"=>$val->kode,
                               "Level"=>$val->level,
+                              "Deskripsi"=>$va['cDeskripsi'],
                               "Status"=>"1",
                               "UserName"=>$cUserName,
                               "DateTime"=>date('Y-m-d H:i:s')

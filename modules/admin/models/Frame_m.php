@@ -16,6 +16,19 @@ class Frame_m extends Bismillah_Model{
         $dbd   = $this->select("surat_masuk_file", $field, $where) ;
         return $dbd;
     }
+    
+    public function getDeskripsiDisposisiSurat($cKode,$cTerdisposisi)
+    {
+        $field = "Deskripsi";
+        $where = "Kode = '$cKode' AND Terdisposisi = '$cTerdisposisi'";
+        $dbd   = $this->select("surat_masuk_disposisi", $field, $where) ;
+        $cDeskripsi = "";
+        if($dbr = $this->getrow($dbd)){
+            $cDeskripsi = $dbr['Deskripsi'];
+        }
+        return $cDeskripsi;
+    }
+
 
     // M02 Persetujuan Prinsip
     public function getDetailM02($cKode)

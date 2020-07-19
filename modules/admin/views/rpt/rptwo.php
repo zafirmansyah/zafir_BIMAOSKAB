@@ -48,7 +48,7 @@
                 { field: 'UserName', caption: 'User Input WO', size: '100px', sortable: false},
                 { field: 'Tgl', caption: 'Tgl Input Master', size: '100px', sortable: false},
                 { field: 'TujuanUserName', caption: 'User Tujuan WO', size: '100px', sortable: false},
-                { field: 'Status', caption: 'Status', size: '100px', sortable: false, style:'font-weight:bold'},
+                { field: 'Status', caption: 'Status', size: '150px', sortable: false, style:'font-weight:bold'},
                 { field: 'TglProses', caption: 'Tgl Awal Proses', size: '130px', sortable: false, style:'text-align:center'},
                 { field: 'TglStatusAkhir', caption: 'Tgl Status Akhir', size: '130px', sortable: false, style:'text-align:center'},
             ]

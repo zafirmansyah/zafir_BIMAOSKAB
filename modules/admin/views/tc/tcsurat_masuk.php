@@ -72,6 +72,12 @@
                         <select class="form-control optJenisSurat select2" data-sf="load_Kota" name="optJenisSurat" id="optJenisSurat" data-placeholder=" - Jenis Dokumen - "></select>
                     </div>
                 </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Deskripsi</label>
+                        <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master IKU..."></textarea>                   
+                    </div>
+                </div>
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label>Disposisi</label>
@@ -349,6 +355,8 @@
         this.obj.find("#cSuratDari").val("") ;
         this.obj.find("#cPerihal").val("") ;
         this.obj.find("#cNomorSurat").val("") ;
+        this.obj.find("#cDeskripsi").val("") ;
+        tinymce.activeEditor.setContent("");
         this.obj.find("#cDisposisi").val("") ;
         this.obj.find("#cKode").val("") ;
         this.obj.find("#cKodeKaryawan").val("") ;
@@ -362,12 +370,26 @@
         
     }
 
+
+    bos.tcsurat_masuk.initTinyMCE = function(){
+        tinymce.init({
+            selector: '#cDeskripsi',
+            height: 250,
+            file_browser_callback_types: 'file image media',
+            file_picker_types: 'file image media',   
+            forced_root_block : "",
+            force_br_newlines : true,
+            force_p_newlines : false,
+        });
+    }
+
     bos.tcsurat_masuk.initComp     = function(){
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
 
         this.grid1_loaddata() ;
         this.grid1_load() ;
+        this.initTinyMCE() ;
 
         this.gridDisposisi_load() ;
         this.gridDisposisi_reload() ;
@@ -403,6 +425,7 @@
             bos.tcsurat_masuk.grid1_destroy() ;
             bos.tcsurat_masuk.gridDisposisi_destroy() ;
             bos.tcsurat_masuk.grid3_destroy() ;
+            tinymce.remove() ;
         }) ;
     }
 

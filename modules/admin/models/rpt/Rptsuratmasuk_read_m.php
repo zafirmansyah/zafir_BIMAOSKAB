@@ -60,7 +60,8 @@ class Rptsuratmasuk_read_m extends Bismillah_Model
                               "Level"=>$val->level,
                               "Status"=>"1",
                               "UserName"=>$cUserName,
-                              "DateTime"=>date('Y-m-d H:i:s')
+                              "DateTime"=>date('Y-m-d H:i:s'),
+                              "Deskripsi"=>$va['cDeskripsi']
                             );
             $this->insert("surat_masuk_disposisi",$vadetail);
         }        

@@ -80,12 +80,13 @@ class Rptsuratmasuk_read extends Bismillah_Controller
 
     public function saving(){
         $va 	    = $this->input->post() ;
+  //      print_r($va);
         $saving = $this->bdb->saving($va) ;
 
         echo(' 
             Swal.fire({
                 icon: "success",
-                title: "Data Saved!",
+                title: "Data Forwarded!",
             });
             bos.rptsuratmasuk_read.loadModalForward("hide");
             bos.rptsuratmasuk_read.initDetail() ;     

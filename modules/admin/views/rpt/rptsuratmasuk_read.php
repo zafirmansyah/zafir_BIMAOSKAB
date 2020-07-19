@@ -13,6 +13,7 @@
                     $cDATETIMESurat  = getsession($this,"ss_DATETIME_SuratMasuk_") ;
                     $cNOSURATSurat   = getsession($this,"ss_NOSURAT_SuratMasuk_") ;
                     $dTANGGALSurat   = getsession($this,"ss_TANGGAL_SuratMasuk_") ;
+                    $cDESKRIPSISURAT = getsession($this,"ss_DESKRIPSI_SuratMasuk_");
                     $vaFileListSurat = getsession($this,"ss_FILEITEM_SuratMasuk_") ;
                 ?>
                 <h3 class="box-title">Kode Surat : <?=$cIDSurat?></h3>
@@ -25,6 +26,7 @@
                 </div>
                 <div class="mailbox-read-message">
                     <!-- Detail Surat -->
+                    <?=$cDESKRIPSISURAT?>
                 </div>
                 </div>
                 <div class="box-footer">
@@ -79,9 +81,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Disposisi</label>
-                            </div>
+                            <label>Disposisi</label>
                         </div>
                         <div class="col-sm-8">
                             <div class="input-group">
@@ -98,13 +98,21 @@
                             &nbsp;
                         </div>
                         <div class="col-md-12">
-                            <div id="gridDisposisi" class="full-height" style="height: 200px;"></div>
+                            <div id="gridDisposisi" class="full-height" style="height: 120px;"></div>
                         </div>
                         <input type="hidden" name="nNo" id="nNo" value="0">
                         <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
                         <input type="hidden" name="dTgl" id="dTgl" value="<?= $dTANGGALSurat;?>">
                         <input type="hidden" name="cKode" id="cKode">
                         <input type="hidden" name="cLastPath" id="cLastPath">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Deskripsi</label>
+                                <textarea name="cDeskripsi" id="cDeskripsi" cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -293,7 +301,7 @@
 
     bos.rptsuratmasuk_read.initDetail            = function(){
         var datagrid = w2ui[this.id + '_gridDisposisi'].records;
-
+        tinymce.activeEditor.setContent("");
         this.obj.find("#nNo").val(datagrid.length+1) ;
         this.obj.find("#cDisposisi").val("") ;
         this.obj.find("#cKodeKaryawan").val("") ;;
@@ -303,6 +311,7 @@
         this.obj.on('remove', function(){
             bos.rptsuratmasuk_read.gridDisposisi_destroy() ;
             bos.rptsuratmasuk_read.grid3_destroy() ;
+            tinymce.remove() ;
         }) ;
     }
 
@@ -336,11 +345,23 @@
             if( bjs.isvalidform(this) ){
                 var dataGridDisposisi   = w2ui['bos-form-rptsuratmasuk_read_gridDisposisi'].records;
                 dataGridDisposisi       = JSON.stringify(dataGridDisposisi);
-                bjs.ajax( bos.rptsuratmasuk_read.base_url + '/saving', bjs.getdataform(this)+"&dataDisposisi="+dataGridDisposisi , bos.rptsuratmasuk_read.cmdSend) ;
+                var cDeskripsi          = $("#cDeskripsi").val();
+                bjs.ajax( bos.rptsuratmasuk_read.base_url + '/saving', bjs.getdataform(this)+"&dataDisposisi="+dataGridDisposisi, bos.rptsuratmasuk_read.cmdSend) ;
             }
         }) ;
     }
-    
+    bos.rptsuratmasuk_read.initTinyMCE = function(){
+        tinymce.init({
+            selector: '#cDeskripsi',
+            height: 150,
+            file_browser_callback_types: 'file image media',
+            file_picker_types: 'file image media',   
+            forced_root_block : "",
+            force_br_newlines : true,
+            force_p_newlines : false,
+        });
+    }
+
     bos.rptsuratmasuk_read.initComp     = function(){
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
@@ -348,6 +369,7 @@
         this.gridDisposisi_load() ;
         this.gridDisposisi_reload() ;
 
+        this.initTinyMCE() ;
         this.grid3_loaddata() ;
         this.grid3_load() ;
         $("#gridDisposisi").css("display","none") ;        
