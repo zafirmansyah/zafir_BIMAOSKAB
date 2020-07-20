@@ -17,7 +17,7 @@ class Rptsuratmasuk_m extends Bismillah_Model
         if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
         $where 	 = implode(" AND ", $where) ;
         $join    = "left join surat_masuk_disposisi d on d.Kode=s.Kode";
-        $dbd      = $this->select("surat_masuk s", "s.*,d.*", $where, $join, "s.Kode", "s.Kode DESC", $limit) ;
+        $dbd      = $this->select("surat_masuk s", "s.*,d.Tgl as TglDisposisi, d.Terdisposisi", $where, $join, "s.Kode", "s.Kode DESC", $limit) ;
         $dba      = $this->select("surat_masuk s", "s.ID", $where, $join) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
@@ -36,6 +36,27 @@ class Rptsuratmasuk_m extends Bismillah_Model
         $dbd   = $this->select("surat_masuk_file", $field, $where) ;
         return $dbd;
     }
+    
+    public function getHistorySuratMasuk($cKode)
+    {
+        $field = "*";
+        $where = "Kode = '$cKode'";
+        $dbd   = $this->select("surat_masuk_disposisi", $field, $where) ;
+        return $dbd;
+    }
+
+    public function getUserNameByKodeKaryawan($cKodeKaryawan)
+    {
+        $cUserName = "";
+        $field = "username";
+        $where = "KodeKaryawan = '$cKodeKaryawan'";
+        $dbd   = $this->select("sys_username", $field, $where) ;
+        if($dbr = $this->getrow($dbd)){
+            $cUserName = $dbr['username'];
+        }
+        return $cUserName;
+    }
+
     public function getDeskripsiDisposisiSurat($cKode,$cTerdisposisi)
     {
         $field = "Deskripsi";
