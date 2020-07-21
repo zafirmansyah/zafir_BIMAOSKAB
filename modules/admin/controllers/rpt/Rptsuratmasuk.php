@@ -34,8 +34,14 @@ class Rptsuratmasuk extends Bismillah_Controller
         while( $dbr = $this->bdb->getrow($dbd) ){
             $vaset   = $dbr ; 
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
+            $vaset['TglDisposisi']  = date_2d($dbr['TglDisposisi']);
             $vaset['cmdDetail']       = '<a onClick="bos.rptsuratmasuk.cmdDetail(\''.$dbr['Kode'].'\')">'.strtoupper($dbr['Perihal']).'</a>' ;
             $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
+            $vaset['cmdHistory']    = "";
+            if(getsession($this,"Jabatan") <= "002"){
+                $vaset['cmdHistory']    = '<button class="btn btn-info btn-grid" onClick="bos.rptsuratmasuk.cmdHistory(\''.$dbr['Kode'].'\')" title="Show History"> <i class="fa fa-history"></i> History</button>' ;
+                $vaset['cmdHistory']     = html_entity_decode($vaset['cmdHistory']) ;
+            }
             $vare[]		= $vaset ;
         }
         $vare 	= array("records"=>$vare ) ;
@@ -62,6 +68,43 @@ class Rptsuratmasuk extends Bismillah_Controller
 				savesession($this, $key, $value) ;
 			}
         }
+    }
+    
+    public function setSessionIDHistory()
+    {
+        $cKode      = $this->input->post('cKode');
+        $dbData     = $this->bdb->getDetailSuratMasuk($cKode);
+        $vaFileList = $this->getfilelist($cKode);
+        $vaSess     = array() ;
+        if($dbRow = $this->bdb->getrow($dbData)){        
+            $vaSess['ss_ID_SuratMasuk_']            = $cKode ;
+            $vaSess['ss_PERIHAL_SuratMasuk_']       = $dbRow['Perihal'] ;
+            $vaSess['ss_DARI_SuratMasuk_']          = $dbRow['Dari'] ;
+            $vaSess['ss_DATETIME_SuratMasuk_']      = $dbRow['DateTime'] ;
+            $vaSess['ss_NOSURAT_SuratMasuk_']       = $dbRow['NoSurat'] ;
+            $vaSess['ss_TANGGAL_SuratMasuk_']       = $dbRow['Tgl'];
+            $vaSess['ss_FILEITEM_SuratMasuk_']      = $vaFileList;
+            $vaSess['ss_HISTORY_SuratMasuk_']       = $this->getHistorySuratMasuk($cKode);
+            ///print_r($vaSess);
+            foreach ($vaSess as $key => $value) {
+				savesession($this, $key, $value) ;
+			}
+        }
+    }
+
+    public function getHistorySuratMasuk($cKode)
+    {
+        $dbData = $this->bdb->getHistorySuratMasuk($cKode);
+        $i = 0;
+        $vaData = array();
+        while($dbRow = $this->bdb->getrow($dbData)){
+            $dbRow['Terdisposisi'] = $this->bdb->getUserNameByKodeKaryawan($dbRow['Terdisposisi']);
+            $dbRow['Pendisposisi'] = $this->bdb->getUserNameByKodeKaryawan($dbRow['Pendisposisi']);
+            $dbRow['Deskripsi']    = $dbRow['Deskripsi'] == "" ? "Tanpa Deskripsi" : $dbRow['Deskripsi']; 
+            $vaData[$i]=$dbRow;
+            $i++;
+        }        
+        return $vaData;
     }
 
     public function getfilelist($cKode){

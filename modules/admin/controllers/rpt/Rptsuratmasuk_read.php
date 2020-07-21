@@ -51,7 +51,6 @@ class Rptsuratmasuk_read extends Bismillah_Controller
                     $("#cSuratDari").val("'.$data['Dari'].'") ;
                     $("#cPerihal").val("'.$data['Perihal'].'") ;
                     $("#cNomorSurat").val("'.$data['NoSurat'].'") ;
-                    $("#dTgl").val("'.date_2d($data['Tgl']).'") ;
                     $("#dTglSurat").val("'.date_2d($data['TglSurat']).'") ;
                     $("#cLastPath").val("'.$data['Path'].'") ;
                     find(".nav-tabs li:eq(1) a").tab("show") ;

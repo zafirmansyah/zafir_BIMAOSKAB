@@ -49,6 +49,8 @@
                 { field: 'cmdDetail', caption: 'Perihal Surat', size: '250px', sortable: false},
                 { field: 'Dari', caption: 'Dari', size: '125px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal Input', size: '150px', sortable: false, attr: "align=center"},
+                { field: 'TglDisposisi', caption: 'Tanggal Diteruskan', size: '150px', sortable: false, attr: "align=center"},
+                { field: 'cmdHistory', caption: 'Opsi', size: '100px', sortable: false},
             ]
         });
     }
@@ -88,11 +90,28 @@
             });
         }, 1);
     }
+
+    bos.rptsuratmasuk.cmdHistory = function(id){
+        objForm    = "rptsuratmasuk_history" ;
+        locForm    = "admin/rpt/rptsuratmasuk_history" ;
+        this.setSessionIDHistory(id);
+        setTimeout(function(){
+            bjs.form({
+                "module" : "Administrator",
+                "name"   : "",
+                "obj"    : objForm, 
+                "loc"    : locForm
+            });
+        }, 1);
+    }
     
     bos.rptsuratmasuk.setSessionIDSurat = function(id){
         bjs.ajax(this.url + '/setSessionIDSurat', 'cKode=' + id);
     }
-
+    
+    bos.rptsuratmasuk.setSessionIDHistory = function(id){
+        bjs.ajax(this.url + '/setSessionIDHistory', 'cKode=' + id);
+    }
     bos.rptsuratmasuk.initComp     = function(){
         this.gridSuratMasuk_loaddata() ;
         this.gridSuratMasuk_load() ;
@@ -104,7 +123,6 @@
         }) ;
     }
 
-   
 
     $(function(){
         bos.rptsuratmasuk.initComp() ;

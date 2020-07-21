@@ -102,7 +102,7 @@
                         </div>
                         <input type="hidden" name="nNo" id="nNo" value="0">
                         <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
-                        <input type="hidden" name="dTgl" id="dTgl" value="<?= $dTANGGALSurat;?>">
+                        <input type="hidden" name="dTgl" id="dTgl" value="<?= date('Y-m-d');?>">
                         <input type="hidden" name="cKode" id="cKode">
                         <input type="hidden" name="cLastPath" id="cLastPath">
                     </div>
