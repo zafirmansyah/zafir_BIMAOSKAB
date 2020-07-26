@@ -74,8 +74,8 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <label>Deskripsi</label>
-                        <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master IKU..."></textarea>                   
+                        <label>Disposisi</label>
+                        <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Disposisi..."></textarea>                   
                     </div>
                 </div>
                 <div class="col-sm-12">

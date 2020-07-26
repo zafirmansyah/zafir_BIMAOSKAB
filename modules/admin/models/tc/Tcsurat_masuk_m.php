@@ -204,6 +204,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
     {   
         $cWhere     = array() ; 
         $cWhere[]   = "Kode <> ''" ;
+        $cWhere[]   = "Kode <> '006'" ;
         if($search !== "") $cWhere[]   = "(Kode LIKE '%{$search}%' OR Keterangan LIKE '%{$search}%')" ;
         $cWhere     = implode(" AND ", $cWhere) ;
         $dbd        = $this->select("jenis_surat", "Kode,Keterangan", $cWhere, "", "", "Kode ASC") ;

@@ -77,6 +77,11 @@ class Tcwo_master_m extends Bismillah_Model
         $data['message'] = 'hello world';
         $pusher->trigger('my-channel-wo', 'my-event-wo', $data);
 
+        $cReceiverKode   = $va['optUserName'] ;
+        $cReceiverEmail  = $this->getval("Email", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
+        $cReceiverName   = $this->getval("fullname", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
+        $cSenderName     = $this->getval("fullname", "username = '{$cUserName}'", "sys_username") ; 
+
         $subjectMail    = "NOTIFIKASI BIMA OSKAB - Work Order Baru Untuk Anda" ;
         $headers        = "MIME-Version: 1.0" . "\r\n";
         $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -102,7 +107,7 @@ class Tcwo_master_m extends Bismillah_Model
             </html>
         ";
         
-        mail("erzethones@gmail.com",$subjectMail,$message,$headers);
+        mail($cReceiverEmail,$subjectMail,$message,$headers);
 
         return $vaData ;
     }

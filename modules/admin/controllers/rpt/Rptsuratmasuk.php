@@ -38,10 +38,10 @@ class Rptsuratmasuk extends Bismillah_Controller
             $vaset['cmdDetail']       = '<a onClick="bos.rptsuratmasuk.cmdDetail(\''.$dbr['Kode'].'\')">'.strtoupper($dbr['Perihal']).'</a>' ;
             $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
             $vaset['cmdHistory']    = "";
-            if(getsession($this,"Jabatan") <= "002"){
+            // if(getsession($this,"Jabatan") <= "002"){
                 $vaset['cmdHistory']    = '<button class="btn btn-info btn-grid" onClick="bos.rptsuratmasuk.cmdHistory(\''.$dbr['Kode'].'\')" title="Show History"> <i class="fa fa-history"></i> History</button>' ;
                 $vaset['cmdHistory']     = html_entity_decode($vaset['cmdHistory']) ;
-            }
+            // }
             $vare[]		= $vaset ;
         }
         $vare 	= array("records"=>$vare ) ;

@@ -52,6 +52,12 @@ class Rptsuratmasuk_read_m extends Bismillah_Model
         $vaGrid = json_decode($va['dataDisposisi']);
         //$this->delete("surat_masuk_disposisi", "Kode = '{$cKode}'" ) ;
         foreach($vaGrid as $key => $val){
+            
+            $cReceiverKode   = $val->kode ;
+            $cReceiverEmail  = $this->getval("Email", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
+            $cReceiverName   = $this->getval("fullname", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
+            $cSenderName     = $this->getval("fullname", "KodeKaryawan = '{$cKodeKaryawanPendisposisi}'", "sys_username") ; 
+
             $where      = "Kode = " . $this->escape($cKode) ;
             $vadetail = array("Kode"=>$cKode,
                               "Tgl"=>date_2s($va['dTgl']),
@@ -64,6 +70,33 @@ class Rptsuratmasuk_read_m extends Bismillah_Model
                               "Deskripsi"=>$va['cDeskripsi']
                             );
             $this->insert("surat_masuk_disposisi",$vadetail);
+
+            // Send Email Notification to All Reciever
+            $subjectMail    = "NOTIFIKASI BIMA OSKAB - ".$cSenderName." mendisposisi kepada Anda dokumen ".$cKetJenisSurat." dari ".$va['cSuratDari']." perihal ".$va['cPerihal']."" ;
+            $headers        = "MIME-Version: 1.0" . "\r\n";
+            $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers        .= 'From: <bimaoskab@gmail.com>' . "\r\n";
+            $message = "
+                <html>
+                    <body>
+                    
+                    <p>Hallo ".$cReceiverName.",</p>
+                    <p>".$cSenderName." mendisposisi kepada Anda dokumen ".$cKetJenisSurat." dari ".$va['cSuratDari']." perihal ".$va['cPerihal']."</p>
+                    
+                    <p>
+                        <a href='bimaoskab.com'>
+                            <b>Klik Link Ini Untuk Menuju Aplikasi BIMA OSKAB</b>
+                        </a>
+                    </p>
+
+                    <p>Terima Kasih</p>
+                    <p><b>BIMA OSKAB</b></p>
+
+                    </body>
+                </html>
+            ";
+            
+            mail($cReceiverEmail,$subjectMail,$message,$headers);
         }        
 
         // Trigger Notifikasi Ke Masing2 Terdisposisi
