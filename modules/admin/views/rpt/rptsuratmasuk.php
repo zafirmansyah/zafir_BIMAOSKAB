@@ -91,7 +91,8 @@
         }, 1);
     }
 
-    bos.rptsuratmasuk.cmdHistory = function(id){
+    bos.rptsuratmasuk.cmdHistory = function(no,id){
+        $("."+no).text("Loading..");
         objForm    = "rptsuratmasuk_history" ;
         locForm    = "admin/rpt/rptsuratmasuk_history" ;
         this.setSessionIDHistory(id);
@@ -102,7 +103,7 @@
                 "obj"    : objForm, 
                 "loc"    : locForm
             });
-        }, 1);
+        }, 2200);
     }
     
     bos.rptsuratmasuk.setSessionIDSurat = function(id){

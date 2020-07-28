@@ -58,6 +58,12 @@ class Rptsuratmasuk_read_m extends Bismillah_Model
             $cReceiverName   = $this->getval("fullname", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
             $cSenderName     = $this->getval("fullname", "KodeKaryawan = '{$cKodeKaryawanPendisposisi}'", "sys_username") ; 
 
+            $cJenisSurat     = $this->getval("JenisSurat", "Kode='{$cKode}'", "surat_masuk");
+            $cKetJenisSurat  = $this->getval("Keterangan", "Kode='{$cJenisSurat}'", "jenis_surat");
+           
+            $cSuratDari      = $this->getval("Dari", "Kode='{$cKode}'", "surat_masuk");
+            $cPerihal        = $this->getval("Perihal", "Kode='{$cKode}'", "surat_masuk");            
+
             $where      = "Kode = " . $this->escape($cKode) ;
             $vadetail = array("Kode"=>$cKode,
                               "Tgl"=>date_2s($va['dTgl']),
@@ -70,9 +76,9 @@ class Rptsuratmasuk_read_m extends Bismillah_Model
                               "Deskripsi"=>$va['cDeskripsi']
                             );
             $this->insert("surat_masuk_disposisi",$vadetail);
-
+            
             // Send Email Notification to All Reciever
-            $subjectMail    = "NOTIFIKASI BIMA OSKAB - ".$cSenderName." mendisposisi kepada Anda dokumen ".$cKetJenisSurat." dari ".$va['cSuratDari']." perihal ".$va['cPerihal']."" ;
+            $subjectMail    = "NOTIFIKASI BIMA OSKAB - ".$cSenderName." mendisposisi kepada Anda dokumen ".$cKetJenisSurat." dari ".$cSuratDari." perihal ".$cPerihal."" ;
             $headers        = "MIME-Version: 1.0" . "\r\n";
             $headers        .= "Content-type:text/html;charset=UTF-8" . "\r\n";
             $headers        .= 'From: <bimaoskab@gmail.com>' . "\r\n";
@@ -81,7 +87,7 @@ class Rptsuratmasuk_read_m extends Bismillah_Model
                     <body>
                     
                     <p>Hallo ".$cReceiverName.",</p>
-                    <p>".$cSenderName." mendisposisi kepada Anda dokumen ".$cKetJenisSurat." dari ".$va['cSuratDari']." perihal ".$va['cPerihal']."</p>
+                    <p>".$cSenderName." mendisposisi kepada Anda dokumen ".$cKetJenisSurat." dari ".$cSuratDari." perihal ".$cPerihal."</p>
                     
                     <p>
                         <a href='bimaoskab.com'>

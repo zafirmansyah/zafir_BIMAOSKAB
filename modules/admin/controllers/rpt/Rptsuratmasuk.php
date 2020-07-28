@@ -31,6 +31,7 @@ class Rptsuratmasuk extends Bismillah_Controller
         $vare   = array() ;
         $vdb    = $this->bdb->loadgrid($va) ;
         $dbd    = $vdb['db'] ;
+        $no     = 1;
         while( $dbr = $this->bdb->getrow($dbd) ){
             $vaset   = $dbr ; 
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
@@ -39,10 +40,11 @@ class Rptsuratmasuk extends Bismillah_Controller
             $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
             $vaset['cmdHistory']    = "";
             // if(getsession($this,"Jabatan") <= "002"){
-                $vaset['cmdHistory']    = '<button class="btn btn-info btn-grid" onClick="bos.rptsuratmasuk.cmdHistory(\''.$dbr['Kode'].'\')" title="Show History"> <i class="fa fa-history"></i> History</button>' ;
+                $vaset['cmdHistory']    = '<button class="btn btn-info btn-grid '.$no.'" onClick="bos.rptsuratmasuk.cmdHistory(\''.$no.'\',\''.$dbr['Kode'].'\')" title="Show History"> <i class="fa fa-history"></i> History</button>' ;
                 $vaset['cmdHistory']     = html_entity_decode($vaset['cmdHistory']) ;
             // }
             $vare[]		= $vaset ;
+            $no++;
         }
         $vare 	= array("records"=>$vare ) ;
         echo(json_encode($vare)) ;

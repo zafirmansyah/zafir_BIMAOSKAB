@@ -32,6 +32,7 @@
                 <div class="box-footer">
                 <ul class="mailbox-attachments clearfix">
                     <?php
+                        if(isset($vaFileListSurat) && count($vaFileListSurat) > 0){
                         foreach($vaFileListSurat as $key => $value){
                             $cPATHSurat     = $value['FilePath'];
                             $cFileSize      = "0.00";
@@ -55,6 +56,9 @@
                             </div>
                         </li>
                     <?php
+                        }
+                        }else{
+                            echo "File Not Found :(";
                         }
                     ?>
                 </ul>
