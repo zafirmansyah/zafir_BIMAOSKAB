@@ -16,8 +16,8 @@
         <div class="col-lg-12">
             <div class="timeline">
                 <?php
-                foreach($vaHistory as $key=>$value){
-                
+                if(isset($vaHistory) && count($vaHistory) > 0){
+                    foreach($vaHistory as $key=>$value){            
                 ?>
                 <li>
                     <!-- timeline icon -->
@@ -39,16 +39,51 @@
                         
                     </div>
                 </li>
-                
                 <?php
+                    }
+                }else{
+                ?>
+                
+                <li>
+                    <!-- timeline icon -->
+                    <i class="fa fa-envelope bg-blue" title="Diteruskan"></i>
+                    <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i> <?=date('d-m-Y H:i:s');?></span>
+
+                        <div class="timeline-body">
+                            Data Tidak Ditemukan.
+                            <a href="#" onclick="bos.rptsuratmasuk_history.cmdBack();">Kembali.</a>
+                        </div>
+                        
+                    </div>
+                </li>
+                <?php    
                 }
                 ?>
+
                 <li>
                     <!-- timeline icon -->
                     <i class="fa fa-history bg-gray"></i>
-                    
                 </li>     
+
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    <?=cekbosjs();?>
+    var id = "<?=$cIDSurat?>";
+    bos.rptsuratmasuk_history.cmdBack = function(){
+        objForm    = "rptsuratmasuk" ;
+        locForm    = "admin/rpt/rptsuratmasuk" ;
+        setTimeout(function(){
+            bjs.form({
+                "module" : "Administrator",
+                "name"   : "",
+                "obj"    : objForm, 
+                "loc"    : locForm
+            });
+        }, 1);
+    }
+</script>

@@ -213,6 +213,7 @@ class Bismillah_Model extends CI_Model{
 		$this->AddField("surat_masuk","Perihal","varchar(255)","","");
 		$this->AddField("surat_masuk","Path","text");
 		$this->AddField("surat_masuk","Deskripsi","text");
+		$this->AddField("surat_masuk","JenisSurat","varchar(3)","","Dari");
 		
 
 		$cSQL = "CREATE TABLE `surat_masuk_disposisi`  (

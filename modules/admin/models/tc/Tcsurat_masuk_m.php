@@ -69,6 +69,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
 
         $vaData         = array("Kode"=>$cKode,
                                 "Dari"=>$va['cSuratDari'],
+                                "JenisSurat"=>$va['optJenisSurat'],
                                 "Tgl"=>date_2s($va['dTgl']),
                                 "TglSurat"=>date_2s($va['dTglSurat']),
                                 "Perihal"=>$va['cPerihal'],

@@ -125,11 +125,13 @@ class Tcsurat_masuk extends Bismillah_Controller
         $cKode 	    = $va['cKode'] ;
         $data       = $this->bdb->getdata($cKode) ;
         if(!empty($data)){
+            $jsonUnit[] 	= array("id"=>$data['JenisSurat'],"text"=>$data['JenisSurat'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['JenisSurat']}'", "jenis_surat"));
             savesession($this, "ss_suratmasuk_", $cKode) ;
             echo('
                 with(bos.tcsurat_masuk.obj){
                     $("#cKode").val("'.$data['Kode'].'") ;
                     $("#cSuratDari").val("'.$data['Dari'].'") ;
+                    $("#optJenisSurat").sval('.json_encode($jsonUnit).') ;
                     $("#cPerihal").val("'.$data['Perihal'].'") ;
                     $("#cNomorSurat").val("'.$data['NoSurat'].'") ;
                     $("#dTgl").val("'.date_2d($data['Tgl']).'") ;
