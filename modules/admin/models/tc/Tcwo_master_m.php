@@ -13,7 +13,7 @@ class Tcwo_master_m extends Bismillah_Model
         $search   = $this->escape_like_str($search) ;
         $where 	 = array() ; 
         $where[]    = "Status <> 'D'";
-        if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
+        if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Subject LIKE '%{$search}%')" ;
         $where 	 = implode(" AND ", $where) ;
         $dbd      = $this->select("work_order_master", "*", $where, "", "", "Kode DESC", $limit) ;
         $dba      = $this->select("work_order_master", "ID", $where) ;
