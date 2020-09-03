@@ -233,6 +233,7 @@ class Bismillah_Model extends CI_Model{
 		$this->AddField("surat_masuk_disposisi","Pendisposisi","varchar(255)","","");
 		$this->AddField("surat_masuk_disposisi","Terdisposisi","varchar(255)","","");
 		$this->AddField("surat_masuk_disposisi","Deskripsi","text","","");
+		$this->AddField("surat_masuk_disposisi","LevelDisposisi","char(1)","","");
 		
 		$this->AddField("golongan_unit","KodeRubrik","varchar(255)","","");
 		$this->AddField("jenis_surat","KodeRubrik","varchar(255)","","");
@@ -245,7 +246,8 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("golongan_jabatan",$cSQL);
-		
+		$this->AddField("golongan_jabatan","LevelDisposisi","varchar(1)","","");
+
 		$this->AddField("sys_username","Jabatan","varchar(255)","","");
 
 		$cSQL = "CREATE TABLE `jenis_sifat_surat`  (
@@ -458,6 +460,31 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("template_dokumen_file",$cSQL);
+
+		$cSQL = "CREATE TABLE `cetak_dokumen`  (
+			`ID` int(4) NOT NULL AUTO_INCREMENT,
+			`Subject` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+			`Deskripsi` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+			`FilePath` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+			`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+			`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+			PRIMARY KEY (`ID`) USING BTREE
+		) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("cetak_dokumen",$cSQL);
+		$this->AddField("cetak_dokumen","Kode","varchar(255)","","ID");
+		$this->AddField("cetak_dokumen","Tgl","date","0000-00-00","");
+		$this->AddField("cetak_dokumen","Status","char(1)","","");
+
+		$cSQL = "CREATE TABLE `cetak_dokumen_file`  (
+					`ID` int(9) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Tgl` date NULL DEFAULT NULL,
+					`FilePath` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+					`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("cetak_dokumen_file",$cSQL);
 
     }
 }
