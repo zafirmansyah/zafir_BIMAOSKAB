@@ -91,6 +91,8 @@ class Tcsurat_masuk_m extends Bismillah_Model
             $cReceiverEmail  = $this->getval("Email", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
             $cReceiverName   = $this->getval("fullname", "KodeKaryawan = '{$cReceiverKode}'", "sys_username") ; 
             $cSenderName     = $this->getval("fullname", "KodeKaryawan = '{$cKodeKaryawanPendisposisi}'", "sys_username") ; 
+            $cJabatanSender  = $this->getval("Jabatan", "KodeKaryawan = '{$cKodeKaryawanPendisposisi}'", "sys_username") ; 
+            $cLevelDispoSender  = $this->getval("LevelDisposisi", "Kode = '{$cJabatanSender}'", "golongan_jabatan") ; 
             $vadetail = array("Kode"=>$cKode,
                               "Tgl"=>date_2s($va['dTgl']),
                               "Pendisposisi"=>$cKodeKaryawanPendisposisi,
@@ -99,7 +101,8 @@ class Tcsurat_masuk_m extends Bismillah_Model
                               "Deskripsi"=>$va['cDeskripsi'],
                               "Status"=>"1",
                               "UserName"=>$cUserName,
-                              "DateTime"=>date('Y-m-d H:i:s')
+                              "DateTime"=>date('Y-m-d H:i:s'),
+                              "LevelDisposisi"=>$cLevelDispoSender
                             );
             $this->insert("surat_masuk_disposisi",$vadetail);
 
@@ -128,7 +131,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
                 </html>
             ";
             
-            mail($cReceiverEmail,$subjectMail,$message,$headers);
+            //mail($cReceiverEmail,$subjectMail,$message,$headers);
         }        
 
         // Trigger Notifikasi Ke Masing2 Terdisposisi
