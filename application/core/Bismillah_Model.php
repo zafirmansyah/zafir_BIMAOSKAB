@@ -486,6 +486,47 @@ class Bismillah_Model extends CI_Model{
 				) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("cetak_dokumen_file",$cSQL);
 
+		$cSQL = "CREATE TABLE `surat_masuk_lampiran_disposisi` (
+					`ID` int(11) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(50) NOT NULL,
+					`SangatSegera` char(1) NOT NULL DEFAULT '0',
+					`Segera` char(1) NOT NULL DEFAULT '0',
+					`TimIR` char(1) NOT NULL DEFAULT '0',
+					`FungsiDSEK` char(1) NOT NULL DEFAULT '0',
+					`Setuju` char(1) NOT NULL DEFAULT '0',
+					`FungsiPPUKS` char(1) NOT NULL DEFAULT '0',
+					`Tolak` char(1) NOT NULL DEFAULT '0',
+					`SeksiHumas` char(1) NOT NULL DEFAULT '0',
+					`UntukDiteliti` char(1) NOT NULL DEFAULT '0',
+					`TimISPM` char(1) NOT NULL DEFAULT '0',
+					`UnitIPUR` char(1) NOT NULL DEFAULT '0',
+					`UntukDiketahui` char(1) NOT NULL DEFAULT '0',
+					`UnitIKSPPUR` char(1) NOT NULL DEFAULT '0',
+					`UntukDiselesaikan` char(1) NOT NULL DEFAULT '0',
+					`UnitManajemen` char(1) NOT NULL DEFAULT '0',
+					`SesuaiCatatan` char(1) NOT NULL DEFAULT '0',
+					`PM` char(1) NOT NULL DEFAULT '0',
+					`UntukPerhatian` char(1) NOT NULL DEFAULT '0',
+					`ICO` char(1) NOT NULL DEFAULT '0',
+					`UntukDiedarkan` char(1) NOT NULL DEFAULT '0',
+					`KetuaIPEBI` char(1) NOT NULL DEFAULT '0',
+					`UntukDijawab` char(1) NOT NULL DEFAULT '0',
+					`UntukDiperbaiki` char(1) NOT NULL DEFAULT '0',
+					`UntukDibicarakanDgnSaya` char(1) NOT NULL DEFAULT '0',
+					`UntukDibicarakanBersama` varchar(1) NOT NULL DEFAULT '0',
+					`UntukDiingatkan` char(1) NOT NULL DEFAULT '0',
+					`UntukDisimpan` char(1) NOT NULL DEFAULT '0',
+					`UntukDisiapkan` char(1) NOT NULL DEFAULT '0',
+					`UntukDijadwalkan` char(1) NOT NULL DEFAULT '0',
+					`UntukDihadiri` char(1) NOT NULL DEFAULT '0',
+					PRIMARY KEY (`ID`)
+				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+		$this->AddTable("surat_masuk_lampiran_disposisi",$cSQL);
+		$this->AddField("surat_masuk_lampiran_disposisi","UntukDiperbaiki","char(1)","0","");
+
+
+		
+
     }
 }
 ?>
