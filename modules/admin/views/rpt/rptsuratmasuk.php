@@ -13,8 +13,8 @@
                     <div id="gridSuratMasuk" style="height:500px"></div>
                 </div>
             </div>
-            <div class="box-footer no-padding">
-
+            <div class="box-footer">
+                Download File : <b><div id="downloadLink"></div></b>
             </div>
         </div>
         </div>
@@ -51,6 +51,7 @@
                 { field: 'Tgl', caption: 'Tanggal Input', size: '150px', sortable: false, attr: "align=center"},
                 { field: 'TglDisposisi', caption: 'Tanggal Diteruskan', size: '150px', sortable: false, attr: "align=center"},
                 { field: 'cmdHistory', caption: 'Opsi', size: '100px', sortable: false},
+                { field: 'cmdPrint', caption: 'Opsi', size: '100px', sortable: false},
             ]
         });
     }
@@ -104,6 +105,10 @@
                 "loc"    : locForm
             });
         }, 2200);
+    }
+
+    bos.rptsuratmasuk.cmdPrint = function(no,id){
+        bjs.ajax(this.url + '/initReport', 'cKode=' + id);
     }
     
     bos.rptsuratmasuk.setSessionIDSurat = function(id){
