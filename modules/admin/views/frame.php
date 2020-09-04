@@ -247,7 +247,10 @@
 			<!-- Main Footer -->
 			<footer class="main-footer">
 				<!-- To the right -->
-				<div class="pull-right hidden-xs"><strong>Version</strong> <?=BISMILLAH_APP_VERSION?></div>
+				<div class="pull-right hidden-xs"><strong>&nbsp;Version</strong> <?=BISMILLAH_APP_VERSION?></div>
+				<div class="pull-right hidden-xs"><strong>Database : </strong> <?=$this->db->database;?> |</div>
+				
+
 				Copyright &copy; <?=date("Y")?> BIMA OSKAB.
 			</footer>
 
