@@ -48,7 +48,7 @@ class Rptsuratmasuk_m extends Bismillah_Model
     public function getUserNameByKodeKaryawan($cKodeKaryawan)
     {
         $cUserName = "";
-        $field = "username";
+        $field = "fullname AS username";
         $where = "KodeKaryawan = '$cKodeKaryawan'";
         $dbd   = $this->select("sys_username", $field, $where) ;
         if($dbr = $this->getrow($dbd)){
@@ -67,6 +67,25 @@ class Rptsuratmasuk_m extends Bismillah_Model
             $cDeskripsi = $dbr['Deskripsi'];
         }
         return $cDeskripsi;
+    }
+
+    public function getLevelDisposisiSurat($cKode,$cTerdisposisi)
+    {
+        $field = "LevelDisposisi";
+        $where = "Kode = '$cKode' AND Terdisposisi = '$cTerdisposisi'";
+        $dbd   = $this->select("surat_masuk_disposisi", $field, $where) ;
+        $cLevelDisposisi = "";
+        if($dbr = $this->getrow($dbd)){
+            $cLevelDisposisi = $dbr['LevelDisposisi'];
+        }
+        return $cLevelDisposisi;
+    }
+
+    public function getDataDetailSuratMasuk($cKode){
+        $field = "*";
+        $where = "Kode = '$cKode'";
+        $dbd   = $this->select("surat_masuk", $field, $where) ;
+        return $dbd;
     }
 
 }

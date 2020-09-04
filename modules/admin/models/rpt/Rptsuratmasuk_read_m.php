@@ -63,8 +63,16 @@ class Rptsuratmasuk_read_m extends Bismillah_Model
            
             $cSuratDari      = $this->getval("Dari", "Kode='{$cKode}'", "surat_masuk");
             $cPerihal        = $this->getval("Perihal", "Kode='{$cKode}'", "surat_masuk");            
+            $cLevelDispoAwal = getsession($this,'ss_LEVELDISPOSISI_SuratMasuk_') ;
+            $cLevelDisposisi = $cLevelDispoAwal + 1 ;
+            if($cLevelDisposisi >= 3){
+                $cLevelDisposisi = 3 ;
+            }
 
-            $where      = "Kode = " . $this->escape($cKode) ;
+            $cJabatanSender  = $this->getval("Jabatan", "KodeKaryawan = '{$cKodeKaryawanPendisposisi}'", "sys_username") ; 
+            $cLevelDispoSender  = $this->getval("LevelDisposisi", "Kode = '{$cJabatanSender}'", "golongan_jabatan") ; 
+
+            $where          = "Kode = " . $this->escape($cKode) ;
             $vadetail = array("Kode"=>$cKode,
                               "Tgl"=>date_2s($va['dTgl']),
                               "Pendisposisi"=>$cKodeKaryawanPendisposisi,
@@ -73,7 +81,8 @@ class Rptsuratmasuk_read_m extends Bismillah_Model
                               "Status"=>"1",
                               "UserName"=>$cUserName,
                               "DateTime"=>date('Y-m-d H:i:s'),
-                              "Deskripsi"=>$va['cDeskripsi']
+                              "Deskripsi"=>$va['cDeskripsi'],
+                              "LevelDisposisi"=>$cLevelDispoSender
                             );
             $this->insert("surat_masuk_disposisi",$vadetail);
             
@@ -102,7 +111,7 @@ class Rptsuratmasuk_read_m extends Bismillah_Model
                 </html>
             ";
             
-            mail($cReceiverEmail,$subjectMail,$message,$headers);
+            //mail($cReceiverEmail,$subjectMail,$message,$headers);
         }        
 
         // Trigger Notifikasi Ke Masing2 Terdisposisi
