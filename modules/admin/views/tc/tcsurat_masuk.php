@@ -1,124 +1,362 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Daftar Data</a></li>
-        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Data Form</a></li>
+        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false" onClick="bos.tcsurat_masuk.init()">Daftar Data</a></li>
+        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true" onClick="bos.tcsurat_masuk.initForm()">Data Form</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active full-height" id="tab_1">
             <div id="grid1" style="height:500px"></div>
         </div>
         <div class="tab-pane" id="tab_2">
-        <form>
-            <div class="row">
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Dokumen Masuk Dari</label>
-                        <input type="text" name="cSuratDari" id="cSuratDari" class="form-control" maxlength="225" placeholder="Surat Dari..." required>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Perihal Dokumen</label>
-                        <input type="text" name="cPerihal" id="cPerihal" class="form-control" maxlength="225" placeholder="Perihal" required>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Nomor Dokumen</label>
-                        <input type="text" name="cNomorSurat" id="cNomorSurat" class="form-control" maxlength="225" placeholder="Nomor Surat Masuk" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label>Tanggal Dokumen Masuk</label>
-                        <div class="col-xs-8 input-group">
-                            <input
-                                type="text" 
-                                class=" form-control date" 
-                                id="dTgl" 
-                                name="dTgl" 
-                                placeholder="dd-mm-yyyy"
-                                required
-                                value=<?=date("d-m-Y")?> <?=date_set()?> 
-                            >
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active" id="tab-link1"><a href="#tab_form_1" data-toggle="tab" aria-expanded="false">Data Dokumen</a></li>
+                    <li class="" id="tab-link2"><a href="#tab_form_2" data-toggle="tab" aria-expanded="true">Lembar Disposisi</a></li>
+                </ul>
+                <form>
+                <div class="tab-content">
+                    <div class="tab-pane active full-height" id="tab_form_1">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <label>Dokumen Masuk Dari</label>
+                                    <input type="text" name="cSuratDari" id="cSuratDari" class="form-control" maxlength="225" placeholder="Surat Dari..." required>
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <label>Perihal Dokumen</label>
+                                    <input type="text" name="cPerihal" id="cPerihal" class="form-control" maxlength="225" placeholder="Perihal" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <label>Nomor Dokumen</label>
+                                    <input type="text" name="cNomorSurat" id="cNomorSurat" class="form-control" maxlength="225" placeholder="Nomor Surat Masuk" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Tanggal Dokumen Masuk</label>
+                                    <div class="col-xs-8 input-group">
+                                        <input
+                                            type="text" 
+                                            class=" form-control date" 
+                                            id="dTgl" 
+                                            name="dTgl" 
+                                            placeholder="dd-mm-yyyy"
+                                            required
+                                            value=<?=date("d-m-Y")?> <?=date_set()?> 
+                                        >
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Tanggal Penulisan Dokumen</label>
+                                    <div class="col-xs-8 input-group">
+                                        <input
+                                            type="text" 
+                                            class=" form-control date" 
+                                            id="dTglSurat" 
+                                            name="dTglSurat" 
+                                            placeholder="dd-mm-yyyy"
+                                            required
+                                            value=<?=date("d-m-Y")?> <?=date_set()?> 
+                                        >
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <label>Jenis Dokumen</label>
+                                    <select class="form-control optJenisSurat select2" data-sf="load_Kota" name="optJenisSurat" id="optJenisSurat" data-placeholder=" - Jenis Dokumen - "></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <label>Disposisi</label>
+                                    <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Disposisi..."></textarea>                   
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Disposisi</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" id="cDisposisi" name="cDisposisi" class="form-control" placeholder="Klik tombol pencarian untuk memasukkan data disposisi..." readonly>
+                                    <span class="input-group-btn">
+                                        <button class="form-control btn btn-info" type="button" id="cmdDisposisi"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-primary" id="cmdOK">OK</button>
+                            </div>
+                            <div class="col-md-12">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-12">
+                                <div id="gridDisposisi" class="full-height" style="height: 200px;"></div>
+                            </div>
+                            <div class="col-md-12">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Upload File</label>
+                                    <div id="idcUplFile">
+                                        <input style="width:100%" type="file" class="form-control cUplFile" id="cUplFile" name="cUplFile[]" multiple>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label>Tanggal Penulisan Dokumen</label>
-                        <div class="col-xs-8 input-group">
-                            <input
-                                type="text" 
-                                class=" form-control date" 
-                                id="dTglSurat" 
-                                name="dTglSurat" 
-                                placeholder="dd-mm-yyyy"
-                                required
-                                value=<?=date("d-m-Y")?> <?=date_set()?> 
-                            >
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
+                    <div class="tab-pane lembar-disposisi" id="tab_form_2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="SangatSegera" id="chckSangatSegera">
+                                        <label for="chckSangatSegera">Sangat Segera</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="Segera" id="chckSegera">
+                                        <label for="chckSegera">Segera</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12" style="margin-top:15px;">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="">Deputi Kepala Perwakilan</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="">&nbsp;</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="">Petunjuk Disposisi</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="TimIR" id="chckTimIR">
+                                        <label for="chckTimIR">Tim Implementasi Rekda</label>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input type="checkbox" name="chckLampiran[]" value="FungsiDSEK" id="chckFungsiDSEK">
+                                        <label for="chckFungsiDSEK">Fungsi Data & Statistik Ekonomi & Keuangan</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" name="chckLampiran[]" value="Setuju" id="chckSetuju">
+                                        <label for="chckSetuju">Setuju</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-sm-offset-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="FungsiPPUKS" id="chckFungsiPPUKS">
+                                        <label for="chckFungsiPPUKS">Fungsi Pelaksanaan Pengembangan UMKM, KI, dan Syariah</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" name="chckLampiran[]" value="Tolak" id="chckTolak">
+                                        <label for="chckTolak">Tolak</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-sm-offset-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="SeksiHumas" id="chckSeksiHumas">
+                                        <label for="chckSeksiHumas">Seksi Kehumasan</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDiteliti" id="chckUntukDiteliti">
+                                        <label for="chckUntukDiteliti">Untuk di teliti & pendapat</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr width="95%" style="margin: 0 auto;border-top: 1px solid #555;"/>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="TimISPM" id="chckTimISPM">
+                                        <label for="chckTimISPM">Tim Implementasi SP, PUR, dan MI</label>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input type="checkbox" name="chckLampiran[]" value="UnitIPUR" id="chckUnitIPUR">
+                                        <label for="chckUnitIPUR">Unit Implementasi PUR</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDiketahui" id="chckUntukDiketahui">
+                                        <label for="chckUntukDiketahui">Untuk diketahui</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-sm-offset-4" style="display:flex;">
+                                        <input type="checkbox" name="chckLampiran[]" value="UnitIKSPPUR" id="chckUnitIKSPPUR">
+                                        <label for="chckUnitIKSPPUR">Unit Implementasi Kebijakan SP dan Pengawasan SP-PUR</label>
+                                    </div>
+                                    <div class="col-sm-3" style="display:flex;">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDiselesaikan" id="chckUntukDiselesaikan">
+                                        <label for="chckUntukDiselesaikan">Untuk di selesaikan sesuai ketentuan </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-sm-offset-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="UnitManajemen" id="chckUnitManajemen">
+                                        <label for="chckUnitManajemen">Unit Manajemen Internera</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" name="chckLampiran[]" value="SesuaiCatatan" id="chckSesuaiCatatan">
+                                        <label for="chckSesuaiCatatan">Sesuai Catatan</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr width="95%" style="margin: 0 auto;border-top: 1px solid #555;"/>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="PM" id="chckPM">
+                                        <label for="chckPM">PM</label>
+                                    </div>
+                                    <div class="col-sm-3 col-sm-offset-5">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukPerhatian" id="chckUntukPerhatian">
+                                        <label for="chckUntukPerhatian">Untuk perhatian </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr width="95%" style="margin: 0 auto;border-top: 1px solid #555;"/>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="ICO" id="chckICO">
+                                        <label for="chckICO">ICO</label>
+                                    </div>
+                                    <div class="col-sm-3 col-sm-offset-5">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDiedarkan" id="chckUntukDiedarkan">
+                                        <label for="chckUntukDiedarkan">Untuk diedarkan </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr width="95%" style="margin: 0 auto;border-top: 1px solid #555;"/>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="KetuaIPEBI" id="chckKetuaIPEBI">
+                                        <label for="chckKetuaIPEBI">Ketua IPEBI</label>
+                                    </div>
+                                    <div class="col-sm-3 col-sm-offset-5">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDijawab" id="chckUntukDijawab">
+                                        <label for="chckUntukDijawab">Untuk dijawab </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-sm-offset-9">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDiperbaiki" id="chckUntukDiperbaiki">
+                                        <label for="chckUntukDiperbaiki">Untuk diperbaiki </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-sm-offset-9">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDibicarakanDgnSaya" id="chckUntukDibicarakanDgnSaya">
+                                        <label for="chckUntukDibicarakanDgnSaya">untuk dibicarakan dengan Saya </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-sm-offset-9">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDibicarakanBersama" id="chckUntukDibicarakanBersama">
+                                        <label for="chckUntukDibicarakanBersama">Untuk dibicarakan bersama  </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-sm-offset-9">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDiingatkan" id="chckUntukDiingatkan">
+                                        <label for="chckUntukDiingatkan">untuk diingatkan </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-sm-offset-9">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDisimpan" id="chckUntukDisimpan">
+                                        <label for="chckUntukDisimpan">Untuk disimpan </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-sm-offset-9">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDisiapkan" id="chckUntukDisiapkan">
+                                        <label for="chckUntukDisiapkan">Untuk disiapkan </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-sm-offset-9">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDijadwalkan" id="chckUntukDijadwalkan">
+                                        <label for="chckUntukDijadwalkan">Untuk dijadwalkan </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-sm-offset-9">
+                                        <input type="checkbox" name="chckLampiran[]" value="UntukDihadiri" id="chckUntukDihadiri">
+                                        <label for="chckUntukDihadiri">Untuk dihadiri / Wakil </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr width="95%" style="margin: 0 auto;border-top: 1px solid #555;"/>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Jenis Dokumen</label>
-                        <select class="form-control optJenisSurat select2" data-sf="load_Kota" name="optJenisSurat" id="optJenisSurat" data-placeholder=" - Jenis Dokumen - "></select>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Disposisi</label>
-                        <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Disposisi..."></textarea>                   
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label>Disposisi</label>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <input type="text" id="cDisposisi" name="cDisposisi" class="form-control" placeholder="Klik tombol pencarian untuk memasukkan data disposisi..." readonly>
-                        <span class="input-group-btn">
-                            <button class="form-control btn btn-info" type="button" id="cmdDisposisi"><i class="fa fa-search"></i></button>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-primary" id="cmdOK">OK</button>
-                </div>
-                <div class="col-md-12">
-                    &nbsp;
-                </div>
-                <div class="col-md-12">
-                    <div id="gridDisposisi" class="full-height" style="height: 200px;"></div>
-                </div>
-                <div class="col-md-12">
-                    &nbsp;
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Upload File</label>
-                        <div id="idcUplFile">
-                            <input style="width:100%" type="file" class="form-control cUplFile" id="cUplFile" name="cUplFile[]" multiple>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-lg-12">
+                            <input type="hidden" name="nNo" id="nNo" value="0">
+                            <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
+                            <input type="hidden" name="cKode" id="cKode">
+                            <input type="hidden" name="cLastPath" id="cLastPath">
+                            <button class="btn btn-primary" id="cmdSave">Simpan</button>
+                            <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcsurat_masuk.init()">Cancel</button>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
-            <input type="hidden" name="nNo" id="nNo" value="0">
-            <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
-            <input type="hidden" name="cKode" id="cKode">
-            <input type="hidden" name="cLastPath" id="cLastPath">
-            <button class="btn btn-primary" id="cmdSave">Simpan</button>
-            <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcsurat_masuk.init()">Cancel</button>
-        </form>
         </div>
     </div>
 </div>
@@ -362,6 +600,7 @@
         this.obj.find("#cKodeKaryawan").val("") ;
         this.obj.find("#nNo").val("0") ;
         this.obj.find("#cUplFile").val("");
+        $("input[type=checkbox]").prop("checked",false);
         bjs.ajax(this.url + '/init') ;
         w2ui[this.id + '_gridDisposisi'].clear(); 
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
@@ -370,6 +609,15 @@
         
     }
 
+    bos.tcsurat_masuk.initForm    = function(){
+        $("#tab-link2").removeClass("active");
+        $("#tab-link1").addClass("active");
+        
+        $("#tab_form_2").removeClass("active");
+        $("#tab_form_1").addClass("active");
+        
+        bos.tcsurat_masuk.init();
+    }
 
     bos.tcsurat_masuk.initTinyMCE = function(){
         tinymce.init({
@@ -405,7 +653,7 @@
 
         this.obj.find("#nNo").val(datagrid.length+1) ;
         this.obj.find("#cDisposisi").val("") ;
-        this.obj.find("#cKodeKaryawan").val("") ;;
+        this.obj.find("#cKodeKaryawan").val("") ;
     }
 
     bos.tcsurat_masuk.tabsaction    = function(n){
@@ -431,6 +679,13 @@
 
     bos.tcsurat_masuk.loadModalDisposisi      = function(l){
         this.obj.find("#modalDisposisi").modal(l) ;
+    }
+
+    bos.tcsurat_masuk.setCheckboxLampiran     = function(data){
+        console.log(data);
+        for (const [key, value] of Object.entries(test)) {
+            //console.log(key, value);
+        }
     }
 
     bos.tcsurat_masuk.cmdSave           = bos.tcsurat_masuk.obj.find("#cmdSave") ;
