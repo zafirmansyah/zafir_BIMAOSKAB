@@ -82,7 +82,7 @@
 <?=cekbosjs();?>
 
     bos.tciku_form.loadDataFormIKU = function(data){
-        console.log("data:",data);
+        //console.log("data:",data);
         $("#textKode_IKU").html(data.Kode);
         $("#textDateTime_IKU").html(data.DateTime);
         $("#textDari_IKU").html(data.UserName);

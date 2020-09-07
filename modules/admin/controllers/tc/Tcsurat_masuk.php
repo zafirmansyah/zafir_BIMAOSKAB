@@ -66,7 +66,8 @@ class Tcsurat_masuk extends Bismillah_Controller
 
     public function saving(){
         $va 	    = $this->input->post() ;
-        
+        //print_r($va);
+
         $vaKode         = $va['cKode'];
         if($vaKode == "" || trim(empty($vaKode))){
             $cKode = $this->bdb->getKodeSurat() ;
@@ -125,10 +126,16 @@ class Tcsurat_masuk extends Bismillah_Controller
         $cKode 	    = $va['cKode'] ;
         $data       = $this->bdb->getdata($cKode) ;
         if(!empty($data)){
+            $lampiran = array();
+            $lampiran = $this->bdb->getDataLampiran($cKode);
+            unset($lampiran['ID']);
+            unset($lampiran['Kode']);
+        
             $jsonUnit[] 	= array("id"=>$data['JenisSurat'],"text"=>$data['JenisSurat'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['JenisSurat']}'", "jenis_surat"));
             savesession($this, "ss_suratmasuk_", $cKode) ;
             echo('
                 with(bos.tcsurat_masuk.obj){
+                    bos.tcsurat_masuk.init() ;     
                     $("#cKode").val("'.$data['Kode'].'") ;
                     $("#cSuratDari").val("'.$data['Dari'].'") ;
                     $("#optJenisSurat").sval('.json_encode($jsonUnit).') ;
@@ -142,8 +149,19 @@ class Tcsurat_masuk extends Bismillah_Controller
                     bos.tcsurat_masuk.gridDisposisi_reload() ;
                 }
             ') ;
+
+            //Show data lampiran disposisi            
+            foreach($lampiran as $key=>$val){
+                if($val == "1"){
+                    echo('
+                        $("#chck'.$key.'").prop("checked",true);
+                    ');
+                }
+            }
         }
-                    
+        
+        
+            
         // Show Data Grid Disposisi
         $vare = array();
         $n = 0 ;
@@ -157,8 +175,7 @@ class Tcsurat_masuk extends Bismillah_Controller
             $vaset['kode']       = $dbr['Terdisposisi'] ;
             $vaset['disposisi']  = $cNamaDisposisi ;
 
-            $vaset['cmdDeleteGr'] = '<button type="button" onClick="bos.tcsurat_masuk.gridDisposisi_deleterow('.$n.')"
-                                    class="btn btn-danger btn-grid">Delete</button>' ;
+            $vaset['cmdDeleteGr'] = '<button type="button" onClick="bos.tcsurat_masuk.gridDisposisi_deleterow('.$n.')" class="btn btn-danger btn-grid">Delete</button>' ;
             $vaset['cmdDeleteGr']	= html_entity_decode($vaset['cmdDeleteGr']) ;
             $vare[]             = $vaset ;
         }
