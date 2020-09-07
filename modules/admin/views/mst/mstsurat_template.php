@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <input type="text" name="cKode" id="cKode">
+            <input type="hidden" name="cKode" id="cKode">
             <button class="btn btn-primary" id="cmdsave">Simpan</button>
             <button class="btn btn-warning" id="cmdCancel" onClick="bos.mstsurat_template.init()">Cancel</button>
         </form>
