@@ -9,6 +9,7 @@
         ["Master Jenis Dokumen", "mstsurat_jenis","admin/mst/mstsurat_jenis","fa fa-circle-o"]
         ["Master Sifat Dokumen", "mstsurat_sifat","admin/mst/mstsurat_sifat","fa fa-circle-o"]
         ["Upload Template Dokumen", "mstsurat_template","admin/mst/mstsurat_template","fa fa-circle-o"]
+        ["Master Pencetakan Dokumen", "mstsurat_cetak","admin/mst/mstsurat_cetak","fa fa-circle-o"]
     ["Master Tahun Buku", "msttahun_buku","admin/mst/msttahun_buku","fa fa-circle-o"]
 ["Tiket", "tc", "", "fa fa-envelope"]
     ["Penomoran Dokumen", "tcsurat_keluar","admin/tc/tcsurat_keluar","fa fa-circle-o"]
