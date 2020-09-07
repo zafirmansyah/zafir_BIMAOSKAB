@@ -13,8 +13,13 @@ class Rptwo_m extends Bismillah_Model
         $search   = $this->escape_like_str($search) ;
         $field    = "m.*,IFNULL(m.StartDateTime,'-') AS TglProses, IFNULL(MAX(f.EndDateTime),'-') AS TglStatusAkhir";
         $where 	  = array() ; 
-        $where[]    = "m.Status <> 'D'";
-        if($search !== "") $where[]	= "(m.Kode LIKE '{$search}%' OR m.Subject LIKE '%{$search}%' OR m.Deskripsi LIKE '%{$search}%' OR m.Subject LIKE '%{$search}%')" ;
+        $where[]  = "m.Status <> 'D'";
+        $search   = array("m.Kode LIKE '{$search}%'",
+                            "m.Subject LIKE '%{$search}%'",
+                            "m.Deskripsi LIKE '%{$search}%'",
+                            "m.UserName LIKE '%{$search}%'");
+        $search   = implode(" OR ", $search);
+        if($search !== "") $where[]	= "(" . $search . ")" ;
         $where 	  = implode(" AND ", $where) ;
         $join     = "left join work_order_form f on f.Kode=m.Kode";
         $dbd      = $this->select("work_order_master m", $field, $where, $join, "m.Kode", "m.Kode DESC", $limit) ;

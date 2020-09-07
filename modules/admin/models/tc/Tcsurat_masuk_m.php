@@ -81,7 +81,18 @@ class Tcsurat_masuk_m extends Bismillah_Model
                                 ) ;
         $where      = "Kode = " . $this->escape($cKode) ;
         $this->update("surat_masuk", $vaData, $where, "") ;
+
+        $this->delete("surat_masuk_lampiran_disposisi","Kode='$cKode'");
+        $this->insert("surat_masuk_lampiran_disposisi",array("Kode"=>$cKode));
         
+        //insert lampiran disposisi
+        if(isset($va['chckLampiran'])){
+            $vaLampiran = $va['chckLampiran'];
+            foreach($vaLampiran as $value){
+                $this->update("surat_masuk_lampiran_disposisi", array($value=>"1"), "Kode='$cKode'","");
+            }
+        }
+
         //insert detail dispo
         $vaGrid = json_decode($va['dataDisposisi']);
         $this->delete("surat_masuk_disposisi", "Kode = '{$cKode}'" ) ;
@@ -179,7 +190,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
     public function getdata($id){
         $data = array() ;
         if($d = $this->getval("*", "Kode = " . $this->escape($id), "surat_masuk")){
-        $data = $d;
+            $data = $d;
         }
         return $data ;
     }
@@ -223,6 +234,18 @@ class Tcsurat_masuk_m extends Bismillah_Model
             $data = $d;
 		}
 		return $data ;
+    }
+
+    public function getDataLampiran($cKode)
+    {
+        $data = array();
+        $field = "*";
+        $where = "Kode = '$cKode'";
+        $dbd   = $this->select("surat_masuk_lampiran_disposisi", $field, $where) ;
+        if($dbr = $this->bdb->getrow($dbd)){
+            $data = $dbr;
+        }
+        return $data;
     }
 }
 
