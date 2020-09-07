@@ -54,6 +54,8 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	defined('BISMILLAH_APP_LOC')       OR define('BISMILLAH_APP_LOC', "./bismillah/php_ci/");  
+
 
 /*
  *---------------------------------------------------------------

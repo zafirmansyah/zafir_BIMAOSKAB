@@ -397,12 +397,12 @@ class Rptsuratmasuk extends Bismillah_Controller
                             </tr>
                             <tr>
                                 <td style='text-align: center;'><b>Tgl</b></td>
-                                <td style='' colspan='2'>".$dbRow['TglSurat']."</td>
+                                <td style='' colspan='2'>".date_2d($dbRow['TglSurat'])."</td>
                                 <td style='' colspan='3'>".$dbRow['Dari']."</td>
                             </tr>
                             <!-- tr>
                                 <td style='text-align: center'><b>Tgl Terima</b></td>
-                                <td style='' colspan='5'>".$dbRow['Tgl']."</td>
+                                <td style='' colspan='5'>".date_2d($dbRow['Tgl'])."</td>
                             </tr -->
                             <tr>
                                 <td style='width: 50%;' colspan='3'><b>Perihal :</b></td>
@@ -410,7 +410,7 @@ class Rptsuratmasuk extends Bismillah_Controller
                             </tr>
                             <tr>
                                 <td colspan='3' style='padding: 15px 8px 15px 8px;'>".$dbRow['Perihal']."</td>
-                                <td colspan='3' style='padding: 15px 8px 15px 8px;'>".$dbRow['Tgl']."</td>
+                                <td colspan='3' style='padding: 15px 8px 15px 8px;'>".date_2d($dbRow['Tgl'])."</td>
                             </tr>
                             <tr>
                                 <td style='width: 10%; text-align: center;'>".$symSegera."</td>
