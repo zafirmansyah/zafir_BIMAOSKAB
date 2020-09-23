@@ -13,7 +13,7 @@ class Rptsuratmasuk_m extends Bismillah_Model
         $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
         $search   = $this->escape_like_str($search) ;
         $where 	 = array() ; 
-        /* if(getsession($this,"Jabatan") > "002") */ $where[] = "d.Terdisposisi = '$cUserName'";
+        /* if(getsession($this,"Jabatan") > "002") */ $where[] = "d.Terdisposisi = '$cUserName' OR d.Pendisposisi = '$cUserName'";
         if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
         $where 	 = implode(" AND ", $where) ;
         $join    = "left join surat_masuk_disposisi d on d.Kode=s.Kode";

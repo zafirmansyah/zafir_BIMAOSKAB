@@ -21,7 +21,7 @@
                 <div class="box-body no-padding">
                 <div class="mailbox-read-info">
                     <h3><?=$cPERIHALSurat?></h3>
-                    <h5>From: <?=$cDARISurat?>
+                    <h5>Dari: <?=$cDARISurat?>
                     <span class="mailbox-read-time pull-right"><?=$cDATETIMESurat?></span></h5>
                 </div>
                 <div class="mailbox-read-message">

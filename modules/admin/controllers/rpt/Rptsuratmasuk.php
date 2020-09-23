@@ -589,7 +589,7 @@ class Rptsuratmasuk extends Bismillah_Controller
                 $cTerdisposisi              = $dbRowDispoLevel1['Terdisposisi'];
                 $cDeskripsi                 =  $dbRowDispoLevel1['Deskripsi'];
                 $cNamaTerdispo              = $this->bdb->getval("fullname", "KodeKaryawan='{$cTerdisposisi}'", "sys_username");
-                $htmlIsiDisposisiLevel1[]   = $cNamaTerdispo  . " [". $cTerdisposisi ."] , ";
+                $htmlIsiDisposisiLevel1[]   = $cNamaTerdispo . " , "; // . " [". $cTerdisposisi ."] , ";
             }
             $htmlIsiDeskripsiDisposisiLevel1   = "<br />" . $cDeskripsi . "<br />";
             
@@ -615,7 +615,7 @@ class Rptsuratmasuk extends Bismillah_Controller
                 $cTerdisposisi2                 = $dbRowDispoLevel2['Terdisposisi'];
                 $cDeskripsi2                    =  $dbRowDispoLevel2['Deskripsi'];
                 $cNamaTerdispo2                 = $this->bdb->getval("fullname", "KodeKaryawan='{$cTerdisposisi2}'", "sys_username");
-                $htmlIsiDisposisiLevel2[]       = $cNamaTerdispo2  . " [". $cTerdisposisi2 ."] , ";
+                $htmlIsiDisposisiLevel2[]       = $cNamaTerdispo2 . " ,"; // . " [". $cTerdisposisi2 ."] , ";
             }
             $htmlIsiDeskripsiDisposisiLevel2   = "<br />" . $cDeskripsi2 . "<br />";
             
@@ -641,7 +641,7 @@ class Rptsuratmasuk extends Bismillah_Controller
                 $cTerdisposisi3                 = $dbRowDispoLevel3['Terdisposisi'];
                 $cDeskripsi3                    = $dbRowDispoLevel3['Deskripsi'];
                 $cNamaTerdispo3                 = $this->bdb->getval("fullname", "KodeKaryawan='{$cTerdisposisi3}'", "sys_username");
-                $htmlIsiDisposisiLevel3[]       = $cNamaTerdispo3  . " [". $cTerdisposisi3 ."] , ";
+                $htmlIsiDisposisiLevel3[]       = $cNamaTerdispo3 . " , "; // . " [". $cTerdisposisi3 ."] , ";
             }
             $htmlIsiDeskripsiDisposisiLevel3   = "<br />" . $cDeskripsi3 . "<br />";
             
