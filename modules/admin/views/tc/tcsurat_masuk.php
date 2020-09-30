@@ -6,6 +6,11 @@
     <div class="tab-content">
         <div class="tab-pane active full-height" id="tab_1">
             <div id="grid1" style="height:500px"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    Download File : <b><div id="downloadLink"></div></b>                
+                </div>
+            </div>
         </div>
         <div class="tab-pane" id="tab_2">
             <div class="nav-tabs-custom">
@@ -408,7 +413,8 @@
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
                 { field: 'UserName', caption: 'Petugas Entry', size: '100px', sortable: false},
                 { field: 'cmdEdit', caption: ' ', size: '80px', sortable: false },
-                { field: 'cmdDelete', caption: ' ', size: '80px', sortable: false }
+                { field: 'cmdDelete', caption: ' ', size: '80px', sortable: false },
+                { field: 'cmdPrint', caption: 'Opsi', size: '100px', sortable: false}
             ]
         });
     }
@@ -467,6 +473,9 @@
     bos.tcsurat_masuk.gridDisposisi_append    = function(no,kodekaryawan,disposisi){
         var datagrid  = w2ui[this.id + '_gridDisposisi'].records;
         var recid     = "";
+        // alert(no +"  "+datagrid.length);
+        if(no == 0) no+=1;
+        no = parseInt(no);
         if(no <= datagrid.length){
             recid = no;
             w2ui[this.id + '_gridDisposisi'].set(recid,{level: no, 
@@ -654,6 +663,10 @@
         this.obj.find("#nNo").val(datagrid.length+1) ;
         this.obj.find("#cDisposisi").val("") ;
         this.obj.find("#cKodeKaryawan").val("") ;
+    }
+
+    bos.tcsurat_masuk.cmdPrint = function(no,id){
+        bjs.ajax(this.url + '/initReport', 'cKode=' + id);
     }
 
     bos.tcsurat_masuk.tabsaction    = function(n){

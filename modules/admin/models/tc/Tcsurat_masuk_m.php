@@ -247,6 +247,13 @@ class Tcsurat_masuk_m extends Bismillah_Model
         }
         return $data;
     }
+
+    public function getDataDetailSuratMasuk($cKode){
+        $field = "*";
+        $where = "Kode = '$cKode'";
+        $dbd   = $this->select("surat_masuk", $field, $where) ;
+        return $dbd;
+    }
 }
 
  ?>
