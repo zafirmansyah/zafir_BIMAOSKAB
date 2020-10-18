@@ -36,12 +36,20 @@ class Rptsuratmasuk_m extends Bismillah_Model
         $dbd   = $this->select("surat_masuk_file", $field, $where) ;
         return $dbd;
     }
+
+    public function getDisposisiListSuratMasuk($cKode){
+        $field  = "*";
+        $where  = "o.Kode = '$cKode'";
+        $vaJoin = "LEFT JOIN sys_username s on s.KodeKaryawan = o.Terdisposisi";
+        $dbd    = $this->select("surat_masuk_disposisi o", $field, $where, $vaJoin) ;
+        return $dbd;
+    }
     
     public function getHistorySuratMasuk($cKode)
     {
         $field = "*";
         $where = "Kode = '$cKode'";
-        $dbd   = $this->select("surat_masuk_disposisi", $field, $where) ;
+        $dbd   = $this->select("surat_masuk_disposisi o", $field, $where) ;
         return $dbd;
     }
 

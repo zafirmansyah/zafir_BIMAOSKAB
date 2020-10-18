@@ -142,7 +142,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
                 </html>
             ";
             
-            //mail($cReceiverEmail,$subjectMail,$message,$headers);
+            mail($cReceiverEmail,$subjectMail,$message,$headers);
         }        
 
         // Trigger Notifikasi Ke Masing2 Terdisposisi

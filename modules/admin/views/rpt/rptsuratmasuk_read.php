@@ -15,14 +15,28 @@
                     $dTANGGALSurat   = getsession($this,"ss_TANGGAL_SuratMasuk_") ;
                     $cDESKRIPSISURAT = getsession($this,"ss_DESKRIPSI_SuratMasuk_");
                     $vaFileListSurat = getsession($this,"ss_FILEITEM_SuratMasuk_") ;
+                    $vaDispoListSurat = getsession($this,"ss_DISPOSISILIST_SuratMasuk_") ;
                 ?>
                 <h3 class="box-title">Kode Surat : <?=$cIDSurat?></h3>
                 </div>
                 <div class="box-body no-padding">
                 <div class="mailbox-read-info">
-                    <h3><?=$cPERIHALSurat?></h3>
-                    <h5>Dari: <?=$cDARISurat?>
+                    <h3><b><?=$cPERIHALSurat?></b></h3>
+                    <h5>Dari: <b><?=$cDARISurat?></b>
                     <span class="mailbox-read-time pull-right"><?=$cDATETIMESurat?></span></h5>
+                    <h5>
+                        Sudah Terdisposisi :
+                        <?php
+                            if(isset($vaDispoListSurat) && count($vaDispoListSurat) > 0){
+                                foreach($vaDispoListSurat as $key => $value){
+                                    $cFullName  = $value['fullname'];
+                                    ?>
+                                        <span class="label label-info"><?=$cFullName?></span>
+                                    <?php
+                                }
+                            }
+                        ?>
+                    </h5>
                 </div>
                 <div class="mailbox-read-message">
                     <!-- Detail Surat -->
@@ -121,7 +135,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="pull-right">
-                        <button class="btn btn-default" id="cmdSend"><i class="fa fa-share"></i> Forward</button>
+                        <button class="btn btn-default" id="cmdSend"><i class="fa fa-share"></i> Forward as</button>
                     </div>
                 </div>
             </div>

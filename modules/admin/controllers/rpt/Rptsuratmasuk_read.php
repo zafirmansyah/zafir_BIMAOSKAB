@@ -79,17 +79,26 @@ class Rptsuratmasuk_read extends Bismillah_Controller
 
     public function saving(){
         $va 	    = $this->input->post() ;
-  //      print_r($va);
-        $saving = $this->bdb->saving($va) ;
+        $vaGrid     = json_decode($va['dataDisposisi']);
+        if(empty($vaGrid) || !isset($vaGrid)){
+            echo('
+                Swal.fire({
+                    icon: "error",
+                    title: "Daftar Nama Disposisi Harap Diisi!!",
+                });
+            ');
+        }else{
+            $saving     = $this->bdb->saving($va) ;
 
-        echo(' 
-            Swal.fire({
-                icon: "success",
-                title: "Data Forwarded!",
-            });
-            bos.rptsuratmasuk_read.loadModalForward("hide");
-            bos.rptsuratmasuk_read.initDetail() ;     
-        ') ;
+            echo(' 
+                Swal.fire({
+                    icon: "success",
+                    title: "Data Forwarded!",
+                });
+                bos.rptsuratmasuk_read.loadModalForward("hide");
+                bos.rptsuratmasuk_read.initDetail() ;     
+            ') ;
+        }     
     }
 }
 

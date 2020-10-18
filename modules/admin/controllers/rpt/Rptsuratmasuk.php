@@ -22,8 +22,11 @@ class Rptsuratmasuk extends Bismillah_Controller
         savesession($this, "ss_DARI_SuratMasuk_","") ;
         savesession($this, "ss_DATETIME_SuratMasuk_","") ;
         savesession($this, "ss_NOSURAT_SuratMasuk_","") ;
-        savesession($this, "ss_TANGGAL_SuratMasuk_","");
-        
+        savesession($this, "ss_TANGGAL_SuratMasuk_","") ;
+        savesession($this, "ss_DESKRIPSI_SuratMasuk_","") ;
+        savesession($this, "ss_LEVELDISPOSISI_SuratMasuk_","") ;
+        savesession($this, "ss_FILEITEM_SuratMasuk_","") ;
+        savesession($this, "ss_DISPOSISILIST_SuratMasuk_","") ;   
     }
 
     public function loadgrid(){
@@ -57,11 +60,12 @@ class Rptsuratmasuk extends Bismillah_Controller
 
     public function setSessionIDSurat()
     {
-        $cKode      = $this->input->post('cKode');
-        $cTerdisposisi = getsession($this,"KodeKaryawan");
-        $dbData     = $this->bdb->getDetailSuratMasuk($cKode);
-        $vaFileList = $this->getfilelist($cKode);
-        $vaSess     = array() ;
+        $cKode              = $this->input->post('cKode');
+        $cTerdisposisi      = getsession($this,"KodeKaryawan");
+        $dbData             = $this->bdb->getDetailSuratMasuk($cKode);
+        $vaFileList         = $this->getfilelist($cKode);
+        $vaDisposisiList    = $this->getDisposisiList($cKode);
+        $vaSess             = array() ;
         if($dbRow = $this->bdb->getrow($dbData)){        
             $vaSess['ss_ID_SuratMasuk_']            = $cKode ;
             $vaSess['ss_PERIHAL_SuratMasuk_']       = $dbRow['Perihal'] ;
@@ -70,8 +74,9 @@ class Rptsuratmasuk extends Bismillah_Controller
             $vaSess['ss_NOSURAT_SuratMasuk_']       = $dbRow['NoSurat'] ;
             $vaSess['ss_TANGGAL_SuratMasuk_']       = $dbRow['Tgl'];
             $vaSess['ss_DESKRIPSI_SuratMasuk_']     = $this->bdb->getDeskripsiDisposisiSurat($cKode,$cTerdisposisi);
-            $vaSess['ss_LEVELDISPOSISI_SuratMasuk_']     = $this->bdb->getLevelDisposisiSurat($cKode,$cTerdisposisi) ;
-            $vaSess['ss_FILEITEM_SuratMasuk_']      = $vaFileList;
+            $vaSess['ss_LEVELDISPOSISI_SuratMasuk_']        = $this->bdb->getLevelDisposisiSurat($cKode,$cTerdisposisi) ;
+            $vaSess['ss_FILEITEM_SuratMasuk_']              = $vaFileList;
+            $vaSess['ss_DISPOSISILIST_SuratMasuk_']         = $vaDisposisiList;
             foreach ($vaSess as $key => $value) {
 				savesession($this, $key, $value) ;
 			}
@@ -117,6 +122,17 @@ class Rptsuratmasuk extends Bismillah_Controller
 
     public function getfilelist($cKode){
         $dbData = $this->bdb->getFileListSuratMasuk($cKode);
+        $i = 0;
+        $vaData = array();
+        while($dbRow = $this->bdb->getrow($dbData)){
+            $vaData[$i]=$dbRow;
+            $i++;
+        }        
+        return $vaData;
+    }
+
+    public function getDisposisiList($cKode){
+        $dbData = $this->bdb->getDisposisiListSuratMasuk($cKode);
         $i = 0;
         $vaData = array();
         while($dbRow = $this->bdb->getrow($dbData)){
