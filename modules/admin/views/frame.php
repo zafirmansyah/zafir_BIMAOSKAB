@@ -51,49 +51,49 @@
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
 							<!-- Messages: style can be found in dropdown.less-->
-							<li class="dropdown messages-menu list-notif-suratmasuk">
+							<!--<li class="dropdown messages-menu list-notif-suratmasuk">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" alt="Surat Masuk">
 									<i class="fa fa-envelope-o" alt="Surat Masuk"></i>
-									<span class="label label-success"><?= sizeof(listNotifSuratMasuk()) ?></span>
+									<span class="label label-success"><?//= sizeof(listNotifSuratMasuk()) ?></span>
 								</a>
 								<ul class="dropdown-menu">
 									<li class="header">Daftar Dokumen Masuk...</li>
 										<li>
-											<!-- inner menu: contains the actual data -->
+											inner menu: contains the actual data
 											<?php
-												$nJumlahNotif = sizeof(listNotifSuratMasuk()) ;
-												$cFooterDescription = "" ;
-												if($nJumlahNotif > 0){
+												// $nJumlahNotif = sizeof(listNotifSuratMasuk()) ;
+												// $cFooterDescription = "" ;
+												// if($nJumlahNotif > 0){
 													?>
 														<ul class="menu">
 															<?php
 
-																foreach(listNotifSuratMasuk() as $key=>$val){
+																// foreach(listNotifSuratMasuk() as $key=>$val){
 																	?>
-																		<li onClick="openDetailSurat('<?=$val['Kode']?>')"><!-- start message -->
+																		<li onClick="openDetailSurat('<?//=$val['Kode']?>')">start message
 																			<a href="#">
 																				<h4>
-																					<?=$val['Perihal']?>
+																					<?//=$val['Perihal']?>
 																				</h4>
-																				<p><small><i class="fa fa-clock-o"></i> <?=$val['DTDisposisi']?></small></p>
-																				<p>From : <?=$val['Dari']?></p>
+																				<p><small><i class="fa fa-clock-o"></i> <?//=$val['DTDisposisi']?></small></p>
+																				<p>From : <?//=$val['Dari']?></p>
 																			</a>
 																		</li>
 																	<?php
-																}
+																// }
 
 															?>
 														</ul>
 													<?php
-												}else{
-													$cFooterDescription = "Tidak Ada Data" ;
-												}
+												// }else{
+													// $cFooterDescription = "Tidak Ada Data" ;
+												// }
 											?>
 											
 										</li>
 									<li onClick="openAllListSuratMasuk()" class="footer"><a href="#">Lihat Semua</a></li>
 								</ul>
-							</li>
+							</li>-->
 
 							<li class="dropdown messages-menu list-notif-workorder" alt="Work Order">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" alt="Surat Masuk">
