@@ -50,6 +50,7 @@
                 { field: 'Dari', caption: 'Dari', size: '125px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal Input', size: '150px', sortable: false, attr: "align=center"},
                 { field: 'TglDisposisi', caption: 'Tanggal Diteruskan', size: '150px', sortable: false, attr: "align=center"},
+                { field: 'lastterdispo', caption: 'Disposisi Terakhir', size: '150px', sortable: false, attr: "align=center"},
                 { field: 'cmdHistory', caption: 'Opsi', size: '100px', sortable: false},
                 { field: 'cmdPrint', caption: 'Opsi', size: '100px', sortable: false},
             ]

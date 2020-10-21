@@ -26,7 +26,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $search     = $this->escape_like_str($search) ;
         $where 	    = array() ; 
         if($search !== "") $where[]	= "(KodeKaryawan LIKE '{$search}%' OR fullname LIKE '%{$search}%')" ;
-        $where[]    = "Jabatan <= '002'";
+        //$where[]    = "Jabatan <= '002'";
         $where 	    = implode(" AND ", $where) ;
         $dbd        = $this->select("sys_username", "*", $where, "", "", "KodeKaryawan ASC", $limit) ;
         $dba        = $this->select("sys_username", "KodeKaryawan", $where) ;

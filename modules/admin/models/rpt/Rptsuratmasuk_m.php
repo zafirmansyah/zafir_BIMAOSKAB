@@ -8,19 +8,26 @@ class Rptsuratmasuk_m extends Bismillah_Model
 {
 	
     public function loadgrid($va){
-        $cUserName = getsession($this,"KodeKaryawan");
-        $limit    = $va['offset'].",".$va['limit'] ;
-        $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
-        $search   = $this->escape_like_str($search) ;
-        $where 	 = array() ; 
+        $cUserName  = getsession($this,"KodeKaryawan");
+        $limit      = $va['offset'].",".$va['limit'] ;
+        $search	    = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        $search     = $this->escape_like_str($search) ;
+        $where 	    = array() ; 
         /* if(getsession($this,"Jabatan") > "002") */ $where[] = "d.Terdisposisi = '$cUserName' OR d.Pendisposisi = '$cUserName'";
         if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
-        $where 	 = implode(" AND ", $where) ;
-        $join    = "left join surat_masuk_disposisi d on d.Kode=s.Kode";
-        $dbd      = $this->select("surat_masuk s", "s.*,d.Tgl as TglDisposisi, d.Terdisposisi", $where, $join, "s.Kode", "s.Kode DESC", $limit) ;
-        $dba      = $this->select("surat_masuk s", "s.ID", $where, $join) ;
+        $where 	    = implode(" AND ", $where) ;
+        $join       = "left join surat_masuk_disposisi d on d.Kode=s.Kode";
+        $dbd        = $this->select("surat_masuk s", "s.*,d.Tgl as TglDisposisi, d.Terdisposisi", $where, $join, "s.Kode", "s.Kode DESC", $limit) ;
+        $dba        = $this->select("surat_masuk s", "s.ID", $where, $join) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
+    }
+
+    public function loadLastTerdispo($cKode)
+    {
+        $cWhere = "Kode = '$cKode'" ;
+        $dbd    = $this->select("surat_masuk_disposisi", "Terdisposisi", $cWhere,"","","ID DESC") ;
+        return array("db"=>$dbd) ;
     }
 
     public function getDetailSuratMasuk($cKode)

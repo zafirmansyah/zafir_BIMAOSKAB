@@ -39,7 +39,23 @@ class Rptsuratmasuk extends Bismillah_Controller
             $vaset   = $dbr ; 
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
             $vaset['TglDisposisi']  = date_2d($dbr['TglDisposisi']);
-            $vaset['cmdDetail']       = '<a onClick="bos.rptsuratmasuk.cmdDetail(\''.$dbr['Kode'].'\')">'.strtoupper($dbr['Perihal']).'</a>' ;
+
+            $vaset['lastterdispo']  = "";
+            $cKodeSM                = $dbr['Kode'];
+            $vLastTerdispo          = $this->bdb->loadLastTerdispo($cKodeSM) ;
+            $vaDBD                  = $vLastTerdispo['db'] ;
+            if($vaDBR = $this->bdb->getrow($vaDBD)){
+                $cLastTerdisposisi      = $vaDBR['Terdisposisi'];
+                $xLastTerdisposisi      = $this->bdb->getval("fullname","KodeKaryawan = '$cLastTerdisposisi'","sys_username");
+                if(!empty($xLastTerdisposisi)){
+                    $vaset['lastterdispo']  = '<button class="btn btn-warning btn-grid '.$no.'" title="Show History"> '.$xLastTerdisposisi.'</button>' ;
+                    $vaset['lastterdispo']  = html_entity_decode($vaset['lastterdispo']) ;
+                }else{
+                    $vaset['lastterdispo'] = "";
+                }
+            }
+
+            $vaset['cmdDetail']     = '<a onClick="bos.rptsuratmasuk.cmdDetail(\''.$dbr['Kode'].'\')">'.strtoupper($dbr['Perihal']).'</a>' ;
             $vaset['cmdDetail']	    = html_entity_decode($vaset['cmdDetail']) ;
             $vaset['cmdHistory']    = "";
             $vaset['cmdPrint']      = "";
@@ -145,7 +161,13 @@ class Rptsuratmasuk extends Bismillah_Controller
     public function initReport()
     {
         $cKode = $this->input->post('cKode');
-        echo('alert("'.$cKode.'");');
+        echo('
+            Swal.fire({
+                icon: "success",
+                title: "Lembar Disposisi Pejabat Berhasil Dibuat",
+                text: "Download Laporan Pada Link Di Bawah Grid Table"
+            });
+        ');
         $HIS         = date('Ymdhis');
         $pdfFilePath = "./tmp/lksmo_.pdf";
         $cDownloadPath = $pdfFilePath ;
@@ -156,15 +178,6 @@ class Rptsuratmasuk extends Bismillah_Controller
         if($dbRow = $this->bdb->getrow($dbData)){
             $cWhereKode         = "Kode = '$cKode'";
             $cTableChk          = "surat_masuk_lampiran_disposisi" ;
-            /**
-             * 
-                
-                
-                
-             * 
-             */
-
-            // getval($field, $where, $table)
             
             $optTrue    = "&#9635";
             $optFalse   = "&#9634";
