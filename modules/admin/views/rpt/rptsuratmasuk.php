@@ -44,6 +44,12 @@
                 toolbarColumns  : false,
                 lineNumbers    : true,
             },
+            searches: [
+                { field: 's.Perihal', caption: 'Perihal Dokumen', type: 'text' },
+                { field: 's.Dari', caption: 'Dokumen Dari', type: 'text' },
+                { field: 'd.Tgl', caption: 'Tgl Input', type: 'text' },
+                { field: 'd.TglDisposisi', caption: 'Tgl Disposisi', type: 'text' },
+            ],
             multiSearch     : false,
             columns: [
                 { field: 'cmdDetail', caption: 'Perihal Surat', size: '250px', sortable: false},

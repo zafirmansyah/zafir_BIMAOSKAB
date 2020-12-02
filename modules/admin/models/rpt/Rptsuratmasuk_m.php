@@ -10,16 +10,22 @@ class Rptsuratmasuk_m extends Bismillah_Model
     public function loadgrid($va){
         $cUserName  = getsession($this,"KodeKaryawan");
         $limit      = $va['offset'].",".$va['limit'] ;
-        $search	    = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
-        $search     = $this->escape_like_str($search) ;
+        $cSrchField = isset($va['search'][0]['field']) ? $va['search'][0]['field'] : "" ;
+        $cSrchValue = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        
+        $cSrchField     = $this->escape_like_str($cSrchField) ;
+        $cSrchValue     = $this->escape_like_str($cSrchValue) ;
+
+        if($cSrchField == "s.Tgl" || $cSrchField == "d.Tgl") $cSrchValue = date_2s($cSrchValue);
+        
         $where 	    = array() ; 
-        /* if(getsession($this,"Jabatan") > "002") */ $where[] = "d.Terdisposisi = '$cUserName' OR d.Pendisposisi = '$cUserName'";
-        if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
+        $where[] = "(d.Terdisposisi = '$cUserName' OR d.Pendisposisi = '$cUserName')";
+        if($cSrchValue !== "") $where[]	= "{$cSrchField} LIKE '%{$cSrchValue}%'" ;
         $where 	    = implode(" AND ", $where) ;
         $join       = "left join surat_masuk_disposisi d on d.Kode=s.Kode";
         $dbd        = $this->select("surat_masuk s", "s.*,d.Tgl as TglDisposisi, d.Terdisposisi", $where, $join, "s.Kode", "s.Kode DESC", $limit) ;
         $dba        = $this->select("surat_masuk s", "s.ID", $where, $join) ;
-
+        
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
     }
 
