@@ -8,12 +8,16 @@ class Rptm02_prinsip_m extends Bismillah_Model
 {
 	
     public function loadgrid($va){
-        $cKodeKaryawan  = getsession($this,"KodeKaryawan") ;
-        $limit          = $va['offset'].",".$va['limit'] ;
-        $search	        = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
-        $search         = $this->escape_like_str($search) ;
+        $cKodeKaryawan   = getsession($this,"KodeKaryawan") ;
+        $limit           = $va['offset'].",".$va['limit'] ;
+
+        $searchField	 = isset($va['search'][0]['field']) ? $va['search'][0]['field'] : "" ;
+        $searchValue	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        $searchField     = $this->escape_like_str($searchField) ;
+        $searchValue     = $this->escape_like_str($searchValue) ;
+
         $where 	        = array() ; 
-        if($search !== "") $where[]	= "(s.NoSurat LIKE '%{$search}%' OR s.Perihal LIKE '%{$search}%')" ;
+        if($searchValue !== "") $where[]	= "{$searchField} LIKE '%{$searchValue}%'" ; 
         $where[]        = "d.Pendisposisi = '{$cKodeKaryawan}'";
         $where 	        = implode(" AND ", $where) ;
         $orWhere        = " OR d.Terdisposisi = '{$cKodeKaryawan}'" ;

@@ -179,6 +179,10 @@
                 toolbarColumns  : false,
                 lineNumbers    : true,
             },
+            searches: [
+                { field: 'Perihal', caption: 'Perihal Dokumen', type: 'text' },
+                { field: 'NoSurat', caption: 'Nomor Dokumen', type: 'text' }
+            ],
             multiSearch     : false,
             columns: [
                 { field: 'NoSurat', caption: 'Nomor Dokumen', size: '150px', sortable: false},

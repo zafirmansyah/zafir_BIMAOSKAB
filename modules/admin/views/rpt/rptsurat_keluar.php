@@ -142,6 +142,12 @@
                 toolbarColumns  : false,
                 lineNumbers    : true,
             },
+            searches: [
+                { field: 'Perihal', caption: 'Perihal Dokumen', type: 'text' },
+                { field: 'Kepada', caption: 'Ditujukan Kepada', type: 'text' },
+                { field: 'UserName', caption: 'Petugas', type: 'text' },
+                { field: 'Tgl', caption: 'Tanggal Input', type: 'text' },
+            ],
             multiSearch     : false,
             columns: [
                 { field: 'Perihal', caption: 'Perihal', size: '250px', sortable: false},

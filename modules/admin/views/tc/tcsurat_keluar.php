@@ -99,9 +99,7 @@
                 { field: 'NoSurat', caption: 'Nomor Dokumen', type: 'text' },
                 { field: 'Perihal', caption: 'Perihal Dokumen', type: 'text' },
                 { field: 'Kepada', caption: 'Ditujukan Kepada', type: 'text' },
-                // { field: 'JenisSurat', caption: 'Jenis Surat', type: 'text' },
                 { field: 'UserName', caption: 'Petugas', type: 'text' },
-                // { field: 'Unit', caption: 'Unit', type: 'text' },
                 { field: 'Tgl', caption: 'Tanggal Input', type: 'text' },
                 
             ],

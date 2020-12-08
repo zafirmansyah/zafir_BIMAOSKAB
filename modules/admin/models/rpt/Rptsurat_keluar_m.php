@@ -9,9 +9,12 @@ class Rptsurat_keluar_m extends Bismillah_Model
 	
     public function loadgrid($va){
         $limit      = $va['offset'].",".$va['limit'] ;
-        $search	    = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
-        $search     = $this->escape_like_str($search) ;
         
+        $searchField	 = isset($va['search'][0]['field']) ? $va['search'][0]['field'] : "" ;
+        $searchValue	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        $searchField     = $this->escape_like_str($searchField) ;
+        $searchValue     = $this->escape_like_str($searchValue) ;
+
         $where 	    = array() ; 
 
         $dTglAwal   = date_2s($va['dTglAwal']);
@@ -25,7 +28,7 @@ class Rptsurat_keluar_m extends Bismillah_Model
             $cWhereUnit = " AND Unit = '{$optUnit}'" ;
         }
 
-        if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
+        if($searchValue !== "") $where[]	= "{$searchField} LIKE '%{$searchValue}%'" ; 
         $where 	    = implode(" AND ", $where) ;
         $dbd        = $this->select("surat_keluar", "*", $where . $cWhereUnit, "", "", "DateTime DESC, Kode DESC", $limit) ;
         $dba        = $this->select("surat_keluar", "ID", $where . $cWhereUnit) ;

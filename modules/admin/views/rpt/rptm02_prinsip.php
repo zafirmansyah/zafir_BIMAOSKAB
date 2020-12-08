@@ -35,12 +35,15 @@
             postData : this.gridPrinsip_data ,
             header   : 'Daftar Surat Keluar',
             show: {
-                // header      : true,
                 footer      : true,
                 toolbar     : true,
                 toolbarColumns  : false,
                 lineNumbers    : true,
             },
+            searches: [
+                { field: 's.Perihal', caption: 'Perihal Dokumen', type: 'text' },
+                { field: 's.NoSurat', caption: 'Nomor Dokumen', type: 'text' }
+            ],
             multiSearch     : false,
             columns: [
                 { field: 'NoSurat', caption: 'Nomor Dokumen', size: '150px', sortable: false},

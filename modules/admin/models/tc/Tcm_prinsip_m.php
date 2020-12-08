@@ -32,10 +32,15 @@ class Tcm_prinsip_m extends Bismillah_Model
 
     public function loadgrid($va){
         $limit      = $va['offset'].",".$va['limit'] ;
-        $search	    = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
-        $search     = $this->escape_like_str($search) ;
+        
         $where 	    = array() ; 
-        if($search !== "") $where[]	= "(Faktur LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
+        $searchField	 = isset($va['search'][0]['field']) ? $va['search'][0]['field'] : "" ;
+        $searchValue	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        $searchField     = $this->escape_like_str($searchField) ;
+        $searchValue     = $this->escape_like_str($searchValue) ;
+
+        $where 	        = array() ; 
+        if($searchValue !== "") $where[]	= "{$searchField} LIKE '%{$searchValue}%'" ; 
         $where[]    = "Status = '1'";
         $where 	    = implode(" AND ", $where) ;
         $dbd        = $this->select("m02_prinsip", "*", $where, "", "", "Tgl DESC,Faktur DESC", $limit) ;

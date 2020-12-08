@@ -406,6 +406,12 @@
                 lineNumbers    : true,
             },
             multiSearch     : false,
+            searches: [
+                { field: 'NoSurat', caption: 'Nomor Dokumen', type: 'text' },
+                { field: 'Perihal', caption: 'Perihal Dokumen', type: 'text' },
+                { field: 'Dari', caption: 'Dokumen Dari', type: 'text' },
+                { field: 'Tgl', caption: 'Tanggal Input', type: 'text' },
+            ],
             columns: [
                 { field: 'NoSurat', caption: 'Nomor Surat', size: '150px', sortable: false},
                 { field: 'Dari', caption: 'Surat Dari', size: '250px', sortable: false},

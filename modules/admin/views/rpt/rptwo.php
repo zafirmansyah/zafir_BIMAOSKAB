@@ -43,6 +43,9 @@
                 lineNumbers    : true,
             },
             multiSearch     : false,
+            searches: [
+                { field: 'Subject', caption: 'Judul Work Order', type: 'text' },
+            ],
             columns: [
                 { field: 'cmdDetail', caption: 'Judul Work Order', size: '150px', sortable: false},
                 { field: 'UserName', caption: 'User Input WO', size: '100px', sortable: false},
