@@ -13,7 +13,7 @@ class Tciku_master_m extends Bismillah_Model
         $search   = $this->escape_like_str($search) ;
         $where 	 = array() ; 
         if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
-        $where[] = "Status <> 0";
+        // $where[] = "Status <> 0";
         $where 	 = implode(" AND ", $where) ;
         $dbd      = $this->select("iku_master", "*", $where, "", "", "Kode DESC", $limit) ;
         $dba      = $this->select("iku_master", "ID", $where) ;
@@ -55,8 +55,8 @@ class Tciku_master_m extends Bismillah_Model
                                 "Tgl"=>date_2s($va['dTgl']),
                                 "Subject"=>$va['cSubject'],
                                 "Deskripsi"=>$va['cDeskripsi'],
-                                "TujuanUnit"=>$va['optGolonganUnit'],
-                                "Periode"=>$va['cPeriode'],
+                                // "TujuanUnit"=>$va['optGolonganUnit'],
+                                // "Periode"=>$va['cPeriode'],
                                 "UserName"=>$cUserName ,
                                 "DateTime"=>date('Y-m-d H:i:s'),
                                 "Status"=>"1"
@@ -139,12 +139,25 @@ class Tciku_master_m extends Bismillah_Model
 		return $data ;
     }
 
-    public function getFileIKU($cKode)
+    public function getFileKONKIN($cKode)
     {
         $field = "*";
         $where = "Kode = '$cKode'";
         $dbd   = $this->select("iku_master_file", $field, $where) ;
         return $dbd;
+    }
+
+    public function CheckFormStatus($cKode)
+    {
+        $lStatus   = false;
+        $cUserName = getsession($this,'username');
+        $where[]   = "Kode     = " . $this->escape($cKode);
+        $where[]   = "UserName = '$cUserName'";
+        $where     = implode(" AND ", $where);
+        if($d = $this->getval("Kode", $where, "iku_master")){
+            $lStatus = true;
+        }        
+        return $lStatus;
     }
 }
 

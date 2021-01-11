@@ -1,4 +1,6 @@
 <?php 
+
+
 /**
  * 
  */
@@ -6,17 +8,28 @@ class Tciku_form_m extends Bismillah_Model
 {
 	
     public function loadgrid($va){
-        $cUnitUser  = getsession($this,"unit");
+        $limit    = $va['offset'].",".$va['limit'] ;
+        $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        $search   = $this->escape_like_str($search) ;
+        $where 	 = array() ; 
+        if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
+        // $where[] = "Status <> 0";
+        $where 	 = implode(" AND ", $where) ;
+        $dbd      = $this->select("iku_form", "*", $where, "", "", "Kode DESC", $limit) ;
+        $dba      = $this->select("iku_form", "ID", $where) ;
+
+        return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
+    }
+
+    public function loadGridDataUserDisposisi($va){
         $limit      = $va['offset'].",".$va['limit'] ;
         $search	    = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
         $search     = $this->escape_like_str($search) ;
         $where 	    = array() ; 
-        $where[]    = "Status <> 0";
-        if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
-        if(getsession($this,"Jabatan") > "002") $where[] = "TujuanUnit = '$cUnitUser'";
+        if($search !== "") $where[]	= "(KodeKaryawan LIKE '{$search}%' OR fullname LIKE '%{$search}%')" ;
         $where 	    = implode(" AND ", $where) ;
-        $dbd        = $this->select("iku_master", "*", $where, "", "", "Kode DESC", $limit) ;
-        $dba        = $this->select("iku_master", "ID", $where) ;
+        $dbd        = $this->select("sys_username", "*", $where, "", "", "KodeKaryawan ASC", $limit) ;
+        $dba        = $this->select("sys_username", "KodeKaryawan", $where) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
     }
@@ -30,38 +43,23 @@ class Tciku_form_m extends Bismillah_Model
         return $cCIF ;
     }
 
-    public function getDataIKU($cKode)
-    {
-        $vaData = array();
-        $field  = "*";
-        $where  = "Kode = '$cKode'";
-        $dbd    = $this->select("iku_master", $field, $where) ;
-        if($dbr  = $this->bdb->getrow($dbd)){
-            $vaData = $dbr ;
-        }
-        return $vaData;
-    }
-
-    public function getFileIKU($cKode)
-    {
-        $field = "*";
-        $where = "Kode = '$cKode'";
-        $dbd   = $this->select("iku_master_file", $field, $where) ;
-        return $dbd;
-    }
-
     public function saving($va){
 
         //var_dump($va);    
         $cKode = $va['cKode'] ;
+
         $cUserName                 = getsession($this,'username') ;
         
         $this->delete("iku_form", "Kode = '{$cKode}' and UserName = '{$cUserName}'" ) ;
         $vaData         = array("Kode"=>$cKode, 
                                 "Tgl"=>date_2s($va['dTgl']),
+                                "Subject"=>$va['cSubject'],
                                 "Deskripsi"=>$va['cDeskripsi'],
+                                // "TujuanUnit"=>$va['optGolonganUnit'],
+                                // "Periode"=>$va['cPeriode'],
                                 "UserName"=>$cUserName ,
-                                "DateTime"=>date('Y-m-d H:i:s')
+                                "DateTime"=>date('Y-m-d H:i:s'),
+                                "Status"=>"1"
                                 ) ;
         $this->insert("iku_form",$vaData);
         
@@ -78,27 +76,57 @@ class Tciku_form_m extends Bismillah_Model
                         "UserName"=>$cUserName ,
                         "DateTime"=>date('Y-m-d H:i:s')
         ) ;
-        $this->insert("iku_form_file", $vaData) ;
+        $where      = "Kode = " . $this->escape($cKode) ;
+        $this->insert("iku_form_file", $vaData, $where, "") ;
     }
 
-    public function deleteFile($va)
+    public function deleteFile_Old($va)
     {
-        $cUserName = getsession($this,"username");
         $cKode  = $va['cKode'] ;
-        $where = "Kode = '$cKode' AND UserName='$cUserName'" ;
-        $this->delete('iku_form_file',$where);
+        $cWhere = "Kode = '$cKode'" ;
+        $this->delete('iku_form_file',$cWhere);
     }
 
-    public function getDataFormIKU($id){
-        $cUserName = getsession($this,'username');
-        $data      = array() ;
-        $where[]   = "Kode = " . $this->escape($id);
-        $where[]   = "UserName = '$cUserName'";
-        $where 	   = implode(" AND ", $where) ;
-        if($d = $this->getval("*", $where, "iku_form")){
-            $data = $d;
+    public function deleteFile($cID)
+    {
+        
+        $cWhere = "ID = '$cID'" ;
+        $this->delete('iku_form_file',$cWhere);
+    }
+
+    public function getdata($id){
+        $data = array() ;
+        if($d = $this->getval("*", "Kode = " . $this->escape($id), "iku_form")){
+        $data = $d;
         }
         return $data ;
+    }
+
+    public function deleting($id){
+        //$this->delete("iku_form", "Kode = " . $this->escape($id)) ;
+        $vaUpd = array('Status'=>"0");
+        $where = "Kode= " . $this->escape($id);
+        $this->update("iku_form", $vaUpd, $where, "");
+    }
+
+    public function seekGolonganUnit($search)
+    {
+        $cWhere     = array() ; 
+        $cWhere[]   = "Kode <> ''" ;
+        if($search !== "") $cWhere[]   = "(Kode LIKE '%{$search}%' OR Keterangan LIKE '%{$search}%')" ;
+        $cWhere     = implode(" AND ", $cWhere) ;
+        $dbd        = $this->select("golongan_unit", "Kode,Keterangan", $cWhere, "", "", "Kode ASC") ;
+        return array("db"=>$dbd) ;
+    }
+
+    public function SeekJenisSurat($search)
+    {   
+        $cWhere     = array() ; 
+        $cWhere[]   = "Kode <> ''" ;
+        if($search !== "") $cWhere[]   = "(Kode LIKE '%{$search}%' OR Keterangan LIKE '%{$search}%')" ;
+        $cWhere     = implode(" AND ", $cWhere) ;
+        $dbd        = $this->select("jenis_surat", "Kode,Keterangan", $cWhere, "", "", "Kode ASC") ;
+        return array("db"=>$dbd) ;
     }
 
 
@@ -110,6 +138,15 @@ class Tciku_form_m extends Bismillah_Model
 		}
 		return $data ;
     }
+
+    public function getFileKONKIN($cKode)
+    {
+        $field = "*";
+        $where = "Kode = '$cKode'";
+        $dbd   = $this->select("iku_form_file", $field, $where) ;
+        return $dbd;
+    }
+
     public function CheckFormStatus($cKode)
     {
         $lStatus   = false;

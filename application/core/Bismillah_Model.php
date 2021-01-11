@@ -524,8 +524,8 @@ class Bismillah_Model extends CI_Model{
 		$this->AddTable("surat_masuk_lampiran_disposisi",$cSQL);
 		$this->AddField("surat_masuk_lampiran_disposisi","UntukDiperbaiki","char(1)","0","");
 
+		$this->AddField("iku_form","Subject","varchar(255)","","");
 
-		
 
     }
 }

@@ -8,79 +8,140 @@
             <div id="grid1" style="height:500px"></div>
         </div>
         <div class="tab-pane" id="tab_2">
-        <form>
-            <div class="row" style="padding:5px;">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label>Tanggal Penulisan IKU</label>
-                        <div class="col-xs-8 input-group">
-                            <input
-                                type="text" 
-                                class=" form-control date" 
-                                id="dTgl" 
-                                name="dTgl" 
-                                placeholder="dd-mm-yyyy"
-                                required
-                                value=<?=date("d-m-Y")?> <?=date_set()?> 
-                            >
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
+            <div id="previewKONKIN" class="row">
+                <div class="col-sm-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                        <h3 class="box-title">Kode KONKIN : <span id="textKode_IKU"></span></h3>
                         </div>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Judul</label>
-                        <input type="text" name="cSubject" id="cSubject" class="form-control" maxlength="225" placeholder="Judul IKU" required>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Deskripsi</label>
-                        <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" placeholder="Deskripsi Master IKU..."></textarea>                   
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Tujuan Unit</label>
-                        <select class="form-control optGolonganUnit select2" data-sf="load_Kota" name="optGolonganUnit" id="optGolonganUnit" data-placeholder=" - Tujuan Unit - " required></select>
-                    </div>
-                </div>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <label>Periode</label>
-                        <input type="text" name="cPeriode" id="cPeriode" class="form-control" maxlength="225" placeholder="Periode IKU" required>
-                    </div>
-                </div>
-                <div class="col-md-12" id="listFile" style="display:none;">
-                    <label for="">Daftar File</label>
-                    <ul class="mailbox-attachments clearfix" id="areaFileMasterIKU">
-                            
-                    </ul>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Upload File</label>
-                        <div id="idcUplFileIKU">
-                            <input style="width:100%" type="file" class="form-control cUplFileIKU" id="cUplFileIKU" name="cUplFileIKU[]" multiple>
+                        <div class="box-body no-padding">
+                        <div class="mailbox-read-info">
+                            <h3 id="textSubject_IKU"></h3>
+                            <h5>From: <span id="textDari_IKU"></span>
+                            <span class="mailbox-read-time pull-right" id="textDateTime_IKU"></span></h5>
+                        </div>
+                        <div class="mailbox-read-message" id="textDeskripsi_IKU">
+                            <!-- Detail WO -->
+                        </div>
+                        </div>
+                        <div class="box-footer">
+                            <ul class="mailbox-attachments clearfix" id="areaFileIKU">
+                                
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="nNo" id="nNo" value="0">
-            <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
-            <input type="hidden" name="cKode" id="cKode">
-            <input type="hidden" name="cLastPath" id="cLastPath">
-            <button class="btn btn-primary" id="cmdSave">Simpan</button>
-            <button class="btn btn-warning" id="cmdCancel" onClick="bos.tciku_master.init()">Cancel</button>
-        </form>
+            <div id="formKONKIN">
+                <form>
+                    <div class="row" style="padding:5px;">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Tanggal Penulisan KONKIN</label>
+                                <div class="col-xs-8 input-group">
+                                    <input
+                                        type="text" 
+                                        class=" form-control date" 
+                                        id="dTgl" 
+                                        name="dTgl" 
+                                        placeholder="dd-mm-yyyy"
+                                        required
+                                        value=<?=date("d-m-Y")?> <?=date_set()?> 
+                                    >
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label>Judul</label>
+                                <input type="text" name="cSubject" id="cSubject" class="form-control" maxlength="225" placeholder="Judul IKU" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label>Deskripsi</label>
+                                <textarea name="cDeskripsi" id="cDeskripsi" cols="20" rows="10" style="height: 50px;" placeholder="Deskripsi Master IKU..."></textarea>                   
+                            </div>
+                        </div>
+                        <!-- <div class="col-sm-10">
+                            <div class="form-group">
+                                <label>Tujuan Unit</label>
+                                <select class="form-control optGolonganUnit select2" data-sf="load_Kota" name="optGolonganUnit" id="optGolonganUnit" data-placeholder=" - Tujuan Unit - " required></select>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-sm-10">
+                            <div class="form-group">
+                                <label>Periode</label>
+                                <input type="text" name="cPeriode" id="cPeriode" class="form-control" maxlength="225" placeholder="Periode IKU" required>
+                            </div>
+                        </div> -->
+                        <div class="col-md-12" id="listFile" style="display:none;">
+                            <label for="">Daftar File</label>
+                            <ul class="mailbox-attachments clearfix" id="areaFileMasterIKU">
+                                    
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Upload File</label>
+                                <div id="idcUplFileIKU">
+                                    <input style="width:100%" type="file" class="form-control cUplFileIKU" id="cUplFileIKU" name="cUplFileIKU[]" multiple>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="nNo" id="nNo" value="0">
+                    <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
+                    <input type="hidden" name="cKode" id="cKode">
+                    <input type="hidden" name="cLastPath" id="cLastPath">
+                    <button class="btn btn-primary" id="cmdSave">Simpan</button>
+                    <button class="btn btn-warning" id="cmdCancel" onClick="bos.tciku_master.init()">Cancel</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
 <?=cekbosjs();?>
+
+    bos.tciku_master.loadDataFormIKU = function(data){
+        // console.log("data:",data);
+        $("#textKode_IKU").html(data.Kode);
+        $("#textDateTime_IKU").html(data.DateTime);
+        $("#textDari_IKU").html(data.UserName);
+        $("#textSubject_IKU").html(data.Subject);
+        $("#textDeskripsi_IKU").html(data.Deskripsi);
+        bos.tciku_master.loadFileFormIKU(data.File);
+        $("#formKONKIN").hide();
+        $("#previewKONKIN").show();
+    }
+
+    bos.tciku_master.loadFileFormIKU = function(file){ 
+        $("#areaFileIKU").html("");
+        for(var i=0; i<file.length;i++){
+            var cFileName    = file[i].FileName;
+            var cFileNameCut = cFileName.substring(0,20);
+            
+            var $liFileWO         = $('<li class="itemFileWO"></li>');
+            var $spanIconWO       = $('<span class="mailbox-attachment-icon"><i class="fa fa-file-text"></i></span>');
+            var $divFileInfo      = $('<div class="mailbox-attachment-info"></div>');
+            var $aLinkFile        = $('<a href="'+file[i].FilePath+'" class="mailbox-attachment-name" title="'+cFileName+'" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;'+cFileNameCut+'</a>');
+            var $spanDownloadFile = $('<span class="mailbox-attachment-size">'+file[i].FileSize+'</span>');
+            var $aLinkDownload    = $('<a href="'+file[i].FilePath+'" class="btn btn-default btn-xs pull-right" title="Download" download><i class="fa fa-cloud-download"></i></a>');
+            
+            $spanDownloadFile.append($aLinkDownload);
+            $divFileInfo.append($aLinkFile);
+            $divFileInfo.append($spanDownloadFile);
+            $liFileWO.append($spanIconWO);
+            $liFileWO.append($divFileInfo);
+
+            $("#areaFileIKU").append($liFileWO);
+        } 
+    }
 
     bos.tciku_master.loadFileMasterIKU = function(file){
         //console.log("file:",file);        
@@ -167,13 +228,14 @@
             multiSearch     : false,
             columns: [
                 { field: 'Kode', caption: 'Kode', size: '100px', sortable: false},
-                { field: 'Periode', caption: 'Periode', size: '60px', sortable: false},
-                { field: 'TujuanUnit', caption: 'TujuanUnit', size: '250px', sortable: false},
+                // { field: 'Periode', caption: 'Periode', size: '60px', sortable: false},
+                // { field: 'TujuanUnit', caption: 'TujuanUnit', size: '250px', sortable: false},
                 { field: 'Subject', caption: 'Judul', size: '150px', sortable: false},
                 { field: 'Tgl', caption: 'Tanggal', size: '80px', sortable: false},
                 { field: 'UserName', caption: 'Petugas Entry', size: '100px', sortable: false},
-                { field: 'cmdEdit', caption: ' ', size: '80px', sortable: false },
-                { field: 'cmdDelete', caption: ' ', size: '80px', sortable: false }
+                { field: 'cmdEdit', caption: ' ', size: '95px', sortable: false },
+                // { field: 'cmdPreview', caption: ' ', size: '95px', sortable: false },
+                { field: 'cmdDelete', caption: ' ', size: '95px', sortable: false }
             ]
         });
     }
@@ -206,6 +268,10 @@
 
     bos.tciku_master.cmdEdit      = function(id){
         bjs.ajax(this.url + '/editing', 'cKode=' + id);
+    }
+
+    bos.tciku_master.cmdPreview      = function(id){
+        bjs.ajax(this.url + '/preview', 'cKode=' + id);
     }
 
     bos.tciku_master.cmdDelete    = function(id){
@@ -248,6 +314,8 @@
     bos.tciku_master.initComp     = function(){
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
+
+        $('#previewKONKIN').hide() ;
 
         this.initTinyMCE() ;
         this.grid1_loaddata() ;

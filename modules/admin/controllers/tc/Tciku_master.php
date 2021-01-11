@@ -25,14 +25,32 @@ class Tciku_master extends Bismillah_Controller
         $dbd    = $vdb['db'] ;
         while( $dbr = $this->bdb->getrow($dbd) ){
             $vaset   = $dbr ;
+            $vaset['cmdDelete']     = "" ;
+            // $vaset['cmdPreview']    = "" ;
+            $vaset['cmdEdit']    = "" ;
+            
+            $lStatus                = $this->bdb->CheckFormStatus($dbr['Kode']);
+            $btnClass               = ($lStatus == "1") ? "btn-success" : "btn-info";
+            $btnTitle               = ($lStatus == "1") ? "Edit" : "Cek Tiket"; 
+            $btnIcon                = ($lStatus == "1") ? "fa-pencil" : "fa-file-text" ;
+
             $vaset['Tgl']           = date_2d($dbr['Tgl']) ;
             $vaset['TujuanUnit']    = $this->bdb->getval("Keterangan","Kode = '{$dbr['TujuanUnit']}'","golongan_unit");
-            $vaset['cmdEdit']       = '<button type="button" onClick="bos.tciku_master.cmdEdit(\''.$dbr['Kode'].'\')"
-                                        class="btn btn-success btn-grid">Edit</button>' ;
-            $vaset['cmdDelete']     = '<button type="button" onClick="bos.tciku_master.cmdDelete(\''.$dbr['Kode'].'\')"
-                                        class="btn btn-danger btn-grid">Delete</button>' ;
-            $vaset['cmdEdit']	    = html_entity_decode($vaset['cmdEdit']) ;
-            $vaset['cmdDelete']	    = html_entity_decode($vaset['cmdDelete']) ;
+            if($lStatus){
+                $vaset['cmdEdit']       = '<button type="button" onClick="bos.tciku_master.cmdEdit(\''.$dbr['Kode'].'\')"
+                                        class="btn '. $btnClass .' btn-grid"><i class="fa '.$btnIcon.'"></i>&nbsp;'.$btnTitle.'</button>' ;
+            }else{
+                $vaset['cmdEdit']       = '<button type="button" onClick="bos.tciku_master.cmdPreview(\''.$dbr['Kode'].'\')"
+                                            class="btn '. $btnClass .' btn-grid"><i class="fa '.$btnIcon.'"></i>&nbsp;'.$btnTitle.'</button>' ;
+            }
+            
+            if($lStatus){
+                $vaset['cmdDelete']     = '<button type="button" onClick="bos.tciku_master.cmdDelete(\''.$dbr['Kode'].'\')"
+                                        class="btn btn-danger btn-grid"><i class="fa fa-trash-o"></i>&nbsp;Delete</button>' ; 
+            }
+            $vaset['cmdEdit']	        = html_entity_decode($vaset['cmdEdit']) ;
+            $vaset['cmdDelete']	        = html_entity_decode($vaset['cmdDelete']) ;
+            // $vaset['cmdPreview']	    = html_entity_decode($vaset['cmdPreview']) ;
 
             $vare[]		= $vaset ;
         }
@@ -117,10 +135,10 @@ class Tciku_master extends Bismillah_Controller
         $cKode 	    = $va['cKode'] ;
         $data       = $this->bdb->getdata($cKode) ;
         if(!empty($data)){
-            $vaFile         = $this->getFileIKU($cKode);
-            $jsonUnit[] 	= array("id"=>$data['TujuanUnit'],"text"=>$data['TujuanUnit'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['TujuanUnit']}'", "golongan_unit"));
+            $vaFile         = $this->getFileKONKIN($cKode);
+            $jsonUnit[] 	= array("id"=>$data['TujuanUnit'],
+                                    "text"=>$data['TujuanUnit'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['TujuanUnit']}'", "golongan_unit"));
             savesession($this, "ss_tciku_master_", $cKode) ;
-            //print_r($vaFile);
             echo('
                 with(bos.tciku_master.obj){
                     find("#cKode").val("'.$data['Kode'].'") ;
@@ -130,10 +148,39 @@ class Tciku_master extends Bismillah_Controller
                     find("#optGolonganUnit").sval('.json_encode($jsonUnit).') ;
                     find("#dTgl").val("'.date_2d($data['Tgl']).'") ;
                     find(".nav-tabs li:eq(1) a").tab("show") ;
+                    $("#previewKONKIN").hide() ;
                 }
                 bos.tciku_master.loadFileMasterIKU('.json_encode($vaFile).');
             ') ;
             
+        }
+    }
+
+    public function preview(){
+        $va 	            = $this->input->post() ;
+        $cKode 	            = $va['cKode'] ;
+        $vaKONKIN           = $this->bdb->getdata($cKode);
+        $vaKONKIN['File']   = $this->getFileKONKIN($cKode); 
+        //print_r($vaKONKIN);
+        if(!empty($data)){
+            savesession($this, "ss_tciku_master_", $cKode) ;
+            echo('
+                bos.tciku_master.loadDataFormIKU('.json_encode($vaKONKIN).');
+                with(bos.tciku_master.obj){
+                    find("#cKode").val("'.$data['Kode'].'") ;
+                    find("#dTgl").val("'.date_2d($data['Tgl']).'") ;
+                    tinymce.activeEditor.setContent(`'.html_entity_decode($data['Deskripsi']).'`);
+                    find(".nav-tabs li:eq(1) a").tab("show") ;
+                }
+            ') ;
+        }else{
+            echo('
+                bos.tciku_master.loadDataFormIKU('.json_encode($vaKONKIN).');
+                with(bos.tciku_master.obj){
+                    $("#cKode").val("'.$cKode.'") ;
+                    find(".nav-tabs li:eq(1) a").tab("show") ;
+                }
+            ');
         }
     }
 
@@ -217,9 +264,9 @@ class Tciku_master extends Bismillah_Controller
         }
     }
 
-    public function getFileIKU($cKode)
+    public function getFileKONKIN($cKode)
     {
-        $dbData = $this->bdb->getFileIKU($cKode);
+        $dbData = $this->bdb->getFileKONKIN($cKode);
         $vaData = array();
         while($dbr  = $this->bdb->getrow($dbData)){
             $cPathWO     = $dbr['FilePath'];
