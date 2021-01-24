@@ -3,8 +3,16 @@ class Frame extends Bismillah_Controller{
 	public function __construct(){
 		parent::__construct() ;
 		$this->load->helper('bmenu') ;
-		$this->load->model('func/func_m') ;
-		$this->load->model('frame_m');
+        $this->load->model('frame_m');
+
+        // include functions
+        $this->load->model('func/func_m') ;
+        $this->load->model('func/perhitungan_m') ;
+        $this->load->model('func/updtransaksi_m') ;
+
+        $this->func 	        = $this->func_m ;
+        $this->perhitungan_m 	    = $this->perhitungan_m ;
+        $this->updtransaksi_m 	= $this->updtransaksi_m ;
 	}
 
 	public function index(){
