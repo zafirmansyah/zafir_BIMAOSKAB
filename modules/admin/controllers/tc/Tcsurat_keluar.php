@@ -84,9 +84,9 @@ class Tcsurat_keluar extends Bismillah_Controller
             savesession($this, "ss_suratkeluar_", $cKode) ;
             echo('
                 with(bos.tcsurat_keluar.obj){
-                find(".nav-tabs li:eq(1) a").tab("show") ;
-                find("#cKode").val("'.$data['Kode'].'").prop("readonly", true); 
-                find("#cKeterangan").val("'.$data['Keterangan'].'").focus() ;
+                    find(".nav-tabs li:eq(1) a").tab("show") ;
+                    find("#cKode").val("'.$data['Kode'].'").prop("readonly", true); 
+                    find("#cKeterangan").val("'.$data['Keterangan'].'").focus() ;
                 }
             ') ;
         }

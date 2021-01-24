@@ -13,7 +13,7 @@ class Tciku_master_m extends Bismillah_Model
         $search   = $this->escape_like_str($search) ;
         $where 	 = array() ; 
         if($search !== "") $where[]	= "(Kode LIKE '{$search}%' OR Perihal LIKE '%{$search}%')" ;
-        // $where[] = "Status <> 0";
+        $where[] = "Status <> 0";
         $where 	 = implode(" AND ", $where) ;
         $dbd      = $this->select("iku_master", "*", $where, "", "", "Kode DESC", $limit) ;
         $dba      = $this->select("iku_master", "ID", $where) ;

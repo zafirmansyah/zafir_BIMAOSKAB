@@ -189,6 +189,13 @@ class Bismillah_Model extends CI_Model{
         }
 	}
 	
+
+	public function getLastFaktur($key,$dTgl,$l=true,$length){
+        $dTgl 		= date_2t($dTgl);
+        $k       	= $key . date("ymd",$dTgl) ;  
+        $sisalength = $length - strlen($k);
+        return $k . $this->getincrement($k, $l, $sisalength) ; 
+    }
 	
 
     public function CheckDatabase(){
@@ -526,7 +533,116 @@ class Bismillah_Model extends CI_Model{
 
 		$this->AddField("iku_form","Subject","varchar(255)","","");
 
+		$cSQL = "CREATE TABLE `psbi_lokasi`  (
+					`ID` int(3) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+					`Keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("psbi_lokasi",$cSQL);
+		
+		$cSQL = "CREATE TABLE `psbi_mutasi`  (
+					`ID` int(9) NOT NULL AUTO_INCREMENT,
+					`Faktur` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`GolonganPSBI` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Rekening` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Tgl` date NULL DEFAULT NULL,
+					`Status` char(1) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Debet` double(16, 2) NULL DEFAULT NULL,
+					`Kredit` double(16, 2) NULL DEFAULT NULL,
+					`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;" ;
+		$this->AddTable("psbi_mutasi",$cSQL);
+		
+		$cSQL = "CREATE TABLE `psbi_golongan`  (
+					`ID` int(3) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+					`Keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+					`Rekening` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddField("psbi_golongan","Rekening","char(255)","","");
 
+
+		$cSQL = "CREATE TABLE `rekening_coa`  (
+					`ID` int(5) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Group` char(1) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("rekening_coa",$cSQL);
+
+		$cSQL = "CREATE TABLE `psbi_komunikasi`  (
+					`ID` int(5) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Tgl` date NULL DEFAULT NULL,
+					`NamaProgram` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`UnitKerja` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`LatarBelakangKegiatan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Tujuan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`WaktuPelaksanaan` date NULL DEFAULT NULL,
+					`Narasumber` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Peserta` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`PersepsiStakeHolder` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`PenggunaanAnggaran` double(16, 2) NULL DEFAULT NULL,
+					`DampakOutput` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Saluran` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DateTime` datetime(0) NULL DEFAULT NULL,
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;" ;
+		$this->AddTable("psbi_komunikasi",$cSQL);
+
+		$cSQL = "CREATE TABLE `psbi_mutasi_anggaran`  (
+					`ID` int(9) NOT NULL AUTO_INCREMENT,
+					`Faktur` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`GolonganPSBI` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Rekening` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Tgl` date NULL DEFAULT NULL,
+					`Status` char(1) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Debet` double(16, 2) NULL DEFAULT NULL,
+					`Kredit` double(16, 2) NULL DEFAULT NULL,
+					`UserName` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DateTime` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("psbi_mutasi_anggaran",$cSQL);
+
+		$cSQL = "CREATE TABLE `psbi_realisasi`  (
+					`ID` int(11) NOT NULL AUTO_INCREMENT,
+					`Kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`NomorRekap` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`WaktuKegiatan` date NULL DEFAULT NULL,
+					`NamaKegiatan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`PenerimaManfaat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`TujuanManfaat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`RuangLingkup` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+					`NilaiPengajuan` double(16, 2) NULL DEFAULT NULL,
+					`LokasiKegiatan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DetailLokasi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`PesertaPartisipan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`Permasalahan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+					`TanggalProposal` date NULL DEFAULT NULL,
+					`NomorSuratProposal` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`JenisBantuan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`DetailBantuan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`KodeM02Persetujuan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`TanggalPersetujuan` date NULL DEFAULT NULL,
+					`TanggalRealisasi` date NULL DEFAULT NULL,
+					`Vendor` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`PIC` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`GolonganPSBI` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+					`NilaiRealisasi` double(16, 2) NULL DEFAULT NULL,
+					PRIMARY KEY (`ID`) USING BTREE
+				) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("psbi_realisasi",$cSQL);
+
+		
     }
 }
 ?>

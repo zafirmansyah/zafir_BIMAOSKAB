@@ -1,8 +1,100 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
+        <li class="disabled"><a href="#tab_0" data-toggle="tab" aria-expanded="true">Filter</a></li>
         <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Data</a></li>
     </ul>
     <div class="tab-content">
+        <div class="tab-pane" id="tab_0">
+            <form>
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Tanggal Realisasi Awal</label>
+                                        <div class="col-xs-12 input-group">
+                                            <input
+                                                type="text" 
+                                                class=" form-control date" 
+                                                id="dTglAwal" 
+                                                name="dTglAwal" 
+                                                placeholder="dd-mm-yyyy"
+                                                required
+                                                value=<?=date("d-m-Y")?> <?=date_set()?> 
+                                            >
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Tanggal Realisasi Akhir</label>
+                                        <div class="col-xs-12 input-group">
+                                            <input
+                                                type="text" 
+                                                class=" form-control date" 
+                                                id="dTglAkhir" 
+                                                name="dTglAkhir" 
+                                                placeholder="dd-mm-yyyy"
+                                                required
+                                                value=<?=date("d-m-Y")?> <?=date_set()?> 
+                                            >
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Golongan PSBI</label>
+                                        <div class="col-md-12">
+                                            <div class="col-sm-4">
+                                                <label>
+                                                    <input type="radio" name="optFilterUnit" id="optFilterUnit1" onclick="bos.rptpsbi_realisasi.selectFilterGolonganPSBI('A')" value="A" checked>
+                                                    All
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>
+                                                    <input type="radio" name="optFilterUnit" id="optFilterUnit2" onclick="bos.rptpsbi_realisasi.selectFilterGolonganPSBI('P')" value="P">
+                                                    Per Golongan PSBI
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-12" id="divSelectGolonganPSBI">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Golongan PSBI</label>
+                                        <select class="form-control optGolonganPSBI select2" data-sf="load_Kota" name="optGolonganPSBI" id="optGolonganPSBI" data-placeholder=" - Golongan PSBI - "></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="col-md-6">
+                        <input type="text" name="cMetodeGolPSBI" id="cMetodeGolPSBI">
+                        <button class="btn btn-info pull-right" id="cmdRefresh">Preview Data</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="tab-pane active full-height" id="tab_1">
             <div id="grid1" style="height:700px"></div>
         </div>
@@ -13,7 +105,12 @@
 
     bos.rptpsbi_realisasi.grid1_data    = null ;
     bos.rptpsbi_realisasi.grid1_loaddata= function(){
-        this.grid1_data      = {} ;
+        this.grid1_data      = {
+            "dTglAwal"        : $("#dTglAwal").val(),
+            "dTglAkhir"       : $("#dTglAkhir").val(),
+            "cMetodeGolPSBI"  : $("#cMetodeGolPSBI").val(),
+            "optGolonganPSBI" : $("#optGolonganPSBI").val()
+        } ;
     }
 
     bos.rptpsbi_realisasi.grid1_load    = function(){
@@ -36,15 +133,44 @@
                 { field: 'NamaKegiatan', caption: 'Nama Kegiatan', type: 'text' },
                 { field: 'TanggalRealisasi', caption: 'Tgl Realisasi', type: 'text' },
             ],
+            columnGroups: [
+                { caption: '', master: true },
+                { caption: 'LAPORAN DEWAN KOMISARIS', span: 9 },
+                { caption: 'DETAIL PROPOSAL', span: 4 },
+                { caption: 'PERSETUJUAN M.02', span: 7 }
+            ],
             columns: [
-                { field: 'Kode', caption: 'Kode Faktur', size: '150px', sortable: false },
-                { field: 'Tgl', caption: 'Tanggal Realisasi', size: '120px', sortable: false },
-                { field: 'NamaKegiatan', caption: 'Keterangan', size: '250px', sortable: false },
-                { field: 'Golongan', caption: 'Golongan PSBI', size: '100px', sortable: false },
-                { field: 'NilaiPengajuan', caption: 'Saldo Pengajuan', size: '150px', render: 'int', sortable: false },
-                { field: 'NilaiRealisasi', caption: 'Saldo Realisasi', size: '150px', render: 'int', sortable: false },
-                { field: 'cmdEdit', caption: ' ', size: '80px', sortable: false },
-                { field: 'cmdDelete', caption: ' ', size: '80px', sortable: false }
+                { field: 'Kode' , caption: 'Kode Faktur', size: '150px', sortable: false},
+                
+                // Laporan DKOM START
+                { field: 'WaktuKegiatan' , caption: 'Tanggal Kegiatan', size: '150px', sortable: false},
+                { field: 'NamaKegiatan' , caption: 'Nama Kegiatan', size: '150px', sortable: false},
+                { field: 'PenerimaManfaat' , caption: 'Penerima Manfaat *)', size: '150px', sortable: false },
+                { field: 'TujuanManfaat' , caption: 'Tujuan & Manfaat *)', size: '150px', sortable: false },
+                { field: 'RuangLingkup' , caption: 'Ruang Lingkup *)', size: '150px', sortable: false },
+                { field: 'NilaiPengajuan', render: 'int' , caption: 'Pengajuan Bantuan (Total)', size: '150px', sortable: false },
+                { field: 'LokasiKegiatan' , caption: 'Lokasi', size: '150px', sortable: false },
+                { field: 'DetailLokasi' , caption: 'Detail Lokasi', size: '150px', sortable: false },
+                { field: 'PesertaPartisipan' , caption: 'Keikutsertaan/ Partisipasi Lembaga Lain', size: '150px', sortable: false },
+                { field: 'Permasalahan' , caption: 'Permasalahan / Kendala yang Dihadapi', size: '150px', sortable: false },
+                // LAPORAN DKOM END
+
+                // DETAIL PROPOSAL
+                { field: 'TanggalProposal' , caption: 'Tanggal Proposal', size: '150px', sortable: false },
+                { field: 'NomorSuratProposal' , caption: 'Nomor Surat', size: '150px', sortable: false },
+                { field: 'JenisBantuan' , caption: 'Jenis Bantuan yang Diajukan', size: '150px', sortable: false },
+                { field: 'DetailBantuan' , caption: 'Detail Jenis Bantuan', size: '150px', sortable: false },
+                // DETAIL PROPOSAL
+
+                // DETAIL M02
+                { field: 'KodeM02Persetujuan' , caption: 'Nomor Surat M.02', size: '150px', sortable: false },
+                { field: 'TanggalPersetujuan' , caption: 'Tanggal Persetujuan', size: '150px', sortable: false },
+                { field: 'TanggalRealisasi' , caption: 'Tanggal Realisasi', size: '150px', sortable: false },
+                { field: 'Vendor' , caption: 'Vendor (Apabila Pembelian Barang)', size: '150px', sortable: false },
+                { field: 'UserName' , caption: 'PIC', size: '150px', sortable: false },
+                { field: 'GolonganPSBI' , caption: 'Golongan PSBI', size: '150px', sortable: false },
+                { field: 'NilaiRealisasi', render: 'int' , caption: 'Nilai Realisasi', size: '150px', sortable: false },
+                // DETAIL M02
             ]
         });
     }
@@ -76,17 +202,28 @@
     }
 
     bos.rptpsbi_realisasi.initComp     = function(){
-        $('.numberthousand').divide({delimiter: ',',divideThousand: true});
+        $('#cMetodeGolPSBI').val("A");
         this.grid1_loaddata() ;
         this.grid1_load() ;
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
+        $('.numberthousand').divide({delimiter: ',',divideThousand: true});
+        $("#divSelectGolonganPSBI").css("display","none") ;
     }
 
     bos.rptpsbi_realisasi.initCallBack = function(){
         this.obj.on('remove', function(){
             bos.rptpsbi_realisasi.grid1_destroy() ;
         }) ;
+    }
+
+    bos.rptpsbi_realisasi.selectFilterGolonganPSBI = function(par){
+        $("#cMetodeGolPSBI").val(par);
+        if(par === 'P'){
+            $("#divSelectGolonganPSBI").css("display","block") ;
+        }else{
+            $("#divSelectGolonganPSBI").css("display","none") ;
+        }
     }
 
     bos.rptpsbi_realisasi.cmdsave       = bos.rptpsbi_realisasi.obj.find("#cmdsave") ;
@@ -100,6 +237,15 @@
         this.obj.find(".nav li.disabled a").click(function() {
             return false;
         });
+
+        this.obj.find("#cmdRefresh").on("click", function(){
+            alert("mashok");
+        }) ; 
+    }
+
+    bos.rptpsbi_realisasi.showDataGridTab = function(){
+        this.obj.find(".nav-tabs li:eq(1)").removeClass("disabled");   
+        this.obj.find(".nav-tabs li:eq(1) a").tab("show") ; 
     }
 
     $('#optGolonganPSBI').select2({

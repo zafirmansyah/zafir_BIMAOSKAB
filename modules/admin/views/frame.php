@@ -269,6 +269,7 @@
 		<script type="text/javascript" src="<?=base_url('bismillah/datatables/datatables.net/js/jquery.dataTables.min.js')?>"></script>
 		<script type="text/javascript" src="<?=base_url('bismillah/datatables/datatables.net-bs/js/dataTables.bootstrap.min.js')?>"></script>
 		<script type="text/javascript" src="<?=base_url('bismillah/tinymce/js/tinymce/tinymce.min.js')?>"></script>
+		<script type="text/javascript" src="<?=base_url('bismillah/thousandSeparator/number-divider.js')?>"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 		<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 
