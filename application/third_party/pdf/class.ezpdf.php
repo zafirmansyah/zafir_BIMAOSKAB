@@ -1106,7 +1106,7 @@ function ezTable(&$data,$cols='',$title='',$options=''){
 
   if (!is_array($cols)){
     reset($data);
-    list($k,$v)=each($data);
+    list($k,$v)=$this->mdtEach($data);
     if (!is_array($v)) return;
     $cols=array();
     foreach($v as $k1=>$v1){
@@ -1800,6 +1800,13 @@ function ezSetTextNumber($cText,$nPlusTop=0,$cPos='right',$nFont=8){
   $nTop       = $this->ez['bottomMargin'] + $nPlusTop;
 
   $this->addText($nLeft-$nWidth,$nTop,$nFont,$cText) ;
+}
+
+function mdtEach(&$arr) {
+  $key = key($arr);
+  $result = ($key === null) ? false : [$key, current($arr), 'key' => $key, 'value' => current($arr)];
+  next($arr);
+  return $result;
 }
 }
 ?>
