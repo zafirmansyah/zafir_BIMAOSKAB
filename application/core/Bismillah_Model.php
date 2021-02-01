@@ -564,6 +564,8 @@ class Bismillah_Model extends CI_Model{
 					`Rekening` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
+		$this->AddTable("psbi_golongan",$cSQL);
+
 		$this->AddField("psbi_golongan","Rekening","char(255)","","");
 
 
@@ -641,8 +643,8 @@ class Bismillah_Model extends CI_Model{
 					PRIMARY KEY (`ID`) USING BTREE
 				) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("psbi_realisasi",$cSQL);
+		$this->AddField("psbi_realisasi","Tgl","date","0000-00-00","");
 
-		
     }
 }
 ?>

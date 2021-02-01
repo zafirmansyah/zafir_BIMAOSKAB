@@ -7,11 +7,29 @@ class Perhitungan_m extends Bismillah_Model{
     {
       $nSaldo = 0; 
       $cTable = "psbi_realisasi" ;
-      $cWhere = "LokasiKegiatan" ;
+      $cWhere = "LokasiKegiatan = '$cKodeLokasi'" ;
       $cField = "SUM('NilaiRealisasi') AS Saldo" ;
       $dbData = $this->select($cTable,$cField,$cWhere) ;
       if($dbR = $this->getrow($dbData)){
         $nSaldo = $dbR['Saldo'] ;
+      }
+      return $nSaldo ;
+    }
+
+    function getSaldoAnggaran($cGolongan,$dTgl='0000-00-00')
+    {
+      $nSaldo = 0; 
+      $vaTgl  = explode("-",$dTgl) ;
+      $dAwalTahun = $vaTgl[0] . "-01-01" ;
+      $cTable = "psbi_mutasi_anggaran" ;
+      $cWhere = "GolonganPSBI = '$cGolongan' AND Tgl >= '$dAwalTahun' AND  Tgl <= '$dTgl'" ;
+      // echo $cWhere ; exit() ;
+      $cField = "SUM(Debet) AS SaldoDebet, SUM(Kredit) AS SaldoKredit" ;
+      $dbData = $this->select($cTable,$cField,$cWhere) ;
+      if($dbR = $this->getrow($dbData)){
+        $nSaldoDebet = $dbR['SaldoDebet'] ;
+        $nSaldoKredit = $dbR['SaldoKredit'] ;
+        $nSaldo = $nSaldoDebet - $nSaldoKredit ;
       }
       return $nSaldo ;
     }
