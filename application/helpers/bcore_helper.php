@@ -50,7 +50,7 @@
          l    = location file
          va   = data
       */
-      $dir    = $o->config->item('sess_save_path') . $t . "/" ;
+      $dir    = $o->config->item('sess_save_path') . '/'. $t . "/" ;
       @mkdir($dir,0777,true) ;
       $file   = $dir . md5($l . json_encode($va) ) . ".bismillah";
       @unlink($file) ;
