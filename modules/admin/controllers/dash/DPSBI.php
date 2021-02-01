@@ -1,17 +1,18 @@
 <?php
 class dPSBI extends Bismillah_Controller{
     private $bdb;
+    // private $func;
+    
     public function __construct(){
         parent::__construct() ;
         $this->load->model("dash/DPSBI_m") ;
         $this->load->model("func/perhitungan_m") ;
-        // $this->load->model("func/updtransaksi_m") ;
 
         $this->load->helper('bdate') ;
         $this->load->helper('bsite') ;
 
         $this->bdb    = $this->DPSBI_m ;
-        // $this->func   = $this->perhitungan_m ;
+        $this->func   = $this->perhitungan_m ;
         
     }
 
