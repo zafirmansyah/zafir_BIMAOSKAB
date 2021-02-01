@@ -15,18 +15,11 @@ class Rptpsbi_komunikasi_m extends Bismillah_Model
         $searchField     = $this->escape_like_str($searchField) ;
         $searchValue     = $this->escape_like_str($searchValue) ;
 
-        // $dTglAwal             = date_2s($va['dTglAwal']);
-        // $dTglAkhir            = date_2s($va['dTglAkhir']);
-        // $cMetodeGolPSBI       = $va['cMetodeGolPSBI'];
-        // $optGolonganPSBI      = $va['optGolonganPSBI'];
+        $dTglAwal             = date_2s($va['dTglAwal']);
+        $dTglAkhir            = date_2s($va['dTglAkhir']);
         
-        // $where[]                 = "WaktuPelaksanaan >= '{$dTglAwal}' AND WaktuPelaksanaan <= '{$dTglAkhir}'" ;
-        // $cWhereGolonganPSBI      = "" ;
-        // if($cMetodeGolPSBI !== "A"){
-        //     $cWhereGolonganPSBI = " AND GolonganPSBI = '{$optGolonganPSBI}'" ;
-        // }
-
-        $where 	        = array() ; 
+        $where[]                 = "WaktuPelaksanaan >= '{$dTglAwal}' AND WaktuPelaksanaan <= '{$dTglAkhir}'" ;
+        
         if($searchValue !== "") $where[]	= "{$searchField} LIKE '%{$searchValue}%'" ; 
         $where 	    = implode(" AND ", $where) ;
         $dbd        = $this->select("psbi_komunikasi", "*", $where, "", "", "WaktuPelaksanaan DESC", $limit) ;

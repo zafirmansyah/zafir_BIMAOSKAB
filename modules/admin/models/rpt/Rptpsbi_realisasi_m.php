@@ -17,6 +17,7 @@ class Rptpsbi_realisasi_m extends Bismillah_Model
 
         $dTglAwal             = date_2s($va['dTglAwal']);
         $dTglAkhir            = date_2s($va['dTglAkhir']);
+        // echo $dTglAwal ;
         $cMetodeGolPSBI       = $va['cMetodeGolPSBI'];
         $optGolonganPSBI      = $va['optGolonganPSBI'];
         
@@ -26,10 +27,15 @@ class Rptpsbi_realisasi_m extends Bismillah_Model
             $cWhereGolonganPSBI = " AND GolonganPSBI = '{$optGolonganPSBI}'" ;
         }
 
-        $where 	        = array() ; 
         if($searchValue !== "") $where[]	= "{$searchField} LIKE '%{$searchValue}%'" ; 
         $where 	    = implode(" AND ", $where) ;
-        $dbd        = $this->select("psbi_realisasi", "*", $where . $cWhereGolonganPSBI, "", "", "TanggalRealisasi DESC", $limit) ;
+        $cFields    = "Kode,WaktuKegiatan,NamaKegiatan,PenerimaManfaat,TujuanManfaat,RuangLingkup,NilaiPengajuan,
+                        LokasiKegiatan,DetailLokasi,PesertaPartisipan,Permasalahan,TanggalProposal,NomorSuratProposal,JenisBantuan,
+                        DetailBantuan,KodeM02Persetujuan,TanggalPersetujuan,TanggalRealisasi,Vendor,PIC AS UserName,GolonganPSBI,NilaiRealisasi,
+                        'SaldoReguler',
+                        'SaldoTematik',
+                        'SaldoBeasiswa'" ;
+        $dbd        = $this->select("psbi_realisasi", $cFields, $where . $cWhereGolonganPSBI, "", "", "Tgl ASC", $limit) ;
         $dba        = $this->select("psbi_realisasi", "ID", $where . $cWhereGolonganPSBI) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;

@@ -1,11 +1,11 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <li class="disabled"><a href="#tab_0" data-toggle="tab" aria-expanded="true">Filter</a></li>
-        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Data</a></li>
+        <li class="active"><a href="#tab_0" data-toggle="tab" aria-expanded="true">Filter</a></li>
+        <li class="disabled"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Data</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane" id="tab_0">
-            <form>
+        <div class="tab-pane active" id="tab_0">
+            <!-- <form> -->
                 <div class="box-body">
                     <div class="col-md-6">
                         <div class="row">
@@ -68,7 +68,6 @@
                                                     Per Golongan PSBI
                                                 </label>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -84,18 +83,32 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                &nbsp;
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Export Report</label>
+                                        <select name="export" id="export" class="form-control select" style="width:100%" 
+                                            data-sf="load_export" data-placeholder="PDF" required></select>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
                 <div class="box-footer">
                     <div class="col-md-6">
-                        <input type="text" name="cMetodeGolPSBI" id="cMetodeGolPSBI">
+                        <input type="hidden" name="cMetodeGolPSBI" id="cMetodeGolPSBI">
+                        <input type="hidden" name="cExportRpt" id="cExportRpt" value="F">
                         <button class="btn btn-info pull-right" id="cmdRefresh">Preview Data</button>
                     </div>
                 </div>
-            </form>
+            <!-- </form> -->
         </div>
-        <div class="tab-pane active full-height" id="tab_1">
+        <div class="tab-pane full-height" id="tab_1">
             <div id="grid1" style="height:700px"></div>
         </div>
     </div>
@@ -109,7 +122,8 @@
             "dTglAwal"        : $("#dTglAwal").val(),
             "dTglAkhir"       : $("#dTglAkhir").val(),
             "cMetodeGolPSBI"  : $("#cMetodeGolPSBI").val(),
-            "optGolonganPSBI" : $("#optGolonganPSBI").val()
+            "optGolonganPSBI" : $("#optGolonganPSBI").val(),
+            "cExportRpt"      : $("#export").val()
         } ;
     }
 
@@ -137,8 +151,23 @@
                 { caption: '', master: true },
                 { caption: 'LAPORAN DEWAN KOMISARIS', span: 9 },
                 { caption: 'DETAIL PROPOSAL', span: 4 },
-                { caption: 'PERSETUJUAN M.02', span: 7 }
+                { caption: 'PERSETUJUAN M.02', span: 7 },
+                { caption: '', master: true },
+                { caption: '', master: true },
+                { caption: '', master: true },
+                { caption: '', master: true }
+
             ],
+            toolbar: {
+                items: [
+                    { id: 'xpt', type: 'button', caption: '<b>Download Exported Report</b>',   img: 'icon-page'}
+                ],
+                onClick: function (event) {
+                    if (event.target == 'xpt') {
+                        bos.rptpsbi_realisasi.rptExport() ;
+                    }
+                }
+            },
             columns: [
                 { field: 'Kode' , caption: 'Kode Faktur', size: '150px', sortable: false},
                 
@@ -171,6 +200,11 @@
                 { field: 'GolonganPSBI' , caption: 'Golongan PSBI', size: '150px', sortable: false },
                 { field: 'NilaiRealisasi', render: 'int' , caption: 'Nilai Realisasi', size: '150px', sortable: false },
                 // DETAIL M02
+
+                { field: 'SaldoReguler' , render: 'int' , caption: 'Saldo Reguler',size: '150px', sortable: false },
+                { field: 'SaldoTematik' , render: 'int' , caption: 'Saldo Tematik', size: '150px', sortable: false },
+                { field: 'SaldoBeasiswa', render: 'int' , caption: 'Saldo Beasiswa', size: '150px', sortable: false },
+
             ]
         });
     }
@@ -203,6 +237,9 @@
 
     bos.rptpsbi_realisasi.initComp     = function(){
         $('#cMetodeGolPSBI').val("A");
+        bjs.initselect({
+			class : "#" + this.id + " .select"
+		}) ;
         this.grid1_loaddata() ;
         this.grid1_load() ;
         bjs.initenter(this.obj.find("form")) ;
@@ -226,10 +263,14 @@
         }
     }
 
+    bos.rptpsbi_realisasi.selectExportRpt = function(par){
+        $("#cExportRpt").val(par);
+    }
+
     bos.rptpsbi_realisasi.cmdsave       = bos.rptpsbi_realisasi.obj.find("#cmdsave") ;
     bos.rptpsbi_realisasi.initFunc     = function(){
         this.obj.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            if($(e.target).parent().index() == 0){//load grid
+            if($(e.target).parent().index() == 1){//load grid
                 bos.rptpsbi_realisasi.grid1_reloaddata() ;
             }
         });
@@ -237,15 +278,20 @@
         this.obj.find(".nav li.disabled a").click(function() {
             return false;
         });
-
-        this.obj.find("#cmdRefresh").on("click", function(){
-            alert("mashok");
-        }) ; 
     }
+
+    bos.rptpsbi_realisasi.obj.find("#cmdRefresh").on("click", function(){ 
+        bos.rptpsbi_realisasi.showDataGridTab() ;
+	}) ; 
 
     bos.rptpsbi_realisasi.showDataGridTab = function(){
         this.obj.find(".nav-tabs li:eq(1)").removeClass("disabled");   
         this.obj.find(".nav-tabs li:eq(1) a").tab("show") ; 
+        bos.rptpsbi_realisasi.grid1_reloaddata() ;
+    }
+
+    bos.rptpsbi_realisasi.rptExport = function(){
+        bjs.form_report( this.base_url + '/initReport') ;
     }
 
     $('#optGolonganPSBI').select2({

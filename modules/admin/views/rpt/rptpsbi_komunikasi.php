@@ -1,18 +1,18 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <li class="disabled"><a href="#tab_0" data-toggle="tab" aria-expanded="true">Filter</a></li>
-        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Data</a></li>
+        <li class="active"><a href="#tab_0" data-toggle="tab" aria-expanded="true">Filter</a></li>
+        <li class="disabled"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Data</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane" id="tab_0">
-            <form>
+        <div class="tab-pane active" id="tab_0">
+            <!-- <form> -->
                 <div class="box-body">
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>Tanggal Realisasi Awal</label>
+                                        <label>Tanggal Pelaksanaan Awal</label>
                                         <div class="col-xs-12 input-group">
                                             <input
                                                 type="text" 
@@ -33,7 +33,7 @@
                             <div class="col-md-6">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>Tanggal Realisasi Akhir</label>
+                                        <label>Tanggal Pelaksanaan Akhir</label>
                                         <div class="col-xs-12 input-group">
                                             <input
                                                 type="text" 
@@ -51,51 +51,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label>Golongan PSBI</label>
-                                        <div class="col-md-12">
-                                            <div class="col-sm-4">
-                                                <label>
-                                                    <input type="radio" name="optFilterUnit" id="optFilterUnit1" onclick="bos.rptpsbi_komunikasi.selectFilterGolonganPSBI('A')" value="A" checked>
-                                                    All
-                                                </label>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>
-                                                    <input type="radio" name="optFilterUnit" id="optFilterUnit2" onclick="bos.rptpsbi_komunikasi.selectFilterGolonganPSBI('P')" value="P">
-                                                    Per Golongan PSBI
-                                                </label>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                &nbsp;
-                            </div>
-                            <div class="col-md-12" id="divSelectGolonganPSBI">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label>Golongan PSBI</label>
-                                        <select class="form-control optGolonganPSBI select2" data-sf="load_Kota" name="optGolonganPSBI" id="optGolonganPSBI" data-placeholder=" - Golongan PSBI - "></select>
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Export Report</label>
+                                <select name="export" id="export" class="form-control select" style="width:100%" 
+                                    data-sf="load_export" data-placeholder="PDF" required></select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="box-footer">
                     <div class="col-md-6">
-                        <input type="text" name="cMetodeGolPSBI" id="cMetodeGolPSBI">
+                        <input type="hidden" name="cExportRpt" id="cExportRpt" value="F">
                         <button class="btn btn-info pull-right" id="cmdRefresh">Preview Data</button>
                     </div>
                 </div>
-            </form>
+            <!-- </form> -->
         </div>
-        <div class="tab-pane active full-height" id="tab_1">
+        <div class="tab-pane full-height" id="tab_1">
             <div id="grid1" style="height:700px"></div>
         </div>
     </div>
@@ -108,8 +84,7 @@
         this.grid1_data      = {
             "dTglAwal"        : $("#dTglAwal").val(),
             "dTglAkhir"       : $("#dTglAkhir").val(),
-            "cMetodeGolPSBI"  : $("#cMetodeGolPSBI").val(),
-            "optGolonganPSBI" : $("#optGolonganPSBI").val()
+            "cExportRpt"      : $("#export").val()
         } ;
     }
 
@@ -133,6 +108,16 @@
                 { field: 'NamaKegiatan', caption: 'Nama Kegiatan', type: 'text' },
                 { field: 'TanggalRealisasi', caption: 'Tgl Realisasi', type: 'text' },
             ],
+            toolbar: {
+                items: [
+                    { id: 'xpt', type: 'button', caption: '<b>Download Exported Report</b>',   img: 'icon-page'}
+                ],
+                onClick: function (event) {
+                    if (event.target == 'xpt') {
+                        bos.rptpsbi_komunikasi.rptExport() ;
+                    }
+                }
+            },
             columnGroups: [
                 { span: 1, caption: '', master: true },
                 { span: 1, caption: '', master: true },
@@ -197,6 +182,9 @@
         this.grid1_load() ;
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
+        bjs.initselect({
+			class : "#" + this.id + " .select"
+		}) ;
         $('.numberthousand').divide({delimiter: ',',divideThousand: true});
         $("#divSelectGolonganPSBI").css("display","none") ;
     }
@@ -216,6 +204,10 @@
         }
     }
 
+    bos.rptpsbi_komunikasi.selectExportRpt = function(par){
+        $("#cExportRpt").val(par);
+    }
+
     bos.rptpsbi_komunikasi.cmdsave       = bos.rptpsbi_komunikasi.obj.find("#cmdsave") ;
     bos.rptpsbi_komunikasi.initFunc     = function(){
         this.obj.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -229,13 +221,27 @@
         });
 
         this.obj.find("#cmdRefresh").on("click", function(){
-            alert("mashok");
+            bos.rptpsbi_komunikasi.showDataGridTab() ;
         }) ; 
+    }
+
+    bos.rptpsbi_komunikasi.rptExport = function(){
+        // var cExport = $('#cExportRpt').val()
+        // if(cExport === "F"){
+        //     Swal.fire({
+        //         icon: "error",
+        //         title: "Export CSV Tidak Tersedia",
+        //         html: "Untuk Export ke CSV Silahkan Pilih Opsi di Tab Filter"
+        //     });
+        // }else{
+            bjs.form_report( this.base_url + '/initReport') ;
+        // }
     }
 
     bos.rptpsbi_komunikasi.showDataGridTab = function(){
         this.obj.find(".nav-tabs li:eq(1)").removeClass("disabled");   
         this.obj.find(".nav-tabs li:eq(1) a").tab("show") ; 
+        bos.rptpsbi_komunikasi.grid1_reloaddata();
     }
 
     $('#optGolonganPSBI').select2({
