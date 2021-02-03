@@ -1,6 +1,6 @@
 <?php
 (defined('BASEPATH')) OR exit('No direct script access allowed');
-require APPPATH ."third_party/excel/phpexcel.php";
+require APPPATH ."third_party/excel/PHPExcel.php";
 require APPPATH ."third_party/pdf/class.ezpdf.php";
 
 class bospdf extends Cezpdf{

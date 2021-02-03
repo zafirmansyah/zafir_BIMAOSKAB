@@ -18,13 +18,13 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Tanggal Realisasi</label>
+                            <label>Tanggal Entry</label>
                             <div class="col-xs-8 input-group">
                                 <input
                                     type="text" 
                                     class=" form-control date" 
-                                    id="dTglKegiatan" 
-                                    name="dTglKegiatan" 
+                                    id="dTgl" 
+                                    name="dTgl" 
                                     placeholder="dd-mm-yyyy"
                                     required
                                     value=<?=date("d-m-Y")?> <?=date_set()?> 
@@ -48,8 +48,8 @@
                                 <input
                                     type="text" 
                                     class=" form-control date" 
-                                    id="dTgl" 
-                                    name="dTgl" 
+                                    id="dTglKegiatan" 
+                                    name="dTglKegiatan" 
                                     placeholder="dd-mm-yyyy"
                                     required
                                     value=<?=date("d-m-Y")?> <?=date_set()?> 
@@ -127,8 +127,8 @@
                                 <input
                                     type="text" 
                                     class=" form-control date" 
-                                    id="dTglKegiatan" 
-                                    name="dTglKegiatan" 
+                                    id="dTglProposal" 
+                                    name="dTglProposal" 
                                     placeholder="dd-mm-yyyy"
                                     required
                                     value=<?=date("d-m-Y")?> <?=date_set()?> 
@@ -149,6 +149,12 @@
                         <div class="form-group">
                             <label>Jenis Bantuan</label>
                             <input type="text" name="cJenisBantuan" id="cJenisBantuan" class="form-control" maxlength="225" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Detail Bantuan</label>
+                            <input type="text" name="cDetailBantuan" id="cDetailBantuan" class="form-control" maxlength="225">
                         </div>
                     </div>
                     <div class="col-sm-12">
@@ -180,6 +186,25 @@
                         <div class="form-group">
                             <label>Vendor</label>
                             <input type="text" name="cVendor" id="cVendor" class="form-control" maxlength="225">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Tanggal Realisasi</label>
+                            <div class="col-xs-8 input-group">
+                                <input
+                                    type="text" 
+                                    class=" form-control date" 
+                                    id="dTglRealisasi" 
+                                    name="dTglRealisasi" 
+                                    placeholder="dd-mm-yyyy"
+                                    required
+                                    value=<?=date("d-m-Y")?> <?=date_set()?> 
+                                >
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -304,6 +329,7 @@
         this.obj.find('#cPermasalahan').val("");
         this.obj.find('#dTglKegiatan').val("");
         this.obj.find('#cNoSuratProposal').val("");
+        this.obj.find('#cDetailBantuan').val("");
         this.obj.find('#cJenisBantuan').val("");
         this.obj.find('#cKodeM02').val("");
         this.obj.find('#dTglM02').val("");
