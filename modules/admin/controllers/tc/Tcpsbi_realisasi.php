@@ -143,6 +143,7 @@ class Tcpsbi_realisasi extends Bismillah_Controller
                     find("#cPermasalahan").val("'.$data['Permasalahan'].'");
                     find("#cNoSuratProposal").val("'.$data['NomorSuratProposal'].'");
                     find("#cJenisBantuan").val("'.$data['JenisBantuan'].'");
+                    find("#cDetailBantuan").val("'.$data['DetailBantuan'].'");
                     find("#cKodeM02").val("'.$data['KodeM02Persetujuan'].'");
                     find("#dTglM02").val("'.date_2d($data['TanggalPersetujuan']).'");
                     find("#cVendor").val("'.$data['Vendor'].'");

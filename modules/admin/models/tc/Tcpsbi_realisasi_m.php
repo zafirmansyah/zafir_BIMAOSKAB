@@ -18,7 +18,7 @@ class Tcpsbi_realisasi_m extends Bismillah_Model
         $where 	        = array() ; 
         if($searchValue !== "") $where[]	= "{$searchField} LIKE '%{$searchValue}%'" ; 
         $where 	    = implode(" AND ", $where) ;
-        $dbd        = $this->select("psbi_realisasi", "*", $where, "", "", "TanggalRealisasi DESC", $limit) ;
+        $dbd        = $this->select("psbi_realisasi", "*", $where, "", "", "TanggalRealisasi ASC", $limit) ;
         $dba        = $this->select("psbi_realisasi", "ID", $where) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
@@ -51,11 +51,12 @@ class Tcpsbi_realisasi_m extends Bismillah_Model
 
     public function saveData($va)
     {   
-        $this->updtransaksi_m->updRealisasiPSBI($va['cKode'],$va['dTglKegiatan'],$va['optGolonganPSBI'],$va['dTgl'],$va['cNamaKegiatan'],
-                                                $va['cPenerimaManfaat'],$va['cTujuanManfaat'],$va['cRuangLingkup'],$va['nPengajuan'],
-                                                $va['optLokasiPSBI'],$va['cDetailLokasi'],$va['cPesertaPartisipan'],
-                                                $va['cPermasalahan'],$va['cNoSuratProposal'],$va['cJenisBantuan'],
-                                                $va['cKodeM02'],$va['dTglM02'],$va['cVendor'],$va['nRealisasi']) ;
+        $this->updtransaksi_m->updRealisasiPSBI($va['cKode'],$va['dTgl'],$va['optGolonganPSBI'],$va['dTglKegiatan'],
+                                                $va['cNamaKegiatan'],$va['cPenerimaManfaat'],$va['cTujuanManfaat'],
+                                                $va['cRuangLingkup'],$va['nPengajuan'],$va['optLokasiPSBI'],$va['cDetailLokasi'],
+                                                $va['cPesertaPartisipan'],$va['cPermasalahan'],$va['dTglProposal'],
+                                                $va['cNoSuratProposal'],$va['cJenisBantuan'],$va['cDetailBantuan'],
+                                                $va['cKodeM02'],$va['dTglM02'],$va['cVendor'],$va['dTglRealisasi'],$va['nRealisasi']) ;
         return "OK" ;
     }
 

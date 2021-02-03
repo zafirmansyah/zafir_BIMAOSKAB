@@ -26,13 +26,16 @@ class Updtransaksi_m extends Bismillah_Model{
 
         if($lUpdMutasiAnggaran) $this->updMutasiPSBI($cFaktur,'psbi_mutasi_anggaran');
     }
-    public function updRealisasiPSBI($cFaktur,$dTglKegiatan,$optGolonganPSBI,$dTgl,$cNamaKegiatan,
-                                    $cPenerimaManfaat,$cTujuanManfaat,$cRuangLingkup,$nPengajuan,$optLokasiPSBI,$cDetailLokasi,
-                                    $cPesertaPartisipan,$cPermasalahan,$cNoSuratProposal,$cJenisBantuan,$cKodeM02,$dTglM02,$cVendor,$nRealisasi,$lUpdMutasiRealisasi=true)
+    public function updRealisasiPSBI($cKode,$dTgl,$optGolonganPSBI,$dTglKegiatan,$cNamaKegiatan,$cPenerimaManfaat,$cTujuanManfaat,$cRuangLingkup,
+                                    $nPengajuan,$optLokasiPSBI,$cDetailLokasi,$cPesertaPartisipan,$cPermasalahan,$dTglProposal,$cNoSuratProposal,
+                                    $cJenisBantuan,$cDetailBantuan,$cKodeM02,$dTglM02,$cVendor,$dTglRealisasi,$nRealisasi,$cUsername='',$lUpdMutasiRealisasi=true)
+                                    
     {
-        $vaArray = array("Kode"=>$cFaktur,
-                            "GolonganPSBI"=>$optGolonganPSBI,
-                            "TanggalRealisasi"=>date_2s($dTgl),
+        $cDateTime  = date("Y-m-d H:i:s") ;
+        if($cUsername == "") $cUsername  = getsession($this, "username") ;
+        $vaArray = array("Kode"=>$cKode,
+                            "NomorRekap"=>"",
+                            "WaktuKegiatan"=>date_2s($dTglKegiatan),
                             "NamaKegiatan"=>$cNamaKegiatan,
                             "PenerimaManfaat"=>$cPenerimaManfaat,
                             "TujuanManfaat"=>$cTujuanManfaat,
@@ -42,17 +45,22 @@ class Updtransaksi_m extends Bismillah_Model{
                             "DetailLokasi"=>$cDetailLokasi,
                             "PesertaPartisipan"=>$cPesertaPartisipan,
                             "Permasalahan"=>$cPermasalahan,
-                            "WaktuKegiatan"=>date_2s($dTglKegiatan),
-                            "NomorSuratProposal"=>$cNoSuratProposal ,
+                            "TanggalProposal"=>date_2s($dTglProposal),
+                            "NomorSuratProposal"=>$cNoSuratProposal,
                             "JenisBantuan"=>$cJenisBantuan,
+                            "DetailBantuan"=>$cDetailBantuan,
                             "KodeM02Persetujuan"=>$cKodeM02,
                             "TanggalPersetujuan"=>date_2s($dTglM02),
+                            "TanggalRealisasi"=>date_2s($dTglRealisasi),
                             "Vendor"=>$cVendor,
-                            "NilaiRealisasi"=>$nRealisasi) ;
-        $this->update("psbi_realisasi",$vaArray,"Kode = '{$cFaktur}'");
+                            "PIC"=>$cUsername,
+                            "GolonganPSBI"=>$optGolonganPSBI,
+                            "NilaiRealisasi"=>$nRealisasi,
+                            "Tgl"=>date_2s($dTgl)) ;
+        $this->update("psbi_realisasi",$vaArray,"Kode = '{$cKode}'");
 
         if($lUpdMutasiRealisasi){
-            $this->updMutasiPSBI($cFaktur,'psbi_realisasi');
+            $this->updMutasiPSBI($cKode,'psbi_realisasi');
         }
     }
 
