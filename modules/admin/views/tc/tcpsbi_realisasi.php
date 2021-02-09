@@ -38,7 +38,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Golongan PSBI</label>
-                            <select class="form-control optGolonganPSBI select2" data-sf="load_Kota" name="optGolonganPSBI" id="optGolonganPSBI" data-placeholder=" - Jenis Dokumen - "></select>
+                            <select class="form-control optGolonganPSBI select2" name="optGolonganPSBI" id="optGolonganPSBI" data-placeholder=" - Jenis Dokumen - "></select>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -110,7 +110,7 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label>Peserta Partisipan</label>
+                            <label>Jumlah Anggota Kelompok</label>
                             <input type="text" name="cPesertaPartisipan" id="cPesertaPartisipan" class="form-control" maxlength="225">
                         </div>
                     </div>
@@ -148,7 +148,26 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Jenis Bantuan</label>
-                            <input type="text" name="cJenisBantuan" id="cJenisBantuan" class="form-control" maxlength="225" required>
+                            <div class="col-md-12">
+                                <div class="col-sm-4">
+                                    <label>
+                                        <input type="radio" name="optJenisBantuan" id="optJenisBantuan1" onclick="bos.tcpsbi_realisasi.selectJenisBantuan('D')" value="Dana" checked>
+                                        Dana
+                                    </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>
+                                        <input type="radio" name="optJenisBantuan" id="optJenisBantuan2" onclick="bos.tcpsbi_realisasi.selectJenisBantuan('B')" value="Barang">
+                                        Barang
+                                    </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>
+                                        <input type="radio" name="optJenisBantuan" id="optJenisBantuan3" onclick="bos.tcpsbi_realisasi.selectJenisBantuan('DB')" value="Dana dan Barang">
+                                        Dana & Barang
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-12">
@@ -159,7 +178,7 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label>Kode M02 Persetujuan</label>
+                            <label>Nomor M02 Persetujuan</label>
                             <input type="text" name="cKodeM02" id="cKodeM02" class="form-control" maxlength="225" required>
                         </div>
                     </div>
@@ -182,7 +201,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div id="divVendor" class="col-sm-12">
                         <div class="form-group">
                             <label>Vendor</label>
                             <input type="text" name="cVendor" id="cVendor" class="form-control" maxlength="225">
@@ -344,6 +363,7 @@
         this.grid1_load() ;
         bjs.initenter(this.obj.find("form")) ;
         bjs.initdate("#" + this.id + " .date") ;
+        $("#divVendor").css("display","none") ;
     }
 
     bos.tcpsbi_realisasi.initCallBack = function(){
@@ -377,6 +397,15 @@
         this.obj.find(".nav li.disabled a").click(function() {
             return false;
         });
+    }
+
+    bos.tcpsbi_realisasi.selectJenisBantuan = function(par){
+        // $("#cMetodeUK").val(par);
+        if(par === 'B' || par === 'DB'){
+            $("#divVendor").css("display","block") ;
+        }else{
+            $("#divVendor").css("display","none") ;
+        }
     }
 
     $('#optGolonganPSBI').select2({
