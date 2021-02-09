@@ -55,7 +55,7 @@ class Tcpsbi_realisasi_m extends Bismillah_Model
                                                 $va['cNamaKegiatan'],$va['cPenerimaManfaat'],$va['cTujuanManfaat'],
                                                 $va['cRuangLingkup'],$va['nPengajuan'],$va['optLokasiPSBI'],$va['cDetailLokasi'],
                                                 $va['cPesertaPartisipan'],$va['cPermasalahan'],$va['dTglProposal'],
-                                                $va['cNoSuratProposal'],$va['cJenisBantuan'],$va['cDetailBantuan'],
+                                                $va['cNoSuratProposal'],$va['optJenisBantuan'],$va['cDetailBantuan'],
                                                 $va['cKodeM02'],$va['dTglM02'],$va['cVendor'],$va['dTglRealisasi'],$va['nRealisasi']) ;
         return "OK" ;
     }
