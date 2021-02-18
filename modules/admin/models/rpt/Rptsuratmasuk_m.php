@@ -8,6 +8,7 @@ class Rptsuratmasuk_m extends Bismillah_Model
 {
 	
     public function loadgrid($va){
+        $cKodeKaryawan  = getsession($this,"KodeKaryawan");
         $cUserName  = getsession($this,"KodeKaryawan");
         $limit      = $va['offset'].",".$va['limit'] ;
         $cSrchField = isset($va['search'][0]['field']) ? $va['search'][0]['field'] : "" ;
@@ -17,11 +18,11 @@ class Rptsuratmasuk_m extends Bismillah_Model
         $cSrchValue     = $this->escape_like_str($cSrchValue) ;
 
         if($cSrchField == "s.Tgl" || $cSrchField == "d.Tgl") $cSrchValue = date_2s($cSrchValue);
-        
         $where 	    = array() ; 
-        $where[] = "(d.Terdisposisi = '$cUserName' OR d.Pendisposisi = '$cUserName')";
+        $where[] = "(d.Terdisposisi = '$cKodeKaryawan' OR d.Pendisposisi = '$cKodeKaryawan')";
         if($cSrchValue !== "") $where[]	= "{$cSrchField} LIKE '%{$cSrchValue}%'" ;
         $where 	    = implode(" AND ", $where) ;
+        if($cUserName == "asda" || $cUserName == "super") $where = "" ;
         $join       = "left join surat_masuk_disposisi d on d.Kode=s.Kode";
         $dbd        = $this->select("surat_masuk s", "s.*,d.Tgl as TglDisposisi, d.Terdisposisi", $where, $join, "s.Kode", "s.Kode DESC", $limit) ;
         $dba        = $this->select("surat_masuk s", "s.ID", $where, $join) ;
