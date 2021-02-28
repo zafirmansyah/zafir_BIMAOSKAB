@@ -16,9 +16,9 @@ class Tcsurat_masuk_m extends Bismillah_Model
         
         if($searchField == "Tgl") $searchValue = date_2s($searchValue);
         
-        $where 	 = array() ; 
+        $where 	  = array() ; 
         if($searchValue !== "") $where[]	= "{$searchField} LIKE '%{$searchValue}%'" ;
-        $where 	 = implode(" AND ", $where) ;
+        $where 	  = implode(" AND ", $where) ;
         $dbd      = $this->select("surat_masuk", "*", $where, "", "", "Kode DESC", $limit) ;
         $dba      = $this->select("surat_masuk", "ID", $where) ;
         
@@ -147,7 +147,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
                 </html>
             ";
             
-            mail($cReceiverEmail,$subjectMail,$message,$headers);
+            //mail($cReceiverEmail,$subjectMail,$message,$headers);
         }        
 
         // Trigger Notifikasi Ke Masing2 Terdisposisi
@@ -189,6 +189,12 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $cKode  = $va['cKode'] ;
         $cUserName  = getsession($this,"username");
         $cWhere = "Kode = '$cKode' AND UserName='$cUserName'" ;
+        $this->delete('surat_masuk_file',$cWhere);
+    }
+
+    public function deleteFile_perID($cID)
+    {
+        $cWhere = "ID = '$cID'" ;
         $this->delete('surat_masuk_file',$cWhere);
     }
 
@@ -257,6 +263,14 @@ class Tcsurat_masuk_m extends Bismillah_Model
         $field = "*";
         $where = "Kode = '$cKode'";
         $dbd   = $this->select("surat_masuk", $field, $where) ;
+        return $dbd;
+    }
+
+    public function getFileSuratMasuk($cKode)
+    {
+        $field = "*";
+        $where = "Kode = '$cKode'";
+        $dbd   = $this->select("surat_masuk_file", $field, $where) ;
         return $dbd;
     }
 }

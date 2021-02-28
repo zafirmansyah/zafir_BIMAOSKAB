@@ -149,6 +149,7 @@
             ],
             columnGroups: [
                 { caption: '', master: true },
+                { caption: '', master: true },
                 { caption: 'LAPORAN DEWAN KOMISARIS', span: 9 },
                 { caption: 'DETAIL PROPOSAL', span: 4 },
                 { caption: 'PERSETUJUAN M.02', span: 7 },
@@ -169,6 +170,7 @@
                 }
             },
             columns: [
+                { field: 'NoRekap' , caption: 'No. Rekap', size: '150px', sortable: false},
                 { field: 'Kode' , caption: 'Kode Faktur', size: '150px', sortable: false},
                 
                 // Laporan DKOM START

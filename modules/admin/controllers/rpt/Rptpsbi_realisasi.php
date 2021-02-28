@@ -41,13 +41,16 @@ class Rptpsbi_realisasi extends Bismillah_Controller
                         "SaldoReguler"=>$nNilaiAnggaranReguler,"SaldoTematik"=>$nNilaiAnggaranTematik,"SaldoBeasiswa"=>$nNilaiAnggaranBeasiswa ) ;
         $vdb    = $this->bdb->loadgrid($va) ;
         $dbd    = $vdb['db'] ;
+        $n      = 0 ;
         while( $dbr = $this->bdb->getrow($dbd) ){
+            $n++ ;
             $dbr['SaldoReguler']        = 0 ;
             $dbr['SaldoTematik']        = 0 ;
             $dbr['SaldoBeasiswa']       = 0 ;
             $vaset                      = $dbr ;
             $cGolonganPSBI              = $this->bdb->getval("Keterangan","Kode = '{$dbr['GolonganPSBI']}'","psbi_golongan") ;
             $cLokasiPSBI                = $this->bdb->getval("Keterangan","Kode = '{$dbr['LokasiKegiatan']}'","psbi_lokasi") ;
+            $vaset['NoRekap']           = $n ;
             $vaset['GolonganPSBI']      = $cGolonganPSBI ;
             $vaset['LokasiKegiatan']    = $cLokasiPSBI ;
             $vaset['Tgl']               = date_2d($dbr['TanggalRealisasi']) ;

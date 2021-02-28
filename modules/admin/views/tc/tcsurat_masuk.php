@@ -123,6 +123,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12" id="listFile" style="display:none;">
+                                <label for="">Daftar File</label>
+                                <ul class="mailbox-attachments clearfix" id="areaFileSuratMasuk">
+                                    
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane lembar-disposisi" id="tab_form_2">
@@ -765,6 +771,69 @@
             }
         }) ;
         
+    }
+
+    bos.tcsurat_masuk.loadFileSuratMasuk = function(file){
+        //console.log("file:",file);        
+        $("#areaFileSuratMasuk").html("");
+        for(var i=0; i<file.length;i++){
+            var id           = file[i].ID;
+            var cFileName    = file[i].FileName;
+            var cFileNameCut = cFileName.substring(0,20);
+            var cFilePath    = file[i].FilePath;
+            var cFileSize    = file[i].FileSize;
+
+            var $liFileWO         = $('<li class="itemFileWO"></li>');
+            var $spanIconWO       = $('<span class="mailbox-attachment-icon"><i class="fa fa-file-text"></i></span>');
+            var $aDeleteFile      = $('<a href="#" onclick="bos.tcsurat_masuk.deleteFile('+id+')" style="float: right;margin: 5px;color: red;font-size:20px;" title="Hapus File?"><i class="fa fa-trash"></i></a>');
+            var $divFileInfo      = $('<div class="mailbox-attachment-info"></div>');
+            var $aLinkFile        = $('<a href="'+cFilePath+'" class="mailbox-attachment-name" title="'+cFileName+'" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;'+cFileNameCut+'</a>');
+            var $spanDownloadFile = $('<span class="mailbox-attachment-size">'+cFileSize+'</span>');
+            var $aLinkDownload    = $('<a href="'+cFilePath+'" class="btn btn-default btn-xs pull-right" title="Download" download><i class="fa fa-cloud-download"></i></a>');
+            
+            $spanDownloadFile.append($aLinkDownload);
+            $divFileInfo.append($aLinkFile);
+            $divFileInfo.append($spanDownloadFile);
+            $liFileWO.append($aDeleteFile);
+            $liFileWO.append($spanIconWO);
+            $liFileWO.append($divFileInfo);
+
+            $("#areaFileSuratMasuk").append($liFileWO);
+        } 
+        if(file.length > 0) $("#listFile").css("display","block");
+    }
+
+    bos.tcsurat_masuk.deleteFile = function(id){
+        bos.tcsurat_masuk.showSwalConfirm("Apakah Anda Yakin?","Anda akan menghapus file ini","warning","/deleteFile","cID="+id);
+    }
+
+    bos.tcsurat_masuk.showSwalConfirm = function(title,msg,icon,func='',params=''){
+        Swal.fire({
+            title: title,
+            text: msg,
+            icon: icon,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Saya yakin!',
+            cancelButtonText: 'Batal!'
+        }).then((result) => {
+            if (result.value) {
+                if(func !== "" && params !== ""){
+                    bjs.ajax(this.url + func, params);
+                }else{
+                    bos.tcsurat_masuk.showSwalInfo("Data Saved!","","success");
+                }
+            }
+        });
+    }
+
+    bos.tcsurat_masuk.showSwalInfo = function(title,msg='',icon){
+        Swal.fire({
+            title: title,
+            text: msg,
+            icon: icon,
+        });
     }
 
     $('.optJenisSurat').select2({

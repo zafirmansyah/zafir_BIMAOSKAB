@@ -24,9 +24,13 @@ class Tcpsbi_realisasi extends Bismillah_Controller
         $vare   = array() ;
         $vdb    = $this->bdb->loadgrid($va) ;
         $dbd    = $vdb['db'] ;
+        $n      = 0 ;
         while( $dbr = $this->bdb->getrow($dbd) ){
             $vaset                  = $dbr ;
+            $n++  ;
+            
             $cGolonganPSBI          = $this->bdb->getval("Keterangan","Kode = '{$dbr['GolonganPSBI']}'","psbi_golongan") ;
+            $vaset['NoRekap']       = $n ;
             $vaset['Golongan']      = $cGolonganPSBI ;
             $vaset['Tgl']           = date_2d($dbr['TanggalRealisasi']) ;
             // $vaset['Saldo']         = $dbr['Debet'] ;
