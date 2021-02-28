@@ -3,8 +3,7 @@
         <div class="col-sm-23">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Total Pencairan Selama Tahun <?=date('Y')?></h3>
-                    
+                    <h3 class="box-title">Total Pencairan Selama Tahun <?=date('Y')?></h3><br>                    
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>

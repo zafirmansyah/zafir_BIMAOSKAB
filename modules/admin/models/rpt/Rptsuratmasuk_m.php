@@ -9,10 +9,10 @@ class Rptsuratmasuk_m extends Bismillah_Model
 	
     public function loadgrid($va){
         $cKodeKaryawan  = getsession($this,"KodeKaryawan");
-        $cUserName  = getsession($this,"KodeKaryawan");
-        $limit      = $va['offset'].",".$va['limit'] ;
-        $cSrchField = isset($va['search'][0]['field']) ? $va['search'][0]['field'] : "" ;
-        $cSrchValue = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+        $cUserName      = getsession($this,"username");
+        $limit          = $va['offset'].",".$va['limit'] ;
+        $cSrchField     = isset($va['search'][0]['field']) ? $va['search'][0]['field'] : "" ;
+        $cSrchValue     = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
         
         $cSrchField     = $this->escape_like_str($cSrchField) ;
         $cSrchValue     = $this->escape_like_str($cSrchValue) ;

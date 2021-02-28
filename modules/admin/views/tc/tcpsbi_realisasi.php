@@ -284,6 +284,7 @@
                 }
             },
             columns: [
+                { field: 'NoRekap', caption: 'Nomor Rekap', size: '20px', sortable: false },
                 { field: 'Kode', caption: 'Kode Faktur', size: '150px', sortable: false },
                 { field: 'Tgl', caption: 'Tanggal Realisasi', size: '120px', sortable: false },
                 { field: 'NamaKegiatan', caption: 'Keterangan', size: '250px', sortable: false },

@@ -94,7 +94,7 @@ class Tcsurat_masuk extends Bismillah_Controller
         $va['FilePath'] = ""; 
         $dir            = "" ;
         if(!empty($upload)){
-            $this->bdb->deleteFile($va) ;
+            // $this->bdb->deleteFile($va) ;
             foreach ($upload as $key => $value) {
                 if(!empty($value)){
                     foreach ($value as $tkey => $tval) {
@@ -134,6 +134,7 @@ class Tcsurat_masuk extends Bismillah_Controller
         if(!empty($data)){
             $lampiran = array();
             $lampiran = $this->bdb->getDataLampiran($cKode);
+            $vaFile   = $this->getFileSuratMasuk($cKode);
             unset($lampiran['ID']);
             unset($lampiran['Kode']);
         
@@ -152,8 +153,10 @@ class Tcsurat_masuk extends Bismillah_Controller
                     tinymce.activeEditor.setContent("'.$data['Deskripsi'].'");
                     $("#cLastPath").val("'.$data['Path'].'") ;
                     find(".nav-tabs li:eq(1) a").tab("show") ;
-                    bos.tcsurat_masuk.gridDisposisi_reload() ;
                 }
+                bos.tcsurat_masuk.gridDisposisi_reload() ;
+                bos.tcsurat_masuk.loadFileSuratMasuk('.json_encode($vaFile).');
+
             ') ;
 
             //Show data lampiran disposisi            
@@ -250,7 +253,7 @@ class Tcsurat_masuk extends Bismillah_Controller
             if ( ! $this->upload->do_upload("file") ){
                 echo('
                     alert("'. $this->upload->display_errors('','') .'") ;
-                    bos.tcmsurat_masuk.obj.find("#idcUplFile").html("") ;
+                    bos.tcsurat_masuk.obj.find("#idcUplFile").html("") ;
                 ') ;
             }else{
                 $data       = $this->upload->data() ;
@@ -259,8 +262,8 @@ class Tcsurat_masuk extends Bismillah_Controller
                 $vFile[$i]  = array( $tname => $data['full_path']) ;
                 savesession($this, "sstcmsurat_masuk_cUplFile", $vFile ) ;
                 echo('
-                    //bos.tcmsurat_masuk.obj.find("#idcUplFile").html("") ;
-                    //bos.config.obj.find("#idcUplFile").html("<p>Data Uploaded<p>") ;
+                    // bos.idcUplFile.obj.find("#idcUplFile").html("") ;
+                    // bos.config.obj.find("#idcUplFile").html("<p>Data Uploaded<p>") ;
                 ') ;
             }
         }
@@ -269,7 +272,10 @@ class Tcsurat_masuk extends Bismillah_Controller
     public function initReport()
     {
         $cKode = $this->input->post('cKode');
-        echo('alert("'.$cKode.'");');
+        echo('
+            bos.tcsurat_masuk.showSwalInfo("Proses Cetak Lampiran","Lampiran sudah selesai di proses, silahkan download pada url dibawah data table","info") ;
+            // alert("'.$cKode.'");
+        ');
         $HIS         = date('Ymdhis');
         $pdfFilePath = "./tmp/lksmo_.pdf";
         $cDownloadPath = $pdfFilePath ;
@@ -833,6 +839,44 @@ class Tcsurat_masuk extends Bismillah_Controller
                 bos.tcsurat_masuk.obj.find('#downloadLink').html('<a href=".$pdfFilePath." target=`_blank` class=`btn btn-md btn-success`>Download your document here [".$cKode."] </b></a>') ;
             ");
         }
+    }
+
+    public function getFileSuratMasuk($cKode)
+    {
+        $dbData = $this->bdb->getFileSuratMasuk($cKode);
+        $vaData = array();
+        while($dbr  = $this->bdb->getrow($dbData)){
+            $cPathWO     = $dbr['FilePath'];
+            $cFileSize   = "0.00";
+            $cNamaFileWO = "File Not Found";
+            if(file_exists($cPathWO)){
+                $nFileSize      = filesize($cPathWO);
+                $vaPathWO       = explode("/",$cPathWO);
+                $cNamaFileWO    = end($vaPathWO); 
+                $cFileSize      = formatSizeUnits($nFileSize);
+            }
+            $dbr['FileSize'] = $cFileSize;
+            $dbr['FileName'] = $cNamaFileWO;
+            $vaData[] = $dbr;
+        }        
+        return $vaData;
+    }
+
+    public function deleteFile()
+    {
+        $va 	= $this->input->post() ;
+        $cID    = $va['cID'];
+        //echo($cID);
+        $this->bdb->deleteFile_perID($cID);
+
+        echo(' 
+            Swal.fire({
+                icon: "success",
+                title: "File Deleted!",
+            });
+
+            bos.tcsurat_masuk.init() ;    
+        ') ;
     }
 }
 

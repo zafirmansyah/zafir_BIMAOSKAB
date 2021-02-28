@@ -42,7 +42,7 @@ class Username_m extends Bismillah_Model{
 
     public function GetKodeKaryawan()
     {
-        $nYear      = date('Y') ;
+        $nYear      = "2020" ;
         $cKey  		= "OFFICER" . $nYear;
         $n    		= $this->getincrement($cKey,true,4);
         $cCIF    	= $n ;
