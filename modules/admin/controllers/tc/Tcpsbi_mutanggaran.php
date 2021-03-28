@@ -78,4 +78,11 @@ class Tcpsbi_mutanggaran extends Bismillah_Controller
         } //bos.tcpsbi_mutanggaran.initTab1() ;
     }
 
+    public function deleting()
+    {
+        $cKode = $this->input->post('cKode');
+        $this->bdb->deleting($cKode);
+        echo(' bos.tcpsbi_mutanggaran.grid1_reloaddata() ; ') ;
+    }
+
 }

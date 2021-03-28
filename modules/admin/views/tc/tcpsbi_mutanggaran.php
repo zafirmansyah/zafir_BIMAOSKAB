@@ -161,6 +161,12 @@
         }) ;
     }
 
+    bos.tcpsbi_mutanggaran.cmdDelete    = function(id){
+        if(confirm("Delete Data?")){
+            bjs.ajax(this.url + '/deleting', 'cKode=' + id);
+        }
+    }
+
     bos.tcpsbi_mutanggaran.cmdsave       = bos.tcpsbi_mutanggaran.obj.find("#cmdsave") ;
     bos.tcpsbi_mutanggaran.initfunc     = function(){
         this.obj.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

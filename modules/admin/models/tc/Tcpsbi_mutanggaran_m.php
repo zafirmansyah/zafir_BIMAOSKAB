@@ -48,6 +48,11 @@ class Tcpsbi_mutanggaran_m extends Bismillah_Model
         return "OK" ;
     }
 
+    public function deleting($cKode)
+    {
+        $this->updtransaksi_m->deleteAnggaranPSBI($cKode);
+    }
+
     
 
 }
