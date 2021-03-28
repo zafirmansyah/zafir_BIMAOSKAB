@@ -105,6 +105,11 @@ class Updtransaksi_m extends Bismillah_Model{
         $this->delete('psbi_realisasi',"Kode = '{$cKode}'") ;
         $this->delete('psbi_mutasi',"Faktur = '{$cKode}'") ;
     }
+
+    public function deleteAnggaranPSBI($cKode){
+        $this->delete('psbi_mutasi_anggaran',"Faktur = '{$cKode}'") ;
+        $this->delete('psbi_mutasi',"Faktur = '{$cKode}'") ;
+    }
     
 }
 ?>
