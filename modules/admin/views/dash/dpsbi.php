@@ -1,6 +1,58 @@
 <div class="row">
     <div class="col-md-12">
         <div class="col-sm-23">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Sisa Anggaran PSBI Tahun <?=date('Y')?></h3><br>                    
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-lg-4 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-maroon">
+                            <div class="inner">
+                                <h3>Rp<?=number_format($SUM['nSaldoAkhirReguler'])?></h3>
+                                <p>PSBI Reguler</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-book"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-purple">
+                            <div class="inner">
+                                <h3>Rp<?=number_format($SUM['nSaldoAkhirTematik'])?></h3>
+                                <p>PSBI TEMATIK</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-book"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-orange">
+                            <div class="inner">
+                                <h3>Rp<?=number_format($SUM['nSaldoAkhirBeasiswa'])?></h3>
+                                <p>PSBI BEASISWA</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-book"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-sm-23">
             <div class="box box-success">
                 <div class="box-header with-border">
                     <h3 class="box-title">Total Pencairan Selama Tahun <?=date('Y')?></h3><br>                    
@@ -44,7 +96,75 @@ $(function () {
                 },
                 legend: {
                     display: true,
-                }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            stepSize: 50000000,
+                            userCallback: function(value, index, values) {
+                                // Convert the number to a string and splite the string every 3 charaters from the end
+                                value = value.toString();
+                                value = value.split(/(?=(?:...)*$)/);
+                    
+                                // Convert the array to a string and format the output
+                                value = value.join(".");
+                                return "Rp. " + value;
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Omset"
+                          }
+                    }],
+                },
+                tooltips: {
+                    mode: "index",
+                    podition: "nearest",
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var nominal = tooltipItem.yLabel.toString();
+                            nominal = nominal.split(/(?=(?:...)*$)/);
+                    
+                            // Convert the array to a string and format the output
+                            nominal = nominal.join(".");
+                            
+                            var isi = data.datasets[tooltipItem.datasetIndex].label + " : Rp. " + nominal;
+                            return isi ;
+                        }
+                    }
+                },
+                // animation: {
+                //     onComplete: function() {
+                //         const chartInstance = this.chart,
+                //         ctx = chartInstance.ctx;
+     
+                //         ctx.font = Chart.helpers.fontString(
+                //             13,
+                //             Chart.defaults.global.defaultFontStyle,
+                //             Chart.defaults.global.defaultFontFamily
+                //         );
+                //         ctx.textAlign = "center";
+                //         ctx.textBaseline = "bottom";
+     
+                //         this.data.datasets.forEach(function(dataset, i) {
+                //             const meta = chartInstance.controller.getDatasetMeta(i);
+                        
+                //             meta.data.forEach(function(bar, index) {
+                //                 const data = dataset.data[index];
+
+                //                 var nominal = data.toString();
+                //                 nominal = nominal.split(/(?=(?:...)*$)/);
+                    
+                //                 // Convert the array to a string and format the output
+                //                 nominal = nominal.join(".");
+
+                //                 ctx.fillStyle = "#000";
+                //                 ctx.fillText("Rp. "+nominal, bar._model.x, bar._model.y - 2);
+                //             });
+                //         });
+                //     }
+                // }
             }
         });
         this.obj.find("#text_bt").html("") ;
@@ -64,7 +184,44 @@ $(function () {
                 },
                 legend: {
                     display: true,
-                }
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            stepSize: 100000000,
+                            userCallback: function(value, index, values) {
+                                // Convert the number to a string and splite the string every 3 charaters from the end
+                                value = value.toString();
+                                value = value.split(/(?=(?:...)*$)/);
+                    
+                                // Convert the array to a string and format the output
+                                value = value.join(".");
+                                return "Rp. " + value;
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Omset"
+                          }
+                    }],
+                },
+                tooltips: {
+                    mode: "index",
+                    podition: "nearest",
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var nominal = tooltipItem.xLabel.toString();
+                            nominal = nominal.split(/(?=(?:...)*$)/);
+                    
+                            // Convert the array to a string and format the output
+                            nominal = nominal.join(".");
+                            
+                            var isi = data.datasets[tooltipItem.datasetIndex].label + " : Rp. " + nominal;
+                            return isi ;
+                        }
+                    }
+                },
             }
         });
         this.obj.find("#text_bt").html("") ;

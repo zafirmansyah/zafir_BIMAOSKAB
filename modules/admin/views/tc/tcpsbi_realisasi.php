@@ -334,7 +334,7 @@
     }
 
     bos.tcpsbi_realisasi.init         = function(){
-        this.obj.find('#cKode').val("asdasd");
+        this.obj.find('#cKode').val("");
         this.obj.find('#dTglKegiatan').val("");
         this.obj.find('#optGolonganPSBI').val("");
         this.obj.find('#dTgl').val("");

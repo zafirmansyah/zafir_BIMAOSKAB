@@ -17,7 +17,18 @@ class dPSBI extends Bismillah_Controller{
     }
 
     public function index(){
-        $this->load->view("dash/dpsbi") ;
+        $year                   = date("Y") ;
+		$dTglAwal 	            = $year . "-01-01" ;
+		$dTglAkhir 	            = $year . "-12-31" ;
+        $nSaldoAkhirReguler     = $this->bdb->getSaldoAkhirGolongan('001',$dTglAkhir);
+        $nSaldoAkhirTematik     = $this->bdb->getSaldoAkhirGolongan('002',$dTglAkhir);
+        $nSaldoAkhirBeasiswa    = $this->bdb->getSaldoAkhirGolongan('003',$dTglAkhir);
+
+        $var['SUM'] = array("nSaldoAkhirReguler"=>$nSaldoAkhirReguler,
+                            "nSaldoAkhirTematik"=>$nSaldoAkhirTematik,
+                            "nSaldoAkhirBeasiswa"=>$nSaldoAkhirBeasiswa);
+        
+        $this->load->view("dash/dpsbi",$var) ;
     }
 
     public function loadc(){
@@ -75,19 +86,19 @@ class dPSBI extends Bismillah_Controller{
 		$d  	= array("labels"=>array(),
 							"datasets"=>array(
                                 array("label"           => "Realisasi", 
-                                    //   "barPercentage"   => "0.5",
-                                    //   "barThickness"    => "6",
-                                    //   "maxBarThickness" => "8",
-                                    //   "minBarLength"    => "2",
+                                      "barPercentage"   => "0.5",
+                                      "barThickness"    => "6",
+                                      "maxBarThickness" => "8",
+                                      "minBarLength"    => "2",
                                       "fill"            => "start",
                                       "backgroundColor" => "rgba(90,197,148, .4)", 
                                       "borderColor"     => "#45C6FF",
                                       "data"            => array()),
                                 array("label"           => "Plafond", 
-                                    //   "barPercentage"   => "0.5",
-                                    //   "barThickness"    => "6",
-                                    //   "maxBarThickness" => "8",
-                                    //   "minBarLength"    => "2",
+                                      "barPercentage"   => "0.5",
+                                      "barThickness"    => "6",
+                                      "maxBarThickness" => "8",
+                                      "minBarLength"    => "2",
                                       "fill"            => "start",
                                       "backgroundColor" => "rgba(239,81,54, .4)", 
                                       "borderColor"     => "#45C6FF",
@@ -110,7 +121,7 @@ class dPSBI extends Bismillah_Controller{
             $cWhere[]   = "TanggalRealisasi >= '$dTglAwal'";
             $cWhere[]   = "TanggalRealisasi <= '$dTglAkhir'";
             $cWhere     = implode(" AND ", $cWhere) ;
-            $cField     = "SUM(NilaiRealisasi) AS Saldo" ;
+            $cField     = "IFNULL(SUM(NilaiRealisasi),0) AS Saldo" ;
             $dbD        = $this->bdb->select($cTable,$cField,$cWhere) ;
             $nSaldo     = 0 ;
             if($dbR = $this->bdb->getrow($dbD)){
@@ -124,7 +135,7 @@ class dPSBI extends Bismillah_Controller{
             $cWhere[]   = "Tgl >= '$dTglAwal'";
             $cWhere[]   = "Tgl <= '$dTglAkhir'";
             $cWhere     = implode(" AND ", $cWhere) ;
-            $cField     = "SUM(Debet) AS Saldo" ;
+            $cField     = "IFNULL(SUM(Debet),0) AS Saldo" ;
             $dbD        = $this->bdb->select($cTable,$cField,$cWhere) ;
             $nSaldo     = 0 ;
             if($dbR = $this->bdb->getrow($dbD)){
@@ -132,7 +143,7 @@ class dPSBI extends Bismillah_Controller{
                 $nDataRecordsPlafond    = $nSaldo;
             }
 
-            $d["labels"][]              = $cLabelGolongan ;
+            $d["labels"][]              =  $cLabelGolongan ;
             $d["datasets"][0]["data"][] =  $nDataRecords ;
             $d["datasets"][1]["data"][] =  $nDataRecordsPlafond ;
             

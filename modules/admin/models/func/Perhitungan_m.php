@@ -24,12 +24,30 @@ class Perhitungan_m extends Bismillah_Model{
       $cTable = "psbi_mutasi_anggaran" ;
       $cWhere = "GolonganPSBI = '$cGolongan' AND Tgl >= '$dAwalTahun' AND  Tgl <= '$dTgl'" ;
       // echo $cWhere ; exit() ;
-      $cField = "SUM(Debet) AS SaldoDebet, SUM(Kredit) AS SaldoKredit" ;
+      $cField = "IFNULL(SUM(Debet),0) AS SaldoDebet, IFNULL(SUM(Kredit),0) AS SaldoKredit" ;
       $dbData = $this->select($cTable,$cField,$cWhere) ;
       if($dbR = $this->getrow($dbData)){
         $nSaldoDebet = $dbR['SaldoDebet'] ;
         $nSaldoKredit = $dbR['SaldoKredit'] ;
         $nSaldo = $nSaldoDebet - $nSaldoKredit ;
+      }
+      return $nSaldo ;
+    }
+
+    function getSaldoPSBIperGolongan($cGolongan,$dTgl='0000-00-00')
+    {
+      $nSaldo = 0; 
+      $vaTgl  = explode("-",$dTgl) ;
+      $dAwalTahun = $vaTgl[0] . "-01-01" ;
+      $cTable = "psbi_mutasi" ;
+      $cWhere = "GolonganPSBI = '$cGolongan' AND Tgl >= '$dAwalTahun' AND  Tgl <= '$dTgl'" ;
+      //echo $cWhere ; exit() ;
+      $cField = "IFNULL(SUM(Debet),0) AS SaldoDebet, IFNULL(SUM(Kredit),0) AS SaldoKredit" ;
+      $dbData = $this->select($cTable,$cField,$cWhere) ;
+      while($dbR = $this->getrow($dbData)){
+        $nSaldoDebet  = $dbR['SaldoDebet'] ;
+        $nSaldoKredit = $dbR['SaldoKredit'] ;
+        $nSaldo       += $nSaldoDebet - $nSaldoKredit ;
       }
       return $nSaldo ;
     }
