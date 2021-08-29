@@ -17,13 +17,15 @@ class Login extends CI_Controller{
 		$va	= $this->input->post() ;
 		$data = $this->loginm->getdata_login($va['cusername'], $va['cpassword']) ;
 		if(!empty($data)){
+			$lStatus = true ;
 			//saving data username
 			$data['app_title']	= $this->loginm->getconfig('app_title') ;
 			$data['app_logo']		= $this->loginm->getconfig('app_logo') ;
- 			//get photo
+ 			
+			//get photo
 			$data['data_var']		= $data['data_var'] !== "" ? json_decode($data['data_var'], true) : array("ava"=>"") ;
-			if($data['data_var']['ava'] == "")
-				$data['data_var']['ava'] = "./uploads/mdt.png" ;
+			if($data['data_var']['ava'] == "") $data['data_var']['ava'] = "./uploads/mdt.png" ;
+			
 			//get level menu
 			$level 					= substr($data['password'], -4) ;
 			$data['level_code']	= $level ;
@@ -37,9 +39,30 @@ class Login extends CI_Controller{
 			foreach ($data as $key => $value) {
 				savesession($this, $key, $value) ;
 			}
-			echo('window.location.href = "'.base_url().'" ;') ;
+
+			if($data['Terminate']){
+				$lStatus  = false ;
+				$lComment = "Username " . $data['username'] . " tidak bisa login, silahkan laporkan pada Super Admin / PIC untuk informasi lebih lanjut" ;
+			}
 		}else{
-			echo(' alert("User or Password not found") ; $("#cusername").focus(); ') ;
+			$lStatus = false ;
+			$lComment = "User atau Password Tidak Ditemukan!" ;
+		}
+
+		if(!$lStatus){
+			echo(" 
+				Swal.fire(
+					'Perhatian',
+					'". $lComment ."',
+					'warning'
+				)
+				$('#cusername').val('') ;
+				$('#cusername').focus(); 
+				$('#cpassword').val('') ; 
+				
+			") ;
+		}else{
+			echo('window.location.href = "'.base_url().'" ;') ;
 		}
 	}
 }

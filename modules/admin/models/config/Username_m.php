@@ -1,8 +1,8 @@
 <?php
 class Username_m extends Bismillah_Model{
     public function loadgrid($va){
-        $limit	= $va['offset'].",".$va['limit'] ; //limit
-        $dbd     = $this->select("sys_username", "username, fullname, KodeKaryawan", "", "", "", "username DESC", $limit) ;
+        $limit	 = $va['offset'].",".$va['limit'] ; //limit
+        $dbd     = $this->select("sys_username", "username, fullname, KodeKaryawan", "Terminate = '0'", "", "", "username DESC", $limit) ;
         $dba     = $this->select("sys_username", "username") ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
@@ -47,6 +47,18 @@ class Username_m extends Bismillah_Model{
         $n    		= $this->getincrement($cKey,true,4);
         $cCIF    	= $n ;
         return $cCIF ;
+    }
+
+    public function terminateUser($cUsername)
+    {
+        $cDoer 	    = getsession($this,"username") ;
+        $dTglNow    = date("Y-m-d") ;
+        $vaData     = array("TglTerminate"=>$dTglNow,
+                             "UserToTerminate"=>$cDoer,
+                             "Terminate"=>"1");
+        $cWhere     = "username = " . $this->escape($cUsername) ;
+        // edit($table, $data, $where='') ;
+        $this->edit("sys_username", $vaData , $cWhere) ;
     }
 }
 ?>

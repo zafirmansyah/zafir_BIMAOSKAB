@@ -128,7 +128,8 @@
 	            { field: 'fullname', caption: 'Nama Lengkap', size: '150px', sortable: false },
                 { field: 'KodeKaryawan', caption: 'Kode Karyawan', size: '100px', sortable: false },
 	            { field: 'cmdedit', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' },
-	            { field: 'cmddelete', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' }
+	            // { field: 'cmddelete', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' }
+	            { field: 'cmdTerminate', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' }
 	        ]
 	    });
 	}
@@ -162,6 +163,28 @@
 			bjs.ajax(this.base_url + '/deleting', 'username=' + username);
 		}
 	}
+
+    bos.con_user.cmdTerminate = function(username){
+        Swal.fire({
+            title: "Are You Sure to Terminate This Username",
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Tidak'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                bjs.ajax(this.url + '/terminateUser', 'cUsername=' + username);
+                Swal.fire(
+                    'Terminated!',
+                    'Username ini sudah Diblokir',
+                    'success'
+                )
+            }
+        });
+    }
 
 	bos.con_user.init 			= function(){
 		this.obj.find("#username").val("") ;

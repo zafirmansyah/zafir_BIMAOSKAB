@@ -14,17 +14,19 @@ class Username extends Bismillah_Controller{
 	public function loadgrid(){
 		$va	= json_decode($this->input->post('request'), true) ;
 		$db = $this->bdb->loadgrid($va) ;
+		$vare			= array() ;
+
 		while( $dbrow	= $this->bdb->getrow($db['db']) ){
 			$vaset 		= $dbrow ;
 			$vaset['recid']		= $dbrow['username'] ;
 
-			$vaset['cmdedit'] 	= '<button type="button" onClick="bos.con_user.cmdedit(\''.$dbrow['username'].'\')"
-									class="btn btn-success btn-grid">Edit</button>' ;
-			$vaset['cmddelete'] = '<button type="button" onClick="bos.con_user.cmddelete(\''.$dbrow['username'].'\')"
-									class="btn btn-danger btn-grid">Delete</button>' ;
-			$vaset['cmdedit']	= html_entity_decode($vaset['cmdedit']) ;
-			$vaset['cmddelete']	= html_entity_decode($vaset['cmddelete']) ;
-
+			$vaset['cmdedit'] 			= '<button type="button" onClick="bos.con_user.cmdedit(\''.$dbrow['username'].'\')"
+																	class="btn btn-success btn-grid">Edit</button>' ;
+			$vaset['cmdTerminate'] 	= '<button type="button" onClick="bos.con_user.cmdTerminate(\''.$dbrow['username'].'\')"
+																	class="btn btn-danger btn-grid">Terminate</button>' ;
+			$vaset['cmdedit']				= html_entity_decode($vaset['cmdedit']) ;
+			$vaset['cmdTerminate']	= html_entity_decode($vaset['cmdTerminate']) ;
+		
 			$vare[]		= $vaset ;
 		}
 
@@ -161,6 +163,15 @@ class Username extends Bismillah_Controller{
 		$this->bdb->delete("sys_username", $w ) ;
 		echo(' bos.con_user.init() ; ') ;
 	}
+
+	public function terminateUser()
+	{
+		$va		= $this->input->post() ; 
+		$this->bdb->terminateUser($va['cUsername']) ;
+		echo(' 
+			bos.con_user.init() ; 
+		') ;
+	} 
     
     public function seekcabang(){
       $search     	= $this->input->get('q');
