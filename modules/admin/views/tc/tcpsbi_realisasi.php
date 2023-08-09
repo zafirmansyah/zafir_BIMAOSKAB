@@ -256,7 +256,7 @@
     bos.tcpsbi_realisasi.grid1_load    = function(){
         this.obj.find("#grid1").w2grid({
             name     : this.id + '_grid1',
-            limit    : 100 ,
+            // limit    : 100 ,
             url      : bos.tcpsbi_realisasi.base_url + "/loadgrid",
             postData : this.grid1_data ,
             header   : 'Daftar Realisasi Anggaran PSBI',

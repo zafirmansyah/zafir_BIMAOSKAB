@@ -30,7 +30,7 @@ class Username extends Bismillah_Controller{
 			$vare[]		= $vaset ;
 		}
 
-		$vare 	= array("total"=> $db['rows'], "records"=>$vare ) ;
+		$vare 	= array("total"=>$db['rows'],"records"=>$vare ) ;
 		echo(json_encode($vare)) ;
 	}
 

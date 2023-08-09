@@ -97,7 +97,7 @@
                 <div class="col-sm-6">
                     <div class="box box-default color-palette-box">
                         <div class="box-body">
-                            <div id="grusername" style="height: 400px"></div>
+                            <div id="grusername" style="height: 600px"></div>
                         </div>
                     </div>
                 </div>

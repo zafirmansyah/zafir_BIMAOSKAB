@@ -18,7 +18,7 @@ class Tcpsbi_realisasi_m extends Bismillah_Model
         $where 	        = array() ; 
         if($searchValue !== "") $where[]	= "{$searchField} LIKE '%{$searchValue}%'" ; 
         $where 	    = implode(" AND ", $where) ;
-        $dbd        = $this->select("psbi_realisasi", "*", $where, "", "", "TanggalRealisasi ASC", $limit) ;
+        $dbd        = $this->select("psbi_realisasi", "*", $where, "", "", "TanggalRealisasi ASC") ; //, $limit) ;
         $dba        = $this->select("psbi_realisasi", "ID", $where) ;
 
         return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
