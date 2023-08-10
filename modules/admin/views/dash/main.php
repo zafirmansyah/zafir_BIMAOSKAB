@@ -53,7 +53,7 @@
         <div class="icon">
           <i class="ion ion-folder"></i>
         </div>
-        <a href="https://login.microsoftonline.com/ca37492e-f410-427b-ab39-055bdc18ce02/oauth2/authorize?client_id=00000003-0000-0ff1-ce00-000000000000&response_mode=form_post&protectedtoken=true&response_type=code%20id_token&resource=00000003-0000-0ff1-ce00-000000000000&scope=openid&nonce=BCE795BBA198DAEA12F1F33FB4CB800B49194389BA2D5391-925EBDA2125212EC2E3F6D0C33AD8E9912A720253D7C767A2ED807D25421B351&redirect_uri=https%3A%2F%2Fbankindonesiagov-my.sharepoint.com%2F_forms%2Fdefault.aspx&state=OD0w&claims=%7B%22id_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D&wsucxt=1&cobrandid=11bd8083-87e0-41b5-bb78-0bc43c8a8e8a&client-request-id=680c5da0-702d-1000-9a0d-5fd86ef6c0b6" class="small-box-footer" target="_blank">Go to Page <i class="fa fa-arrow-circle-right"></i></a>
+	<a href="https://bankindonesiagov-my.sharepoint.com/:f:/r/personal/guntur_a_bi_go_id/Documents/BIMA%20Sharing%20Folder?csf=1&web=1&e=RcbUMq" class="small-box-footer" target="_blank">Go to Page <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
