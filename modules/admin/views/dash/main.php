@@ -53,7 +53,8 @@
         <div class="icon">
           <i class="ion ion-folder"></i>
         </div>
-	<a href="https://bankindonesiagov-my.sharepoint.com/:f:/r/personal/guntur_a_bi_go_id/Documents/BIMA%20Sharing%20Folder?csf=1&web=1&e=RcbUMq" class="small-box-footer" target="_blank">Go to Page <i class="fa fa-arrow-circle-right"></i></a>
+	      <a href="https://bankindonesiagov-my.sharepoint.com/:f:/r/personal/guntur_a_bi_go_id/Documents/BIMA%20Sharing%20Folder?csf=1&web=1&e=RcbUMq" 
+           class="small-box-footer" target="_blank">Go to Page <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->

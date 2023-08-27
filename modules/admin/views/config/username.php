@@ -22,14 +22,14 @@
 							<input type="password" class="form-control" name="password" id="password" placeholder="Password">
 		                </div>
 		    		</div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>cabang</label>
-                            <select name="cabang" id="cabang" class="form-control" placeholder="Cabang" required>
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>cabang</label>
+								<select name="cabang" id="cabang" class="form-control" placeholder="Cabang" required>
 
-                            </select>
-                        </div>
-                    </div>
+								</select>
+							</div>
+						</div>
 		    		<div class="col-sm-6">
 		    			<div class="form-group">
 							<label for="level">Level</label>
@@ -80,7 +80,7 @@
 	        columns: [
 	            { field: 'username', caption: 'Username', size: '80px', sortable: false },
 	            { field: 'fullname', caption: 'Fullname', size: '150px', sortable: false },
-                { field: 'cabang', caption: 'Cabang', size: '100px', sortable: false },
+							{ field: 'cabang', caption: 'Cabang', size: '100px', sortable: false },
 	            { field: 'cmdedit', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' },
 	            { field: 'cmddelete', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' }
 	        ]
@@ -146,7 +146,7 @@
 		}) ;
 	}
 
-   bos.username.cmdsave       = bos.username.obj.find("#cmdsave") ;
+	bos.username.cmdsave       = bos.username.obj.find("#cmdsave") ;
 	bos.username.initfunc		= function(){
 		setTimeout(function(){
 			bos.username.obj.find('#username').focus() ;
@@ -157,20 +157,20 @@
 		this.obj.find("#image").on("change", function(e){
 			e.preventDefault() ;
 
-            bos.username.cfile    = e.target.files ;
-            bos.username.gfile    = new FormData() ;
-            $.each(bos.username.cfile, function(cKey,cValue){
-              bos.username.gfile.append(cKey,cValue) ;
-            }) ;
+			bos.username.cfile    = e.target.files ;
+			bos.username.gfile    = new FormData() ;
+			$.each(bos.username.cfile, function(cKey,cValue){
+				bos.username.gfile.append(cKey,cValue) ;
+			}) ;
 
-            bos.username.obj.find("#idlimage").html("<i class='fa fa-spinner fa-pulse'></i>");
-            bos.username.obj.find("#idimage").html("") ;
+			bos.username.obj.find("#idlimage").html("<i class='fa fa-spinner fa-pulse'></i>");
+			bos.username.obj.find("#idimage").html("") ;
 
-            bjs.ajaxfile(bos.username.base_url + "/saving_image", bos.username.gfile, this) ;
+			bjs.ajaxfile(bos.username.base_url + "/saving_image", bos.username.gfile, this) ;
 
 		})
 		this.obj.find('form').on("submit", function(e){
-         e.preventDefault() ;
+			e.preventDefault() ;
 			if( bjs.isvalidform(this) ){
 				bjs.ajax( bos.username.base_url + '/saving', bjs.getdataform(this) , bos.username.cmdsave) ;
 			}

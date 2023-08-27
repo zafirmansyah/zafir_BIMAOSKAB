@@ -10,7 +10,6 @@
                         <div class="small-box bg-aqua">
                             <div class="inner">
                                 <h3>User</h3>
-
                                 <p>Setting Username and Password</p>
                             </div>
                             <div class="icon">
@@ -124,8 +123,6 @@
                 });
             }, 1);
         });
-
-
     }
 
     $(function(){
