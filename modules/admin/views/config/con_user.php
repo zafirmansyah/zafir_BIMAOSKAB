@@ -71,6 +71,13 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Atasan</label>
+                                            <select name="optAtasan" id="optAtasan" class="form-control" placeholder="Atasan" required>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="level">Hak Akses Menu</label>
@@ -193,6 +200,7 @@
 		this.obj.find("#level").sval({}) ;
 		this.obj.find("#optUnit").sval({}) ;
 		this.obj.find("#optJabatan").sval({}) ;
+		this.obj.find("#optAtasan").sval({}) ;
 		this.obj.find("#idlimage").html("") ;
 		this.obj.find("#idimage").html("") ;
 		this.grid1_reloaddata() ;
@@ -216,7 +224,7 @@
 		}) ;
 	}
 
-   bos.con_user.cmdsave       = bos.con_user.obj.find("#cmdsave") ;
+    bos.con_user.cmdsave       = bos.con_user.obj.find("#cmdsave") ;
 	bos.con_user.initfunc		= function(){
 
 		this.obj.find("#username").on("blur", function(){
@@ -322,6 +330,20 @@
     $('#optJabatan').select2({
         ajax: {
             url: bos.con_user.base_url + '/seekJabatan',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+
+    $('#optAtasan').select2({
+        ajax: {
+            url: bos.con_user.base_url + '/SeekAtasan',
             dataType: 'json',
             delay: 250,
             processResults: function (data) {

@@ -22,11 +22,12 @@ class Frame extends Bismillah_Controller{
 		$oinit 	= menu_get_data($arrmenu, $oinit) ;
 
 		$data 	= array("app_title"	=> getsession($this, "app_title"),
-								"fullname"	=> getsession($this, "fullname"),
-								"username"	=> getsession($this, "username"),
-								"data_var"	=> getsession($this, "data_var"),
-								"menu_html"	=> $this->menu_generate($arrmenu),
-								"oinit"		=> $oinit ) ;
+                        "fullname"	=> getsession($this, "fullname"),
+                        "superior"	=> getsession($this, "superior"),
+                        "username"	=> getsession($this, "username"),
+                        "data_var"	=> getsession($this, "data_var"),
+                        "menu_html"	=> $this->menu_generate($arrmenu),
+                        "oinit"		=> $oinit ) ;
 		$this->load->view("frame", $data) ;
 	}
 

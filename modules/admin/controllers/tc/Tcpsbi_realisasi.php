@@ -28,7 +28,6 @@ class Tcpsbi_realisasi extends Bismillah_Controller
         while( $dbr = $this->bdb->getrow($dbd) ){
             $vaset                  = $dbr ;
             $n++  ;
-            
             $cGolonganPSBI          = $this->bdb->getval("Keterangan","Kode = '{$dbr['GolonganPSBI']}'","psbi_golongan") ;
             $vaset['NoRekap']       = $n ;
             $vaset['Golongan']      = $cGolonganPSBI ;
