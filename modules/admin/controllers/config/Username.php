@@ -12,9 +12,9 @@ class Username extends Bismillah_Controller{
 	}
 
 	public function loadgrid(){
-		$va	= json_decode($this->input->post('request'), true) ;
-		$db = $this->bdb->loadgrid($va) ;
-		$vare			= array() ;
+		$va   = json_decode($this->input->post('request'), true) ;
+		$db   = $this->bdb->loadgrid($va) ;
+		$vare = array() ;
 
 		while( $dbrow	= $this->bdb->getrow($db['db']) ){
 			$vaset 		= $dbrow ;
@@ -47,9 +47,9 @@ class Username extends Bismillah_Controller{
 	}
 
 	public function saving(){
-		$va 		= $this->input->post() ;
-		$username 	= $va['username'] ;
-		$w    		= "username = ".$this->bdb->escape($va['username']) ;
+		$va       = $this->input->post() ;
+		$username = $va['username'] ;
+		$w        = "username = ".$this->bdb->escape($va['username']) ;
 		  
 		if( $dblast = $this->bdb->getval("*", $w, "sys_username") ){
 			$dblast['data_var']	= ($dblast['data_var'] !== "") ? json_decode($dblast['data_var'], true) : array() ;
@@ -64,12 +64,14 @@ class Username extends Bismillah_Controller{
 			$cKodeKaryawan = $this->bdb->GetKodeKaryawan() ;
 		}
 		
-		$data 				= array("username"=>$va['username'], 
-									"fullname"=>$va['fullname'], 
-									"Unit"=>$va['optUnit'],
-									"Email"=>$va['cEmail'],
-									"KodeKaryawan"=>$cKodeKaryawan,
-									"Jabatan"=>$va['optJabatan']) ;
+		$data 				= array("username"     => $va['username'],
+													"fullname"     => $va['fullname'],
+													"Unit"         => $va['optUnit'],
+													"Email"        => $va['cEmail'],
+													"KodeKaryawan" => $cKodeKaryawan,
+													"Jabatan"      => $va['optJabatan'],
+													"superior"     => $va['optAtasan']
+													) ;
 		$data['data_var']	= array("ava"=>$dblast['data_var']['ava']) ;
 
 		if($va['password'] !== ""){
@@ -131,11 +133,12 @@ class Username extends Bismillah_Controller{
 		$w    	= "username = ".$this->bdb->escape($va['username']) ;
 		$data 	= $this->bdb->getval("*", $w, "sys_username") ;
 		if(!empty($data)){
-            $jsonUnit[] 	= array("id"=>$data['Unit'],"text"=>$data['Unit'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['Unit']}'", "golongan_unit"));
-            $jsonJabatan[] 	= array("id"=>$data['Jabatan'],"text"=>$data['Jabatan'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['Jabatan']}'", "golongan_jabatan"));
-			$image 			= "" ;
-			$slevel 		= array() ;
-			$data_var		= ($data['data_var'] !== "") ? json_decode($data['data_var'], true) : array() ;
+			$jsonUnit[] 		= array("id"=>$data['Unit'],"text"=>$data['Unit'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['Unit']}'", "golongan_unit"));
+			$jsonJabatan[] 	= array("id"=>$data['Jabatan'],"text"=>$data['Jabatan'] . " - " . $this->bdb->getval("Keterangan", "Kode = '{$data['Jabatan']}'", "golongan_jabatan"));
+			$jsonAtasan[] 	= array("id"=>$data['superior'],"text"=>$data['superior'] . " - " . $this->bdb->getval("fullname", "KodeKaryawan = '{$data['superior']}'", "sys_username"));
+			$image 					= "" ;
+			$slevel 				= array() ;
+			$data_var				= ($data['data_var'] !== "") ? json_decode($data['data_var'], true) : array() ;
 			if(isset($data_var['ava'])){
 				$image 	= '<img src=\"'.base_url($data_var['ava']).'\" class=\"img-responsive\"/>' ;
 			}
@@ -149,6 +152,7 @@ class Username extends Bismillah_Controller{
 					find("#level").sval('.json_encode($slevel).') ;
 					find("#optUnit").sval('.json_encode($jsonUnit).') ;
 					find("#optJabatan").sval('.json_encode($jsonJabatan).') ;
+					find("#optAtasan").sval('.json_encode($jsonAtasan).') ;
 					find("#chKodeKaryawan").val("'.$data['KodeKaryawan'].'") ;
 					find("#cEmail").val("'.$data['Email'].'") ;
 					find("#idimage").html("'.$image.'") ;
@@ -158,8 +162,8 @@ class Username extends Bismillah_Controller{
 	}
 
 	public function deleting(){
-		$va		= $this->input->post() ;
-      	$w    	= "username = ".$this->bdb->escape($va['username']) ;
+		$va	= $this->input->post() ;
+		$w  = "username = ".$this->bdb->escape($va['username']) ;
 		$this->bdb->delete("sys_username", $w ) ;
 		echo(' bos.con_user.init() ; ') ;
 	}
@@ -174,22 +178,22 @@ class Username extends Bismillah_Controller{
 	} 
     
     public function seekcabang(){
-      $search     	= $this->input->get('q');
-      $vdb    		= $this->bdb->seekcabang($search) ;
-      $dbd    		= $vdb['db'] ;
-      $vare   		= array();
+      $search = $this->input->get('q');
+      $vdb    = $this->bdb->seekcabang($search) ;
+      $dbd    = $vdb['db'] ;
+      $vare   = array();
       while($dbr = $this->bdb->getrow($dbd)){
-        $vare[] 	= array("id"=>$dbr['kode'], "text"=>$dbr['keterangan']) ;
+        $vare[] = array("id"=>$dbr['kode'], "text"=>$dbr['keterangan']) ;
       }
       $Result = json_encode($vare);
       echo($Result) ;
 	}
 	   
 	public function PickNomorKaryawan(){
-		$search     = $this->input->get('q');
-		$vdb    	= $this->bdb->PickNomorKaryawan($search) ;
-		$dbd    	= $vdb['db'] ;
-		$vare   	= array();
+		$search = $this->input->get('q');
+		$vdb    = $this->bdb->PickNomorKaryawan($search) ;
+		$dbd    = $vdb['db'] ;
+		$vare   = array();
 		while( $dbr = $this->bdb->getrow($dbd) ){
 			$vare[] 	= array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] . " [ " . $dbr['Nama'] . " ]") ;
 		}
@@ -199,7 +203,7 @@ class Username extends Bismillah_Controller{
 
 	public function SeekNIK()
 	{
-		$va 	= $this->input->post() ;
+		$va 		= $this->input->post() ;
 		$cKode 	= $va['Kode']; 
 		if(isset($cKode)){
 			$cWhere = "Kode = " .$this->bdb->escape($cKode) ;
@@ -225,7 +229,7 @@ class Username extends Bismillah_Controller{
 		$dbd        = $vdb['db'] ;
 		$vare       = array();
 		while($dbr = $this->bdb->getrow($dbd)){
-			$vare[]     = array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
+			$vare[] = array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
 		}
 		$Result = json_encode($vare);
 		echo($Result) ;
@@ -239,6 +243,18 @@ class Username extends Bismillah_Controller{
 		$vare       = array();
 		while($dbr = $this->bdb->getrow($dbd)){
 			$vare[]     = array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
+		}
+		$Result = json_encode($vare);
+		echo($Result) ;
+	}
+
+	public function seekAtasan() {
+		$search     = $this->input->get('q');
+		$vdb        = $this->bdb->SeekAtasan($search) ;
+		$dbd        = $vdb['db'] ;
+		$vare       = array();
+		while($dbr = $this->bdb->getrow($dbd)){
+			$vare[]	= array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
 		}
 		$Result = json_encode($vare);
 		echo($Result) ;

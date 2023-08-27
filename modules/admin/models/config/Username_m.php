@@ -40,6 +40,16 @@ class Username_m extends Bismillah_Model{
         return array("db"=>$dbd) ;
     }
 
+    public function SeekAtasan($search)
+    {   
+        $cWhere     = array() ; 
+        $cWhere[]   = "Jabatan <> '005'" ;
+        if($search !== "") $cWhere[] = "(KodeKaryawan LIKE '%{$search}%' OR fullname LIKE '%{$search}%' OR username LIKE '%{$search}%')" ;
+        $cWhere     = implode(" AND ", $cWhere) ;
+        $dbd        = $this->select("sys_username", "KodeKaryawan AS Kode,fullname AS Keterangan", $cWhere, "", "", "KodeKaryawan ASC") ;
+        return array("db"=>$dbd) ;
+    }
+
     public function GetKodeKaryawan()
     {
         $nYear      = "2020" ;
