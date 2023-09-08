@@ -254,7 +254,7 @@ class Username extends Bismillah_Controller{
 		$dbd        = $vdb['db'] ;
 		$vare       = array();
 		while($dbr = $this->bdb->getrow($dbd)){
-			$vare[]	= array("id"=>$dbr['Kode'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
+			$vare[]	= array("id"=>$dbr['username'], "text"=>$dbr['Kode'] ." - ".$dbr['Keterangan']) ;
 		}
 		$Result = json_encode($vare);
 		echo($Result) ;

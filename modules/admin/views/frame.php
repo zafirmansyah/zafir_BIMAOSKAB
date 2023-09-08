@@ -18,6 +18,7 @@
 		<link rel="stylesheet" href="<?=base_url('bismillah/core.mobile.css')?>">
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css">
 		<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css" rel="stylesheet">
 		
 		<link rel="stylesheet" href="<?=base_url('bismillah/leaflet/leaflet.css')?>">
 		<link rel="stylesheet" href="<?=base_url('bismillah/leaflet/plugin/mc/MarkerCluster.css')?>">
@@ -278,6 +279,7 @@
 		<script type="text/javascript" src="<?=base_url('bismillah/tinymce/js/tinymce/tinymce.min.js')?>"></script>
 		<script type="text/javascript" src="<?=base_url('bismillah/thousandSeparator/number-divider.js')?>"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 		
 
