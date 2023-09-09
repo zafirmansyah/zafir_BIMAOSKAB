@@ -19,10 +19,10 @@ class Tcpd_pegawai_m extends Bismillah_Model
 
     if($cSrchField == "s.Tgl" || $cSrchField == "d.Tgl") $cSrchValue = date_2s($cSrchValue);
     $where 	    = array() ; 
-    $where[]    = "username = '$cUserName'";
+    $where[]    = "username = '$cUserName' AND status < '9'";
     if($cSrchValue !== "") $where[]	= "{$cSrchField} LIKE '%{$cSrchValue}%'" ;
     $where 	    = implode(" AND ", $where) ;
-    if($cUserName == "asda" || $cUserName == "super") $where = "" ;
+    if($cUserName == "asda" || $cUserName == "super") $where = "status < '9'" ;
     $join       = "";
     $cTableName = "performance_dialog" ;
     $cFieldName = "kode, tahun, tanggal , CONCAT(tahun,' - Triwulan ',SUM(periode+1)) as periode_triwulan, 
@@ -33,9 +33,16 @@ class Tcpd_pegawai_m extends Bismillah_Model
     return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
   }
 
+  public function getdata($id){
+    $data = array() ;
+    if($d = $this->getval("*", "Kode = " . $this->escape($id), "performance_dialog")){
+      $data = $d;
+    }
+    return $data ;
+  }
+
   function isUserAlreadyInputOnThisPeriode($cUsername, $nTahun, $nPeriode) {
     $cWhere = "username = '$cUsername' AND tahun = '$nTahun' AND periode = '$nPeriode'" ;
-    // echo($cWhere) ;
     $dba      = $this->select("performance_dialog", "count(id) as row", $cWhere) ;
     // $rows     = $this->rows($dba) ;
     $vaReturn = array("db"=> $dba) ;
@@ -67,8 +74,13 @@ class Tcpd_pegawai_m extends Bismillah_Model
                           "status"                     => 3);
     $where      = "kode = " . $this->escape($va['cKode']) ;
     $this->update($cTableName, $vaData, $where, "") ;
-    // echo(print_r($vaData)) ;
     return "OK" ;
+  }
+
+  public function deleting($id){
+    $vaUpd = array('Status'=>"9") ;
+    $where = "kode = " . $this->escape($id) ;
+    $this->update("performance_dialog", $vaUpd, $where, "") ;
   }
 
 }

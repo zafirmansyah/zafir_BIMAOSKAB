@@ -71,7 +71,7 @@
                 <input type="hidden" name="nNo" id="nNo" value="0">
                 <input type="hidden" value=<?=$cUsername?> name="cUsername" id="cUsername">
                 <input type="hidden" name="cKode" id="cKode">
-                <input type="hidden" name="cStatus" id="cStatus">
+                <input type="hidden" name="cStatus" id="cStatus" value=0>
                 <input type="hidden" name="cLastPath" id="cLastPath">
                 <button class="btn btn-primary" id="cmdSave">Simpan</button>
                 <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcpd_pegawai.init()">Cancel</button>
@@ -143,8 +143,8 @@
 
     /********************************************** */
 
-    bos.tcpd_pegawai.cmdEdit      = function(id){
-        bjs.ajax(this.url + '/editing', 'cKode=' + id);
+    bos.tcpd_pegawai.cmdEdit      = function(cKode){
+        bjs.ajax(this.url + '/editing', 'cKode=' + cKode);
     }
 
     bos.tcpd_pegawai.cmdDelete    = function(id){
@@ -156,16 +156,15 @@
 
     bos.tcpd_pegawai.init         = function(){
         this.obj.find("#cSubject").val("") ;
-        $(".textTinyMCE").val("");
-        tinymce.activeEditor.setContent("");
+        tinymce.get("cKomentarPelaksanaanTugas").setContent("");
+        tinymce.get("cAreaPeningkatanKinerja").setContent("");
         this.obj.find("#cKomentarPelaksanaanTugas").val("") ;
         this.obj.find("#cAreaPeningkatanKinerja").val("") ;
         this.obj.find("#cKode").val("") ;
-        this.obj.find("#cStatus").val("");
+        this.obj.find("#cStatus").val('0');
         this.obj.find("#optUserName").val("") ;
         this.obj.find("#cUplFileWO").val("") ;
         this.obj.find("#nNo").val("0") ;
-        // bjs.ajax(this.url + '/init') ;
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
         bos.tcpd_pegawai.grid1_loaddata() ;
         bos.tcpd_pegawai.grid1_reload() ;

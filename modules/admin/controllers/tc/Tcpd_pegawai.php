@@ -22,6 +22,7 @@ class tcpd_pegawai extends Bismillah_Controller
 
   public function loadgrid(){
     $sessJabatan = getsession($this, 'Jabatan');
+    $sessUsername = getsession($this, 'username');
     $va     = json_decode($this->input->post('request'), true) ;
     $vare   = array() ;
     $vdb    = $this->bdb->loadgrid($va) ;
@@ -57,7 +58,7 @@ class tcpd_pegawai extends Bismillah_Controller
                                     class="btn btn-success btn-grid">Edit</button>' ;
       }
       $vaset['cmdDelete'] = "" ;
-      if($sessJabatan === "000"){
+      if($sessJabatan === "000" || $sessUsername == 'asda'){
         $vaset['cmdDelete']     = '<button type="button" onClick="bos.tcpd_pegawai.cmdDelete(\''.$dbr['kode'].'\')"
                                     class="btn btn-danger btn-grid">Delete</button>' ;
       }
@@ -71,17 +72,44 @@ class tcpd_pegawai extends Bismillah_Controller
     echo(json_encode($vare)) ;
   }
 
+  function editing() {
+    $cKode = $this->input->post('cKode');
+    $data  = $this->bdb->getdata($cKode) ;
+    if(!empty($data)){
+      echo('
+        with(bos.tcpd_pegawai.obj){
+          find("#cKode").val("'.$data['kode'].'") ;
+          find("#dTgl").val("'. date_2d($data['tanggal']) .'");
+          find("#cSubject").val("'. $data['judul'] .'");
+          
+          tinymce.get("cKomentarPelaksanaanTugas").setContent("'.$data['komentar_pelaksanaan_tugas'].'");
+          tinymce.get("cAreaPeningkatanKinerja").setContent("'.$data['area_peningkatan_kinerja'].'");
+          find("#cUsername").val("'. $data['username'] .'");
+          find("#cKode").val("'. $data['kode'] .'");  
+          find("#cStatus").val("'. $data['status'] .'");
+          find(".nav-tabs li:eq(1) a").tab("show") ;
+        };
+      ');
+      // find("#optTahun").val("'. json_encode($data['tahun']) .'");
+      // find("#optPeriodeTriwulan").val("'. json_encode($data['periode']) .'");
+    }
+  }
+
   function validSaving() {
     $va = $this->input->post();
     // echo(print_r($va)) ;
-    $cUsername = getsession($this,'username');
+    $cUsername = $va['cUsername']; //getsession($this,'username');
     $nTahun    = $va['optTahun'];
     $nPeriode  = $va['optPeriodeTriwulan'] ;
-    $vaDBCheck = $this->bdb->isUserAlreadyInputOnThisPeriode($cUsername, $nTahun, $nPeriode) ;
-    $vaCheck   = $this->bdb->getrow($vaDBCheck["db"]) ;
-    $nRow      = $vaCheck['row'] ;
-    // echo("WADUHH => " . print_r($vaCheck)  . " || " . $nRow );
+    $nStatus   = $va['cStatus'] ;
+    $nRow      = 0 ;
+    if($nStatus == 0){
+      $vaDBCheck = $this->bdb->isUserAlreadyInputOnThisPeriode($cUsername, $nTahun, $nPeriode) ;
+      $vaCheck   = $this->bdb->getrow($vaDBCheck["db"]) ;
+      $nRow      = $vaCheck['row'] ;
+    }
     $lValid    = false ; 
+    // echo('alert("'. $cUsername .' || '. $nTahun .' || '. $nPeriode .' || '.  $nStatus .' || row :: '.$nRow.'");');
     if($nRow < 1){
       $lValid = true ;
     }
@@ -126,11 +154,25 @@ class tcpd_pegawai extends Bismillah_Controller
           bos.tcpd_pegawai.init() ;
           bos.tcpd_pegawai.grid1_reloaddata() ;
           Swal.fire({
-              icon: "success",
-              html: "Nomor Surat <b> M.02 Persetujuan Prinsip </b> Sebagai Berikut"
+            icon: "success",
+            html: "Performance Dialog Anda Berhasil Disimpan"
           });   
       ');
     }
   }
+
+  public function deleting(){
+    $va 	= $this->input->post() ;
+    $this->bdb->deleting($va['cKode']) ;
+    echo(' 
+      Swal.fire({
+          icon  : "success",
+          title : "Data Deleted!",
+      });
+      bos.tcpd_pegawai.init() ;
+      bos.tcpd_pegawai.grid1_reloaddata() ; 
+      bos.tcpd_pegawai.grid1_reload() ; 
+    ') ;
+}
 
 }
