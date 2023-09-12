@@ -27,7 +27,7 @@ class Tcpd_pegawai_m extends Bismillah_Model
     $cTableName = "performance_dialog" ;
     $cFieldName = "kode, tahun, tanggal , CONCAT(tahun,' - Triwulan ',SUM(periode+1)) as periode_triwulan, 
                    judul , komentar_pelaksanaan_tugas , area_peningkatan_kinerja, status, username" ;
-    $dbd        = $this->select("performance_dialog s", $cFieldName, $where, $join, "s.Kode", "s.Kode DESC", $limit) ;
+    $dbd        = $this->select("performance_dialog s", $cFieldName, $where, $join, "s.Kode", "s.tahun DESC , s.periode ASC", $limit) ;
     $dba        = $this->select("performance_dialog s", "s.id", $where, $join) ;
     
     return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
@@ -42,7 +42,7 @@ class Tcpd_pegawai_m extends Bismillah_Model
   }
 
   function isUserAlreadyInputOnThisPeriode($cUsername, $nTahun, $nPeriode) {
-    $cWhere = "username = '$cUsername' AND tahun = '$nTahun' AND periode = '$nPeriode'" ;
+    $cWhere = "username = '$cUsername' AND tahun = '$nTahun' AND periode = '$nPeriode' AND status < 9" ;
     $dba      = $this->select("performance_dialog", "count(id) as row", $cWhere) ;
     // $rows     = $this->rows($dba) ;
     $vaReturn = array("db"=> $dba) ;

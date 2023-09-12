@@ -8,6 +8,7 @@ class Tcpd_manager_m extends Bismillah_Model
 {
 	
   public function loadgrid($va){
+    // echo print_r($va) ;
     $cKodeKaryawan  = getsession($this,"KodeKaryawan");
     $cUserName      = getsession($this,"username");
     $limit          = $va['offset'].",".$va['limit'] ;
@@ -19,7 +20,7 @@ class Tcpd_manager_m extends Bismillah_Model
 
     if($cSrchField == "s.Tgl" || $cSrchField == "d.Tgl") $cSrchValue = date_2s($cSrchValue);
     $where 	    = array() ; 
-    $where[]    = "username = '$cUserName'";
+    $where[]    = "pd.username = '$cUserName'";
     if($cSrchValue !== "") $where[]	= "{$cSrchField} LIKE '%{$cSrchValue}%'" ;
     $where 	    = implode(" AND ", $where) ;
     if($cUserName == "asda" || $cUserName == "super") $where = "" ;
@@ -32,10 +33,10 @@ class Tcpd_manager_m extends Bismillah_Model
     // GROUP BY  pd.username
     // ORDER BY pd.status DESC;
     $cFieldName = "pd.username as uname_pelapor, u.fullname as fullname_pelapor, pd.status as status" ;
-    $dbd        = $this->select($cTableName, $cFieldName, $where, $join, "pd.username", "pd.status DESC", $limit) ;
+    $dbd        = $this->select($cTableName, $cFieldName, $where, $join, "pd.username", "pd.status DESC") ;
     $dba        = $this->select($cTableName, "pd.id", $where, $join, "pd.username") ;
     
-    return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
+    return array("db"=>$dbd, "rows"=> $this->rows($dbd) ) ;
   }
 
   function isUserAlreadyInputOnThisPeriode($cUsername, $nTahun, $nPeriode) {
@@ -50,8 +51,8 @@ class Tcpd_manager_m extends Bismillah_Model
   function getStatusLaporanByUname($cUsername) {
     // SELECT status from performance_dialog pd WHERE username = '16199' ORDER by status DESC LIMIT 1;
     $nRetval = 0 ;
-    $cWhere  = "username = '$cUsername'" ;
-    $dba     = $this->select("performance_dialog", "status", $cWhere,"","","status DESC") ;
+    $cWhere  = "username = '$cUsername' AND status < 9" ;
+    $dba     = $this->select("performance_dialog", "status", $cWhere,"","","datetime DESC") ;
     if($dbr = $this->getrow($dba)){
       $nRetval = $dbr['status'] ;
     }  
@@ -86,6 +87,42 @@ class Tcpd_manager_m extends Bismillah_Model
     $this->update($cTableName, $vaData, $where, "") ;
     // echo(print_r($vaData)) ;
     return "OK" ;
+  }
+
+  function getdata($va){
+    $cPeriode       = $va['periode'];
+    $nTahun         = $va['tahun'];
+    $cUnameKaryawan = $va['uname_karyawan'] ;
+    $vaRetval       = array() ;
+    $cTable         = "performance_dialog p" ;
+    $cField         = "p.*, u.fullname" ;
+    $cJoin          = "LEFT JOIN sys_username u ON u.username = p.username " ;
+    $cWhere         = "p.tahun = '$nTahun' AND p.periode = '$cPeriode' and p.username = '$cUnameKaryawan' and status < 9" ;
+    $dbdata 	      = $this->select($cTable, $cField, $cWhere, $cJoin) ;
+    if($dbRow = $this->getrow($dbdata)){
+      $vaRetval = $dbRow ;
+    }  
+    return $vaRetval ;
+    
+    /**
+     * 
+     * [periode] => 2 [tahun] => 2023 [uname_karyawan] => suworo
+      SELECT
+        p.*,
+        u.fullname 
+      from
+        performance_dialog p
+      
+      WHERE
+        
+    */
+    
+  }
+
+  function editNoComent($cKode){
+    $vaUpd = array('status'=>"2") ;
+    $where = "kode = " . $this->escape($cKode) ;
+    $this->update("performance_dialog", $vaUpd, $where, "") ; 
   }
 
 }

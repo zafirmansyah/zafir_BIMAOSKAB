@@ -18,18 +18,18 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label>Tahun</label>
-                                <select class="form-control optPeriodeTriwulan select" data-sf="load_PeriodeTriwulan" name="optPeriodeTriwulan" id="optPeriodeTriwulan" data-placeholder=" - Periode - "></select>
+                                <select class="form-control optTahun select" name="optTahun" id="optTahun" data-placeholder=" - Tahun - "></select>
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label>Periode Triwulan</label>
-                                <select class="form-control optPeriodeTriwulan select" data-sf="load_PeriodeTriwulan" name="optPeriodeTriwulan" id="optPeriodeTriwulan" data-placeholder=" - Periode - "></select>
+                                <select class="form-control optPeriodeTriwulan select" name="optPeriodeTriwulan" id="optPeriodeTriwulan" data-placeholder=" - Periode - "></select>
                             </div>
                         </div>
                     </div>
                     <div class="box-header with-border">
-                        <h3 class="box-title"><b>Judul Pelaporan Pekerjaan Triwulan</b></h3>
+                        <h3 class="box-title"><b><span id="cJudul"></span></b></h3>
                     </div>
                     <div class="box-body no-padding">
                         <div class="mailbox-read-info">
@@ -37,40 +37,41 @@
                                 <tr>
                                     <td width="100px" >Dari</td>
                                     <td width="10px" >:</td>
-                                    <td><span class="mailbox-read-time">Nama Pegawai yang Melaporkan</span></td>
+                                    <td><span class="mailbox-read-time" id="cPegawaiPelapor"></span></td>
                                 </tr>
                                 <tr>
                                     <td width="100px" >Input Date Time</td>
                                     <td width="10px"> : </td>
-                                    <td> <span class="mailbox-read-time">2022-01-01 02:02:02 (Kapan Pegawai Mengisi Laporan Pekerjaan Triwulan)</span></td>
+                                    <td> <span class="mailbox-read-time" id="dDateTime"></span></td>
                                 </tr>
                                 <tr>
-                                    <td width="100px" >Periode</td>
+                                    <td width="100px" >Tahun Periode</td>
                                     <td width="10px"> : </td>
-                                    <td> <span class="mailbox-read-time">Triwulan I</span></td>
+                                    <td> <span class="mailbox-read-time" id="cPeriode"></span></td>
                                 </tr>
                             </table>
                         </div>
                         <div class="mailbox-read-message">
                             <!-- Detail Surat -->
                             <p><b>KOMENTAR TERHADAP PELAKSANAAN TUGAS :</b></p>
-                            <span id="xx">
-                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque voluptate inventore quasi sed delectus laboriosam dolorum nam rerum? Cum delectus nulla alias adipisci, officia ipsa. Quae quod harum maiores ipsa!</p>
-                                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate inventore optio soluta odit facilis reprehenderit tempora officia, corrupti ad ex harum blanditiis eaque fugiat odio voluptates at, qui aliquam recusandae.</p>
-                            </span>
-                            <p><b>Tanggapan Bos.e</b></p>
-                            <p>Iki revisien lee</p>
+                            <span id="spanKomentar"></span>
+                            <br><br>
+                            <p><b>TANGGAPAN ATASAN :</b></p>
+                            <span id="spanTanggapanKomentar"></span>
                         </div>
                         <hr>
                         <div class="mailbox-read-message">
                             <!-- Detail Surat -->
                             <p><b>AREA PENINGKATAN KINERJA : </b></p>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus perferendis optio, consequuntur assumenda culpa dolor accusantium laborum vero nihil hic magni ea repellat maxime at! Sint tenetur eveniet laudantium iusto?</p>
+                            <span id="spanAreaPeningkatanKinerja"></span>
+                            <br><br>
+                            <p><b>TANGGAPAN ATASAN :</b></p>
+                            <span id="spanTanggapanAreaPeningkatanKinerja"></span>
                         </div>
                     </div>
                     <div class="box-footer">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-success" onclick="bos.rptsuratmasuk_read.cmdForward('')">Perbaikan Tanpa Komentar - tidak menghilangkan komentar bos.e jika si bos udah sempet komen</button>
+                            <button type="button" id="cmdEditNoComment" class="btn btn-success">Perbaikan Tanpa Komentar</button> <!--  - tidak menghilangkan komentar bos.e jika si bos udah sempet komen -->
                             <!-- <button type="button" class="btn btn-default" onclick="bos.rptsuratmasuk_read.cmdForward('')"><i class="fa fa-share"></i> Berikan Tanggapan</button> -->
                         </div>
                     </div>
@@ -105,10 +106,16 @@
                             <input type="text" name="cSubject" id="cSubject" class="form-control" maxlength="225" placeholder="Judul Pelaporan Pegawai" readonly>
                         </div>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label>Tahun</label>
+                            <select class="form-control optTahun2 select" data-sf="load_PeriodeTriwulan" name="optTahun2" id="optTahun2" data-placeholder=" - Periode - " readonly></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
                         <div class="form-group">
                             <label>Periode Triwulan</label>
-                            <select class="form-control optPeriodeTriwulan select" data-sf="load_PeriodeTriwulan" name="optPeriodeTriwulan" id="optPeriodeTriwulan" data-placeholder=" - Periode - " readonly></select>
+                            <select class="form-control optPeriodeTriwulan2 select" data-sf="load_PeriodeTriwulan" name="optPeriodeTriwulan2" id="optPeriodeTriwulan2" data-placeholder=" - Periode - " readonly></select>
                         </div>
                     </div>
                     <div class="col-sm-10">
@@ -135,8 +142,8 @@
                 </div>
                 <input type="hidden" name="nNo" id="nNo" value="0">
                 <input type="hidden" value=<?=$cUsername?> name="cUsername" id="cUsername">
-                <input type="hidden" name="cKodeKaryawan" id="cKodeKaryawan">
-                <input type="hidden" name="cKode" id="cKode">
+                <input type="hidden" name="cUsernameKaryawan" id="cUsernameKaryawan" >
+                <input type="text" name="cKode" id="cKode">
                 <input type="hidden" name="cStatus" id="cStatus">
                 <input type="hidden" name="cLastPath" id="cLastPath">
                 <button class="btn btn-primary" id="cmdSave">Simpan</button>
@@ -172,7 +179,7 @@
             },
             multiSearch     : false,
             columns: [
-                { field: 'fullname_pelapor', caption: 'Periode Triwulan', size: '250px', sortable: false},
+                { field: 'fullname_pelapor', caption: 'Nama Pegawai', size: '250px', sortable: false},
                 { field: 'status', caption: 'status', size: '150px', sortable: false},
                 { field: 'cmdEdit', caption: ' ', size: '100px', sortable: false },
                 { field: 'cmdDelete', caption: ' ', size: '100px', sortable: false }
@@ -207,7 +214,7 @@
     /********************************************** */
 
     bos.tcpd_manager.cmdEdit      = function(id){
-        bjs.ajax(this.url + '/editing', 'cKode=' + id);
+        bjs.ajax(this.url + '/editing', 'cUsernamePelaporan=' + id);
     }
 
     bos.tcpd_manager.cmdDelete    = function(id){
@@ -279,7 +286,9 @@
         });
 
         this.obj.find("#optPeriodeTriwulan").on("select2:select", function(e){ 
-            bjs.ajax(bos.tcpd_manager.url+"/refresh", "rekening=" + $(this).val()) ; 
+            const optTahunVal       = $("#optTahun").val() ;
+            const cUsernameKaryawan = $("#cUsernameKaryawan").val() ;
+            bjs.ajax(bos.tcpd_manager.url+"/refreshTriwulan", "periode=" + $(this).val() + "&tahun="+optTahunVal + "&uname_karyawan="+cUsernameKaryawan) ; 
         }) ; 
         
         this.obj.on('remove', function(){
@@ -309,6 +318,12 @@
             bos.tcpd_manager.obj.find("#idl" + bos.tcpd_manager.uname).html("<i class='fa fa-spinner fa-pulse'></i>");
             bjs.ajaxfile(bos.tcpd_manager.base_url + "/savingFile" , bos.tcpd_manager.gfal, this) ;
             
+        }) ;
+
+        this.obj.find("#cmdEditNoComment").on('click' , function(e){
+            e.preventDefault() ;
+            const cKode = $("#cKode").val() ;
+            bjs.ajax( bos.tcpd_manager.base_url + '/editNoComent', "cKode="+cKode) ;
         }) ;
         
 
@@ -343,6 +358,26 @@
     ]
     $('#optPeriodeTriwulan').select2({
         data: vaDataPeriodeTriwulan
+    });
+
+    $('#optPeriodeTriwulan2').select2({
+        disabled: true
+    });
+
+    const vaDataTahun = [
+        {"id" : "2020" , "text" : "2020"},
+        {"id" : "2021" , "text" : "2021"},
+        {"id" : "2022" , "text" : "2022"},
+        {"id" : "2023" , "text" : "2023", "selected": true},
+        {"id" : "2024" , "text" : "2024"},
+        {"id" : "2025" , "text" : "2025"}
+    ]
+    $('#optTahun').select2({
+        data : vaDataTahun
+    });
+
+    $('#optTahun2').select2({
+        disabled: true
     });
     
 
