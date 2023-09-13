@@ -20,7 +20,7 @@ class Tcpd_manager_m extends Bismillah_Model
 
     if($cSrchField == "s.Tgl" || $cSrchField == "d.Tgl") $cSrchValue = date_2s($cSrchValue);
     $where 	    = array() ; 
-    $where[]    = "pd.username = '$cUserName'";
+    $where[]    = "pd.username_superior = '$cUserName'";
     if($cSrchValue !== "") $where[]	= "{$cSrchField} LIKE '%{$cSrchValue}%'" ;
     $where 	    = implode(" AND ", $where) ;
     if($cUserName == "asda" || $cUserName == "super") $where = "" ;
@@ -57,6 +57,28 @@ class Tcpd_manager_m extends Bismillah_Model
       $nRetval = $dbr['status'] ;
     }  
     // $vaReturn = array("db"=> $dba) ;
+    return $nRetval ;
+  }
+
+  function getDataLastPeriodeInserted($cUsername) {
+    $nRetval = "" ;
+    $cWhere  = "username = '$cUsername' AND status < 9" ;
+    $dba     = $this->select("performance_dialog", "tahun, periode", $cWhere,"","","datetime DESC") ;
+    if($dbr = $this->getrow($dba)){
+      // echo print_r($dbr) ; exit() ;
+      $nPeriode = $dbr['periode'] ;
+      $cTextPeriode = "" ;
+      if($nPeriode == 0){
+        $cTextPeriode = "I" ;
+      }else if($nPeriode == 1){
+        $cTextPeriode = "II" ;
+      }else if($nPeriode == 2){
+        $cTextPeriode = "III" ;
+      }else{
+        $cTextPeriode = "IV" ;
+      }
+      $nRetval = "Tahun " . $dbr['tahun'] . " Triwulan " . $cTextPeriode ;
+    }  
     return $nRetval ;
   }
 

@@ -27,17 +27,10 @@ class tcpd_manager extends Bismillah_Controller
     $vdb    = $this->bdb->loadgrid($va) ;
     $dbd    = $vdb['db'] ;
     while( $dbr = $this->bdb->getrow($dbd) ){
-      // echo(print_r($dbr));
-      /**
-        [uname_pelapor] => suworo 
-        [fullname_pelapor] => suworo 
-        [status] => 3 
-       */
       $cUsernamePelaporan = $dbr['uname_pelapor'] ;
-      $lStatus  = $this->bdb->getStatusLaporanByUname($cUsernamePelaporan) ;
-      // $cStatus  = "<span class='text-default'>New<span>";
-      $btnClass = "btn-default";
-      // echo "Samudera Musik :: " . $lStatus ;
+      $lStatus            = $this->bdb->getStatusLaporanByUname($cUsernamePelaporan) ;
+      $cPeriodeLastInput  = $this->bdb->getDataLastPeriodeInserted($cUsernamePelaporan) ;
+      $btnClass           = "btn-default";
       if($lStatus == 1){ //proses
           $cStatus  = "<span class='text-success'>Disetujui<span>";
       }else if($lStatus == 2){ //pending
@@ -46,14 +39,11 @@ class tcpd_manager extends Bismillah_Controller
           $cStatus  = "<span class='text-warning'>Belum Ditanggapi<span>";
       }
       
-      $vaset   = $dbr ;
-      // $vaset['tanggal']       = date_2d($dbr['tanggal']) ;
-      $vaset['status']        = html_entity_decode($cStatus);
-      $vaset['cmdEdit']       = "" ;
-      // if($lStatus == 3 || $lStatus == 3 || $sessJabatan === "000"){
-        $vaset['cmdEdit']       = '<button type="button" onClick="bos.tcpd_manager.cmdEdit(\''.$cUsernamePelaporan.'\')"
-                                    class="btn btn-info btn-grid">Lihat Detail</button>' ;
-      // }
+      $vaset                          = $dbr ;
+      $vaset['periode_last_inserted'] = $cPeriodeLastInput ;
+      $vaset['status']                = html_entity_decode($cStatus);
+      $vaset['cmdEdit']               = '<button type="button" onClick="bos.tcpd_manager.cmdEdit(\''.$cUsernamePelaporan.'\')"
+                                         class="btn btn-info btn-grid">Lihat Detail</button>' ;
       $vaset['cmdDelete'] = "" ;
       if($sessJabatan === "000"){
         $vaset['cmdDelete']     = '<button type="button" onClick="bos.tcpd_manager.cmdDelete(\''.$cUsernamePelaporan.'\')"
@@ -147,7 +137,6 @@ class tcpd_manager extends Bismillah_Controller
   function editNoComent(){
     $va = $this->input->post();
     $cKode = $va['cKode'];
-    echo('alert("THE CONTROLLER : '. $cKode .'");');
     $this->bdb->editNoComent($cKode) ;
     echo(' 
       Swal.fire({

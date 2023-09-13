@@ -180,6 +180,7 @@
             multiSearch     : false,
             columns: [
                 { field: 'fullname_pelapor', caption: 'Nama Pegawai', size: '250px', sortable: false},
+                { field: 'periode_last_inserted', caption: 'Data Input Terakhir', size: '250px', sortable: false},
                 { field: 'status', caption: 'status', size: '150px', sortable: false},
                 { field: 'cmdEdit', caption: ' ', size: '100px', sortable: false },
                 { field: 'cmdDelete', caption: ' ', size: '100px', sortable: false }
