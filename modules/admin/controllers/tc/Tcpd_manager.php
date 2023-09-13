@@ -50,10 +50,10 @@ class tcpd_manager extends Bismillah_Controller
       // $vaset['tanggal']       = date_2d($dbr['tanggal']) ;
       $vaset['status']        = html_entity_decode($cStatus);
       $vaset['cmdEdit']       = "" ;
-      if($lStatus == 3 || $sessJabatan === "000"){
+      // if($lStatus == 3 || $lStatus == 3 || $sessJabatan === "000"){
         $vaset['cmdEdit']       = '<button type="button" onClick="bos.tcpd_manager.cmdEdit(\''.$cUsernamePelaporan.'\')"
                                     class="btn btn-info btn-grid">Lihat Detail</button>' ;
-      }
+      // }
       $vaset['cmdDelete'] = "" ;
       if($sessJabatan === "000"){
         $vaset['cmdDelete']     = '<button type="button" onClick="bos.tcpd_manager.cmdDelete(\''.$cUsernamePelaporan.'\')"
@@ -172,6 +172,58 @@ class tcpd_manager extends Bismillah_Controller
         });   
       };
     ');
+  }
+
+  function validSaving() {
+    $va = $this->input->post() ;
+    // echo(print_r($va));
+
+    /*
+    [dTgl]                      => 13-09-2023
+    [cSubject]                  => ABCD
+    [cKomentarPelaksanaanTugas] => 
+    [cAreaPeningkatanKinerja]   => 
+    [nNo]                       => 0
+    [cUsername]                 => asda
+    [cUsernameKaryawan]         => asda
+    [cKode]                     => PDLG202309.017
+    [cStatus]                   => 
+    [cLastPath]                 => 
+    */
+
+    if(!isset($va['cKomentarPelaksanaanTugas']) || !isset($va['cAreaPeningkatanKinerja'])){
+      echo('
+        Swal.fire({
+          icon: "error",
+          title: "Data Tidak Valid" ,
+          text : "Silahkan Input Komentar Terlebih Dahulu"
+        });   
+      ');
+    }else if(!$va['cKode']){
+      echo('
+        Swal.fire({
+          icon: "error",
+          title: "Oops!!" ,
+          text : "Sepertinya Anda Belum Memilih Data Dengan Benar"
+        });   
+      ');
+    }else{
+      $this->saveData($va) ;
+    } 
+  }
+
+  function saveData($va) {
+    $doSaveData   = $this->bdb->saveData($va);
+    if($doSaveData){
+      echo('
+          bos.tcpd_manager.init() ;
+          bos.tcpd_manager.grid1_reloaddata() ;
+          Swal.fire({
+            icon: "success",
+            html: "Tanggapan Performance Dialog Anda Berhasil Disimpan"
+          });   
+      ');
+    }
   }
 
 

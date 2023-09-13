@@ -143,7 +143,7 @@
                 <input type="hidden" name="nNo" id="nNo" value="0">
                 <input type="hidden" value=<?=$cUsername?> name="cUsername" id="cUsername">
                 <input type="hidden" name="cUsernameKaryawan" id="cUsernameKaryawan" >
-                <input type="text" name="cKode" id="cKode">
+                <input type="hidden" name="cKode" id="cKode">
                 <input type="hidden" name="cStatus" id="cStatus">
                 <input type="hidden" name="cLastPath" id="cLastPath">
                 <button class="btn btn-primary" id="cmdSave">Simpan</button>
@@ -226,16 +226,30 @@
 
     bos.tcpd_manager.init         = function(){
         this.obj.find("#cSubject").val("") ;
-        this.obj.find("#cKomentarPelaksanaanTugas").val("") ;
-        this.obj.find("#cAreaPeningkatanKinerja").val("") ;
-        tinymce.activeEditor.setContent("");
+        tinymce.get("cKomentarPelaksanaanTugas").setContent("");
+        tinymce.get("cAreaPeningkatanKinerja").setContent("");
         this.obj.find("#cKode").val("") ;
         this.obj.find("#cStatus").val("");
-        this.obj.find("#optUserName").val("") ;
-        this.obj.find("#cUplFileWO").val("") ;
-        this.obj.find("#nNo").val("0") ;
-        bjs.ajax(this.url + '/init') ;
+        this.obj.find("#dTgl").val("");
+        this.obj.find("#cSubject").val("");
+        this.obj.find("#cUplFileWO").val("");
+        this.obj.find("#nNo").val("");
+        this.obj.find("#cUsername").val("");
+        this.obj.find("#cUsernameKaryawan").val("");
+        this.obj.find("#cKode").val("");
+        this.obj.find("#cStatus").val("");
+
+        $("#cJudul").html("");
+        $("#cPegawaiPelapor").html("");
+        $("#dDateTime").html("");
+        $("#cPeriode").html("");
+        $("#spanKomentar").html("");
+        $("#spanTanggapanKomentar").html("");
+        $("#spanAreaPeningkatanKinerja").html("");
+        $("#spanTanggapanAreaPeningkatanKinerja").html("");
+
         this.obj.find(".nav-tabs li:eq(0) a").tab("show") ;
+        bjs.ajax(this.url + '/init') ;
         bos.tcpd_manager.grid1_loaddata() ;
         bos.tcpd_manager.grid1_reload() ;
     }
@@ -285,12 +299,13 @@
             bos.tcpd_manager.tabsaction( e.i )  ;
         });
 
-        this.obj.find("#optPeriodeTriwulan").on("select2:select", function(e){ 
+        this.obj.find("#optPeriodeTriwulan").on("select2:select", function(e){
+            e.preventDefault() ;
             const optTahunVal       = $("#optTahun").val() ;
             const cUsernameKaryawan = $("#cUsernameKaryawan").val() ;
             bjs.ajax(bos.tcpd_manager.url+"/refreshTriwulan", "periode=" + $(this).val() + "&tahun="+optTahunVal + "&uname_karyawan="+cUsernameKaryawan) ; 
         }) ; 
-        
+
         this.obj.on('remove', function(){
             bos.tcpd_manager.grid1_destroy() ;
             tinymce.remove() ;
@@ -330,7 +345,7 @@
         this.obj.find('form').on("submit", function(e){
             e.preventDefault() ;
             if( bjs.isvalidform(this) ){
-                bjs.ajax( bos.tcpd_manager.base_url + '/saving', bjs.getdataform(this) , bos.tcpd_manager.cmdSave) ;
+                bjs.ajax( bos.tcpd_manager.base_url + '/validSaving', bjs.getdataform(this) , bos.tcpd_manager.cmdSave) ;
             }
         }) ;
     }
@@ -351,6 +366,7 @@
     });
 
     const vaDataPeriodeTriwulan = [
+        {"id" : "X" , "text" : "- Pilih Periode -","selected": true},
         {"id" : 0 , "text" : "Triwulan I"},
         {"id" : 1 , "text" : "Triwulan II"},
         {"id" : 2 , "text" : "Triwulan III"},
@@ -365,10 +381,11 @@
     });
 
     const vaDataTahun = [
+        {"id" : "0" , "text" : "- Pilih Tahun -","selected": true},
         {"id" : "2020" , "text" : "2020"},
         {"id" : "2021" , "text" : "2021"},
         {"id" : "2022" , "text" : "2022"},
-        {"id" : "2023" , "text" : "2023", "selected": true},
+        {"id" : "2023" , "text" : "2023"},
         {"id" : "2024" , "text" : "2024"},
         {"id" : "2025" , "text" : "2025"}
     ]

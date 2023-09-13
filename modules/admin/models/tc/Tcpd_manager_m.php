@@ -72,20 +72,13 @@ class Tcpd_manager_m extends Bismillah_Model
   function saveData($va){
     $cTableName   = "performance_dialog" ;
     $cUnameAtasan = getsession($this,'superior') ;
-    $vaData       = array("kode"                       => $va['cKode'] ,
-                          "tanggal"                    => date_2s($va['dTgl']),
-                          "judul"                      => $va['cSubject'],
-                          "tahun"                      => $va['optTahun'],
-                          "periode"                    => $va['optPeriodeTriwulan'],
-                          "komentar_pelaksanaan_tugas" => $va['cKomentarPelaksanaanTugas'],
-                          "area_peningkatan_kinerja"   => $va['cAreaPeningkatanKinerja'],
-                          "username"                   => $va['cUsername'],
-                          "username_superior"          => $cUnameAtasan,
-                          "datetime"                   => date("Y-m-d H:i:s"),
-                          "status"                     => 3);
+    $vaData       = array("tanggal_response"             => date_2s($va['dTgl']),
+                          "umpan_balik_evaluasi_kerja"   => $va['cKomentarPelaksanaanTugas'],
+                          "rencana_pengembangan_pegawai" => $va['cAreaPeningkatanKinerja'],
+                          "datetime_response_superior"   => date("Y-m-d H:i:s"),
+                          "status"                       => 1);
     $where      = "kode = " . $this->escape($va['cKode']) ;
     $this->update($cTableName, $vaData, $where, "") ;
-    // echo(print_r($vaData)) ;
     return "OK" ;
   }
 

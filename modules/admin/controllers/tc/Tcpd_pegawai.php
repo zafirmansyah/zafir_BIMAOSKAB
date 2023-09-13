@@ -166,8 +166,8 @@ class tcpd_pegawai extends Bismillah_Controller
     $this->bdb->deleting($va['cKode']) ;
     echo(' 
       Swal.fire({
-          icon  : "success",
-          title : "Data Deleted!",
+        icon  : "success",
+        title : "Data Deleted!",
       });
       bos.tcpd_pegawai.init() ;
       bos.tcpd_pegawai.grid1_reloaddata() ; 
