@@ -24,13 +24,23 @@ class Main extends Bismillah_Controller{
                                 'JmlIKU'       =>$nJmlIKU,
                                 'JmlWO'        =>$nJmlWO
                                 );
-        $var['DataWO']  = $vaDataWO;
-        $var['DataIKU'] = $vaDataIKU;
-        $var['unit']    = getsession($this,"unit");
+        $var['DataWO']   = $vaDataWO;
+        $var['DataIKU']  = $vaDataIKU;
+        $var['unit']     = getsession($this,"unit");
+        $var['username'] = getsession($this,"username");
+        $var['fullname_user'] = getsession($this,"fullname") ;
         $var['keteranganUnit'] = $this->bdb->getKeteranganUnit($var['unit']);
         $this->load->view("dash/main",$var) ;
     }
 
+    function insertLogsActivity(){
+        $va = $this->input->post() ;
+        $cUsername     = $va['username'] ;
+        $cActivityMenu = $va['activity_menu'] ;
+        $cActivityType = $va['activity_type'] ;
+        $dtDateTime    = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+    }
     
     public function getDataWOPerUnit()
     {

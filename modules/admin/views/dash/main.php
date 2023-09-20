@@ -1,4 +1,6 @@
   <!-- Small boxes (Stat box) -->
+  <input type="hidden" id="cUsername" value="<?=$username?>">
+  <input type="hidden" id="cFullname" value="<?=$fullname_user?>">
   <div class="row">
     <!-- ./col -->
     <div class="col-lg-4 col-xs-6">
@@ -54,7 +56,7 @@
           <i class="ion ion-folder"></i>
         </div>
 	      <a href="https://bankindonesiagov-my.sharepoint.com/:f:/r/personal/guntur_a_bi_go_id/Documents/BIMA%20Sharing%20Folder?csf=1&web=1&e=RcbUMq" 
-           class="small-box-footer" target="_blank">Go to Page <i class="fa fa-arrow-circle-right"></i></a>
+           class="small-box-footer" onClick="bos.dmain.insertLogsActivity(`BIMA SHARING FOLDER`)" target="_blank">Go to Page <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -67,7 +69,8 @@
         <div class="icon">
           <i class="ion ion-connection-bars"></i>
         </div>
-        <a href="https://app.powerbi.com/links/8WVMvDU6xc?ctid=ca37492e-f410-427b-ab39-055bdc18ce02&pbi_source=linkShare" class="small-box-footer" target="_blank">Go to Page <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="https://app.powerbi.com/links/8WVMvDU6xc?ctid=ca37492e-f410-427b-ab39-055bdc18ce02&pbi_source=linkShare" 
+        class="small-box-footer" onClick="bos.dmain.insertLogsActivity(`BIMA ECONOMIC UPDATES`)" target="_blank">Go to Page <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
   </div>
@@ -156,23 +159,37 @@
     </div>
   </div>
   <script>
-  $(function () {
-    $('#tableWO').DataTable({
-      'paging'      : false,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : false,
-      'autoWidth'   : false
-    })
-    $('#tableIKU').DataTable({
-      'paging'      : false,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : false,
-      'autoWidth'   : false
-    })
+    <?=cekbosjs();?>   
     
-  })
+    bos.dmain.insertLogsActivity = function(cType){
+      const cUsername = $("#cUsername").val() ;
+      const vaData = {
+        "username"      : cUsername, 
+        "activity_menu" : cType, 
+        "activity_type" : "Click URL " + cType + " Pada Halaman Dashboard",
+        "datetime"      : new Date()
+      }
+      bjs.ajax( bos.dmain.base_url + '/insertLogsActivity', vaData) ;
+    }
+
+    $(function () {
+
+      $('#tableWO').DataTable({
+        'paging'      : false,
+        'lengthChange': false,
+        'searching'   : true,
+        'ordering'    : true,
+        'info'        : false,
+        'autoWidth'   : false
+      })
+      $('#tableIKU').DataTable({
+        'paging'      : false,
+        'lengthChange': false,
+        'searching'   : true,
+        'ordering'    : true,
+        'info'        : false,
+        'autoWidth'   : false
+      })
+      
+    })
 </script>
