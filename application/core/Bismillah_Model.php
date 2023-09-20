@@ -74,6 +74,12 @@ class Bismillah_Model extends CI_Model{
 		$this->sql_exec($query, $save_log) ;
 	}
 
+	public function insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dateTime){
+		// User ini, melakukan CRUD, pada menu XXXX pada waktu.
+		$query = "INSERT INTO sys_log_activity (username ,activity_menu ,activity_type , datetime) VALUES ('$cUsername', '$cActivityMenu', '$cActivityType', '$dateTime')" ;
+		$this->sql_exec($query) ;
+	}
+
 	public function edit($table, $data, $where='',$save_log=TRUE){
 		if(trim($where) !== "") $where = 'WHERE ' . $where ;
 
@@ -645,6 +651,39 @@ class Bismillah_Model extends CI_Model{
 				) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;";
 		$this->AddTable("psbi_realisasi",$cSQL);
 		$this->AddField("psbi_realisasi","Tgl","date","0000-00-00","");
+		
+		$cSQL = "CREATE TABLE sys_log_activity (
+					id INT auto_increment NOT NULL,
+					username varchar(100) NULL,
+					activity_menu TEXT NULL,
+					activity_type varchar(100) NULL,
+					`datetime` DATETIME NULL,
+					CONSTRAINT sys_log_activity_PK PRIMARY KEY (id)
+				) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;";
+		$this->AddTable("sys_log_activity",$cSQL);
+		
+		$cSQL = "CREATE TABLE `performance_dialog` (
+		  `id` int(11) NOT NULL AUTO_INCREMENT,
+		  `kode` varchar(50) NOT NULL,
+		  `tanggal` date DEFAULT NULL,
+		  `tahun` varchar(4) DEFAULT NULL,
+		  `periode` varchar(1) DEFAULT NULL,
+		  `judul` varchar(300) DEFAULT NULL,
+		  `komentar_pelaksanaan_tugas` longtext,
+		  `area_peningkatan_kinerja` longtext,
+		  `tanggal_response` date DEFAULT NULL,
+		  `umpan_balik_evaluasi_kerja` longtext,
+		  `rencana_pengembangan_pegawai` longtext,
+		  `username` varchar(100) DEFAULT NULL,
+		  `kode_superior` varchar(100) DEFAULT NULL,
+		  `username_superior` varchar(100) DEFAULT NULL,
+		  `datetime` datetime DEFAULT NULL,
+		  `datetime_response_superior` datetime DEFAULT NULL,
+		  `status` int(11) DEFAULT NULL,
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;" ;
+		$this->AddTable("performance_dialog",$cSQL);
+
 
     }
 }
