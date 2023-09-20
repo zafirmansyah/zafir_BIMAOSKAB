@@ -15,12 +15,12 @@ class Login extends CI_Controller{
 
 	public function checklogin(){
 		$va		= $this->input->post() ;
-		$data = $this->loginm->getdata_login($va['cusername'], $va['cpassword']) ;
+		$data   = $this->loginm->getdata_login($va['cusername'], $va['cpassword']) ;
 		if(!empty($data)){
 			$lStatus = true ;
 			//saving data username
 			$data['app_title']	= $this->loginm->getconfig('app_title') ;
-			$data['app_logo']		= $this->loginm->getconfig('app_logo') ;
+			$data['app_logo']   = $this->loginm->getconfig('app_logo') ;
  			
 			//get photo
 			$data['data_var']		= $data['data_var'] !== "" ? json_decode($data['data_var'], true) : array("ava"=>"") ;
@@ -43,6 +43,14 @@ class Login extends CI_Controller{
 			if($data['Terminate']){
 				$lStatus  = false ;
 				$lComment = "Username " . $data['username'] . " tidak bisa login, silahkan laporkan pada Super Admin / PIC untuk informasi lebih lanjut" ;
+			}
+
+			if($lStatus == true){
+				$cUsername     = $data['username'] ;
+				$cActivityMenu = "LOGIN";
+				$cActivityType = "LOGIN" ;
+				$dtDateTime    = date('Y-m-d H:i:s') ;
+				$this->loginm->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
 			}
 		}else{
 			$lStatus = false ;
