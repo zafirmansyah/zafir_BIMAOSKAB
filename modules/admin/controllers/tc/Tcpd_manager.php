@@ -94,19 +94,19 @@ class tcpd_manager extends Bismillah_Controller
       $jsonPeriode[] 	  = array("id"=>$vaData['periode'],"text"=>$cTextPeriode);
       echo('
         with(bos.tcpd_manager.obj){
-          $("#cJudul").html("'.$vaData['judul'].'");
-          $("#cPegawaiPelapor").html("'.$vaData['fullname'].'");
-          $("#dDateTime").html("'.$vaData['datetime'].'");
-          $("#cPeriode").html("'.$cTahunPeriode.'");
-          $("#spanKomentar").html("'.$vaData['komentar_pelaksanaan_tugas'].'");
-          $("#spanTanggapanKomentar").html("'.$vaData['umpan_balik_evaluasi_kerja'].'");
-          $("#spanAreaPeningkatanKinerja").html("'.$vaData['area_peningkatan_kinerja'].'");
-          $("#spanTanggapanAreaPeningkatanKinerja").html("'.$vaData['rencana_pengembangan_pegawai'].'");
+          $("#cJudul").html(`'.$vaData['judul'].'`);
+          $("#cPegawaiPelapor").html(`'.$vaData['fullname'].'`);
+          $("#dDateTime").html(`'.$vaData['datetime'].'`);
+          $("#cPeriode").html(`'.$cTahunPeriode.'`);
+          $("#spanKomentar").html(`'.$vaData['komentar_pelaksanaan_tugas'].'`);
+          $("#spanTanggapanKomentar").html(`'.$vaData['umpan_balik_evaluasi_kerja'].'`);
+          $("#spanAreaPeningkatanKinerja").html(`'.$vaData['area_peningkatan_kinerja'].'`);
+          $("#spanTanggapanAreaPeningkatanKinerja").html(`'.$vaData['rencana_pengembangan_pegawai'].'`);
           $("#cSubject").val("'.$vaData['judul'].'");
           $("#cKode").val("'. $vaData['kode'] .'");
 
-          tinymce.get("cKomentarPelaksanaanTugas").setContent("'.$vaData['umpan_balik_evaluasi_kerja'].'");
-          tinymce.get("cAreaPeningkatanKinerja").setContent("'.$vaData['rencana_pengembangan_pegawai'].'");
+          tinymce.get("cKomentarPelaksanaanTugas").setContent(`'.$vaData['umpan_balik_evaluasi_kerja'].'`);
+          tinymce.get("cAreaPeningkatanKinerja").setContent(`'.$vaData['rencana_pengembangan_pegawai'].'`);
 
           $("#optTahun2").sval('. json_encode($jsonTahun) .');
           $("#optPeriodeTriwulan2").sval('. json_encode($jsonPeriode) .');

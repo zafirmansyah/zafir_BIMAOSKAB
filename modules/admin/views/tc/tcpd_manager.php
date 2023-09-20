@@ -56,7 +56,7 @@
                             <p><b>KOMENTAR TERHADAP PELAKSANAAN TUGAS :</b></p>
                             <span id="spanKomentar"></span>
                             <br><br>
-                            <p><b>TANGGAPAN ATASAN :</b></p>
+                            <p><b>TANGGAPAN LINE MANAGER :</b></p>
                             <span id="spanTanggapanKomentar"></span>
                         </div>
                         <hr>
@@ -65,7 +65,7 @@
                             <p><b>AREA PENINGKATAN KINERJA : </b></p>
                             <span id="spanAreaPeningkatanKinerja"></span>
                             <br><br>
-                            <p><b>TANGGAPAN ATASAN :</b></p>
+                            <p><b>TANGGAPAN LINE MANAGER :</b></p>
                             <span id="spanTanggapanAreaPeningkatanKinerja"></span>
                         </div>
                     </div>

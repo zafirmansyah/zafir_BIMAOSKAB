@@ -82,8 +82,8 @@ class tcpd_pegawai extends Bismillah_Controller
           find("#dTgl").val("'. date_2d($data['tanggal']) .'");
           find("#cSubject").val("'. $data['judul'] .'");
           
-          tinymce.get("cKomentarPelaksanaanTugas").setContent("'.$data['komentar_pelaksanaan_tugas'].'");
-          tinymce.get("cAreaPeningkatanKinerja").setContent("'.$data['area_peningkatan_kinerja'].'");
+          tinymce.get("cKomentarPelaksanaanTugas").setContent(`'.$data['komentar_pelaksanaan_tugas'].'`);
+          tinymce.get("cAreaPeningkatanKinerja").setContent(`'.$data['area_peningkatan_kinerja'].'`);
           find("#cUsername").val("'. $data['username'] .'");
           find("#cKode").val("'. $data['kode'] .'");  
           find("#cStatus").val("'. $data['status'] .'");

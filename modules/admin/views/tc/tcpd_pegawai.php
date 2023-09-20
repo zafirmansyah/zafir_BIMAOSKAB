@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Tanggal Input <?=$cSuperior?></label>
+                            <label>Tanggal Input</label>
                             <div class="col-xs-8 input-group">
                                 <input
                                     type="text" 
