@@ -79,15 +79,15 @@ class Tcsurat_keluar_m extends Bismillah_Model
         $nYear              = substr($dTgl,0,4) ;
         $cFaktur            = $this->getKodeSurat($cJenisSurat) ;
         $nNomorSurat        = $this->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'SK',true) ;
-        $vaData     = array("Kode"=>$cFaktur, 
-                            "Kepada"=>$va['cKepada'],
-                            "Perihal"=>$va['cPerihal'],
-                            "Tgl"=>date_2s($va['dTgl']),
-                            "NoSurat"=>$nNomorSurat,
-                            "JenisSurat"=>$cJenisSurat,
-                            "Unit"=>getsession($this,'unit'),
-                            "UserName"=>getsession($this,'username'),
-                            "DateTime"=>date('Y-m-d H:i:s')
+        $vaData     = array("Kode"       =>$cFaktur, 
+                            "Kepada"     => $va['cKepada'],
+                            "Perihal"    => $va['cPerihal'],
+                            "Tgl"        => date_2s($va['dTgl']),
+                            "NoSurat"    => $nNomorSurat,
+                            "JenisSurat" => $cJenisSurat,
+                            "Unit"       => getsession($this,'unit'),
+                            "UserName"   => getsession($this,'username'),
+                            "DateTime"   => date('Y-m-d H:i:s')
                             ) ;
         $where      = "Kode = " . $this->escape($cFaktur) ;
         $this->update("surat_keluar", $vaData, $where, "") ;

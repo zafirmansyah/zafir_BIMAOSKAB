@@ -4,19 +4,19 @@
             <?php $this->load->view('rptlistfolder_suratmasuk');?>
         </div-->
         <div class="col-md-12">
-        <div class="box box-primary">
-            <div class="box-header with-border" style="text-align:center;">
-                <h3 class="box-title">Daftar Surat Masuk</h3>
-            </div>
-            <div class="box-body no-padding">
-                <div class="table-responsive mailbox-messages">
-                    <div id="gridSuratMasuk" style="height:500px"></div>
+            <div class="box box-primary">
+                <div class="box-header with-border" style="text-align:center;">
+                    <h3 class="box-title">Daftar Surat Masuk</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="table-responsive mailbox-messages">
+                        <div id="gridSuratMasuk" style="height:500px"></div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    Download File : <b><div id="downloadLink"></div></b>
                 </div>
             </div>
-            <div class="box-footer">
-                Download File : <b><div id="downloadLink"></div></b>
-            </div>
-        </div>
         </div>
     </div>
 </section>

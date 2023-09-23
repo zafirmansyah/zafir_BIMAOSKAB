@@ -46,7 +46,7 @@ class Username_m extends Bismillah_Model{
         $cWhere[]   = "Jabatan <> '005'" ;
         if($search !== "") $cWhere[] = "(KodeKaryawan LIKE '%{$search}%' OR fullname LIKE '%{$search}%' OR username LIKE '%{$search}%')" ;
         $cWhere     = implode(" AND ", $cWhere) ;
-        $dbd        = $this->select("sys_username", "KodeKaryawan AS Kode,fullname AS Keterangan", $cWhere, "", "", "KodeKaryawan ASC") ;
+        $dbd        = $this->select("sys_username", "username, KodeKaryawan AS Kode,fullname AS Keterangan", $cWhere, "", "", "KodeKaryawan ASC") ;
         return array("db"=>$dbd) ;
     }
 
