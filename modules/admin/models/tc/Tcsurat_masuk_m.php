@@ -167,7 +167,7 @@ class Tcsurat_masuk_m extends Bismillah_Model
 
         $data['message'] = 'hello world';
         $pusher->trigger('my-channel', 'my-event', $data);
-
+        
         return $vaData ;
     }
 

@@ -10,8 +10,9 @@ class Frame extends Bismillah_Controller{
         $this->load->model('func/perhitungan_m') ;
         $this->load->model('func/updtransaksi_m') ;
 
+        $this->bdb              = $this->frame_m ;
         $this->func 	        = $this->func_m ;
-        $this->perhitungan_m 	    = $this->perhitungan_m ;
+        $this->perhitungan_m 	= $this->perhitungan_m ;
         $this->updtransaksi_m 	= $this->updtransaksi_m ;
 	}
 
@@ -69,8 +70,18 @@ class Frame extends Bismillah_Controller{
 
 	public function logout(){
 		$this->session->sess_destroy();
+        $this->insertLogsActivity();
 		echo('window.location.href = "'.base_url().'" ;') ;
 	}
+
+    function insertLogsActivity(){
+        $va            = $this->input->post() ;
+        $cUsername     = getsession($this, "username") ;
+        $cActivityMenu = "LOGOUT" ;
+        $cActivityType = "LOGOUT" ;
+        $dtDateTime    = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+    }
 
 	function notifikasiSuratMasuk()
 	{
