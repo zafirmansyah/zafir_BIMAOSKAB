@@ -75,10 +75,12 @@ class Tcsurat_masuk extends Bismillah_Controller
         //print_r($va);
 
         $vaKode         = $va['cKode'];
+        $isInsert       = "I" ;
         if($vaKode == "" || trim(empty($vaKode))){
             $cKode = $this->bdb->getKodeSurat() ;
         }else{
             $cKode = $vaKode ;
+            $isInsert = "U" ;
         }
 
         $va['cKode'] = $cKode ;
@@ -117,6 +119,12 @@ class Tcsurat_masuk extends Bismillah_Controller
             }
         }
         $saving = $this->bdb->saving($va) ;
+
+        $cUsername     = getsession($this, "username") ;
+        $cActivityMenu = "DOKUMEN MASUK" ;
+        $cActivityType = ($isInsert == "I") ? "Menyimpan Data Dokumen Masuk dengan Kode Input : " . $cKode : "Merubah Data Dokumen Masuk dengan Kode : " . $cKode ;
+        $dtDateTime    = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
 
         echo(' 
             Swal.fire({
@@ -198,6 +206,13 @@ class Tcsurat_masuk extends Bismillah_Controller
     public function deleting(){
         $va 	= $this->input->post() ;
         $this->bdb->deleting($va['cKode']) ;
+
+        $cUsername     = getsession($this, "username") ;
+        $cActivityMenu = "DOKUMEN MASUK" ;
+        $cActivityType = "Menghapus Data Dokumen Surat Masuk Kode " . $va['cKode'] ;
+        $dtDateTime    = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+
         echo(' 
             bos.tcsurat_masuk.grid1_reloaddata() ; 
             bos.tcsurat_masuk.grid1_reload() ; 
