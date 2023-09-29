@@ -23,7 +23,11 @@ class Tcpd_manager_m extends Bismillah_Model
     $where[]    = "pd.username_superior = '$cUserName'";
     if($cSrchValue !== "") $where[]	= "{$cSrchField} LIKE '%{$cSrchValue}%'" ;
     $where 	    = implode(" AND ", $where) ;
-    if($cUserName == "asda" || $cUserName == "super") $where = "" ;
+    /**
+     * 14517
+     * 12869
+     */
+    if($cUserName == "asda" || $cUserName == "super" || $cUserName == "14517" || $cUserName == "12869") $where = "" ;
     $join       = "LEFT JOIN sys_username u ON u.username = pd.username ";
     $cTableName = "performance_dialog pd" ;
 
