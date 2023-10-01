@@ -41,6 +41,36 @@ class Tcpd_pegawai_m extends Bismillah_Model
     return $data ;
   }
 
+  function getDataPreview($id){
+    // $cPeriode       = $va['periode'];
+    // $nTahun         = $va['tahun'];
+    // $cUnameKaryawan = $va['uname_karyawan'] ;
+    $vaRetval       = array() ;
+    $cTable         = "performance_dialog p" ;
+    $cField         = "p.*, u.fullname" ;
+    $cJoin          = "LEFT JOIN sys_username u ON u.username = p.username " ;
+    $cWhere         = "Kode = " . $this->escape($id) ;
+    $dbdata 	      = $this->select($cTable, $cField, $cWhere, $cJoin) ;
+    if($dbRow = $this->getrow($dbdata)){
+      $vaRetval = $dbRow ;
+    }  
+    return $vaRetval ;
+    
+    /**
+     * 
+     * [periode] => 2 [tahun] => 2023 [uname_karyawan] => suworo
+      SELECT
+        p.*,
+        u.fullname 
+      from
+        performance_dialog p
+      
+      WHERE
+        
+    */
+    
+  }
+
   function isUserAlreadyInputOnThisPeriode($cUsername, $nTahun, $nPeriode) {
     $cWhere = "username = '$cUsername' AND tahun = '$nTahun' AND periode = '$nPeriode' AND status < 9" ;
     $dba      = $this->select("performance_dialog", "count(id) as row", $cWhere) ;

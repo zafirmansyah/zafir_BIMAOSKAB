@@ -138,6 +138,13 @@ class tcpd_manager extends Bismillah_Controller
     $va = $this->input->post();
     $cKode = $va['cKode'];
     $this->bdb->editNoComent($cKode) ;
+
+    $cUsername     = getsession($this, "username") ;
+    $cActivityMenu = "PERFORMANCE DIALOG : Tanggapan Kinerja" ;
+    $cActivityType = "Memberikan Akses kepada Pegawai untuk Bisa Melakukan Perubagan atas Pelaporan Kinerja Triwulan Dengan Kode Data : " . $cKode ;
+    $dtDateTime    = date('Y-m-d H:i:s') ;
+    $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+
     echo(' 
       Swal.fire({
           icon  : "success",
@@ -203,6 +210,13 @@ class tcpd_manager extends Bismillah_Controller
 
   function saveData($va) {
     $doSaveData   = $this->bdb->saveData($va);
+
+    $cUsername     = getsession($this, "username") ;
+    $cActivityMenu = "PERFORMANCE DIALOG : Tanggapan Kinerja" ;
+    $cActivityType = "Melakukan pengisian tanggapan komentar terhadap pelaporan kinerja triwulan dengan Kode Data : ". $va['cKode'];
+    $dtDateTime    = date('Y-m-d H:i:s') ;
+    $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+
     if($doSaveData){
       echo('
           bos.tcpd_manager.init() ;

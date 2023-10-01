@@ -141,8 +141,11 @@ class Tcm_prinsip extends Bismillah_Controller
         $nKodeUnit   = $va['optUnit']; //getsession($this,'unit') ;
 
         $cFaktur  = $va['cFaktur'] ;
+        $isInsert       = "I" ;
         if($cFaktur == "" || empty(trim($cFaktur))){
             $cFaktur = $this->bdb->getKodeSurat();
+        }else{
+            $isInsert = "U" ;
         }
         
         $cNoSurat  = $va['cNoSurat'] ;
@@ -187,6 +190,14 @@ class Tcm_prinsip extends Bismillah_Controller
         }
 
         $save   = $this->bdb->saveData($va) ;
+
+        /* Record User Logs Activity */
+        $cUsername     = getsession($this, "username") ;
+        $cActivityMenu = "MEMORANDUM (M.02)" ;
+        $cActivityType = ($isInsert == "I") ? "Menyimpan Data Dokumen Memorandum (M.02) dengan Kode Input : " . $cNoSurat : "Merubah Data Dokumen Memorandum (M.02) dengan Kode : " . $cNoSurat ;
+        $dtDateTime    = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+        /* Record User Logs Activity */
 
         $optMetode = $va['optMetode'] ;
         if($optMetode == "S"){
@@ -292,7 +303,15 @@ class Tcm_prinsip extends Bismillah_Controller
     public function deletePrinsip()
     {
         $id = $this->input->post('cFaktur') ;
+        
+        $cUsername     = getsession($this, "username") ;
+        $cActivityMenu = "MEMORANDUM (M.02)" ;
+        $cActivityType = "Menghapus Data Dokumen Memorandum (M.02) dengan Kode : " . $id ; 
+        $dtDateTime    = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+
         $this->bdb->deletePrinsip($id) ;
+        
     }
 
     public function checkNomorSurat()
@@ -303,7 +322,15 @@ class Tcm_prinsip extends Bismillah_Controller
         $cKodeUnit          = $va['optUnit']; //getsession($this,'unit') ;
         $dTgl               = date_2s($va['dTgl']) ;
         $nYear              = substr($dTgl,0,4) ;
+
         $checkNomorSurat    = $this->bdb->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'M02P',false) ;
+        
+        $cUsername     = getsession($this, "username") ;
+        $cActivityMenu = "MEMORANDUM (M.02)" ;
+        $cActivityType = "Melakukan Check Nomor Surat Memorandum (M.02) : " . $checkNomorSurat ; 
+        $dtDateTime    = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+
         echo(' 
             Swal.fire({
                 icon: "info",
