@@ -2,6 +2,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Daftar Data</a></li>
         <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Data Form</a></li>
+        <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="true">Preview</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active full-height" id="tab_1">
@@ -77,6 +78,53 @@
                 <button class="btn btn-warning" id="cmdCancel" onClick="bos.tcpd_pegawai.init()">Cancel</button>
             </form>
         </div>
+        <div class="tab-pane full-height" id="tab_3">
+            <!-- <div class="col-md-12"> -->
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><b><span id="cJudul"></span></b></h3>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div class="mailbox-read-info">
+                            <table>
+                                <tr>
+                                    <td width="100px" >Dari</td>
+                                    <td width="10px" >:</td>
+                                    <td><span class="mailbox-read-time" id="cPegawaiPelapor"></span></td>
+                                </tr>
+                                <tr>
+                                    <td width="100px" >Input Date Time</td>
+                                    <td width="10px"> : </td>
+                                    <td> <span class="mailbox-read-time" id="dDateTime"></span></td>
+                                </tr>
+                                <tr>
+                                    <td width="100px" >Tahun Periode</td>
+                                    <td width="10px"> : </td>
+                                    <td> <span class="mailbox-read-time" id="cPeriode"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="mailbox-read-message">
+                            <!-- Detail Surat -->
+                            <p><b>KOMENTAR TERHADAP PELAKSANAAN TUGAS :</b></p>
+                            <span id="spanKomentar"></span>
+                            <br><br>
+                            <p><b>TANGGAPAN LINE MANAGER :</b></p>
+                            <span id="spanTanggapanKomentar"></span>
+                        </div>
+                        <hr>
+                        <div class="mailbox-read-message">
+                            <!-- Detail Surat -->
+                            <p><b>AREA PENINGKATAN KINERJA : </b></p>
+                            <span id="spanAreaPeningkatanKinerja"></span>
+                            <br><br>
+                            <p><b>TANGGAPAN LINE MANAGER :</b></p>
+                            <span id="spanTanggapanAreaPeningkatanKinerja"></span>
+                        </div>
+                    </div>
+                </div>
+            <!-- </div> -->
+        </div>
     </div>
 </div>
 
@@ -111,6 +159,7 @@
                 { field: 'tanggal', caption: 'Tanggal Input', size: '80px', sortable: false},
                 { field: 'status', caption: 'status', size: '80px', sortable: false},
                 { field: 'username', caption: 'username', size: '100px', sortable: false},
+                { field: 'cmdView', caption: ' ', size: '80px', sortable: false },
                 { field: 'cmdEdit', caption: ' ', size: '80px', sortable: false },
                 { field: 'cmdDelete', caption: ' ', size: '80px', sortable: false }
             ]
@@ -145,6 +194,10 @@
 
     bos.tcpd_pegawai.cmdEdit      = function(cKode){
         bjs.ajax(this.url + '/editing', 'cKode=' + cKode);
+    }
+
+    bos.tcpd_pegawai.cmdView      = function(id){
+        bjs.ajax(this.url + '/preview', 'cKode=' + id);
     }
 
     bos.tcpd_pegawai.cmdDelete    = function(id){

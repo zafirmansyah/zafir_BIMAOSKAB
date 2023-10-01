@@ -42,11 +42,11 @@ class tcpd_pegawai extends Bismillah_Controller
       $cStatus  = "<span class='text-default'>New<span>";
       $btnClass = "btn-default";
       if($lStatus == "1"){ //proses
-          $cStatus  = "<span class='text-success'>Disetujui<span>";
+        $cStatus  = "<span class='text-success'>Disetujui<span>";
       }else if($lStatus == "2"){ //pending
-          $cStatus  = "<span class='text-danger'>Revisi<span>";
+        $cStatus  = "<span class='text-danger'>Revisi<span>";
       }else if($lStatus == "3"){ // reject
-          $cStatus  = "<span class='text-warning'>Menunggu Persetujuan<span>";
+        $cStatus  = "<span class='text-warning'>Menunggu Persetujuan<span>";
       }
       
       $vaset   = $dbr ;
@@ -62,8 +62,14 @@ class tcpd_pegawai extends Bismillah_Controller
         $vaset['cmdDelete']     = '<button type="button" onClick="bos.tcpd_pegawai.cmdDelete(\''.$dbr['kode'].'\')"
                                     class="btn btn-danger btn-grid">Delete</button>' ;
       }
+
+      $vaset['cmdView']       = '<button type="button" onClick="bos.tcpd_pegawai.cmdView(\''.$dbr['kode'].'\')"
+                                    class="btn btn-info btn-grid">Preview</button>' ;
+
       $vaset['cmdEdit']	    = html_entity_decode($vaset['cmdEdit']) ;
       $vaset['cmdDelete']	  = html_entity_decode($vaset['cmdDelete']) ;
+      $vaset['cmdView']	    = html_entity_decode($vaset['cmdView']) ;
+
 
       $vare[]		= $vaset ;
     }
@@ -92,6 +98,31 @@ class tcpd_pegawai extends Bismillah_Controller
       ');
       // find("#optTahun").val("'. json_encode($data['tahun']) .'");
       // find("#optPeriodeTriwulan").val("'. json_encode($data['periode']) .'");
+    }
+  }
+
+  function preview(){
+    $cKode    = $this->input->post('cKode');
+    $vaData   = $this->bdb->getDataPreview($cKode) ;
+
+    // echo print_r($vaData) ; exit() ;
+
+    if(!empty($vaData)){
+      $cTahunPeriode    = "Tahun " . $vaData['tahun'] . " Triwulan Ke " . ($vaData['periode'] + 1) ;
+      echo('
+        with(bos.tcpd_pegawai.obj){
+          find(".nav-tabs li:eq(2) a").tab("show") ;
+
+          $("#cJudul").html(`'.$vaData['judul'].'`);
+          $("#cPegawaiPelapor").html(`'.$vaData['fullname'].'`);
+          $("#dDateTime").html(`'.$vaData['datetime'].'`);
+          $("#cPeriode").html(`'.$cTahunPeriode.'`);
+          $("#spanKomentar").html(`'.$vaData['komentar_pelaksanaan_tugas'].'`);
+          $("#spanTanggapanKomentar").html(`'.$vaData['umpan_balik_evaluasi_kerja'].'`);
+          $("#spanAreaPeningkatanKinerja").html(`'.$vaData['area_peningkatan_kinerja'].'`);
+          $("#spanTanggapanAreaPeningkatanKinerja").html(`'.$vaData['rencana_pengembangan_pegawai'].'`);
+        };
+      ');
     }
   }
 
@@ -142,13 +173,24 @@ class tcpd_pegawai extends Bismillah_Controller
      * [cStatus] => 
      * [cLastPath] => 
      */
+
+    $isInsert       = "I" ;
     $cKode  = $va['cKode'] ;
     if($cKode == "" || empty(trim($cKode))){
       $cKode = $this->bdb->getKodePerformanceDialog();
+    }else{
+      $isInsert = "U" ;
     }
 
     $va['cKode'] = $cKode ;
     $save        = $this->bdb->saveData($va) ;
+
+    $cUsername     = getsession($this, "username") ;
+    $cActivityMenu = "PERFORMANCE DIALOG : Pelaporan Kinerja Triwulan" ;
+    $cActivityType = ($isInsert == "I") ? "Menyimpan Data Pelaporan Kinerja Triwulan dengan Kode: " . $va['cKode'] : "Merubah Data Pelaporan Kinerja Triwulan dengan Kode : " . $va['cKode'] ;
+    $dtDateTime    = date('Y-m-d H:i:s') ;
+    $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+
     if($save){
       echo('
           bos.tcpd_pegawai.init() ;
@@ -164,6 +206,14 @@ class tcpd_pegawai extends Bismillah_Controller
   public function deleting(){
     $va 	= $this->input->post() ;
     $this->bdb->deleting($va['cKode']) ;
+
+    $cUsername     = getsession($this, "username") ;
+    $cActivityMenu = "PERFORMANCE DIALOG : Pelaporan Kinerja Triwulan" ;
+    $cActivityType = "Menghapus Data Pelaporan Kinerja Triwulan dengan Kode " . $va['cKode'] ;
+    $dtDateTime    = date('Y-m-d H:i:s') ;
+    $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+
+
     echo(' 
       Swal.fire({
         icon  : "success",
