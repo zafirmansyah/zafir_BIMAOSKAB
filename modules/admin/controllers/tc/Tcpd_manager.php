@@ -96,7 +96,7 @@ class tcpd_manager extends Bismillah_Controller
         with(bos.tcpd_manager.obj){
           $("#cJudul").html(`'.$vaData['judul'].'`);
           $("#cPegawaiPelapor").html(`'.$vaData['fullname'].'`);
-          $("#dDateTime").html(`'.$vaData['datetime'].'`);
+          $("#dDateTime").html(`'.$vaData['tanggal'].'`);
           $("#cPeriode").html(`'.$cTahunPeriode.'`);
           $("#spanKomentar").html(`'.$vaData['komentar_pelaksanaan_tugas'].'`);
           $("#spanTanggapanKomentar").html(`'.$vaData['umpan_balik_evaluasi_kerja'].'`);
