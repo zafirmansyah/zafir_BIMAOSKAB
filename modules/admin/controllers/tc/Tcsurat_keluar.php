@@ -63,9 +63,16 @@ class Tcsurat_keluar extends Bismillah_Controller
     }
 
     public function saving(){
-        $va 	    = $this->input->post() ;
-        $saving     = $this->bdb->saving($va) ;
-        $cJenisSurat = $this->bdb->getval("Keterangan","Kode = '{$saving['JenisSurat']}'","jenis_surat");
+        $va 	        = $this->input->post() ;
+        $saving         = $this->bdb->saving($va) ;
+        $cJenisSurat    = $this->bdb->getval("Keterangan","Kode = '{$saving['JenisSurat']}'","jenis_surat");
+
+        $cUsername          = getsession($this, "username") ;
+        $cActivityMenu      = "PENOMORAN DOKUMEN" ;
+        $cActivityType      = "Menyimpan / Menambahkan Nomor Surat Keluar dengan Nomor : " . $saving['NoSurat'] ;
+        $dtDateTime         = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+
         echo(' 
             bos.tcsurat_keluar.init() ; 
             Swal.fire({
@@ -86,7 +93,7 @@ class Tcsurat_keluar extends Bismillah_Controller
                 with(bos.tcsurat_keluar.obj){
                     find(".nav-tabs li:eq(1) a").tab("show") ;
                     find("#cKode").val("'.$data['Kode'].'").prop("readonly", true); 
-                    find("#cKeterangan").val("'.$data['Keterangan'].'").focus() ;
+                    find("#cPerihal").val("'.$data['Perihal'].'").focus() ;
                 }
             ') ;
         }
@@ -147,6 +154,13 @@ class Tcsurat_keluar extends Bismillah_Controller
         $dTgl               = date_2s($va['dTgl']) ;
         $nYear              = substr($dTgl,0,4) ;
         $checkNomorSurat    = $this->bdb->func->getNomorRubrikSurat($nYear,$cKodeUnit,$cJenisSurat,$cSifatSurat,'SK',false) ;
+
+        $cUsername          = getsession($this, "username") ;
+        $cActivityMenu      = "PENOMORAN DOKUMEN" ;
+        $cActivityType      = "Melakukan Check Nomor Surat dengan Nomor : " . $checkNomorSurat ;
+        $dtDateTime         = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+
         echo(' 
             Swal.fire({
                 icon: "info",

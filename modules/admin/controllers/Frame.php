@@ -10,8 +10,9 @@ class Frame extends Bismillah_Controller{
         $this->load->model('func/perhitungan_m') ;
         $this->load->model('func/updtransaksi_m') ;
 
+        $this->bdb              = $this->frame_m ;
         $this->func 	        = $this->func_m ;
-        $this->perhitungan_m 	    = $this->perhitungan_m ;
+        $this->perhitungan_m 	= $this->perhitungan_m ;
         $this->updtransaksi_m 	= $this->updtransaksi_m ;
 	}
 
@@ -22,11 +23,12 @@ class Frame extends Bismillah_Controller{
 		$oinit 	= menu_get_data($arrmenu, $oinit) ;
 
 		$data 	= array("app_title"	=> getsession($this, "app_title"),
-								"fullname"	=> getsession($this, "fullname"),
-								"username"	=> getsession($this, "username"),
-								"data_var"	=> getsession($this, "data_var"),
-								"menu_html"	=> $this->menu_generate($arrmenu),
-								"oinit"		=> $oinit ) ;
+                        "fullname"	=> getsession($this, "fullname"),
+                        "superior"	=> getsession($this, "superior"),
+                        "username"	=> getsession($this, "username"),
+                        "data_var"	=> getsession($this, "data_var"),
+                        "menu_html"	=> $this->menu_generate($arrmenu),
+                        "oinit"		=> $oinit ) ;
 		$this->load->view("frame", $data) ;
 	}
 
@@ -68,8 +70,18 @@ class Frame extends Bismillah_Controller{
 
 	public function logout(){
 		$this->session->sess_destroy();
+        $this->insertLogsActivity();
 		echo('window.location.href = "'.base_url().'" ;') ;
 	}
+
+    function insertLogsActivity(){
+        $va            = $this->input->post() ;
+        $cUsername     = getsession($this, "username") ;
+        $cActivityMenu = "LOGOUT" ;
+        $cActivityType = "LOGOUT" ;
+        $dtDateTime    = date('Y-m-d H:i:s') ;
+        $this->bdb->insertLogActivity($cUsername, $cActivityMenu, $cActivityType, $dtDateTime) ;
+    }
 
 	function notifikasiSuratMasuk()
 	{

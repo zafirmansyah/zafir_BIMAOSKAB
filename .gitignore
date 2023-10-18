@@ -139,6 +139,8 @@ tmprpt/**/*
 /application/config/database.php 
 
 
+*.txt
+
 
 
 # End of https://www.gitignore.io/api/linux,windows,notepadpp,codeigniter,sublimetext

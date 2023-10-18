@@ -210,7 +210,7 @@
     bos.tciku_form.grid1_loaddata= function(){
         this.grid1_data      = {} ;
     }
-''
+
     bos.tciku_form.grid1_load    = function(){
         this.obj.find("#grid1").w2grid({
             name     : this.id + '_grid1',
