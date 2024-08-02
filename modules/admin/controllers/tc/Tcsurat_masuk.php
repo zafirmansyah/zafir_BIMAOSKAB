@@ -677,7 +677,7 @@ class Tcsurat_masuk extends Bismillah_Controller
                             </tr>
                             <tr style='height: 60px;'>
                                 <td style='width: 5%; text-align: center;'>".$symChangeAgent."</td>
-                                <td style='width: 25%;'>&nbsp;</td>
+                                <td style='width: 25%;'>Change Agent</td>
                                 <td style='width: 5%; text-align: center;'>&nbsp;</td>
                                 <td style='width: 25%;'>&nbsp;</td>
                                 <td style='width: 5%; text-align: center;'>".$symUntukDiperbaiki."</td>    
