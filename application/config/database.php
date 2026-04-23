@@ -75,13 +75,13 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> '',
+	'dsn' => '',
 	'hostname' => 'localhost',
 	'username' => 'root',
-	//'password' => 'root',
-	//'database' => 'zafir_bimaoskab',
-	'password' => '0sk4bs3rv3rdb!',
-        'database' => 'zafir_bimaoskab_production',
+	'password' => 'root',
+	'database' => 'zafir_bimaoskab',
+	// 'password' => 'root',
+	// 'database' => 'zafir_bimaoskab_production',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -96,5 +96,5 @@ $db['default'] = array(
 	'stricton' => FALSE,
 	'failover' => array(),
 	'save_queries' => TRUE,
-	'save_log'	=> TRUE
+	'save_log' => TRUE
 );

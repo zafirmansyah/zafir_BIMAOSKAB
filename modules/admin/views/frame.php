@@ -20,11 +20,9 @@
 		<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 		<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css" rel="stylesheet">
 		
+		<!-- Leaflet CSS (Disabled because folder not found)
 		<link rel="stylesheet" href="<?=base_url('bismillah/leaflet/leaflet.css')?>">
-		<link rel="stylesheet" href="<?=base_url('bismillah/leaflet/plugin/mc/MarkerCluster.css')?>">
-		<link rel="stylesheet" href="<?=base_url('bismillah/leaflet/plugin/mc/MarkerCluster.Default.css')?>">
-		<link rel="stylesheet" href="<?=base_url("bismillah/leaflet/plugin/draw/leaflet.draw.css")?>"/>
-		<link rel="stylesheet" href="<?=base_url("bismillah/leaflet/plugin/geosearch/style.css")?>"/>
+		-->
 		
 		<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2AgQpLx4g1Xb5MEK7BW_5FG0_f0Kg69Q&libraries=places"></script> -->
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -278,18 +276,12 @@
 		<script type="text/javascript" src="<?=base_url('bismillah/datatables/datatables.net-bs/js/dataTables.bootstrap.min.js')?>"></script>
 		<script type="text/javascript" src="<?=base_url('bismillah/tinymce/js/tinymce/tinymce.min.js')?>"></script>
 		<script type="text/javascript" src="<?=base_url('bismillah/thousandSeparator/number-divider.js')?>"></script>
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 		
 
+		<!-- Leaflet JS (Disabled because folder not found)
 		<script src="<?=base_url('bismillah/leaflet/leaflet.js')?>"></script>
-		<script src="<?=base_url('bismillah/leaflet/leaflet.fullscreen.js')?>"></script>
-		<script src="<?=base_url('bismillah/leaflet/plugin/mc/MarkerCluster.js')?>"></script>
-		<!-- ################################ Map ################################  -->
-		<script src="<?=base_url("bismillah/leaflet/plugin/draw/leaflet.draw.js")?>"></script>
-		<script src="<?=base_url("bismillah/leaflet/plugin/geosearch/bundle.min.js")?>"></script>
-		<!-- ################################ End Map ################################  -->
+		-->
 
 
 		<script type="text/javascript">

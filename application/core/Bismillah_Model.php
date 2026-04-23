@@ -196,8 +196,7 @@ class Bismillah_Model extends CI_Model{
 	}
 	
 
-	public function getLastFaktur($key,$dTgl,$l=true,$length){
-        $dTgl 		= date_2t($dTgl);
+	public function getLastFaktur($key,$dTgl,$l,$length){        $dTgl 		= date_2t($dTgl);
         $k       	= $key . date("ymd",$dTgl) ;  
         $sisalength = $length - strlen($k);
         return $k . $this->getincrement($k, $l, $sisalength) ; 
