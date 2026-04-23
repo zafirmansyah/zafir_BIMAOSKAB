@@ -463,6 +463,13 @@ class Tcsurat_masuk extends Bismillah_Controller
                 $symKetuaIPEBI = $optFalse;
             }
 
+            $chkChangeAgent          = $this->bdb->getval("ChangeAgent",$cWhereKode,$cTableChk);
+            if($chkChangeAgent){
+                $symChangeAgent = $optTrue;
+            }else{
+                $symChangeAgent = $optFalse;
+            }
+
             
             $chkUntukDiperbaiki                = $this->bdb->getval("UntukDiperbaiki",$cWhereKode,$cTableChk);
             if($chkUntukDiperbaiki){
@@ -669,8 +676,8 @@ class Tcsurat_masuk extends Bismillah_Controller
                                 <td style='width: 25%;'>Untuk dijawab</td>
                             </tr>
                             <tr style='height: 60px;'>
-                                <td style='width: 5%; text-align: center;'>&nbsp;</td>
-                                <td style='width: 25%;'>&nbsp;</td>
+                                <td style='width: 5%; text-align: center;'>".$symChangeAgent."</td>
+                                <td style='width: 25%;'>Change Agent</td>
                                 <td style='width: 5%; text-align: center;'>&nbsp;</td>
                                 <td style='width: 25%;'>&nbsp;</td>
                                 <td style='width: 5%; text-align: center;'>".$symUntukDiperbaiki."</td>    

@@ -115,7 +115,7 @@ class tcpd_pegawai extends Bismillah_Controller
 
           $("#cJudul").html(`'.$vaData['judul'].'`);
           $("#cPegawaiPelapor").html(`'.$vaData['fullname'].'`);
-          $("#dDateTime").html(`'.$vaData['datetime'].'`);
+          $("#dDateTime").html(`'.$vaData['tanggal'].'`);
           $("#cPeriode").html(`'.$cTahunPeriode.'`);
           $("#spanKomentar").html(`'.$vaData['komentar_pelaksanaan_tugas'].'`);
           $("#spanTanggapanKomentar").html(`'.$vaData['umpan_balik_evaluasi_kerja'].'`);

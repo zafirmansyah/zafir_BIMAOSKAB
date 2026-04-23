@@ -290,6 +290,10 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <input type="checkbox" name="chckLampiran[]" value="ChangeAgent" id="chckChangeAgent">
+                                        <label for="chckChangeAgent">Change Agent</label>
+                                    </div>
                                     <div class="col-sm-3 col-sm-offset-9">
                                         <input type="checkbox" name="chckLampiran[]" value="UntukDiperbaiki" id="chckUntukDiperbaiki">
                                         <label for="chckUntukDiperbaiki">Untuk diperbaiki </label>

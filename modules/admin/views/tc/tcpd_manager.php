@@ -40,7 +40,7 @@
                                     <td><span class="mailbox-read-time" id="cPegawaiPelapor"></span></td>
                                 </tr>
                                 <tr>
-                                    <td width="100px" >Input Date Time</td>
+                                    <td width="100px" >Input Date</td>
                                     <td width="10px"> : </td>
                                     <td> <span class="mailbox-read-time" id="dDateTime"></span></td>
                                 </tr>
@@ -87,11 +87,10 @@
                             <div class="col-xs-8 input-group">
                                 <input
                                     type="text" 
-                                    class=" form-control" 
+                                    class=" form-control date" 
                                     id="dTgl" 
                                     name="dTgl" 
                                     placeholder="dd-mm-yyyy"
-                                    readonly
                                     value=<?=date("d-m-Y")?> <?=date_set()?> 
                                 >
                                 <div class="input-group-addon">

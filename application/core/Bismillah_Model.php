@@ -537,6 +537,7 @@ class Bismillah_Model extends CI_Model{
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 		$this->AddTable("surat_masuk_lampiran_disposisi",$cSQL);
 		$this->AddField("surat_masuk_lampiran_disposisi","UntukDiperbaiki","char(1)","0","");
+		$this->AddField("surat_masuk_lampiran_disposisi","ChangeAgent","char(1)","0","KetuaIPEBI");
 
 		$this->AddField("iku_form","Subject","varchar(255)","","");
 
